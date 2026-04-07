@@ -1,4 +1,7 @@
-import { useState, useMemo } from "react";
+export default function App() {
+  return (
+    <>
+      {/* import { useState, useMemo } from "react";
 
 // ─── SLOT SYSTEM ──────────────────────────────────────────────────────────────
 // Per category: 1 Sponsored slot, 3 Premium slots — strictly enforced
@@ -1276,5 +1279,9 @@ export default function App() {
         <div style={{display:"flex",gap:16}}>{t.footLinks.map(l=><span key={l} style={{cursor:"pointer"}}>{l}</span>)}</div>
       </footer>
     </div>
+  );
+}
+ */}
+    </>
   );
 }
