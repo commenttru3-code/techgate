@@ -1,7 +1,7 @@
 export default function App() {
   return (
     <>
-      {/* import { useState, useMemo } from "react";
+      { import { useState, useMemo } from "react";
 
 // ─── SLOT SYSTEM ──────────────────────────────────────────────────────────────
 // Per category: 1 Sponsored slot, 3 Premium slots — strictly enforced
@@ -1281,7 +1281,7 @@ export default function App() {
     </div>
   );
 }
- */}
+ }
     </>
   );
 }
