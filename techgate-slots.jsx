@@ -923,16 +923,10 @@ function ConciergePage({ lang, t }) {
   const [partnerDone, setPartnerDone] = useState(false)
 
   const PACKAGES = [
-  {id:"p1", name:"Discovery Visit", icon:"🔍", duration:"1 Tag", price:"ab €390",
-   color:"#58a6ff", ideal:"Erste Erkundung",
-   includes:["Vorab-Bedarfsanalyse (1h Call)","2–3 vorausgewählte Meetings","Meetingraum Pristina","Briefing-Dokument","Nachbericht mit Kontakten"]},
-  {id:"p2", name:"Business Visit", icon:"🤝", duration:"2–3 Tage", price:"ab €790",
-   color:"#d4a843", ideal:"Konkretes Projekt", highlight:true,
-   includes:["Alles aus Discovery","4–6 Meetings / Interviews","Hotel & Transfer","InvestKosova-Termin optional","Networking-Abend","Vertragsunterstützung"]},
-  {id:"p3", name:"Executive Visit", icon:"🏛️", duration:"3–5 Tage", price:"ab €1.490",
-   color:"#a78bfa", ideal:"Firmengründung / Investition",
-   includes:["Alles aus Business Visit","Vollständige Reiseorganisation","Ministeriums-/Botschaftstermin","Exklusives Partner-Dinner","Rechtliche Erstberatung","Dolmetscher inklusive"]},
-];
+    { ic: '🔍', col: '#58a6ff', name: lang === 'de' ? 'Discovery Visit' : lang === 'sv' ? 'Discovery-besök' : lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'de' ? '1 Tag' : lang === 'sv' ? '1 dag' : lang === 'sq' ? '1 ditë' : '1 day', ideal: lang === 'de' ? 'Erste Erkundung' : lang === 'sv' ? 'Första utforskning' : lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'de' ? ['Bedarfsanalyse (Call)', '2–3 Meetings', 'Briefing & Nachbericht'] : lang === 'sv' ? ['Behovsanalys', '2–3 möten', 'Briefing & rapport'] : lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
+    { ic: '🤝', col: G.gold, highlight: true, name: lang === 'de' ? 'Business Visit' : lang === 'sv' ? 'Business-besök' : lang === 'sq' ? 'Vizita Biznesi' : 'Business Visit', dur: lang === 'de' ? '2–3 Tage' : lang === 'sv' ? '2–3 dagar' : lang === 'sq' ? '2–3 ditë' : '2–3 days', ideal: lang === 'de' ? 'Konkretes Projekt' : lang === 'sv' ? 'Konkret projekt' : lang === 'sq' ? 'Projekt konkret' : 'Concrete project', inc: lang === 'de' ? ['Alles aus Discovery', '4–6 Meetings', 'Hotel & Transfer', 'Networking-Abend'] : lang === 'sv' ? ['Allt i Discovery', '4–6 möten', 'Hotell & transfer', 'Nätverkskväll'] : lang === 'sq' ? ['Gjithçka nga Discovery', '4–6 takime', 'Hotel & transport', 'Mbrëmje rrjetëzimi'] : ['Everything in Discovery', '4–6 meetings', 'Hotel & transfer', 'Networking evening'] },
+    { ic: '🏛️', col: '#a78bfa', name: lang === 'de' ? 'Executive Visit' : lang === 'sv' ? 'Executive-besök' : lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'de' ? '3–5 Tage' : lang === 'sv' ? '3–5 dagar' : lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'de' ? 'Firmengründung / Investition' : lang === 'sv' ? 'Bolagsbildning / Investering' : lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'de' ? ['Alles aus Business Visit', 'Ministeriumstermin', 'Partner-Dinner', 'Rechtliche Erstberatung'] : lang === 'sv' ? ['Allt i Business-besök', 'Myndighetsmöte', 'Partner-middag', 'Juridisk rådgivning'] : lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
+  ]
 
   return (
     <div>
