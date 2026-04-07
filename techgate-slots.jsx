@@ -1,8 +1,11 @@
 import React, { useState, useMemo } from "react";
 
 export default function App() {
-  return (
-const SLOTS = { sponsored: 1, premium: 35 };
+  return (// ─── SLOT SYSTEM ──────────────────────────────────────────────────────────────
+// Per category: 1 Sponsored slot, 3 Premium slots — strictly enforced
+const SLOTS = { sponsored: 1, premium: 3 };
+
+// ─── TRANSLATIONS (DE / EN / SQ / SV) ────────────────────────────────────────
 const T = {
   de: {
     tagline:"Business Bridge Platform",
@@ -1274,6 +1277,7 @@ export default function App() {
         <div style={{display:"flex",gap:16}}>{t.footLinks.map(l=><span key={l} style={{cursor:"pointer"}}>{l}</span>)}</div>
       </footer>
     </div>
- 
+  );
+}
   );
 }
