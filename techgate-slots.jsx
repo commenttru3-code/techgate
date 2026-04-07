@@ -2,11 +2,7 @@ import React, { useState, useMemo } from "react";
 
 export default function App() {
   return (
-// ─── SLOT SYSTEM ──────────────────────────────────────────────────────────────
-// Per category: 1 Sponsored slot, 3 Premium slots — strictly enforced
 const SLOTS = { sponsored: 1, premium: 3 };
-
-// ─── TRANSLATIONS (DE / EN / SQ / SV) ────────────────────────────────────────
 const T = {
   de: {
     tagline:"Business Bridge Platform",
