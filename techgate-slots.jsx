@@ -1033,7 +1033,10 @@ function ConciergePage({ lang, t }) {
           </div>
         </div>
       )}
-        <div className="modal-bg fi" onClick={e=>e.target===e.currentTarget&&setPartnerReg(false)}>
+        {partnerReg && (
+           <div className="modal-bg fi" onClick={(e) => {
+             if (e.target === e.currentTarget) setPartnerReg(false);
+           }}>
           <div className="modal su">
             <div style={{display:"flex",justifyContent:"space-between",marginBottom:18}}>
               <div>
