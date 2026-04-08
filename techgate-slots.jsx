@@ -63,7 +63,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'Sie reisen an', d: 'Alles vorbereitet.' },
       { n: '05', ic: '📄', t: 'Follow-up', d: 'Verträge & nächste Schritte.' },
     ],
-    concSpTitle: 'Sales-Team vor Ort', concSpSub: 'Unsere Sales-Spezialisten kennen Kosovo, die Geschäftskultur und die besten Ansprechpartner.',
+    concSpTitle: 'Das rootsGTM Sales-Team', concSpSub: 'Das Sales-Team von rootsGTM arbeitet vor Ort in Kosovo — sie kennen die Geschäftskultur, die besten Ansprechpartner und organisieren alles für Sie.',
     spDeals: 'Deals',
     concCtaTitle: 'Bereit für Ihren Kosovo-Visit?',
     concCtaFeats: ['✓ Antwort in 24h', '✓ Keine Anzahlung', '✓ Kostenloser Erst-Call', '✓ Flexibel buchbar'],
@@ -167,7 +167,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'You arrive', d: 'Everything prepared.' },
       { n: '05', ic: '📄', t: 'Follow-up', d: 'Contracts & next steps.' },
     ],
-    concSpTitle: 'On-the-ground Sales Team', concSpSub: 'Our sales specialists know Kosovo, the business culture and the best contacts.',
+    concSpTitle: 'The rootsGTM Sales Team', concSpSub: 'rootsGTM\'s sales team works on the ground in Kosovo — they know the business culture, the best contacts and handle everything for you.',
     spDeals: 'Deals',
     concCtaTitle: 'Ready for your Kosovo visit?',
     concCtaFeats: ['✓ Reply in 24h', '✓ No deposit', '✓ Free initial call', '✓ Flexible booking'],
@@ -270,7 +270,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'Mbërrini', d: 'Gjithçka e përgatitur.' },
       { n: '05', ic: '📄', t: 'Vijim', d: 'Kontrata & hapat e ardhshëm.' },
     ],
-    concSpTitle: 'Ekipi Shitjesh në Terren', concSpSub: 'Specialistët tanë njohin Kosovën dhe kulturën e biznesit.',
+    concSpTitle: 'Ekipi i Shitjeve rootsGTM', concSpSub: 'Ekipi i shitjeve i rootsGTM punon në terren në Kosovë — njohin kulturën e biznesit, kontaktet më të mira dhe organizojnë gjithçka për ju.',
     spDeals: 'Marrëveshje',
     concCtaTitle: 'Gati për vizitën tuaj?',
     concCtaFeats: ['✓ Përgjigje 24h', '✓ Pa paradhënie', '✓ Thirrje falas', '✓ Fleksibël'],
@@ -373,7 +373,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'Du anländer', d: 'Allt förberett.' },
       { n: '05', ic: '📄', t: 'Uppföljning', d: 'Avtal & nästa steg.' },
     ],
-    concSpTitle: 'Säljteam på plats', concSpSub: 'Våra specialister känner Kosovo och affärskulturen.',
+    concSpTitle: 'rootsGTM:s säljteam', concSpSub: 'rootsGTM:s säljteam arbetar på plats i Kosovo — de känner affärskulturen, de bästa kontakterna och hanterar allt åt dig.',
     spDeals: 'Affärer',
     concCtaTitle: 'Redo för Kosovo-besök?',
     concCtaFeats: ['✓ Svar 24h', '✓ Ingen förskottsbetalning', '✓ Gratis samtal', '✓ Flexibelt'],
@@ -923,9 +923,9 @@ function ConciergePage({ lang, t }) {
   const [partnerDone, setPartnerDone] = useState(false)
 
   const PACKAGES = [
-    { ic: '🔍', col: '#58a6ff', name: lang === 'de' ? 'Discovery Visit' : lang === 'sv' ? 'Discovery-besök' : lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'de' ? '1 Tag' : lang === 'sv' ? '1 dag' : lang === 'sq' ? '1 ditë' : '1 day', ideal: lang === 'de' ? 'Erste Erkundung' : lang === 'sv' ? 'Första utforskning' : lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'de' ? ['Bedarfsanalyse (Call)', '2–3 Meetings', 'Briefing & Nachbericht'] : lang === 'sv' ? ['Behovsanalys', '2–3 möten', 'Briefing & rapport'] : lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
-    { ic: '🤝', col: G.gold, highlight: true, name: lang === 'de' ? 'Business Visit' : lang === 'sv' ? 'Business-besök' : lang === 'sq' ? 'Vizita Biznesi' : 'Business Visit', dur: lang === 'de' ? '2–3 Tage' : lang === 'sv' ? '2–3 dagar' : lang === 'sq' ? '2–3 ditë' : '2–3 days', ideal: lang === 'de' ? 'Konkretes Projekt' : lang === 'sv' ? 'Konkret projekt' : lang === 'sq' ? 'Projekt konkret' : 'Concrete project', inc: lang === 'de' ? ['Alles aus Discovery', '4–6 Meetings', 'Hotel & Transfer', 'Networking-Abend'] : lang === 'sv' ? ['Allt i Discovery', '4–6 möten', 'Hotell & transfer', 'Nätverkskväll'] : lang === 'sq' ? ['Gjithçka nga Discovery', '4–6 takime', 'Hotel & transport', 'Mbrëmje rrjetëzimi'] : ['Everything in Discovery', '4–6 meetings', 'Hotel & transfer', 'Networking evening'] },
-    { ic: '🏛️', col: '#a78bfa', name: lang === 'de' ? 'Executive Visit' : lang === 'sv' ? 'Executive-besök' : lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'de' ? '3–5 Tage' : lang === 'sv' ? '3–5 dagar' : lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'de' ? 'Firmengründung / Investition' : lang === 'sv' ? 'Bolagsbildning / Investering' : lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'de' ? ['Alles aus Business Visit', 'Ministeriumstermin', 'Partner-Dinner', 'Rechtliche Erstberatung'] : lang === 'sv' ? ['Allt i Business-besök', 'Myndighetsmöte', 'Partner-middag', 'Juridisk rådgivning'] : lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
+    { ic: '🔍', col: '#58a6ff', price: 'ab €390', name: lang === 'de' ? 'Discovery Visit' : lang === 'sv' ? 'Discovery-besök' : lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'de' ? '1–2 Tage' : lang === 'sv' ? '1–2 dagar' : lang === 'sq' ? '1–2 ditë' : '1–2 days', ideal: lang === 'de' ? 'Erste Erkundung' : lang === 'sv' ? 'Första utforskning' : lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'de' ? ['Bedarfsanalyse (Call)', '2–3 Meetings', 'Briefing & Nachbericht'] : lang === 'sv' ? ['Behovsanalys', '2–3 möten', 'Briefing & rapport'] : lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
+    { ic: '🤝', col: G.gold, highlight: true, price: 'ab €790', name: lang === 'de' ? 'Business Visit' : lang === 'sv' ? 'Business-besök' : lang === 'sq' ? 'Vizita Biznesi' : 'Business Visit', dur: lang === 'de' ? '2–3 Tage' : lang === 'sv' ? '2–3 dagar' : lang === 'sq' ? '2–3 ditë' : '2–3 days', ideal: lang === 'de' ? 'Konkretes Projekt' : lang === 'sv' ? 'Konkret projekt' : lang === 'sq' ? 'Projekt konkret' : 'Concrete project', inc: lang === 'de' ? ['Alles aus Discovery', '4–6 Meetings', 'Hotel & Transfer', 'Networking-Abend'] : lang === 'sv' ? ['Allt i Discovery', '4–6 möten', 'Hotell & transfer', 'Nätverkskväll'] : lang === 'sq' ? ['Gjithçka nga Discovery', '4–6 takime', 'Hotel & transport', 'Mbrëmje rrjetëzimi'] : ['Everything in Discovery', '4–6 meetings', 'Hotel & transfer', 'Networking evening'] },
+    { ic: '🏛️', col: '#a78bfa', price: 'ab €1.490', name: lang === 'de' ? 'Executive Visit' : lang === 'sv' ? 'Executive-besök' : lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'de' ? '3–5 Tage' : lang === 'sv' ? '3–5 dagar' : lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'de' ? 'Firmengründung / Investition' : lang === 'sv' ? 'Bolagsbildning / Investering' : lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'de' ? ['Alles aus Business Visit', 'Ministeriumstermin', 'Partner-Dinner', 'Rechtliche Erstberatung'] : lang === 'sv' ? ['Allt i Business-besök', 'Myndighetsmöte', 'Partner-middag', 'Juridisk rådgivning'] : lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
   ]
 
   return (
@@ -1024,8 +1024,13 @@ function ConciergePage({ lang, t }) {
                 onMouseLeave={e => { e.currentTarget.style.transform = '' }}>
                 {pkg.highlight && <div style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', background: G.gold, color: '#080c14', borderRadius: 100, padding: '3px 14px', fontSize: 10, fontWeight: 700, fontFamily: "'Syne',sans-serif", whiteSpace: 'nowrap' }}>⭐ POPULAR</div>}
                 <div style={{ fontSize: 26, marginBottom: 8 }}>{pkg.ic}</div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16, marginBottom: 2 }}>{pkg.name}</div>
-                <div style={{ fontSize: 11, color: G.muted, marginBottom: 13 }}>⏱ {pkg.dur} · {pkg.ideal}</div>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16, marginBottom: 4 }}>{pkg.name}</div>
+                {/* Price */}
+                <div style={{ marginBottom: 6 }}>
+                  <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 26, color: pkg.highlight ? G.gold : pkg.col }}>{pkg.price}</span>
+                </div>
+                <div style={{ fontSize: 11, color: G.muted, marginBottom: 2 }}>⏱ {pkg.dur}</div>
+                <div style={{ fontSize: 11, color: G.muted, marginBottom: 13, fontStyle: 'italic' }}>{pkg.ideal}</div>
                 <div style={{ borderTop: `1px solid ${G.border}`, paddingTop: 10, marginBottom: 14 }}>
                   {pkg.inc.map(item => (
                     <div key={item} style={{ display: 'flex', gap: 7, marginBottom: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.75)' }}>
@@ -1037,6 +1042,9 @@ function ConciergePage({ lang, t }) {
               </div>
             ))}
           </div>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, marginTop: 12, fontStyle: 'italic' }}>
+            {lang === 'de' ? '* Preise sind Richtwerte. Der finale Preis wird gemeinsam vereinbart — abhängig von Umfang, Teilnehmern und gewünschten Leistungen.' : lang === 'sv' ? '* Priser är riktpriser. Det slutliga priset överenskommes gemensamt.' : lang === 'sq' ? '* Çmimet janë orientuese. Çmimi final bien dakord bashkërisht.' : '* Prices are indicative. The final price is agreed together based on scope and requirements.'}
+          </p>
         </div>
 
         {/* ── HOW IT WORKS ── */}
@@ -1057,7 +1065,10 @@ function ConciergePage({ lang, t }) {
 
         {/* ── SALES TEAM ── */}
         <div style={{ marginBottom: 48 }}>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concSpTitle}</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
+            <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21 }}>{t.concSpTitle}</h2>
+            <span style={{ background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 6, padding: '3px 10px', fontSize: 12, color: G.teal, fontFamily: "'Syne',sans-serif", fontWeight: 700 }}>rootsGTM</span>
+          </div>
           <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concSpSub}</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(290px,1fr))', gap: 13 }}>
             {SALES_PEOPLE.map((sp, i) => (
