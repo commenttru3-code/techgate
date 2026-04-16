@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react'
 const T = {
   de: {
     tagline: 'Business Bridge Platform',
-    navHome: 'Home', navDir: 'Firmen & Freelancer', navMatch: 'KI-Matching',
+    navHome: 'Home', navDir: 'Firmen & Freelancer', navMatch: 'Partner finden',
     navConcierge: 'Concierge', navGov: 'Regierung', registerBtn: '+ Eintragen',
     live: '500+ verifizierte Einträge · Kosovo',
     h1a: 'Ihr Tor zum', h1b: 'Tech-Standort Kosovo',
@@ -13,7 +13,7 @@ const T = {
     stat1: 'Firmen', stat2: 'Freelancer', stat3: 'Aktive Partner', stat4: 'Körperschaftsteuer',
     howTitle: 'Wie es funktioniert',
     f1t: 'Firmen & Freelancer finden', f1d: 'Durchsuchen Sie 500+ verifizierte Einträge nach Branche und Skills.',
-    f2t: 'KI-Matching', f2d: 'Beschreiben Sie Ihren Bedarf — Claude findet die besten Matches.',
+    f2t: 'Partner finden', f2d: 'Bereich und Skills wählen — wir zeigen sofort passende Partner aus Kosovo.',
     f3t: 'Kosovo Concierge', f3d: 'rootsGTM organisiert Ihren kompletten Business-Visit vor Ort.',
     catsTitle: 'Branchen', topTitle: '⭐ Top-Einträge', viewAll: 'Alle →',
     ctaTitle: 'Jetzt kostenlos eintragen', ctaSub: '3 Minuten, kostenlos. Sichtbar für EU-Kunden.',
@@ -40,12 +40,25 @@ const T = {
     reqPH: 'Guten Tag, wir suchen…', reqSend: 'Senden ✓', reqCancel: 'Abbrechen',
     reqDoneTitle: 'Gesendet!', reqDoneSub: 'meldet sich bei Ihnen.',
     close: 'Schließen', back: '← Zurück',
-    matchTitle: 'KI-Partner-Matching', matchSub: 'Beschreiben Sie Ihren Bedarf — Claude findet die passenden Einträge.',
+    matchTitle: 'Partner-Matching', matchSub: 'Bereich und Skills wählen — sofortiger Abgleich mit allen Kosovo-Einträgen.',
     matchWhat: 'Was suchen Sie? *', matchPH: 'z.B. React-Team, 3–4 Entwickler, Remote, Start Mai…',
     matchType: 'Typ', matchBoth: 'Firma & Freelancer', matchFirm: 'Nur Firmen', matchFL: 'Nur Freelancer',
     matchDur: 'Dauer', matchDurOpts: ['–', 'Einmalig', '1–3 Monate', '3–6 Monate', '6–12 Monate', 'Dauerhaft'],
-    matchBtn: '🤖 Matching starten', matchRunning: 'Analysiere…',
-    matchResults: 'Passende Einträge', matchWhy: 'Warum?', noMatch: 'Kein Match — bitte präzisieren.',
+    matchBtn: '🔍 Jetzt filtern', matchRunning: 'Suche…',
+    matchResults: 'Verfügbare Einträge', matchWhy: 'Warum?', noMatch: 'Kein Match — andere Kriterien versuchen.',
+    matchDateFrom: 'Verfügbar ab', matchDateUntil: 'Verfügbar bis', matchCapacity: 'Anzahl Personen',
+    matchSkills: 'Skills (kommagetrennt)', matchSkillsPH: 'React, Node.js, TypeScript',
+    matchAIBtn: '🤖 KI erklärt die Treffer', matchAIRunning: 'KI analysiert…',
+    availFrom: 'Verfügbar ab', availUntil: 'Verfügbar bis', availCap: 'Kapazität',
+    availOnRequest: 'Auf Anfrage', availLabel: 'Verfügbarkeit',
+    avail: 'Verfügbar', availSoon: 'Bald verfügbar', unavail: 'Belegt',
+    regAvailTitle: 'Verfügbarkeit (für IT / Freelancer / Consulting)',
+    regAvailSub: 'Leer lassen = Auf Anfrage (Standard für alle anderen Branchen)',
+    regAvailFrom: 'Verfügbar ab', regAvailUntil: 'Verfügbar bis',
+    regAvailCap: 'Kapazität (Anzahl Personen/Entwickler)',
+    regAvailCapPH: 'z.B. 3', regSkills: 'Skills / Technologien',
+    regSkillsPH: 'React, Node.js, Python, Figma…', regRemote: 'Remote-Arbeit möglich',
+    regOnsite: 'Vor Ort (Kosovo)', regLangs: 'Sprachen',
     concHeroTitle: 'Kosovo Concierge',
     concHeroSub: 'Unsere Partner organisieren Ihren kompletten Business-Visit — Meetings, Events, Behördentermine. Alles aus einer Hand.',
     concReq: '🗓 Visit anfragen', concLearn: 'Mehr erfahren',
@@ -63,7 +76,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'Sie reisen an', d: 'Alles vorbereitet.' },
       { n: '05', ic: '📄', t: 'Follow-up', d: 'Verträge & nächste Schritte.' },
     ],
-    concSpTitle: 'Sales-Team vor Ort', concSpSub: 'Unsere Sales-Spezialisten kennen Kosovo, die Geschäftskultur und die besten Ansprechpartner.',
+    concSpTitle: 'Das rootsGTM Sales-Team', concSpSub: 'Das Sales-Team von rootsGTM arbeitet vor Ort in Kosovo — sie kennen die Geschäftskultur, die besten Ansprechpartner und organisieren alles für Sie.',
     spDeals: 'Deals',
     concCtaTitle: 'Bereit für Ihren Kosovo-Visit?',
     concCtaFeats: ['✓ Antwort in 24h', '✓ Keine Anzahlung', '✓ Kostenloser Erst-Call', '✓ Flexibel buchbar'],
@@ -108,7 +121,7 @@ const T = {
   },
   en: {
     tagline: 'Business Bridge Platform',
-    navHome: 'Home', navDir: 'Companies & Freelancers', navMatch: 'AI Matching',
+    navHome: 'Home', navDir: 'Companies & Freelancers', navMatch: 'Find Partners',
     navConcierge: 'Concierge', navGov: 'Government', registerBtn: '+ List Profile',
     live: '500+ verified listings · Kosovo',
     h1a: 'Your Gateway to the', h1b: 'Kosovo Tech Hub',
@@ -117,7 +130,7 @@ const T = {
     stat1: 'Companies', stat2: 'Freelancers', stat3: 'Active Partners', stat4: 'Corporate Tax',
     howTitle: 'How it works',
     f1t: 'Find Companies & Freelancers', f1d: 'Browse 500+ verified listings by sector and skills.',
-    f2t: 'AI Matching', f2d: 'Describe your needs — Claude finds the best matches.',
+    f2t: 'Find Partners', f2d: 'Select area and skills — instantly matched against all Kosovo listings.',
     f3t: 'Kosovo Concierge', f3d: 'rootsGTM organises your complete on-site business visit.',
     catsTitle: 'Sectors', topTitle: '⭐ Top Listings', viewAll: 'View all →',
     ctaTitle: 'List your profile for free', ctaSub: '3 minutes, free. Visible to EU clients.',
@@ -144,12 +157,25 @@ const T = {
     reqPH: 'Hello, we are looking for…', reqSend: 'Send ✓', reqCancel: 'Cancel',
     reqDoneTitle: 'Sent!', reqDoneSub: 'will get back to you.',
     close: 'Close', back: '← Back',
-    matchTitle: 'AI Matching', matchSub: 'Describe your requirements — Claude finds the best matches.',
+    matchTitle: 'Partner Matching', matchSub: 'Select area and skills — instant match against all Kosovo listings.',
     matchWhat: 'What are you looking for? *', matchPH: 'e.g. React team, 3–4 developers, remote, start May…',
     matchType: 'Type', matchBoth: 'Company & Freelancer', matchFirm: 'Companies only', matchFL: 'Freelancers only',
     matchDur: 'Duration', matchDurOpts: ['–', 'One-time', '1–3 months', '3–6 months', '6–12 months', 'Ongoing'],
-    matchBtn: '🤖 Start matching', matchRunning: 'Analysing…',
-    matchResults: 'Matching listings', matchWhy: 'Why?', noMatch: 'No match — please refine.',
+    matchBtn: '🔍 Filter now', matchRunning: 'Searching…',
+    matchResults: 'Available listings', matchWhy: 'Why?', noMatch: 'No match — try different criteria.',
+    matchDateFrom: 'Available from', matchDateUntil: 'Available until', matchCapacity: 'Number of people',
+    matchSkills: 'Skills (comma separated)', matchSkillsPH: 'React, Node.js, TypeScript',
+    matchAIBtn: '🤖 AI explains matches', matchAIRunning: 'AI analysing…',
+    availFrom: 'Available from', availUntil: 'Available until', availCap: 'Capacity',
+    availOnRequest: 'On request', availLabel: 'Availability',
+    avail: 'Available', availSoon: 'Available soon', unavail: 'Booked',
+    regAvailTitle: 'Availability (for IT / Freelancer / Consulting)',
+    regAvailSub: 'Leave empty = On request (default for all other sectors)',
+    regAvailFrom: 'Available from', regAvailUntil: 'Available until',
+    regAvailCap: 'Capacity (number of people/developers)',
+    regAvailCapPH: 'e.g. 3', regSkills: 'Skills / Technologies',
+    regSkillsPH: 'React, Node.js, Python, Figma…', regRemote: 'Remote work possible',
+    regOnsite: 'On-site (Kosovo)', regLangs: 'Languages',
     concHeroTitle: 'Kosovo Concierge',
     concHeroSub: 'Our partners organise your complete business visit — meetings, events, government appointments. All from one place.',
     concReq: '🗓 Request visit', concLearn: 'Learn more',
@@ -167,7 +193,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'You arrive', d: 'Everything prepared.' },
       { n: '05', ic: '📄', t: 'Follow-up', d: 'Contracts & next steps.' },
     ],
-    concSpTitle: 'On-the-ground Sales Team', concSpSub: 'Our sales specialists know Kosovo, the business culture and the best contacts.',
+    concSpTitle: 'The rootsGTM Sales Team', concSpSub: 'rootsGTM\'s sales team works on the ground in Kosovo — they know the business culture, the best contacts and handle everything for you.',
     spDeals: 'Deals',
     concCtaTitle: 'Ready for your Kosovo visit?',
     concCtaFeats: ['✓ Reply in 24h', '✓ No deposit', '✓ Free initial call', '✓ Flexible booking'],
@@ -212,7 +238,7 @@ const T = {
   },
   sq: {
     tagline: 'Platforma Urë Biznesi',
-    navHome: 'Kreu', navDir: 'Kompani & Freelancerë', navMatch: 'Përputhja AI',
+    navHome: 'Kreu', navDir: 'Kompani & Freelancerë', navMatch: 'Gjej Partnerë',
     navConcierge: 'Concierge', navGov: 'Qeveria', registerBtn: '+ Regjistrohu',
     live: '500+ regjistrime të verifikuara · Kosovë',
     h1a: 'Porta Juaj drejt', h1b: 'Qendrës Teknologjike të Kosovës',
@@ -221,7 +247,7 @@ const T = {
     stat1: 'Kompani', stat2: 'Freelancerë', stat3: 'Partnerë Aktivë', stat4: 'Tatim mbi korp.',
     howTitle: 'Si funksionon',
     f1t: 'Gjej Kompani & Freelancerë', f1d: 'Shfletoni 500+ regjistrime sipas sektorit dhe aftësive.',
-    f2t: 'Përputhja AI', f2d: 'Përshkruani nevojën — Claude gjen përputhjet më të mira.',
+    f2t: 'Gjej Partnerë', f2d: 'Zgjidhni fushën dhe aftësitë — përputhje e menjëhershme me të gjitha regjistrimet.',
     f3t: 'Kosovo Concierge', f3d: 'rootsGTM organizon vizitën tuaj të plotë të biznesit.',
     catsTitle: 'Sektorët', topTitle: '⭐ Regjistrimet Kryesore', viewAll: 'Shiko →',
     ctaTitle: 'Regjistrohu falas tani', ctaSub: '3 minuta, falas. I dukshëm për klientë europianë.',
@@ -248,12 +274,25 @@ const T = {
     reqPH: 'Mirëdita, ne kërkojmë…', reqSend: 'Dërgo ✓', reqCancel: 'Anulo',
     reqDoneTitle: 'U dërgua!', reqDoneSub: 'do t\'ju kontaktojë.',
     close: 'Mbyll', back: '← Kthehu',
-    matchTitle: 'Përputhja me AI', matchSub: 'Përshkruani nevojën — Claude gjen përputhjet.',
+    matchTitle: 'Përputhja e Partnerëve', matchSub: 'Zgjidhni fushën dhe aftësitë — krahasim i menjëhershëm me të gjitha regjistrimet.',
     matchWhat: 'Çfarë po kërkoni? *', matchPH: 'p.sh. Ekip React, 3–4 zhvillues, remote…',
     matchType: 'Lloji', matchBoth: 'Kompani & Freelancer', matchFirm: 'Vetëm kompani', matchFL: 'Vetëm freelancerë',
     matchDur: 'Kohëzgjatja', matchDurOpts: ['–', 'Njëherë', '1–3 muaj', '3–6 muaj', '6–12 muaj', 'Afatgjatë'],
-    matchBtn: '🤖 Fillo', matchRunning: 'Duke analizuar…',
-    matchResults: 'Përputhjet', matchWhy: 'Pse?', noMatch: 'Asnjë përputhje — saktësoni.',
+    matchBtn: '🔍 Filtro tani', matchRunning: 'Duke kërkuar…',
+    matchResults: 'Regjistrimet e disponueshme', matchWhy: 'Pse?', noMatch: 'Asnjë rezultat — provo kritere të tjera.',
+    matchDateFrom: 'Disponueshëm nga', matchDateUntil: 'Disponueshëm deri', matchCapacity: 'Numri i personave',
+    matchSkills: 'Aftësi (me presje)', matchSkillsPH: 'React, Node.js, TypeScript',
+    matchAIBtn: '🤖 AI shpjegon përputhjet', matchAIRunning: 'AI analizon…',
+    availFrom: 'Disponueshëm nga', availUntil: 'Disponueshëm deri', availCap: 'Kapaciteti',
+    availOnRequest: 'Me kërkesë', availLabel: 'Disponueshmëria',
+    avail: 'Disponueshëm', availSoon: 'Shpejt disponueshëm', unavail: 'I zënë',
+    regAvailTitle: 'Disponueshmëria (për IT / Freelancer / Konsulencë)',
+    regAvailSub: 'Lëreni bosh = Me kërkesë (standard për sektorët e tjerë)',
+    regAvailFrom: 'Disponueshëm nga', regAvailUntil: 'Disponueshëm deri',
+    regAvailCap: 'Kapaciteti (numri i personave)',
+    regAvailCapPH: 'p.sh. 3', regSkills: 'Aftësi / Teknologji',
+    regSkillsPH: 'React, Node.js, Python, Figma…', regRemote: 'Punë remote e mundshme',
+    regOnsite: 'Në vend (Kosovë)', regLangs: 'Gjuhët',
     concHeroTitle: 'Kosovo Concierge',
     concHeroSub: 'Partnerët tanë organizojnë vizitën tuaj të plotë — takime, evente, takime qeveritare. Gjithçka nga një burim.',
     concReq: '🗓 Kërko vizitë', concLearn: 'Mëso më shumë',
@@ -270,7 +309,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'Mbërrini', d: 'Gjithçka e përgatitur.' },
       { n: '05', ic: '📄', t: 'Vijim', d: 'Kontrata & hapat e ardhshëm.' },
     ],
-    concSpTitle: 'Ekipi Shitjesh në Terren', concSpSub: 'Specialistët tanë njohin Kosovën dhe kulturën e biznesit.',
+    concSpTitle: 'Ekipi i Shitjeve rootsGTM', concSpSub: 'Ekipi i shitjeve i rootsGTM punon në terren në Kosovë — njohin kulturën e biznesit, kontaktet më të mira dhe organizojnë gjithçka për ju.',
     spDeals: 'Marrëveshje',
     concCtaTitle: 'Gati për vizitën tuaj?',
     concCtaFeats: ['✓ Përgjigje 24h', '✓ Pa paradhënie', '✓ Thirrje falas', '✓ Fleksibël'],
@@ -315,7 +354,7 @@ const T = {
   },
   sv: {
     tagline: 'Business Bridge Platform',
-    navHome: 'Hem', navDir: 'Företag & Frilansare', navMatch: 'AI-Matchning',
+    navHome: 'Hem', navDir: 'Företag & Frilansare', navMatch: 'Hitta Partners',
     navConcierge: 'Concierge', navGov: 'Myndigheter', registerBtn: '+ Registrera',
     live: '500+ verifierade profiler · Kosovo',
     h1a: 'Din ingång till', h1b: 'Kosovos Tech-hubb',
@@ -324,7 +363,7 @@ const T = {
     stat1: 'Företag', stat2: 'Frilansare', stat3: 'Aktiva Partners', stat4: 'Bolagsskatt',
     howTitle: 'Hur det fungerar',
     f1t: 'Hitta Företag & Frilansare', f1d: 'Bläddra bland 500+ verifierade profiler.',
-    f2t: 'AI-Matchning', f2d: 'Beskriv ditt behov — Claude hittar de bästa matcherna.',
+    f2t: 'Hitta Partners', f2d: 'Välj område och kompetenser — omedelbar matchning mot alla Kosovo-profiler.',
     f3t: 'Kosovo Concierge', f3d: 'rootsGTM organiserar ditt kompletta affärsbesök.',
     catsTitle: 'Branscher', topTitle: '⭐ Topprofiler', viewAll: 'Visa alla →',
     ctaTitle: 'Registrera dig gratis', ctaSub: '3 minuter, gratis. Synlig för EU-kunder.',
@@ -351,12 +390,25 @@ const T = {
     reqPH: 'Hej, vi söker…', reqSend: 'Skicka ✓', reqCancel: 'Avbryt',
     reqDoneTitle: 'Skickat!', reqDoneSub: 'återkommer till dig.',
     close: 'Stäng', back: '← Tillbaka',
-    matchTitle: 'AI-Matchning', matchSub: 'Beskriv ditt behov — Claude hittar de bästa matcherna.',
+    matchTitle: 'Partnermatchning', matchSub: 'Välj område och kompetenser — omedelbar matchning mot alla Kosovo-profiler.',
     matchWhat: 'Vad söker du? *', matchPH: 't.ex. React-team, 3–4 utvecklare, distans…',
     matchType: 'Typ', matchBoth: 'Företag & Frilansare', matchFirm: 'Företag', matchFL: 'Frilansare',
     matchDur: 'Varaktighet', matchDurOpts: ['–', 'Engång', '1–3 månader', '3–6 månader', '6–12 månader', 'Löpande'],
-    matchBtn: '🤖 Starta matchning', matchRunning: 'Analyserar…',
-    matchResults: 'Matchande profiler', matchWhy: 'Varför?', noMatch: 'Inga träffar — precisera.',
+    matchBtn: '🔍 Filtrera nu', matchRunning: 'Söker…',
+    matchResults: 'Tillgängliga profiler', matchWhy: 'Varför?', noMatch: 'Inga träffar — prova andra kriterier.',
+    matchDateFrom: 'Tillgänglig från', matchDateUntil: 'Tillgänglig till', matchCapacity: 'Antal personer',
+    matchSkills: 'Kompetenser (kommaseparerat)', matchSkillsPH: 'React, Node.js, TypeScript',
+    matchAIBtn: '🤖 AI förklarar träffarna', matchAIRunning: 'AI analyserar…',
+    availFrom: 'Tillgänglig från', availUntil: 'Tillgänglig till', availCap: 'Kapacitet',
+    availOnRequest: 'På förfrågan', availLabel: 'Tillgänglighet',
+    avail: 'Tillgänglig', availSoon: 'Snart tillgänglig', unavail: 'Bokad',
+    regAvailTitle: 'Tillgänglighet (för IT / Frilansare / Konsulting)',
+    regAvailSub: 'Lämna tomt = På förfrågan (standard för alla andra branscher)',
+    regAvailFrom: 'Tillgänglig från', regAvailUntil: 'Tillgänglig till',
+    regAvailCap: 'Kapacitet (antal personer/utvecklare)',
+    regAvailCapPH: 't.ex. 3', regSkills: 'Kompetenser / Teknologier',
+    regSkillsPH: 'React, Node.js, Python, Figma…', regRemote: 'Distansarbete möjligt',
+    regOnsite: 'På plats (Kosovo)', regLangs: 'Språk',
     concHeroTitle: 'Kosovo Concierge',
     concHeroSub: 'Våra partners organiserar ditt kompletta affärsbesök — möten, evenemang, myndighetsbesök. Allt på ett ställe.',
     concReq: '🗓 Boka besök', concLearn: 'Läs mer',
@@ -373,7 +425,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'Du anländer', d: 'Allt förberett.' },
       { n: '05', ic: '📄', t: 'Uppföljning', d: 'Avtal & nästa steg.' },
     ],
-    concSpTitle: 'Säljteam på plats', concSpSub: 'Våra specialister känner Kosovo och affärskulturen.',
+    concSpTitle: 'rootsGTM:s säljteam', concSpSub: 'rootsGTM:s säljteam arbetar på plats i Kosovo — de känner affärskulturen, de bästa kontakterna och hanterar allt åt dig.',
     spDeals: 'Affärer',
     concCtaTitle: 'Redo för Kosovo-besök?',
     concCtaFeats: ['✓ Svar 24h', '✓ Ingen förskottsbetalning', '✓ Gratis samtal', '✓ Flexibelt'],
@@ -432,19 +484,92 @@ const CATS = [
   { id: 'legal',      icon: '⚖️', color: '#fca5a5', labels: { de: 'Legal & Finanzen',  en: 'Legal & Finance',  sq: 'Ligjor & Financa',  sv: 'Juridik & Finans' }, count: 22  },
 ]
 
+
 const PROFILES = [
-  { id: 'c1', tier: 'sponsored', type: 'company', name: 'AlbaCode GmbH', cat: 'software', city: 'Pristina', tags: ['React', 'Node.js', 'TypeScript', 'Mobile'], rating: 4.9, reviews: 34, verified: true, employees: '15–30', founded: 2019, logo: 'AC', logoColor: '#58a6ff', contact: 'hi@albacode.ks', phone: '+383 44 100 200', desc: { de: 'Full-Stack Entwicklung & Mobile Apps für EU-Märkte.', en: 'Full-stack development & mobile apps for EU markets.', sq: 'Zhvillim full-stack dhe aplikacione mobile.', sv: 'Full-stack och mobilappar för EU.' } },
-  { id: 'f1', tier: 'premium',   type: 'freelancer', name: 'Arton Krasniqi', cat: 'software', city: 'Pristina', tags: ['React', 'TypeScript', 'GraphQL'], rating: 4.9, reviews: 28, verified: true, availability: 'remote', experience: '7', languages: 'DE, EN, SQ', logo: 'AK', logoColor: '#34d399', contact: 'arton.k@dev.ks', phone: '+383 44 200 300', desc: { de: '7 Jahre React-Erfahrung. SaaS-Frontend-Spezialist.', en: '7 years React. SaaS frontend specialist.', sq: '7 vite React. Specialist frontend SaaS.', sv: '7 år React. SaaS-frontendspecialist.' } },
-  { id: 'f4', tier: 'premium',   type: 'freelancer', name: 'Visar Berisha', cat: 'software', city: 'Ferizaj', tags: ['Python', 'Django', 'PostgreSQL'], rating: 4.7, reviews: 15, verified: true, availability: 'remote', experience: '6', languages: 'EN, SQ', logo: 'VB', logoColor: '#fb923c', contact: 'v.berisha@gmail.com', desc: { de: 'Backend & Data Engineer. Python/Django.', en: 'Backend & data engineer. Python/Django.', sq: 'Backend dhe data engineer.', sv: 'Backend och dataingenjör.' } },
-  { id: 'c5', tier: 'free',      type: 'company', name: 'CloudNest Kosovo', cat: 'software', city: 'Pristina', tags: ['DevOps', 'Kubernetes', 'AWS'], rating: 4.6, reviews: 11, verified: true, employees: '5–10', founded: 2020, logo: 'CN', logoColor: '#58a6ff', contact: 'team@cloudnest.io', desc: { de: 'Managed Cloud & DevOps für EU-Startups.', en: 'Managed cloud & DevOps for EU startups.', sq: 'Cloud i menaxhuar & DevOps.', sv: 'Molntjänst för EU-startups.' } },
-  { id: 'c2', tier: 'sponsored', type: 'company', name: 'SupportXPro', cat: 'support', city: 'Gjakova', tags: ['24/7', 'Helpdesk', 'ITIL v4', 'DE/EN/SQ'], rating: 4.8, reviews: 58, verified: true, employees: '30–50', founded: 2018, logo: 'SX', logoColor: '#a78bfa', contact: 'ops@supportxpro.ks', phone: '+383 44 300 400', desc: { de: 'Mehrsprachiger Tech-Support, ITIL v4 zertifiziert.', en: 'Multilingual tech support, ITIL v4 certified.', sq: 'Mbështetje teknike shumëgjuhëshe.', sv: 'Flerspråkig support, ITIL v4.' } },
-  { id: 'f5', tier: 'premium',   type: 'freelancer', name: 'Flori Hyseni', cat: 'support', city: 'Gjakova', tags: ['IT-Support', 'Windows', 'CompTIA'], rating: 4.6, reviews: 12, verified: true, availability: 'remote', experience: '4', languages: 'DE, EN, SQ', logo: 'FH', logoColor: '#a78bfa', contact: 'flori@support.ks', desc: { de: 'Deutschsprachiger IT-Support. CompTIA A+.', en: 'German-speaking IT support. CompTIA A+.', sq: 'IT support gjermanisht. CompTIA A+.', sv: 'Tysktalande IT-support.' } },
-  { id: 'f3', tier: 'premium',   type: 'freelancer', name: 'Rina Morina', cat: 'consulting', city: 'Pristina', tags: ['Projektmanagement', 'Agile', 'PMP'], rating: 4.9, reviews: 23, verified: true, availability: 'remote', experience: '8', languages: 'DE, EN, SQ, IT', logo: 'RM', logoColor: '#34d399', contact: 'rina.m@pm.ks', phone: '+383 44 400 500', desc: { de: 'Zertifizierte PMP-Projektmanagerin.', en: 'Certified PMP project manager.', sq: 'Menaxhere projektesh PMP.', sv: 'Certifierad PMP-projektledare.' } },
-  { id: 'c6', tier: 'free',      type: 'company', name: 'TechBridge Kosovo', cat: 'consulting', city: 'Prizren', tags: ['ERP', 'SAP', 'Digitalisierung'], rating: 4.7, reviews: 21, verified: true, employees: '10–20', founded: 2020, logo: 'TB', logoColor: '#34d399', contact: 'info@techbridge-ks.com', desc: { de: 'IT-Beratung & Digitaltransformation.', en: 'IT consulting & digital transformation.', sq: 'Konsulencë IT & transformim.', sv: 'IT-konsulting.' } },
-  { id: 'c3', tier: 'sponsored', type: 'company', name: 'NexCall Solutions', cat: 'bpo', city: 'Pristina', tags: ['Inbound', 'Outbound', 'CRM', '6 Sprachen'], rating: 4.5, reviews: 44, verified: true, employees: '40–80', founded: 2017, logo: 'NC', logoColor: '#f472b6', contact: 'start@nexcall.ks', desc: { de: 'Call-Center für DACH-Kunden. 6 Sprachen.', en: 'Call centre for DACH. 6 languages.', sq: 'Qendër thirrjesh DACH. 6 gjuhë.', sv: 'Callcenter för DACH. 6 språk.' } },
-  { id: 'f6', tier: 'premium',   type: 'freelancer', name: 'Dea Berisha', cat: 'bpo', city: 'Pristina', tags: ['Kundenservice', 'DE/EN', 'CRM'], rating: 4.7, reviews: 31, verified: true, availability: 'remote', experience: '3', languages: 'DE, EN, SQ', logo: 'DB', logoColor: '#f472b6', contact: 'dea.va@outlook.com', desc: { de: 'Native-Level Deutsch. Kundenbetreuung & CRM.', en: 'Native German. Customer service & CRM.', sq: 'Gjermanisht native. CRM.', sv: 'Infödd tyska. Kundservice.' } },
-  { id: 'f2', tier: 'premium',   type: 'freelancer', name: 'Blerta Gashi', cat: 'design', city: 'Prizren', tags: ['Figma', 'UI/UX', 'Branding'], rating: 4.8, reviews: 19, verified: true, availability: 'remote', experience: '5', languages: 'DE, EN, SQ', logo: 'BG', logoColor: '#facc15', contact: 'blerta.design@outlook.com', desc: { de: 'UX-Designerin, Figma-Expertin.', en: 'UX designer, Figma expert.', sq: 'Dizajnere UX, eksperte Figma.', sv: 'UX-designer, Figma-expert.' } },
-  { id: 'c4', tier: 'free',      type: 'company', name: 'PixelDrin Studio', cat: 'design', city: 'Peja', tags: ['Branding', 'Motion', 'Video'], rating: 4.9, reviews: 29, verified: true, employees: '5–15', founded: 2021, logo: 'PD', logoColor: '#facc15', contact: 'hello@pixeldrin.studio', desc: { de: 'Kreativagentur für Brand Identity.', en: 'Creative agency for brand identity.', sq: 'Agjensi kreative.', sv: 'Kreativbyrå.' } },
+  { id: 'c1', tier: 'sponsored', type: 'company', name: 'AlbaCode GmbH', cat: 'software', city: 'Pristina',
+   tags: ['React', 'Node.js', 'TypeScript', 'Mobile'], rating: 4.9, reviews: 34, verified: true,
+   employees: '15–30', founded: 2019, logo: 'AC', logoColor: '#58a6ff',
+   contact: 'hi@albacode.ks', phone: '+383 44 100 200',
+   availFrom: '2025-05-01', availUntil: '2025-10-31', capacity: 4, remote: true, languages: 'DE, EN, SQ',
+   skills: ['React', 'Node.js', 'TypeScript', 'React Native', 'PostgreSQL'],
+   desc: { de: 'Full-Stack Entwicklung & Mobile Apps für EU-Märkte.', en: 'Full-stack development & mobile apps for EU markets.', sq: 'Zhvillim full-stack dhe aplikacione mobile.', sv: 'Full-stack och mobilappar för EU.' } },
+  { id: 'f1', tier: 'premium', type: 'freelancer', name: 'Arton Krasniqi', cat: 'software', city: 'Pristina',
+   tags: ['React', 'TypeScript', 'GraphQL'], rating: 4.9, reviews: 28, verified: true,
+   availability: 'remote', experience: '7', logo: 'AK', logoColor: '#34d399',
+   contact: 'arton.k@dev.ks', phone: '+383 44 200 300',
+   availFrom: '2025-06-01', availUntil: '2025-12-31', capacity: 1, remote: true, languages: 'DE, EN, SQ',
+   skills: ['React', 'TypeScript', 'GraphQL', 'Next.js', 'Figma'],
+   desc: { de: '7 Jahre React-Erfahrung. SaaS-Frontend-Spezialist.', en: '7 years React. SaaS frontend specialist.', sq: '7 vite React. Specialist frontend SaaS.', sv: '7 år React. SaaS-frontendspecialist.' } },
+  { id: 'f4', tier: 'premium', type: 'freelancer', name: 'Visar Berisha', cat: 'software', city: 'Ferizaj',
+   tags: ['Python', 'Django', 'PostgreSQL'], rating: 4.7, reviews: 15, verified: true,
+   availability: 'remote', experience: '6', logo: 'VB', logoColor: '#fb923c',
+   contact: 'v.berisha@gmail.com',
+   availFrom: '2025-05-15', availUntil: '2025-09-30', capacity: 1, remote: true, languages: 'EN, SQ',
+   skills: ['Python', 'Django', 'PostgreSQL', 'REST API', 'Docker'],
+   desc: { de: 'Backend & Data Engineer. Python/Django.', en: 'Backend & data engineer. Python/Django.', sq: 'Backend dhe data engineer.', sv: 'Backend och dataingenjör.' } },
+  { id: 'c5', tier: 'free', type: 'company', name: 'CloudNest Kosovo', cat: 'software', city: 'Pristina',
+   tags: ['DevOps', 'Kubernetes', 'AWS'], rating: 4.6, reviews: 11, verified: true,
+   employees: '5–10', founded: 2020, logo: 'CN', logoColor: '#58a6ff',
+   contact: 'team@cloudnest.io',
+   availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'EN, SQ',
+   skills: ['DevOps', 'Kubernetes', 'AWS', 'Terraform', 'CI/CD'],
+   desc: { de: 'Managed Cloud & DevOps für EU-Startups.', en: 'Managed cloud & DevOps for EU startups.', sq: 'Cloud i menaxhuar & DevOps.', sv: 'Molntjänst för EU-startups.' } },
+  { id: 'c2', tier: 'sponsored', type: 'company', name: 'SupportXPro', cat: 'support', city: 'Gjakova',
+   tags: ['24/7', 'Helpdesk', 'ITIL v4', 'DE/EN/SQ'], rating: 4.8, reviews: 58, verified: true,
+   employees: '30–50', founded: 2018, logo: 'SX', logoColor: '#a78bfa',
+   contact: 'ops@supportxpro.ks', phone: '+383 44 300 400',
+   availFrom: '2025-05-01', availUntil: null, capacity: 10, remote: true, languages: 'DE, EN, SQ',
+   skills: ['Helpdesk', 'ITIL', 'Windows', 'CRM', 'Ticketing'],
+   desc: { de: 'Mehrsprachiger Tech-Support, ITIL v4 zertifiziert.', en: 'Multilingual tech support, ITIL v4 certified.', sq: 'Mbështetje teknike shumëgjuhëshe.', sv: 'Flerspråkig support, ITIL v4.' } },
+  { id: 'f5', tier: 'premium', type: 'freelancer', name: 'Flori Hyseni', cat: 'support', city: 'Gjakova',
+   tags: ['IT-Support', 'Windows', 'CompTIA'], rating: 4.6, reviews: 12, verified: true,
+   availability: 'remote', experience: '4', logo: 'FH', logoColor: '#a78bfa',
+   contact: 'flori@support.ks',
+   availFrom: '2025-07-01', availUntil: '2025-12-31', capacity: 1, remote: true, languages: 'DE, EN, SQ',
+   skills: ['IT-Support', 'Windows', 'CompTIA A+', 'Netzwerk', 'Remote Desktop'],
+   desc: { de: 'Deutschsprachiger IT-Support. CompTIA A+.', en: 'German-speaking IT support. CompTIA A+.', sq: 'IT support gjermanisht. CompTIA A+.', sv: 'Tysktalande IT-support.' } },
+  { id: 'f3', tier: 'premium', type: 'freelancer', name: 'Rina Morina', cat: 'consulting', city: 'Pristina',
+   tags: ['Projektmanagement', 'Agile', 'PMP'], rating: 4.9, reviews: 23, verified: true,
+   availability: 'remote', experience: '8', logo: 'RM', logoColor: '#34d399',
+   contact: 'rina.m@pm.ks', phone: '+383 44 400 500',
+   availFrom: '2025-05-01', availUntil: '2025-08-31', capacity: 1, remote: true, languages: 'DE, EN, SQ, IT',
+   skills: ['PMP', 'Agile', 'Scrum', 'JIRA', 'Confluence', 'MS Project'],
+   desc: { de: 'Zertifizierte PMP-Projektmanagerin.', en: 'Certified PMP project manager.', sq: 'Menaxhere projektesh PMP.', sv: 'Certifierad PMP-projektledare.' } },
+  { id: 'c6', tier: 'free', type: 'company', name: 'TechBridge Kosovo', cat: 'consulting', city: 'Prizren',
+   tags: ['ERP', 'SAP', 'Digitalisierung'], rating: 4.7, reviews: 21, verified: true,
+   employees: '10–20', founded: 2020, logo: 'TB', logoColor: '#34d399',
+   contact: 'info@techbridge-ks.com',
+   availFrom: null, availUntil: null, capacity: null, remote: false, languages: 'DE, EN, SQ',
+   skills: ['SAP', 'ERP', 'Digitalisierung', 'Change Management'],
+   desc: { de: 'IT-Beratung & Digitaltransformation.', en: 'IT consulting & digital transformation.', sq: 'Konsulencë IT & transformim.', sv: 'IT-konsulting.' } },
+  { id: 'c3', tier: 'sponsored', type: 'company', name: 'NexCall Solutions', cat: 'bpo', city: 'Pristina',
+   tags: ['Inbound', 'Outbound', 'CRM', '6 Sprachen'], rating: 4.5, reviews: 44, verified: true,
+   employees: '40–80', founded: 2017, logo: 'NC', logoColor: '#f472b6',
+   contact: 'start@nexcall.ks',
+   availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'DE, EN, SQ, IT, TR, FR',
+   skills: ['Call Center', 'CRM', 'Inbound', 'Outbound', 'Customer Service'],
+   desc: { de: 'Call-Center für DACH-Kunden. 6 Sprachen.', en: 'Call centre for DACH. 6 languages.', sq: 'Qendër thirrjesh DACH. 6 gjuhë.', sv: 'Callcenter för DACH. 6 språk.' } },
+  { id: 'f6', tier: 'premium', type: 'freelancer', name: 'Dea Berisha', cat: 'bpo', city: 'Pristina',
+   tags: ['Kundenservice', 'DE/EN', 'CRM'], rating: 4.7, reviews: 31, verified: true,
+   availability: 'remote', experience: '3', logo: 'DB', logoColor: '#f472b6',
+   contact: 'dea.va@outlook.com',
+   availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'DE, EN, SQ',
+   skills: ['Kundenservice', 'CRM', 'E-Mail Management', 'Deutsch native'],
+   desc: { de: 'Native-Level Deutsch. Kundenbetreuung & CRM.', en: 'Native German. Customer service & CRM.', sq: 'Gjermanisht native. CRM.', sv: 'Infödd tyska. Kundservice.' } },
+  { id: 'f2', tier: 'premium', type: 'freelancer', name: 'Blerta Gashi', cat: 'design', city: 'Prizren',
+   tags: ['Figma', 'UI/UX', 'Branding'], rating: 4.8, reviews: 19, verified: true,
+   availability: 'remote', experience: '5', logo: 'BG', logoColor: '#facc15',
+   contact: 'blerta.design@outlook.com',
+   availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'DE, EN, SQ',
+   skills: ['Figma', 'UI/UX', 'Branding', 'Prototyping', 'Adobe XD'],
+   desc: { de: 'UX-Designerin, Figma-Expertin.', en: 'UX designer, Figma expert.', sq: 'Dizajnere UX, eksperte Figma.', sv: 'UX-designer, Figma-expert.' } },
+  { id: 'c4', tier: 'free', type: 'company', name: 'PixelDrin Studio', cat: 'design', city: 'Peja',
+   tags: ['Branding', 'Motion', 'Video'], rating: 4.9, reviews: 29, verified: true,
+   employees: '5–15', founded: 2021, logo: 'PD', logoColor: '#facc15',
+   contact: 'hello@pixeldrin.studio',
+   availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'EN, SQ',
+   skills: ['Branding', 'Motion Design', 'Video', 'After Effects'],
+   desc: { de: 'Kreativagentur für Brand Identity.', en: 'Creative agency for brand identity.', sq: 'Agjensi kreative.', sv: 'Kreativbyrå.' } },
 ]
 
 const SALES_PEOPLE = [
@@ -537,6 +662,7 @@ function Avatar({ text, color, size = 46 }) {
 function Spin() {
   return <div style={{ width: 13, height: 13, border: '2px solid rgba(255,255,255,0.2)', borderTopColor: 'white', borderRadius: '50%', flexShrink: 0 }} className="sp" />
 }
+
 
 function ModalClose({ onClose }) {
   return <button onClick={onClose} className="btn ghost" style={{ padding: '5px 10px', fontSize: 15, alignSelf: 'flex-start' }}>✕</button>
@@ -673,7 +799,7 @@ function ContactModal({ profile, t, onClose }) {
 }
 
 // ─── PROFILE CARD ─────────────────────────────────────────────────────────────
-function ProfileCard({ p, lang, t, rank, onContact, onUpgrade }) {
+function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSelfEdit }) {
   const isFL = p.type === 'freelancer'
   const isSp = p.tier === 'sponsored'
   const isPr = p.tier === 'premium'
@@ -702,13 +828,23 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade }) {
           {isFL ? <span>🗣 {p.languages}</span> : <span>👥 {p.employees}</span>}
         </div>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 11 }}>{p.desc[lang] || p.desc.en}</p>
-        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>{p.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}</div>
+        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
+          {p.tags.map(tag => (
+            <span key={tag} className="tag" onClick={e => { e.stopPropagation(); onTagClick && onTagClick(tag) }}
+              style={{ cursor: onTagClick ? 'pointer' : 'default', transition: 'all 0.15s' }}
+              onMouseEnter={e => { if (onTagClick) { e.currentTarget.style.background='rgba(45,212,191,0.15)'; e.currentTarget.style.color=G.teal; e.currentTarget.style.borderColor='rgba(45,212,191,0.3)' }}}
+              onMouseLeave={e => { e.currentTarget.style.background=''; e.currentTarget.style.color=''; e.currentTarget.style.borderColor='' }}>
+              {tag}
+            </span>
+          ))}
+        </div>
         <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${G.border}`, borderRadius: 8, padding: '8px 12px', marginBottom: 12 }}>
           <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.teal, fontWeight: 500 }}>💬 {t.rateNote}</div>
         </div>
         <div style={{ display: 'flex', gap: 7 }}>
           <button className="btn gbtn" style={{ flex: 1, padding: '8px', fontSize: 12 }} onClick={() => onContact(p)}>{t.sendReq}</button>
           <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 13 }} title="Sichtbarkeit erhöhen" onClick={() => onUpgrade(p.cat)}>⭐</button>
+          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 12 }} title={lang==='de'?'Mein Profil bearbeiten':lang==='sv'?'Redigera min profil':lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={() => onSelfEdit && onSelfEdit(p)}>✏️</button>
         </div>
       </div>
     </div>
@@ -716,13 +852,20 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade }) {
 }
 
 // ─── DIRECTORY PAGE ───────────────────────────────────────────────────────────
-function DirectoryPage({ lang, t }) {
+function DirectoryPage({ lang, t, externalTag, onClearTag }) {
   const [q, setQ] = useState('')
   const [typeF, setTypeF] = useState('all')
   const [cat, setCat] = useState('all')
   const [sort, setSort] = useState('rating')
   const [contact, setContact] = useState(null)
   const [upgrade, setUpgrade] = useState(null)
+  const [tagFilter, setTagFilter] = useState(externalTag || null)
+  const [selfEdit, setSelfEdit] = useState(null)
+
+  // sync external tag (from profile card click)
+  React.useEffect(() => { if (externalTag) setTagFilter(externalTag) }, [externalTag])
+
+  const clearTagFilter = () => { setTagFilter(null); if (onClearTag) onClearTag() }
 
   const ranked = useMemo(() => {
     const byCat = {}
@@ -745,7 +888,8 @@ function DirectoryPage({ lang, t }) {
     return (
       (!q || p.name.toLowerCase().includes(s) || desc.toLowerCase().includes(s) || p.tags.some(tg => tg.toLowerCase().includes(s))) &&
       (typeF === 'all' || p.type === typeF) &&
-      (cat === 'all' || p.cat === cat)
+      (cat === 'all' || p.cat === cat) &&
+      (!tagFilter || p.tags.some(tg => tg.toLowerCase() === tagFilter.toLowerCase()))
     )
   })
 
@@ -776,6 +920,16 @@ function DirectoryPage({ lang, t }) {
         ))}
       </div>
 
+      {/* Active tag filter banner */}
+      {tagFilter && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 9, padding: '9px 14px' }}>
+          <span style={{ fontSize: 13, color: G.teal, fontFamily: "'DM Sans',sans-serif" }}>
+            🏷 {lang === 'de' ? 'Tag-Filter:' : lang === 'sv' ? 'Tagg-filter:' : lang === 'sq' ? 'Filtër tag:' : 'Tag filter:'} <strong>{tagFilter}</strong>
+          </span>
+          <button onClick={clearTagFilter} className="btn ghost" style={{ fontSize: 11, padding: '3px 10px', marginLeft: 'auto' }}>✕ {lang === 'de' ? 'Entfernen' : lang === 'sv' ? 'Ta bort' : lang === 'sq' ? 'Hiq' : 'Remove'}</button>
+        </div>
+      )}
+
       {catList.map(catObj => {
         const catProfiles = filtered.filter(p => p.cat === catObj.id)
         if (catProfiles.length === 0) return null
@@ -788,7 +942,7 @@ function DirectoryPage({ lang, t }) {
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
               {catProfiles.map(p => (
-                <ProfileCard key={p.id} p={p} lang={lang} t={t} rank={p._rank} onContact={setContact} onUpgrade={setUpgrade} />
+                <ProfileCard key={p.id} p={p} lang={lang} t={t} rank={p._rank} onContact={setContact} onUpgrade={setUpgrade} onTagClick={tag => setTagFilter(tag)} onSelfEdit={setSelfEdit} />
               ))}
             </div>
           </div>
@@ -805,104 +959,338 @@ function DirectoryPage({ lang, t }) {
 
       {contact && <ContactModal profile={contact} t={t} onClose={() => setContact(null)} />}
       {upgrade && <UpgradeModal catId={upgrade} t={t} lang={lang} onClose={() => setUpgrade(null)} />}
+      {selfEdit && <SelfEditModal profile={selfEdit} lang={lang} t={t} onClose={() => setSelfEdit(null)} />}
     </div>
   )
 }
 
 // ─── MATCH PAGE ───────────────────────────────────────────────────────────────
-function MatchPage({ lang, t }) {
-  const [req, setReq] = useState('')
-  const [typeF, setTypeF] = useState('all')
-  const [dur, setDur] = useState('')
-  const [results, setResults] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [contact, setContact] = useState(null)
+const SKILL_SETS = {
+  software:   ['React','Vue','Angular','Next.js','TypeScript','JavaScript','Node.js','Python','Django','PHP','Java','DevOps','Kubernetes','AWS','Azure','Mobile','React Native','Flutter','PostgreSQL','MongoDB','GraphQL'],
+  support:    ['Helpdesk','ITIL v4','24/7','Windows','CompTIA','ServiceNow','Zendesk','Remote Support','Network','Linux'],
+  consulting: ['Agile','Scrum','PMP','SAP','ERP','Change Management','Business Analysis','Digitalisierung','IT-Strategy','PMO'],
+  design:     ['Figma','UI/UX','Branding','Adobe XD','Illustrator','Motion','Video','Webflow','Brand Identity','Copywriting'],
+  bpo:        ['Inbound','Outbound','CRM','Salesforce','HubSpot','Customer Service','Sales','Lead Generation','GDPR','Multi-language'],
+  production: ['CNC','ISO 9001','Lean','CAD','SolidWorks','Quality Control','Injection Moulding','Welding','Sheet Metal','Assembly'],
+  logistics:  ['Customs','Freight','EU Corridor','Warehouse','Cold Chain','Tracking','Import/Export','Last Mile','3PL'],
+  legal:      ['Commercial Law','Corporate Law','Foreign Investment','Contracts','IP','Compliance','Tax Law','Employment Law'],
+}
 
-  const run = async () => {
-    if (!req.trim()) return
-    setLoading(true)
-    setResults(null)
-    try {
-      const pool = PROFILES.filter(p => typeF === 'all' || p.type === typeF)
-      const list = pool.map(p => `ID:${p.id} Type:${p.type} Name:"${p.name}" Cat:${p.cat} City:${p.city} Tags:${p.tags.join(',')} Rating:${p.rating}${p.type === 'freelancer' ? ` Langs:${p.languages}` : ` Employees:${p.employees}`}`).join('\n')
-      const ln = { de: 'German', en: 'English', sq: 'Albanian (Shqip)', sv: 'Swedish' }[lang]
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 900,
-          system: `TechGate Kosovo matching engine. Respond ONLY in ${ln} with raw JSON array, no markdown.`,
-          messages: [{ role: 'user', content: `Client: "${req}"\nDuration: ${dur || 'n/a'}\nProfiles:\n${list}\nReturn top 3: [{"id":"...","matchScore":0-100,"reason":"2 sentences in ${ln}"}]` }],
-        }),
+// Score a profile against selected skills — pure math, no API, free forever
+function scoreProfile(profile, selectedSkills) {
+  if (selectedSkills.length === 0) return { score: 0, matched: [] }
+  const profileTags = profile.tags.map(tg => tg.toLowerCase())
+  const matched = selectedSkills.filter(s =>
+    profileTags.some(pt => pt.includes(s.toLowerCase()) || s.toLowerCase().includes(pt))
+  )
+  const score = Math.round((matched.length / selectedSkills.length) * 100)
+  return { score, matched }
+}
+
+function MatchPage({ lang, t }) {
+  const [category, setCategory] = useState('all')
+  const [skills,   setSkills]   = useState([])
+  const [typeF,    setTypeF]    = useState('all')
+  const [results,  setResults]  = useState(null)
+  const [contact,  setContact]  = useState(null)
+
+  const toggleSkill = s => setSkills(p => p.includes(s) ? p.filter(x => x !== s) : [...p, s])
+  const setcat = c => { setCategory(c); setSkills([]) }
+  const currentSkills = SKILL_SETS[category] || []
+
+  const LABELS = {
+    de: {
+      badge: 'Sofort-Matching · Skills & Kategorie',
+      title: 'Partner-Matching',
+      sub: 'Wählen Sie Bereich und Skills — wir zeigen sofort alle passenden Einträge.',
+      catLabel: '1. Bereich wählen',
+      skillLabel: '2. Skills auswählen',
+      skillHint: 'Je mehr Skills, desto präziser das Matching.',
+      typeLabel: 'Typ',
+      noSkillNote: 'Wählen Sie zuerst einen Bereich.',
+      btn: '🔍 Jetzt matchen',
+      resultsTitle: 'Passende Partner',
+      matchedSkills: 'Übereinstimmende Skills',
+      allSkills: 'Skills',
+      noResults: 'Keine Treffer — anderen Bereich oder andere Skills versuchen.',
+      scoreLabel: 'Übereinstimmung',
+      rateNote: 'Konditionen per Gespräch',
+      sendReq: 'Anfrage senden',
+      clearBtn: 'Zurücksetzen',
+    },
+    en: {
+      badge: 'Instant matching · Skills & category',
+      title: 'Partner Matching',
+      sub: 'Select area and skills — we instantly show all matching listings.',
+      catLabel: '1. Select area',
+      skillLabel: '2. Select skills',
+      skillHint: 'More skills = more precise matching.',
+      typeLabel: 'Type',
+      noSkillNote: 'Select an area first.',
+      btn: '🔍 Match now',
+      resultsTitle: 'Matching partners',
+      matchedSkills: 'Matching skills',
+      allSkills: 'Skills',
+      noResults: 'No results — try a different area or skills.',
+      scoreLabel: 'Match',
+      rateNote: 'Terms on request',
+      sendReq: 'Send enquiry',
+      clearBtn: 'Reset',
+    },
+    sq: {
+      badge: 'Përputhje e menjëhershme · Aftësi & kategori',
+      title: 'Përputhja e Partnerëve',
+      sub: 'Zgjidhni fushën dhe aftësitë — shfaqim menjëherë të gjitha regjistrimet përkatëse.',
+      catLabel: '1. Zgjidh fushën',
+      skillLabel: '2. Zgjidh aftësitë',
+      skillHint: 'Sa më shumë aftësi, aq më preciz.',
+      typeLabel: 'Lloji',
+      noSkillNote: 'Zgjidh fillimisht një fushë.',
+      btn: '🔍 Përputh tani',
+      resultsTitle: 'Partnerët përputhës',
+      matchedSkills: 'Aftësi përputhëse',
+      allSkills: 'Aftësi',
+      noResults: 'Asnjë rezultat — provo fushë ose aftësi të tjera.',
+      scoreLabel: 'Përputhje',
+      rateNote: 'Kushtet me kërkesë',
+      sendReq: 'Dërgo kërkesë',
+      clearBtn: 'Rivendos',
+    },
+    sv: {
+      badge: 'Omedelbar matchning · Kompetenser & kategori',
+      title: 'Partnermatchning',
+      sub: 'Välj område och kompetenser — vi visar omedelbart alla matchande profiler.',
+      catLabel: '1. Välj område',
+      skillLabel: '2. Välj kompetenser',
+      skillHint: 'Fler kompetenser = precisare matchning.',
+      typeLabel: 'Typ',
+      noSkillNote: 'Välj ett område först.',
+      btn: '🔍 Matcha nu',
+      resultsTitle: 'Matchande partners',
+      matchedSkills: 'Matchande kompetenser',
+      allSkills: 'Kompetenser',
+      noResults: 'Inga träffar — prova annat område eller andra kompetenser.',
+      scoreLabel: 'Match',
+      rateNote: 'Villkor på förfrågan',
+      sendReq: 'Skicka förfrågan',
+      clearBtn: 'Återställ',
+    },
+  }
+  const Lm = LABELS[lang] || LABELS.en
+
+  // Pure database filter + score — instant, free, no API
+  const doMatch = () => {
+    const pool = PROFILES
+      .filter(p => category === 'all' || p.cat === category)
+      .filter(p => typeF === 'all' || p.type === typeF)
+
+    const scored = pool
+      .map(p => {
+        const { score, matched } = scoreProfile(p, skills)
+        // Bonus points for tier
+        const tierBonus = p.tier === 'sponsored' ? 8 : p.tier === 'premium' ? 4 : 0
+        // Bonus for rating
+        const ratingBonus = Math.round((p.rating - 4) * 5)
+        const finalScore = Math.min(100, score + tierBonus + ratingBonus)
+        return { ...p, _score: finalScore, _matched: matched }
       })
-      const d = await res.json()
-      const arr = JSON.parse(d.content?.map(c => c.text || '').join('').replace(/```json|```/g, '').trim() || '[]')
-      setResults(arr.map(r => ({ ...r, profile: PROFILES.find(p => p.id === r.id) })).filter(r => r.profile))
-    } catch { setResults([]) }
-    setLoading(false)
+      .filter(p => skills.length === 0 || p._score > 0) // when skills selected, hide 0% matches
+      .sort((a, b) => {
+        if (b._score !== a._score) return b._score - a._score
+        // tiebreak: sponsored > premium > free
+        const tier = { sponsored: 0, premium: 1, free: 2 }
+        return tier[a.tier] - tier[b.tier]
+      })
+
+    setResults(scored)
   }
 
-  const sc = s => s >= 80 ? G.green : s >= 50 ? G.gold : G.red
+  const reset = () => { setCategory('all'); setSkills([]); setResults(null) }
+
+  const scoreColor = s => s >= 80 ? G.green : s >= 50 ? G.gold : G.muted
+  const scoreLabel = s => {
+    if (skills.length === 0) return null // no score when no skills selected
+    return s
+  }
 
   return (
-    <div style={{ padding: '36px 44px', maxWidth: 820, margin: '0 auto' }}>
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ display: 'inline-block', background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 6, padding: '3px 12px', fontSize: 11, color: G.gold, marginBottom: 12, letterSpacing: '1px', textTransform: 'uppercase' }}>Claude Sonnet</div>
-        <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3.5vw,36px)', letterSpacing: '-0.6px', marginBottom: 8 }}>{t.matchTitle}</h2>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 15, lineHeight: 1.75 }}>{t.matchSub}</p>
+    <div style={{ padding: '36px 44px', maxWidth: 1000, margin: '0 auto' }}>
+
+      {/* Header */}
+      <div style={{ marginBottom: 26 }}>
+
+        <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3.5vw,36px)', letterSpacing: '-0.6px', marginBottom: 8 }}>{Lm.title}</h2>
+        <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 15, lineHeight: 1.75 }}>{Lm.sub}</p>
       </div>
-      <div className="card" style={{ padding: 22, marginBottom: 20 }}>
-        <div style={{ marginBottom: 13 }}><label className="flabel">{t.matchWhat}</label><textarea className="inp" rows={4} value={req} onChange={e => setReq(e.target.value)} style={{ resize: 'vertical' }} placeholder={t.matchPH} /></div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 11, marginBottom: 16 }}>
-          <div><label className="flabel">{t.matchType}</label>
-            <select className="inp" value={typeF} onChange={e => setTypeF(e.target.value)}>
-              <option value="all">{t.matchBoth}</option>
-              <option value="company">{t.matchFirm}</option>
-              <option value="freelancer">{t.matchFL}</option>
-            </select>
-          </div>
-          <div><label className="flabel">{t.matchDur}</label>
-            <select className="inp" value={dur} onChange={e => setDur(e.target.value)}>
-              {t.matchDurOpts.map(d => <option key={d}>{d}</option>)}
-            </select>
+
+      <div className="card" style={{ padding: 26, marginBottom: 24 }}>
+
+        {/* Step 1 — Category pills */}
+        <div style={{ marginBottom: 22 }}>
+          <label className="flabel">{Lm.catLabel}</label>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
+            <button onClick={() => setcat('all')} className="btn" style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600, borderRadius: 20, background: category === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: category === 'all' ? G.gold : G.muted, border: `1px solid ${category === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>
+              🌐 {t.allCats}
+            </button>
+            {CATS.map(c => (
+              <button key={c.id} onClick={() => setcat(c.id)} className="btn" style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600, borderRadius: 20, background: category === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)', color: category === c.id ? c.color : G.muted, border: `1px solid ${category === c.id ? `${c.color}45` : 'rgba(255,255,255,0.07)'}` }}>
+                {c.icon} {c.labels[lang]}
+              </button>
+            ))}
           </div>
         </div>
-        <button className="btn gbtn" disabled={loading || !req.trim()} onClick={run} style={{ display: 'flex', alignItems: 'center', gap: 8, opacity: !req.trim() ? 0.5 : 1 }}>
-          {loading ? <><Spin />{t.matchRunning}</> : t.matchBtn}
-        </button>
+
+        {/* Step 2 — Skills */}
+        <div style={{ marginBottom: 22 }}>
+          <label className="flabel">{Lm.skillLabel}</label>
+          {category === 'all' ? (
+            <div style={{ fontSize: 13, color: G.muted, fontFamily: "'DM Sans',sans-serif", marginTop: 8, fontStyle: 'italic' }}>
+              {Lm.noSkillNote}
+            </div>
+          ) : (
+            <>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 8 }}>
+                {currentSkills.map(s => {
+                  const on = skills.includes(s)
+                  return (
+                    <button key={s} onClick={() => toggleSkill(s)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: on ? 700 : 500, borderRadius: 18, background: on ? 'rgba(45,212,191,0.15)' : 'rgba(255,255,255,0.04)', color: on ? G.teal : G.muted, border: `1px solid ${on ? 'rgba(45,212,191,0.45)' : 'rgba(255,255,255,0.07)'}` }}>
+                      {on && '✓ '}{s}
+                    </button>
+                  )
+                })}
+              </div>
+              {skills.length > 0 && (
+                <div style={{ marginTop: 8, fontSize: 12, color: G.teal, fontFamily: "'DM Sans',sans-serif" }}>
+                  ✓ {skills.length} {Lm.allSkills}: {skills.join(', ')}
+                </div>
+              )}
+              <div style={{ fontSize: 11, color: G.muted, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>{Lm.skillHint}</div>
+            </>
+          )}
+        </div>
+
+        {/* Type filter */}
+        <div style={{ marginBottom: 20, maxWidth: 220 }}>
+          <label className="flabel">{Lm.typeLabel}</label>
+          <select className="inp" value={typeF} onChange={e => setTypeF(e.target.value)} style={{ marginTop: 6 }}>
+            <option value="all">{t.allTypes}</option>
+            <option value="company">{t.onlyComp}</option>
+            <option value="freelancer">{t.onlyFL}</option>
+          </select>
+        </div>
+
+        {/* Action buttons */}
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button className="btn gbtn" onClick={doMatch}
+            style={{ opacity: category === 'all' && skills.length === 0 ? 0.5 : 1 }}>
+            {Lm.btn}
+          </button>
+          {(skills.length > 0 || results !== null) && (
+            <button className="btn ghost" onClick={reset}>{Lm.clearBtn}</button>
+          )}
+        </div>
       </div>
+
+      {/* Results */}
       {results !== null && (
         <div className="fi">
-          <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 17, marginBottom: 13 }}>{t.matchResults} <span style={{ color: G.gold }}>({results.length})</span></h3>
-          {results.length === 0 && <div style={{ color: G.muted, fontSize: 14, padding: 20, textAlign: 'center' }}>{t.noMatch}</div>}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {results.map((r, i) => {
-              const p = r.profile
-              const isFL = p.type === 'freelancer'
+          <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 17, marginBottom: 16 }}>
+            {Lm.resultsTitle}
+            <span style={{ color: G.gold, marginLeft: 8 }}>({results.length})</span>
+          </h3>
+
+          {results.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '48px 20px', color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
+              <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
+              {Lm.noResults}
+            </div>
+          )}
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
+            {results.map((p, i) => {
+              const isFL  = p.type === 'freelancer'
+              const isSp  = p.tier === 'sponsored'
+              const isPr  = p.tier === 'premium'
+              const sc    = scoreLabel(p._score)
+
               return (
-                <div key={p.id} className="card fi" style={{ padding: 18, animationDelay: `${i * 0.06}s` }}>
-                  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <div style={{ width: 30, height: 30, borderRadius: 7, background: i === 0 ? G.goldDim : 'rgba(255,255,255,0.05)', border: `1px solid ${i === 0 ? G.goldBorder : G.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 13, color: i === 0 ? G.gold : G.muted, flexShrink: 0 }}>#{i + 1}</div>
-                    <Logo text={p.logo} color={p.logoColor} />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                <div key={p.id} className={`card fu${isSp ? ' glow' : ''}`}
+                  style={{ padding: 0, overflow: 'hidden', animationDelay: `${i * 0.04}s`,
+                    borderColor: isSp ? 'rgba(251,146,60,0.4)' : isPr ? 'rgba(212,168,67,0.3)' : G.border,
+                    background: isSp ? 'rgba(251,146,60,0.03)' : isPr ? 'rgba(212,168,67,0.025)' : G.card }}>
+                  {isSp && <div className="sp-bar" />}
+                  {isPr && <div className="pr-bar" />}
+                  <div style={{ padding: 20 }}>
+
+                    {/* Header row */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                      <div style={{ display: 'flex', gap: 10 }}>
+                        <Logo text={p.logo} color={p.logoColor} />
                         <div>
                           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{p.name}</div>
-                          <div style={{ fontSize: 11, color: G.muted, marginTop: 1 }}>📍 {p.city}{isFL ? ` · 🗣 ${p.languages}` : ''}</div>
+                          <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
+                          {isFL && <div style={{ fontSize: 11, color: G.muted }}>🗣 {p.languages}</div>}
                         </div>
-                        <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: sc(r.matchScore), flexShrink: 0, marginLeft: 10 }}>{r.matchScore}%</div>
                       </div>
-                      <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, margin: '7px 0' }}>
-                        <div style={{ height: '100%', width: `${r.matchScore}%`, background: `linear-gradient(90deg,${sc(r.matchScore)},${sc(r.matchScore)}80)`, borderRadius: 2 }} />
-                      </div>
-                      <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 8, padding: '8px 12px', marginBottom: 8 }}>
-                        <div style={{ fontSize: 10, color: G.gold, fontWeight: 700, marginBottom: 2 }}>✨ {t.matchWhy}</div>
-                        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.72)', lineHeight: 1.6 }}>{r.reason}</p>
-                      </div>
-                      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 8 }}>{p.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}</div>
-                      <button className="btn gbtn" style={{ padding: '7px 14px', fontSize: 12 }} onClick={() => setContact(p)}>{t.sendReq}</button>
+
+                      {/* Score badge — only when skills selected */}
+                      {sc !== null && (
+                        <div style={{ textAlign: 'center', flexShrink: 0, marginLeft: 8 }}>
+                          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: scoreColor(sc), lineHeight: 1 }}>{sc}%</div>
+                          <div style={{ fontSize: 9, color: G.muted, marginTop: 1, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{Lm.scoreLabel}</div>
+                        </div>
+                      )}
                     </div>
+
+                    {/* Match score bar */}
+                    {sc !== null && (
+                      <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, marginBottom: 10 }}>
+                        <div style={{ height: '100%', width: `${sc}%`, background: `linear-gradient(90deg,${scoreColor(sc)},${scoreColor(sc)}80)`, borderRadius: 2, transition: 'width 0.6s ease' }} />
+                      </div>
+                    )}
+
+                    {/* Matched skills highlight */}
+                    {p._matched && p._matched.length > 0 && (
+                      <div style={{ marginBottom: 10, padding: '7px 11px', background: 'rgba(45,212,191,0.07)', border: '1px solid rgba(45,212,191,0.2)', borderRadius: 8 }}>
+                        <div style={{ fontSize: 10, color: G.teal, fontWeight: 700, marginBottom: 5, letterSpacing: '0.3px' }}>✓ {Lm.matchedSkills}</div>
+                        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                          {p._matched.map(s => (
+                            <span key={s} style={{ fontSize: 11, background: 'rgba(45,212,191,0.15)', color: G.teal, border: '1px solid rgba(45,212,191,0.35)', borderRadius: 5, padding: '2px 8px', fontWeight: 700 }}>{s}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* All tags */}
+                    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 11 }}>
+                      {p.tags.map(tag => {
+                        const isHit = p._matched && p._matched.map(s => s.toLowerCase()).includes(tag.toLowerCase())
+                        return isHit ? null : <span key={tag} className="tag">{tag}</span>
+                      })}
+                    </div>
+
+                    {/* Tier + rating */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                      <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+                        {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 Gesponsert</span>}
+                        {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
+                        {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
+                      </div>
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
+                        <Stars r={p.rating} /> {p.rating} ({p.reviews})
+                      </div>
+                    </div>
+
+                    {/* Rate note + CTA */}
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                      <button className="btn gbtn" style={{ flex: 1, padding: '9px', fontSize: 12 }} onClick={() => setContact(p)}>
+                        {t.sendReq}
+                      </button>
+                      <span style={{ fontSize: 11, color: G.teal, fontFamily: "'DM Sans',sans-serif", flexShrink: 0 }}>
+                        💬 {t.rateNote}
+                      </span>
+                    </div>
+
                   </div>
                 </div>
               )
@@ -910,6 +1298,7 @@ function MatchPage({ lang, t }) {
           </div>
         </div>
       )}
+
       {contact && <ContactModal profile={contact} t={t} onClose={() => setContact(null)} />}
     </div>
   )
@@ -923,9 +1312,9 @@ function ConciergePage({ lang, t }) {
   const [partnerDone, setPartnerDone] = useState(false)
 
   const PACKAGES = [
-    { ic: '🔍', col: '#58a6ff', name: lang === 'de' ? 'Discovery Visit' : lang === 'sv' ? 'Discovery-besök' : lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'de' ? '1 Tag' : lang === 'sv' ? '1 dag' : lang === 'sq' ? '1 ditë' : '1 day', ideal: lang === 'de' ? 'Erste Erkundung' : lang === 'sv' ? 'Första utforskning' : lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'de' ? ['Bedarfsanalyse (Call)', '2–3 Meetings', 'Briefing & Nachbericht'] : lang === 'sv' ? ['Behovsanalys', '2–3 möten', 'Briefing & rapport'] : lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
-    { ic: '🤝', col: G.gold, highlight: true, name: lang === 'de' ? 'Business Visit' : lang === 'sv' ? 'Business-besök' : lang === 'sq' ? 'Vizita Biznesi' : 'Business Visit', dur: lang === 'de' ? '2–3 Tage' : lang === 'sv' ? '2–3 dagar' : lang === 'sq' ? '2–3 ditë' : '2–3 days', ideal: lang === 'de' ? 'Konkretes Projekt' : lang === 'sv' ? 'Konkret projekt' : lang === 'sq' ? 'Projekt konkret' : 'Concrete project', inc: lang === 'de' ? ['Alles aus Discovery', '4–6 Meetings', 'Hotel & Transfer', 'Networking-Abend'] : lang === 'sv' ? ['Allt i Discovery', '4–6 möten', 'Hotell & transfer', 'Nätverkskväll'] : lang === 'sq' ? ['Gjithçka nga Discovery', '4–6 takime', 'Hotel & transport', 'Mbrëmje rrjetëzimi'] : ['Everything in Discovery', '4–6 meetings', 'Hotel & transfer', 'Networking evening'] },
-    { ic: '🏛️', col: '#a78bfa', name: lang === 'de' ? 'Executive Visit' : lang === 'sv' ? 'Executive-besök' : lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'de' ? '3–5 Tage' : lang === 'sv' ? '3–5 dagar' : lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'de' ? 'Firmengründung / Investition' : lang === 'sv' ? 'Bolagsbildning / Investering' : lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'de' ? ['Alles aus Business Visit', 'Ministeriumstermin', 'Partner-Dinner', 'Rechtliche Erstberatung'] : lang === 'sv' ? ['Allt i Business-besök', 'Myndighetsmöte', 'Partner-middag', 'Juridisk rådgivning'] : lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
+    { ic: '🔍', col: '#58a6ff', price: { de: 'ab €390', en: 'from €390', sq: 'nga €390', sv: 'från €390' }, name: lang === 'de' ? 'Discovery Visit' : lang === 'sv' ? 'Discovery-besök' : lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'de' ? '1–2 Tage' : lang === 'sv' ? '1–2 dagar' : lang === 'sq' ? '1–2 ditë' : '1–2 days', ideal: lang === 'de' ? 'Erste Erkundung' : lang === 'sv' ? 'Första utforskning' : lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'de' ? ['Bedarfsanalyse (Call)', '2–3 Meetings', 'Briefing & Nachbericht'] : lang === 'sv' ? ['Behovsanalys', '2–3 möten', 'Briefing & rapport'] : lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
+    { ic: '🤝', col: G.gold, highlight: true, price: { de: 'ab €790', en: 'from €790', sq: 'nga €790', sv: 'från €790' }, name: lang === 'de' ? 'Business Visit' : lang === 'sv' ? 'Business-besök' : lang === 'sq' ? 'Vizita Biznesi' : 'Business Visit', dur: lang === 'de' ? '2–3 Tage' : lang === 'sv' ? '2–3 dagar' : lang === 'sq' ? '2–3 ditë' : '2–3 days', ideal: lang === 'de' ? 'Konkretes Projekt' : lang === 'sv' ? 'Konkret projekt' : lang === 'sq' ? 'Projekt konkret' : 'Concrete project', inc: lang === 'de' ? ['Alles aus Discovery', '4–6 Meetings', 'Hotel & Transfer', 'Networking-Abend'] : lang === 'sv' ? ['Allt i Discovery', '4–6 möten', 'Hotell & transfer', 'Nätverkskväll'] : lang === 'sq' ? ['Gjithçka nga Discovery', '4–6 takime', 'Hotel & transport', 'Mbrëmje rrjetëzimi'] : ['Everything in Discovery', '4–6 meetings', 'Hotel & transfer', 'Networking evening'] },
+    { ic: '🏛️', col: '#a78bfa', price: { de: 'ab €1.490', en: 'from €1,490', sq: 'nga €1.490', sv: 'från €1 490' }, name: lang === 'de' ? 'Executive Visit' : lang === 'sv' ? 'Executive-besök' : lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'de' ? '3–5 Tage' : lang === 'sv' ? '3–5 dagar' : lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'de' ? 'Firmengründung / Investition' : lang === 'sv' ? 'Bolagsbildning / Investering' : lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'de' ? ['Alles aus Business Visit', 'Ministeriumstermin', 'Partner-Dinner', 'Rechtliche Erstberatung'] : lang === 'sv' ? ['Allt i Business-besök', 'Myndighetsmöte', 'Partner-middag', 'Juridisk rådgivning'] : lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
   ]
 
   return (
@@ -1024,8 +1413,13 @@ function ConciergePage({ lang, t }) {
                 onMouseLeave={e => { e.currentTarget.style.transform = '' }}>
                 {pkg.highlight && <div style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', background: G.gold, color: '#080c14', borderRadius: 100, padding: '3px 14px', fontSize: 10, fontWeight: 700, fontFamily: "'Syne',sans-serif", whiteSpace: 'nowrap' }}>⭐ POPULAR</div>}
                 <div style={{ fontSize: 26, marginBottom: 8 }}>{pkg.ic}</div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16, marginBottom: 2 }}>{pkg.name}</div>
-                <div style={{ fontSize: 11, color: G.muted, marginBottom: 13 }}>⏱ {pkg.dur} · {pkg.ideal}</div>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16, marginBottom: 4 }}>{pkg.name}</div>
+                {/* Price */}
+                <div style={{ marginBottom: 6 }}>
+                  <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 26, color: pkg.highlight ? G.gold : pkg.col }}>{pkg.price[lang] || pkg.price.en}</span>
+                </div>
+                <div style={{ fontSize: 11, color: G.muted, marginBottom: 2 }}>⏱ {pkg.dur}</div>
+                <div style={{ fontSize: 11, color: G.muted, marginBottom: 13, fontStyle: 'italic' }}>{pkg.ideal}</div>
                 <div style={{ borderTop: `1px solid ${G.border}`, paddingTop: 10, marginBottom: 14 }}>
                   {pkg.inc.map(item => (
                     <div key={item} style={{ display: 'flex', gap: 7, marginBottom: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.75)' }}>
@@ -1037,6 +1431,9 @@ function ConciergePage({ lang, t }) {
               </div>
             ))}
           </div>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, marginTop: 12, fontStyle: 'italic' }}>
+            {lang === 'de' ? '* Preise sind Richtwerte. Der finale Preis wird gemeinsam vereinbart — abhängig von Umfang, Teilnehmern und gewünschten Leistungen.' : lang === 'sv' ? '* Priser är riktpriser. Det slutliga priset överenskommes gemensamt.' : lang === 'sq' ? '* Çmimet janë orientuese. Çmimi final bien dakord bashkërisht.' : '* Prices are indicative. The final price is agreed together based on scope and requirements.'}
+          </p>
         </div>
 
         {/* ── HOW IT WORKS ── */}
@@ -1057,7 +1454,10 @@ function ConciergePage({ lang, t }) {
 
         {/* ── SALES TEAM ── */}
         <div style={{ marginBottom: 48 }}>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concSpTitle}</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
+            <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21 }}>{t.concSpTitle}</h2>
+            <span style={{ background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 6, padding: '3px 10px', fontSize: 12, color: G.teal, fontFamily: "'Syne',sans-serif", fontWeight: 700 }}>rootsGTM</span>
+          </div>
           <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concSpSub}</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(290px,1fr))', gap: 13 }}>
             {SALES_PEOPLE.map((sp, i) => (
@@ -1218,16 +1618,711 @@ function GovPage({ lang, t }) {
   )
 }
 
+
+// ─── TAG SUGGESTIONS PER CATEGORY ────────────────────────────────────────────
+const TAG_SUGGESTIONS = {
+  software:   ['React','Vue','Angular','Next.js','TypeScript','JavaScript','Node.js','Python','Django','PHP','Java','DevOps','Kubernetes','AWS','Azure','Docker','Mobile','React Native','Flutter','PostgreSQL','MongoDB','GraphQL','REST API','Microservices','CI/CD'],
+  support:    ['Helpdesk','ITIL v4','24/7','Windows','CompTIA A+','ServiceNow','Zendesk','Remote Support','Network','Linux','VPN','Microsoft 365','Active Directory'],
+  consulting: ['Agile','Scrum','PMP','SAP','ERP','Change Management','Business Analysis','Digitalisierung','IT-Strategy','PMO','PRINCE2','Six Sigma'],
+  design:     ['Figma','UI/UX','Branding','Adobe XD','Illustrator','Photoshop','Motion','Video','Webflow','Brand Identity','Copywriting','UX Research'],
+  bpo:        ['Inbound','Outbound','CRM','Salesforce','HubSpot','Customer Service','Sales','Lead Generation','GDPR','Multi-language','German','English','Albanian','Swedish'],
+  production: ['CNC','ISO 9001','Lean','CAD','SolidWorks','Quality Control','Injection Moulding','Welding','Sheet Metal','Assembly','3D Printing'],
+  logistics:  ['Customs','Freight','EU Corridor','Warehouse','Cold Chain','Tracking','Import/Export','Last Mile','3PL','DHL','FedEx'],
+  legal:      ['Commercial Law','Corporate Law','Foreign Investment','Contracts','IP','Compliance','Tax Law','Employment Law','Kosovo Law','EU Law'],
+}
+
+// ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
+function SmartRegForm({ lang, t, regType, onDone }) {
+  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', employees: '', desc: '', customTag: '' })
+  const [selectedTags, setSelectedTags] = React.useState([])
+  const [catChoice, setCatChoice] = React.useState('software')
+  const f = (k, v) => setForm(p => ({ ...p, [k]: v }))
+
+  const toggleTag = tag => setSelectedTags(p => p.includes(tag) ? p.filter(x => x !== tag) : [...p, tag])
+
+  const addCustomTag = () => {
+    const tag = form.customTag.trim()
+    if (tag && !selectedTags.includes(tag)) {
+      setSelectedTags(p => [...p, tag])
+      f('customTag', '')
+    }
+  }
+
+  const suggestions = TAG_SUGGESTIONS[catChoice] || []
+
+  const L = {
+    de: { cat: 'Branche', name: 'Name / Firma *', city: 'Stadt *', email: 'E-Mail *', website: 'Website', employees: 'Mitarbeiteranzahl', desc: 'Kurzbeschreibung', descPH: 'Was bieten Sie an? Besondere Erfahrungen, Kundenprojekte, USP…', tagSuggest: 'Vorgeschlagene Skills / Tags', tagCustom: 'Eigenen Tag hinzufügen', tagCustomPH: 'z.B. Cybersecurity', tagAdd: '+ Hinzufügen', tagSelected: 'Ausgewählte Tags', availNote: '💬 Verfügbarkeit & Kapazität werden direkt per Anfrage kommuniziert.', send: 'Eintrag absenden ✓', empOpts: ['1–5','6–10','11–20','21–50','51–100','100+'] },
+    en: { cat: 'Sector', name: 'Name / Company *', city: 'City *', email: 'E-mail *', website: 'Website', employees: 'Number of employees', desc: 'Short description', descPH: 'What do you offer? Special experience, client projects, USP…', tagSuggest: 'Suggested skills / tags', tagCustom: 'Add custom tag', tagCustomPH: 'e.g. Cybersecurity', tagAdd: '+ Add', tagSelected: 'Selected tags', availNote: '💬 Availability & capacity communicated directly on request.', send: 'Submit listing ✓', empOpts: ['1–5','6–10','11–20','21–50','51–100','100+'] },
+    sq: { cat: 'Sektori', name: 'Emri / Kompania *', city: 'Qyteti *', email: 'E-mail *', website: 'Faqja web', employees: 'Numri i punonjësve', desc: 'Përshkrim i shkurtër', descPH: 'Çfarë ofroni? Eksperiencë, projekte, avantazhet tuaja…', tagSuggest: 'Aftësi / Tags të sugjeruara', tagCustom: 'Shto tag të personalizuar', tagCustomPH: 'p.sh. Cybersecurity', tagAdd: '+ Shto', tagSelected: 'Tags të zgjedhura', availNote: '💬 Disponueshmëria komunikohet drejtpërdrejt me kërkesë.', send: 'Dërgo ✓', empOpts: ['1–5','6–10','11–20','21–50','51–100','100+'] },
+    sv: { cat: 'Bransch', name: 'Namn / Företag *', city: 'Stad *', email: 'E-post *', website: 'Webbplats', employees: 'Antal anställda', desc: 'Kort beskrivning', descPH: 'Vad erbjuder du? Erfarenhet, projekt, USP…', tagSuggest: 'Föreslagna kompetenser / taggar', tagCustom: 'Lägg till egen tagg', tagCustomPH: 't.ex. Cybersecurity', tagAdd: '+ Lägg till', tagSelected: 'Valda taggar', availNote: '💬 Tillgänglighet kommuniceras direkt på förfrågan.', send: 'Skicka ✓', empOpts: ['1–5','6–10','11–20','21–50','100+'] },
+  }
+  const Lr = L[lang] || L.en
+  const isFL = regType === t.regFL
+
+  return (
+    <div>
+      {/* Sector for tag suggestions */}
+      <div style={{ marginBottom: 14 }}>
+        <label className="flabel">{Lr.cat}</label>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
+          {CATS.map(c => (
+            <button key={c.id} onClick={() => { setCatChoice(c.id); setSelectedTags([]) }} className="btn"
+              style={{ padding: '5px 12px', fontSize: 11, fontWeight: 600, borderRadius: 16,
+                background: catChoice === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)',
+                color: catChoice === c.id ? c.color : G.muted,
+                border: `1px solid ${catChoice === c.id ? `${c.color}40` : 'rgba(255,255,255,0.07)'}` }}>
+              {c.icon} {c.labels[lang]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Basic info */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 11 }}>
+        <div><label className="flabel">{Lr.name}</label><input className="inp" value={form.name} onChange={e => f('name', e.target.value)} /></div>
+        <div><label className="flabel">{Lr.city}</label><input className="inp" value={form.city} onChange={e => f('city', e.target.value)} placeholder="Pristina" /></div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 11 }}>
+        <div><label className="flabel">{Lr.email}</label><input className="inp" value={form.email} onChange={e => f('email', e.target.value)} /></div>
+        <div><label className="flabel">{Lr.website}</label><input className="inp" value={form.website} onChange={e => f('website', e.target.value)} placeholder="techfirma.com" /></div>
+      </div>
+      {!isFL && (
+        <div style={{ marginBottom: 11 }}>
+          <label className="flabel">{Lr.employees}</label>
+          <select className="inp" value={form.employees} onChange={e => f('employees', e.target.value)}>
+            <option value="">—</option>
+            {Lr.empOpts.map(o => <option key={o} value={o}>{o}</option>)}
+          </select>
+        </div>
+      )}
+      <div style={{ marginBottom: 16 }}>
+        <label className="flabel">{Lr.desc}</label>
+        <textarea className="inp" rows={3} style={{ resize: 'vertical' }} value={form.desc} onChange={e => f('desc', e.target.value)} placeholder={Lr.descPH} />
+      </div>
+
+      {/* Tag suggestions */}
+      <div style={{ marginBottom: 16 }}>
+        <label className="flabel">{Lr.tagSuggest}</label>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 7, maxHeight: 110, overflowY: 'auto' }}>
+          {suggestions.map(tag => {
+            const on = selectedTags.includes(tag)
+            return (
+              <button key={tag} onClick={() => toggleTag(tag)} className="btn" style={{ padding: '4px 11px', fontSize: 11, fontWeight: on ? 700 : 500, borderRadius: 14,
+                background: on ? 'rgba(45,212,191,0.15)' : 'rgba(255,255,255,0.04)',
+                color: on ? G.teal : G.muted,
+                border: `1px solid ${on ? 'rgba(45,212,191,0.4)' : 'rgba(255,255,255,0.07)'}` }}>
+                {on ? '✓ ' : ''}{tag}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Custom tag input */}
+      <div style={{ marginBottom: 16 }}>
+        <label className="flabel">{Lr.tagCustom}</label>
+        <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+          <input className="inp" style={{ flex: 1 }} value={form.customTag} onChange={e => f('customTag', e.target.value)}
+            placeholder={Lr.tagCustomPH}
+            onKeyDown={e => e.key === 'Enter' && addCustomTag()} />
+          <button className="btn ghost" style={{ whiteSpace: 'nowrap', padding: '9px 14px', fontSize: 12 }} onClick={addCustomTag}>{Lr.tagAdd}</button>
+        </div>
+      </div>
+
+      {/* Selected tags summary */}
+      {selectedTags.length > 0 && (
+        <div style={{ marginBottom: 16, background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.2)', borderRadius: 9, padding: '10px 14px' }}>
+          <div style={{ fontSize: 10, color: G.teal, fontWeight: 700, marginBottom: 7, letterSpacing: '0.5px', textTransform: 'uppercase' }}>{Lr.tagSelected}</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+            {selectedTags.map(tag => (
+              <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11, background: 'rgba(45,212,191,0.15)', color: G.teal, border: '1px solid rgba(45,212,191,0.35)', borderRadius: 5, padding: '2px 8px', fontWeight: 600 }}>
+                {tag}
+                <span style={{ cursor: 'pointer', opacity: 0.6 }} onClick={() => toggleTag(tag)}>✕</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Availability note */}
+      <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 9, padding: '10px 14px', marginBottom: 18, fontSize: 13, fontFamily: "'DM Sans',sans-serif", color: G.muted }}>
+        {Lr.availNote}
+      </div>
+
+      <button className="btn gbtn" style={{ width: '100%' }} disabled={!form.name || !form.email} onClick={onDone}>
+        {Lr.send}
+      </button>
+    </div>
+  )
+}
+
+// ─── ADMIN PAGE ──────────────────────────────────────────────────────────────
+const ADMIN_PASSWORD = 'techgate2025admin' // change before production
+
+// Simulated pending queue — in production this lives in Supabase
+// ─── SELF-SERVICE PROFILE EDIT MODAL ─────────────────────────────────────────
+// Flow: enter email → get 6-digit code → verify → fill changes → submitted for admin approval
+function SelfEditModal({ profile, lang, t, onClose }) {
+  const [step, setStep] = React.useState('email')   // email → code → form → done
+  const [email, setEmail] = React.useState('')
+  const [code, setCode] = React.useState('')
+  const [codeError, setCodeError] = React.useState(false)
+  const DEMO_CODE = '123456' // in production: sent via Supabase email
+  const [form, setForm] = React.useState({
+    name: profile.name,
+    city: profile.city,
+    contact: profile.contact || '',
+    website: profile.website || '',
+    desc: profile.desc?.[lang] || profile.desc?.en || '',
+    tags: profile.tags.join(', '),
+  })
+  const f = (k,v) => setForm(p => ({...p,[k]:v}))
+
+  const L = {
+    de: {
+      title: 'Profil bearbeiten',
+      step1h: 'E-Mail bestätigen',
+      step1sub: 'Geben Sie die E-Mail-Adresse Ihres Profils ein. Sie erhalten einen 6-stelligen Code.',
+      emailLabel: 'Profil-E-Mail *',
+      sendCode: 'Code senden',
+      step2h: 'Code eingeben',
+      step2sub: `Ein 6-stelliger Code wurde an ${email} gesendet.`,
+      step2demo: '(Demo: Code ist 123456)',
+      codeLabel: 'Sicherheitscode',
+      verifyCode: 'Code bestätigen',
+      codeErr: 'Falscher Code. Bitte erneut versuchen.',
+      step3h: 'Änderungen eingeben',
+      step3sub: 'Ihre Änderungen werden dem Admin zur Genehmigung vorgelegt — erst dann gehen sie live.',
+      nameLabel: 'Name / Firma', cityLabel: 'Stadt', contactLabel: 'E-Mail / Kontakt',
+      websiteLabel: 'Website', descLabel: 'Beschreibung', tagsLabel: 'Skills / Tags',
+      submitBtn: 'Zur Genehmigung einreichen ✓',
+      step4h: 'Eingereicht!',
+      step4sub: 'Ihre Änderungen werden vom Admin geprüft. Sie werden per E-Mail informiert sobald das Profil aktualisiert wurde.',
+      pendingNote: '⏳ Ausstehend — noch nicht live',
+      close: 'Schließen',
+    },
+    en: {
+      title: 'Edit profile',
+      step1h: 'Confirm your email',
+      step1sub: 'Enter the email address of your profile. You\'ll receive a 6-digit code.',
+      emailLabel: 'Profile email *',
+      sendCode: 'Send code',
+      step2h: 'Enter code',
+      step2sub: `A 6-digit code was sent to ${email}.`,
+      step2demo: '(Demo: code is 123456)',
+      codeLabel: 'Security code',
+      verifyCode: 'Confirm code',
+      codeErr: 'Wrong code. Please try again.',
+      step3h: 'Enter your changes',
+      step3sub: 'Your changes will be submitted to the admin for approval — only then will they go live.',
+      nameLabel: 'Name / Company', cityLabel: 'City', contactLabel: 'Email / Contact',
+      websiteLabel: 'Website', descLabel: 'Description', tagsLabel: 'Skills / Tags',
+      submitBtn: 'Submit for approval ✓',
+      step4h: 'Submitted!',
+      step4sub: 'Your changes are being reviewed by the admin. You\'ll be notified by email once your profile has been updated.',
+      pendingNote: '⏳ Pending — not yet live',
+      close: 'Close',
+    },
+    sq: {
+      title: 'Ndrysho profilin',
+      step1h: 'Konfirmo e-mailin',
+      step1sub: 'Shkruaj e-mailin e profilit tënd. Do të marrësh një kod 6-shifror.',
+      emailLabel: 'E-mail i profilit *',
+      sendCode: 'Dërgo kodin',
+      step2h: 'Shkruaj kodin',
+      step2sub: `Një kod 6-shifror u dërgua te ${email}.`,
+      step2demo: '(Demo: kodi është 123456)',
+      codeLabel: 'Kodi i sigurisë',
+      verifyCode: 'Konfirmo kodin',
+      codeErr: 'Kod i gabuar. Provo përsëri.',
+      step3h: 'Shkruaj ndryshimet',
+      step3sub: 'Ndryshimet tuaja do t\'i dërgohen administratorit për miratim — vetëm pas tij do të jenë live.',
+      nameLabel: 'Emri / Kompania', cityLabel: 'Qyteti', contactLabel: 'E-mail / Kontakti',
+      websiteLabel: 'Faqja web', descLabel: 'Përshkrim', tagsLabel: 'Aftësi / Tags',
+      submitBtn: 'Dërgo për miratim ✓',
+      step4h: 'U dërgua!',
+      step4sub: 'Ndryshimet tuaja po shqyrtohen nga administratori. Do të njoftoheni me e-mail kur profili të azhurnohet.',
+      pendingNote: '⏳ Në pritje — ende jo live',
+      close: 'Mbyll',
+    },
+    sv: {
+      title: 'Redigera profil',
+      step1h: 'Bekräfta e-post',
+      step1sub: 'Ange e-postadressen för din profil. Du får en 6-siffrig kod.',
+      emailLabel: 'Profil-e-post *',
+      sendCode: 'Skicka kod',
+      step2h: 'Ange kod',
+      step2sub: `En 6-siffrig kod skickades till ${email}.`,
+      step2demo: '(Demo: koden är 123456)',
+      codeLabel: 'Säkerhetskod',
+      verifyCode: 'Bekräfta kod',
+      codeErr: 'Fel kod. Försök igen.',
+      step3h: 'Ange dina ändringar',
+      step3sub: 'Dina ändringar skickas till admins för godkännande — först då blir de live.',
+      nameLabel: 'Namn / Företag', cityLabel: 'Stad', contactLabel: 'E-post / Kontakt',
+      websiteLabel: 'Webbplats', descLabel: 'Beskrivning', tagsLabel: 'Kompetenser / Taggar',
+      submitBtn: 'Skicka för godkännande ✓',
+      step4h: 'Inskickad!',
+      step4sub: 'Dina ändringar granskas av admins. Du meddelas via e-post när profilen uppdaterats.',
+      pendingNote: '⏳ Väntar — inte live ännu',
+      close: 'Stäng',
+    },
+  }
+  const Ls = L[lang] || L.en
+
+  // Step indicator
+  const STEPS = ['email','code','form','done']
+  const stepIdx = STEPS.indexOf(step)
+
+  return (
+    <div className="modal-bg fi" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal su" style={{ maxWidth: 500 }}>
+
+        {/* Header */}
+        <div style={{ display:'flex', justifyContent:'space-between', marginBottom:18 }}>
+          <div>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:19 }}>{Ls.title}: {profile.name}</div>
+            <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>TechGate Kosovo</div>
+          </div>
+          <button onClick={onClose} className="btn ghost" style={{ padding:'5px 10px', fontSize:15, alignSelf:'flex-start' }}>✕</button>
+        </div>
+
+        {/* Step progress */}
+        {step !== 'done' && (
+          <div style={{ display:'flex', gap:6, marginBottom:20 }}>
+            {['1','2','3'].map((n,i) => (
+              <div key={n} style={{ flex:1, height:3, borderRadius:2, background: i < stepIdx ? G.teal : i === stepIdx ? G.gold : 'rgba(255,255,255,0.1)' }} />
+            ))}
+          </div>
+        )}
+
+        {/* ── STEP 1: Email ─────────────────────────────────────────────── */}
+        {step === 'email' && (
+          <>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step1h}</div>
+            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:16 }}>{Ls.step1sub}</p>
+            <div style={{ marginBottom:18 }}>
+              <label className="flabel">{Ls.emailLabel}</label>
+              <input className="inp" type="email" value={email} onChange={e => setEmail(e.target.value)}
+                placeholder={profile.contact || 'name@firma.com'}
+                onKeyDown={e => e.key==='Enter' && email && setStep('code')} />
+            </div>
+            <button className="btn gbtn" style={{ width:'100%' }} disabled={!email} onClick={() => setStep('code')}>
+              {Ls.sendCode}
+            </button>
+          </>
+        )}
+
+        {/* ── STEP 2: Code ──────────────────────────────────────────────── */}
+        {step === 'code' && (
+          <>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step2h}</div>
+            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:6 }}>{Ls.step2sub}</p>
+            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:11, color:G.gold, marginBottom:18 }}>{Ls.step2demo}</p>
+            <div style={{ marginBottom:10 }}>
+              <label className="flabel">{Ls.codeLabel}</label>
+              <input className="inp" value={code} onChange={e => { setCode(e.target.value); setCodeError(false) }}
+                placeholder="123456" maxLength={6} style={{ fontSize:22, letterSpacing:6, textAlign:'center' }}
+                onKeyDown={e => e.key==='Enter' && verifyCode()} />
+            </div>
+            {codeError && <div style={{ fontSize:12, color:G.red, marginBottom:10, fontFamily:"'DM Sans',sans-serif" }}>⚠️ {Ls.codeErr}</div>}
+            <button className="btn gbtn" style={{ width:'100%' }} disabled={code.length < 6}
+              onClick={() => { if (code === DEMO_CODE) setStep('form'); else setCodeError(true) }}>
+              {Ls.verifyCode}
+            </button>
+          </>
+        )}
+
+        {/* ── STEP 3: Form ──────────────────────────────────────────────── */}
+        {step === 'form' && (
+          <>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step3h}</div>
+            <div style={{ background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.22)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.teal }}>
+              🔐 {lang==='de'?'Code verifiziert':lang==='sv'?'Kod verifierad':lang==='sq'?'Kodi u verifikua':'Code verified'}
+              <span style={{ color:G.muted, marginLeft:8 }}>— {Ls.step3sub}</span>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">{Ls.nameLabel}</label><input className="inp" value={form.name} onChange={e => f('name',e.target.value)} /></div>
+              <div><label className="flabel">{Ls.cityLabel}</label><input className="inp" value={form.city} onChange={e => f('city',e.target.value)} /></div>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">{Ls.contactLabel}</label><input className="inp" value={form.contact} onChange={e => f('contact',e.target.value)} /></div>
+              <div><label className="flabel">{Ls.websiteLabel}</label><input className="inp" value={form.website} onChange={e => f('website',e.target.value)} placeholder="firma.com" /></div>
+            </div>
+            <div style={{ marginBottom:10 }}><label className="flabel">{Ls.descLabel}</label><textarea className="inp" rows={3} style={{ resize:'vertical' }} value={form.desc} onChange={e => f('desc',e.target.value)} /></div>
+            <div style={{ marginBottom:18 }}><label className="flabel">{Ls.tagsLabel}</label><input className="inp" value={form.tags} onChange={e => f('tags',e.target.value)} placeholder="React, Node.js, TypeScript…" /></div>
+            {/* Pending warning */}
+            <div style={{ background:G.goldDim, border:`1px solid ${G.goldBorder}`, borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.muted }}>
+              ℹ️ {lang==='de'?'Ihre Änderungen werden vom Admin geprüft und freigeschaltet — nicht sofort live.':lang==='sv'?'Dina ändringar granskas av admin och aktiveras — inte omedelbart live.':lang==='sq'?'Ndryshimet tuaja shqyrtohen nga admin — jo menjëherë live.':'Your changes will be reviewed by admin — not immediately live.'}
+            </div>
+            <button className="btn gbtn" style={{ width:'100%' }} disabled={!form.name} onClick={() => setStep('done')}>
+              {Ls.submitBtn}
+            </button>
+          </>
+        )}
+
+        {/* ── STEP 4: Done ──────────────────────────────────────────────── */}
+        {step === 'done' && (
+          <div style={{ textAlign:'center', padding:'16px 0' }}>
+            <div style={{ fontSize:50, marginBottom:14 }}>📬</div>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:21, marginBottom:10 }}>{Ls.step4h}</div>
+            <p style={{ fontFamily:"'DM Sans',sans-serif", color:G.muted, fontSize:14, lineHeight:1.75, marginBottom:16 }}>{Ls.step4sub}</p>
+            <div style={{ background:G.goldDim, border:`1px solid ${G.goldBorder}`, borderRadius:9, padding:'10px 14px', marginBottom:20, fontSize:13, color:G.gold }}>
+              {Ls.pendingNote}
+            </div>
+            <button className="btn gbtn" style={{ width:'100%' }} onClick={onClose}>{Ls.close}</button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+const INITIAL_PENDING = [
+  { id:'chg_001', profileId:'c1', profileName:'AlbaCode GmbH', submittedAt:'2025-05-14 09:22', codeVerified:true,
+    changes:{ tags:['React','Node.js','TypeScript','Cybersecurity','Mobile'], desc:{de:'Full-Stack & Security-Consulting.',en:'Full-stack & security consulting.',sq:'Full-stack dhe konsulencë sigurie.',sv:'Full-stack och säkerhetskonsulting.'} },
+    original:{ tags:['React','Node.js','TypeScript','Mobile'], desc:{de:'Full-Stack Entwicklung & Mobile Apps.',en:'Full-stack development & mobile apps.',sq:'Zhvillim full-stack.',sv:'Full-stack och mobilappar.'} } }
+]
+
+function AdminPage({ onExit, lang }) {
+  const [pw, setPw] = React.useState('')
+  const [authed, setAuthed] = React.useState(false)
+  const [authFail, setAuthFail] = React.useState(false)
+  const [tab, setTab] = React.useState('profiles') // 'profiles' | 'pending'
+  const [editProfile, setEditProfile] = React.useState(null)
+  const [editForm, setEditForm] = React.useState({})
+  const [profiles, setProfiles] = React.useState(PROFILES)
+  const [pending, setPending] = React.useState(INITIAL_PENDING)
+  const [diffView, setDiffView] = React.useState(null)
+
+  const login = () => {
+    if (pw === ADMIN_PASSWORD) { setAuthed(true); setAuthFail(false) }
+    else { setAuthFail(true) }
+  }
+
+  const openEdit = p => {
+    setEditProfile(p)
+    setEditForm({ name: p.name, city: p.city, contact: p.contact, tags: p.tags.join(', '), tier: p.tier })
+  }
+
+  const saveEdit = () => {
+    setProfiles(ps => ps.map(x => x.id === editProfile.id
+      ? { ...x, ...editForm, tags: editForm.tags.split(',').map(s => s.trim()).filter(Boolean) }
+      : x))
+    setEditProfile(null)
+  }
+
+  const approvePending = chg => {
+    setProfiles(ps => ps.map(p => p.id === chg.profileId ? { ...p, ...chg.changes } : p))
+    setPending(ps => ps.filter(x => x.id !== chg.id))
+  }
+
+  const rejectPending = id => setPending(ps => ps.filter(x => x.id !== id))
+
+  const L = {
+    de: {
+      loginTitle:'Admin-Zugang', pwLabel:'Passwort', loginBtn:'Anmelden', fail:'Falsches Passwort',
+      adminTitle:'🔧 Admin-Panel', exitAdmin:'Admin verlassen', back:'← Zurück',
+      tabProfiles:'Profile', tabPending:'Ausstehende Änderungen',
+      total:'Einträge', verified:'Verifiziert', pendingCount:'Änderungen offen',
+      verifyBtn:'✓ Verifizieren', editBtn:'Bearbeiten', deleteBtn:'🗑',
+      editTitle:'Profil bearbeiten', saveBtn:'Speichern ✓', cancelBtn:'Abbrechen',
+      pendingTitle:'Ausstehende Profil-Änderungen',
+      pendingSub:'Diese Änderungen wurden vom Profilinhaber beantragt und per Code verifiziert — noch nicht live.',
+      codeVerified:'✓ Code verifiziert', submittedAt:'Eingereicht am',
+      changesLabel:'Beantragte Änderungen', originalLabel:'Aktuell live',
+      approveBtn:'✓ Genehmigen → Live schalten', rejectBtn:'✕ Ablehnen',
+      noPending:'Keine ausstehenden Änderungen.',
+      tagsLabel:'Tags', descLabel:'Beschreibung',
+      approveNote:'Änderung wird sofort live. Nicht rückgängig zu machen ohne erneute Bearbeitung.',
+    },
+    en: {
+      loginTitle:'Admin Access', pwLabel:'Password', loginBtn:'Login', fail:'Wrong password',
+      adminTitle:'🔧 Admin Panel', exitAdmin:'Exit admin', back:'← Back',
+      tabProfiles:'Profiles', tabPending:'Pending changes',
+      total:'Listings', verified:'Verified', pendingCount:'Changes pending',
+      verifyBtn:'✓ Verify', editBtn:'Edit', deleteBtn:'🗑',
+      editTitle:'Edit profile', saveBtn:'Save ✓', cancelBtn:'Cancel',
+      pendingTitle:'Pending profile changes',
+      pendingSub:'These changes were requested by the profile owner and verified by code — not yet live.',
+      codeVerified:'✓ Code verified', submittedAt:'Submitted at',
+      changesLabel:'Requested changes', originalLabel:'Currently live',
+      approveBtn:'✓ Approve → Go live', rejectBtn:'✕ Reject',
+      noPending:'No pending changes.',
+      tagsLabel:'Tags', descLabel:'Description',
+      approveNote:'Change goes live immediately. Cannot be undone without manual edit.',
+    },
+  }
+  const La = L[lang] || L.en
+
+  // ── Login screen ────────────────────────────────────────────────────────────
+  if (!authed) return (
+    <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:G.bg }}>
+      <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:18, padding:38, width:360, textAlign:'center' }}>
+        <div style={{ fontSize:36, marginBottom:14 }}>🔒</div>
+        <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:22, marginBottom:6 }}>{La.loginTitle}</div>
+        <div style={{ fontSize:12, color:G.muted, marginBottom:22, fontFamily:"'DM Sans',sans-serif" }}>TechGate Kosovo</div>
+        <input className="inp" type="password" value={pw} onChange={e => setPw(e.target.value)}
+          placeholder={La.pwLabel} style={{ marginBottom:10, textAlign:'center' }}
+          onKeyDown={e => e.key==='Enter' && login()} />
+        {authFail && <div style={{ fontSize:12, color:G.red, marginBottom:8 }}>⚠️ {La.fail}</div>}
+        <button className="btn gbtn" style={{ width:'100%' }} onClick={login}>{La.loginBtn}</button>
+        <button className="btn ghost" style={{ width:'100%', marginTop:10 }} onClick={onExit}>{La.back}</button>
+      </div>
+    </div>
+  )
+
+  const stats = {
+    total: profiles.length,
+    verified: profiles.filter(p => p.verified).length,
+    pendingCount: pending.length,
+  }
+
+  // ── Main admin UI ────────────────────────────────────────────────────────────
+  return (
+    <div style={{ fontFamily:"'DM Sans',sans-serif", background:G.bg, minHeight:'100vh', color:G.text, padding:'32px 44px' }}>
+      <style>{`* { box-sizing:border-box; }`}</style>
+
+      {/* Header */}
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:24 }}>
+        <div>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:24 }}>{La.adminTitle}</div>
+          <div style={{ fontSize:12, color:G.muted, marginTop:3 }}>TechGate Kosovo</div>
+        </div>
+        <button className="btn ghost" onClick={onExit}>{La.exitAdmin}</button>
+      </div>
+
+      {/* Stats */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12, marginBottom:24 }}>
+        {[[stats.total, La.total, G.blue],[stats.verified, La.verified, G.green],[stats.pendingCount, La.pendingCount, stats.pendingCount > 0 ? G.orange : G.muted]].map(([v,l,col]) => (
+          <div key={l} style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:12, padding:'16px 20px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:30, color:col }}>{v}</div>
+            <div style={{ fontSize:13, color:G.muted, marginTop:3 }}>{l}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Tabs */}
+      <div style={{ display:'flex', gap:8, marginBottom:20 }}>
+        {[['profiles', La.tabProfiles],['pending', `${La.tabPending}${pending.length > 0 ? ` (${pending.length})` : ''}`]].map(([v,l]) => (
+          <button key={v} onClick={() => setTab(v)} className="btn" style={{ padding:'9px 20px', fontSize:13, fontWeight:600,
+            background: tab===v ? G.goldDim : 'rgba(255,255,255,0.04)',
+            color: tab===v ? G.gold : G.muted,
+            border:`1px solid ${tab===v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>
+            {v==='pending' && pending.length > 0 && <span style={{ display:'inline-block', width:8, height:8, background:G.orange, borderRadius:'50%', marginRight:6 }} />}
+            {l}
+          </button>
+        ))}
+      </div>
+
+      {/* ── TAB: PROFILES ──────────────────────────────────────────────────── */}
+      {tab === 'profiles' && (
+        <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+          {profiles.map(p => (
+            <div key={p.id} style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:12, padding:'14px 18px', display:'flex', gap:12, alignItems:'center' }}>
+              <Logo text={p.logo} color={p.logoColor} size={38} />
+              <div style={{ flex:1 }}>
+                <div style={{ fontWeight:700, fontSize:14 }}>{p.name}</div>
+                <div style={{ fontSize:11, color:G.muted }}>📍 {p.city} · {p.type} · {p.cat}</div>
+                <div style={{ fontSize:11, color:G.blue, marginTop:1 }}>📧 {p.contact}</div>
+              </div>
+              <div style={{ display:'flex', gap:6, alignItems:'center', flexShrink:0 }}>
+                {p.verified
+                  ? <span style={{ fontSize:10, color:G.green, background:'rgba(52,199,89,0.1)', border:'1px solid rgba(52,199,89,0.2)', borderRadius:5, padding:'2px 8px' }}>✓ Verified</span>
+                  : <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.2)', borderRadius:5 }}
+                      onClick={() => setProfiles(ps => ps.map(x => x.id===p.id ? {...x,verified:true} : x))}>
+                      {La.verifyBtn}
+                    </button>
+                }
+                <span style={{ fontSize:10, background:p.tier==='sponsored'?'rgba(251,146,60,0.1)':p.tier==='premium'?G.goldDim:'rgba(255,255,255,0.04)', color:p.tier==='sponsored'?G.orange:p.tier==='premium'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?'rgba(251,146,60,0.3)':p.tier==='premium'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius:5, padding:'2px 8px' }}>
+                  {p.tier}
+                </span>
+                <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5 }}
+                  onClick={() => openEdit(p)}>
+                  {La.editBtn}
+                </button>
+                <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:'rgba(255,59,48,0.1)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:5 }}
+                  onClick={() => setProfiles(ps => ps.filter(x => x.id!==p.id))}>
+                  {La.deleteBtn}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── TAB: PENDING CHANGES ───────────────────────────────────────────── */}
+      {tab === 'pending' && (
+        <div>
+          <div style={{ marginBottom:16 }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17, marginBottom:5 }}>{La.pendingTitle}</div>
+            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65 }}>{La.pendingSub}</p>
+          </div>
+          {pending.length === 0 && (
+            <div style={{ textAlign:'center', padding:'48px 20px', color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>
+              <div style={{ fontSize:36, marginBottom:10 }}>✅</div>
+              {La.noPending}
+            </div>
+          )}
+          <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+            {pending.map(chg => (
+              <div key={chg.id} style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, overflow:'hidden' }}>
+                {/* Change header */}
+                <div style={{ padding:'14px 20px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                  <div>
+                    <div style={{ fontWeight:700, fontSize:15 }}>{chg.profileName}</div>
+                    <div style={{ fontSize:11, color:G.muted, marginTop:3 }}>
+                      {La.submittedAt}: {chg.submittedAt}
+                    </div>
+                  </div>
+                  <div style={{ display:'flex', gap:8, alignItems:'center' }}>
+                    {chg.codeVerified && (
+                      <span style={{ fontSize:11, background:'rgba(45,212,191,0.1)', color:G.teal, border:'1px solid rgba(45,212,191,0.25)', borderRadius:5, padding:'3px 9px', fontWeight:600 }}>
+                        🔐 {La.codeVerified}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Diff view */}
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:0 }}>
+                  {/* Current/Original */}
+                  <div style={{ padding:'16px 20px', borderRight:`1px solid ${G.border}` }}>
+                    <div style={{ fontSize:11, color:G.muted, fontWeight:700, marginBottom:10, letterSpacing:'0.5px', textTransform:'uppercase' }}>
+                      📋 {La.originalLabel}
+                    </div>
+                    <div style={{ marginBottom:8 }}>
+                      <div style={{ fontSize:10, color:G.muted, marginBottom:4 }}>{La.tagsLabel}</div>
+                      <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
+                        {chg.original.tags.map(tag => (
+                          <span key={tag} style={{ fontSize:11, background:'rgba(88,166,255,0.08)', color:'#8eb4d4', border:'1px solid rgba(88,166,255,0.15)', borderRadius:4, padding:'2px 7px' }}>{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                    {chg.original.desc && (
+                      <div>
+                        <div style={{ fontSize:10, color:G.muted, marginBottom:4 }}>{La.descLabel}</div>
+                        <p style={{ fontSize:12, color:G.muted, lineHeight:1.6 }}>{chg.original.desc[lang] || chg.original.desc.en}</p>
+                      </div>
+                    )}
+                  </div>
+                  {/* Proposed/New */}
+                  <div style={{ padding:'16px 20px', background:'rgba(45,212,191,0.03)' }}>
+                    <div style={{ fontSize:11, color:G.teal, fontWeight:700, marginBottom:10, letterSpacing:'0.5px', textTransform:'uppercase' }}>
+                      ✏️ {La.changesLabel}
+                    </div>
+                    <div style={{ marginBottom:8 }}>
+                      <div style={{ fontSize:10, color:G.muted, marginBottom:4 }}>{La.tagsLabel}</div>
+                      <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
+                        {chg.changes.tags.map(tag => {
+                          const isNew = !chg.original.tags.includes(tag)
+                          return (
+                            <span key={tag} style={{ fontSize:11, background: isNew ? 'rgba(45,212,191,0.15)' : 'rgba(88,166,255,0.08)', color: isNew ? G.teal : '#8eb4d4', border:`1px solid ${isNew ? 'rgba(45,212,191,0.35)' : 'rgba(88,166,255,0.15)'}`, borderRadius:4, padding:'2px 7px', fontWeight: isNew ? 700 : 400 }}>
+                              {isNew ? '+ ' : ''}{tag}
+                            </span>
+                          )
+                        })}
+                        {chg.original.tags.filter(t => !chg.changes.tags.includes(t)).map(tag => (
+                          <span key={tag} style={{ fontSize:11, background:'rgba(255,59,48,0.1)', color:G.red, border:'1px solid rgba(255,59,48,0.25)', borderRadius:4, padding:'2px 7px', textDecoration:'line-through' }}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    {chg.changes.desc && (
+                      <div>
+                        <div style={{ fontSize:10, color:G.muted, marginBottom:4 }}>{La.descLabel}</div>
+                        <p style={{ fontSize:12, color:'rgba(232,228,217,0.8)', lineHeight:1.6 }}>{chg.changes.desc[lang] || chg.changes.desc.en}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Approve / Reject */}
+                <div style={{ padding:'14px 20px', borderTop:`1px solid ${G.border}`, background:'rgba(255,255,255,0.01)' }}>
+                  <div style={{ fontSize:11, color:G.muted, marginBottom:10, fontFamily:"'DM Sans',sans-serif", fontStyle:'italic' }}>
+                    ⚠️ {La.approveNote}
+                  </div>
+                  <div style={{ display:'flex', gap:10 }}>
+                    <button className="btn gbtn" style={{ flex:1, padding:'10px' }} onClick={() => approvePending(chg)}>
+                      {La.approveBtn}
+                    </button>
+                    <button className="btn ghost" style={{ padding:'10px 18px', color:G.red, borderColor:'rgba(255,59,48,0.3)' }} onClick={() => rejectPending(chg.id)}>
+                      {La.rejectBtn}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── EDIT MODAL (admin direct edit) ─────────────────────────────────── */}
+      {editProfile && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.88)', zIndex:300, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }}>
+          <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:18, padding:30, maxWidth:500, width:'100%', maxHeight:'90vh', overflowY:'auto' }}>
+            <div style={{ display:'flex', justifyContent:'space-between', marginBottom:18 }}>
+              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18 }}>{La.editTitle}: {editProfile.name}</div>
+              <button onClick={() => setEditProfile(null)} className="btn ghost" style={{ padding:'5px 10px', fontSize:15 }}>✕</button>
+            </div>
+            <div style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:18, fontSize:12, color:G.teal }}>
+              🔧 {lang==='de' ? 'Admin-Direktbearbeitung — Änderungen gehen sofort live.' : 'Admin direct edit — changes go live immediately.'}
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">Name</label><input className="inp" value={editForm.name||''} onChange={e => setEditForm(f => ({...f,name:e.target.value}))} /></div>
+              <div><label className="flabel">City</label><input className="inp" value={editForm.city||''} onChange={e => setEditForm(f => ({...f,city:e.target.value}))} /></div>
+            </div>
+            <div style={{ marginBottom:10 }}><label className="flabel">Contact / Email</label><input className="inp" value={editForm.contact||''} onChange={e => setEditForm(f => ({...f,contact:e.target.value}))} /></div>
+            <div style={{ marginBottom:10 }}><label className="flabel">Tags (comma separated)</label><input className="inp" value={editForm.tags||''} onChange={e => setEditForm(f => ({...f,tags:e.target.value}))} /></div>
+            <div style={{ marginBottom:20 }}>
+              <label className="flabel">Tier</label>
+              <select className="inp" value={editForm.tier||'free'} onChange={e => setEditForm(f => ({...f,tier:e.target.value}))}>
+                <option value="free">Free</option>
+                <option value="premium">Premium ⭐</option>
+                <option value="sponsored">Sponsored 🚀</option>
+              </select>
+            </div>
+            <div style={{ display:'flex', gap:10 }}>
+              <button className="btn gbtn" style={{ flex:1 }} onClick={saveEdit}>{La.saveBtn}</button>
+              <button className="btn ghost" onClick={() => setEditProfile(null)}>{La.cancelBtn}</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
+
 export default function App() {
-  const [lang, setLang] = useState('de')
+  const [lang, setLang] = useState(() => {
+    // Auto-detect from browser locale
+    // de-DE / de-AT / de-CH → de
+    // sv-SE / sv             → sv
+    // sq / sq-AL / sq-XK    → sq  (Kosovo Albanian)
+    // everything else        → en
+    const loc = (navigator.language || navigator.languages?.[0] || 'en').toLowerCase()
+    if (loc.startsWith('de')) return 'de'
+    if (loc.startsWith('sv')) return 'sv'
+    if (loc.startsWith('sq') || loc === 'ks') return 'sq'
+    return 'en'
+  })
   const [page, setPage] = useState('home')
   const [showReg, setShowReg] = useState(false)
   const [regType, setRegType] = useState(null)
   const [regDone, setRegDone] = useState(false)
+  const [showAdmin, setShowAdmin] = useState(
+    // Secret admin URL: add ?admin to the URL
+    typeof window !== 'undefined' && window.location.search.includes('admin')
+  )
 
   const t = T[lang]
   const FLAGS = { de: '🇩🇪', en: '🇬🇧', sq: '🇽🇰', sv: '🇸🇪' }
+
+  // Show admin panel if triggered
+  if (showAdmin) return <AdminPage lang={lang} onExit={() => setShowAdmin(false)} />
 
   return (
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: G.bg, minHeight: '100vh', color: G.text }}>
@@ -1292,7 +2387,7 @@ export default function App() {
           <section style={{ padding: '44px 48px 0', maxWidth: 1200, margin: '0 auto' }}>
             <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 18 }}>{t.howTitle}</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 44 }}>
-              {[[G.blue, '🔍', t.f1t, t.f1d, 'directory'], [G.gold, '🤖', t.f2t, t.f2d, 'match'], [G.teal, '🤝', t.f3t, t.f3d, 'concierge']].map(([col, ic, title, desc, pg]) => (
+              {[[G.blue, '🔍', t.f1t, t.f1d, 'directory'], [G.gold, '🔎', t.f2t, t.f2d, 'match'], [G.teal, '🤝', t.f3t, t.f3d, 'concierge']].map(([col, ic, title, desc, pg]) => (
                 <div key={pg} className="card fu" style={{ padding: 24, cursor: 'pointer', background: col === G.teal ? 'rgba(45,212,191,0.04)' : G.card, border: `1px solid ${col === G.teal ? 'rgba(45,212,191,0.2)' : G.border}` }} onClick={() => setPage(pg)}>
                   <div style={{ fontSize: 26, marginBottom: 11 }}>{ic}</div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, color: col, marginBottom: 7 }}>{title}</div>
@@ -1365,14 +2460,7 @@ export default function App() {
                   </div>
                   <button onClick={() => setRegType(null)} className="btn ghost" style={{ padding: '5px 10px', fontSize: 15 }}>{t.back}</button>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 11 }}>
-                  <div><label className="flabel">{t.regName}</label><input className="inp" /></div>
-                  <div><label className="flabel">{t.regCity}</label><input className="inp" placeholder="Pristina" /></div>
-                </div>
-                <div style={{ marginBottom: 11 }}><label className="flabel">{t.regEmail}</label><input className="inp" /></div>
-                <div style={{ marginBottom: 11 }}><label className="flabel">{t.regDesc}</label><textarea className="inp" rows={3} style={{ resize: 'vertical' }} placeholder={t.regDescPH} /></div>
-                <div style={{ marginBottom: 18 }}><label className="flabel">{t.regTags}</label><input className="inp" placeholder={t.regTagsPH} /></div>
-                <button className="btn gbtn" style={{ width: '100%' }} onClick={() => setRegDone(true)}>{t.regSend}</button>
+                <SmartRegForm lang={lang} t={t} regType={regType} onDone={() => setRegDone(true)} />
               </>
             )}
           </div>
@@ -1392,7 +2480,13 @@ export default function App() {
       {/* ── FOOTER ── */}
       <footer style={{ borderTop: `1px solid ${G.border}`, padding: '16px 44px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, flexWrap: 'wrap', gap: 8 }}>
         <div>{t.footer}</div>
-        <div style={{ display: 'flex', gap: 16 }}>{t.footLinks.map(l => <span key={l} style={{ cursor: 'pointer' }}>{l}</span>)}</div>
+        <div style={{ display: 'flex', gap: 16 }}>
+          {t.footLinks.map(l => <span key={l} style={{ cursor: 'pointer' }}>{l}</span>)}
+          {/* Admin entry — invisible until hovered */}
+          <span onClick={() => setShowAdmin(true)} style={{ cursor: 'pointer', opacity: 0, transition: 'opacity 0.3s' }}
+            onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+            onMouseLeave={e => e.currentTarget.style.opacity = '0'}>⚙</span>
+        </div>
       </footer>
     </div>
   )
