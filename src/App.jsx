@@ -2093,6 +2093,35 @@ const INITIAL_PENDING = [
     original:{ tags:['React','Node.js','TypeScript','Mobile'], desc:{de:'Full-Stack Entwicklung & Mobile Apps.',en:'Full-stack development & mobile apps.',sq:'Zhvillim full-stack.',sv:'Full-stack och mobilappar.'} } }
 ]
 
+// ─── ADMIN PAGE ──────────────────────────────────────────────────────────────
+
+function AdminPage({ onExit, lang }) {
+  const [pw, setPw] = React.useState('')
+  const [authed, setAuthed] = React.useState(false)
+  const [authFail, setAuthFail] = React.useState(false)
+  const [tab, setTab] = React.useState('pending_profiles') // pending_profiles | profiles | pending_changes | settings
+  const [profiles, setProfiles] = React.useState([])
+  const [pending, setPending] = React.useState([])
+  const [loadingP, setLoadingP] = React.useState(false)
+  const [loadingC, setLoadingC] = React.useState(false)
+  const [saving, setSaving] = React.useState(false)
+  const [editProfile, setEditProfile] = React.useState(null)
+  const [editForm, setEditForm] = React.useState({})
+  const [newPw, setNewPw] = React.useState('')
+  const [newPwConfirm, setNewPwConfirm] = React.useState('')
+  const [pwChanged, setPwChanged] = React.useState(false)
+  const [notifEmail, setNotifEmail] = React.useState(
+    typeof localStorage !== 'undefined' ? (localStorage.getItem('tg_admin_email') || '') : ''
+  )
+  const [notifSaved, setNotifSaved] = React.useState(false)
+
+  const login = async () => {
+    if (pw === ADMIN_PASSWORD) {
+      setAuthed(true); setAuthFail(false)
+      loadData()
+    } else { setAuthFail(true) }
+  }
+
   const loadData = async () => {
     setLoadingP(true); setLoadingC(true)
     fetchAllProfilesAdmin().then(d => { setProfiles(d); setLoadingP(false) }).catch(() => setLoadingP(false))
