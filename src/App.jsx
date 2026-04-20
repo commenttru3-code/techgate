@@ -681,8 +681,9 @@ function UpgradeModal({ catId, t, lang, onClose }) {
   const [form, setForm] = useState({ name: '', email: '' })
 
   const used = useMemo(() => {
-    const sp = PROFILES.filter(p => p.cat === catId && p.tier === 'sponsored').length
-    const pr = PROFILES.filter(p => p.cat === catId && p.tier === 'premium').length
+    const src = window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : PROFILES
+    const sp = src.filter(p => p.cat === catId && p.tier === 'sponsored').length
+    const pr = src.filter(p => p.cat === catId && p.tier === 'premium').length
     return { sp, pr }
   }, [catId])
 
@@ -1020,28 +1021,35 @@ function MatchPage({ lang, t }) {
   const [category, setCategory] = useState('all')
   const [skills,   setSkills]   = useState([])
   const [typeF,    setTypeF]    = useState('all')
-  const [need,     setNeed]     = useState('')
   const [results,  setResults]  = useState(null)
-  const [loading,  setLoading]  = useState(false)
   const [contact,  setContact]  = useState(null)
-  const [extraTags, setExtraTags] = useState({})
+  const [dbProfiles, setDbProfiles] = useState([])
+  const [dbLoaded, setDbLoaded] = useState(false)
 
-  // Collect any tags from DB profiles not in hardcoded SKILL_SETS
+  // Load profiles directly from DB
   useEffect(() => {
-    const src = window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : PROFILES
-    const bycat = {}
-    src.forEach(p => {
-      if (!bycat[p.cat]) bycat[p.cat] = new Set()
-      ;(p.tags || []).forEach(tg => bycat[p.cat].add(tg))
-    })
-    const extra = {}
-    Object.entries(bycat).forEach(([cat, tagSet]) => {
-      const existing = SKILL_SETS[cat] || []
-      const newTags = [...tagSet].filter(tg => !existing.includes(tg))
-      if (newTags.length > 0) extra[cat] = newTags
-    })
-    setExtraTags(extra)
+    fetchProfiles().then(data => {
+      setDbProfiles(data)
+      setDbLoaded(true)
+      // Also update window cache for other components
+      if (data.length > 0) window.__techgateProfiles = data
+    }).catch(() => setDbLoaded(true))
   }, [])
+
+  const allProfiles = dbProfiles.length > 0 ? dbProfiles : (window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : [])
+
+  // Build dynamic skill lists from DB profile tags, merged with hardcoded SKILL_SETS
+  const dynamicSkills = useMemo(() => {
+    const merged = {}
+    CATS.forEach(cat => {
+      const base = new Set(SKILL_SETS[cat.id] || [])
+      allProfiles.filter(p => p.cat === cat.id).forEach(p => {
+        ;(p.tags || []).forEach(tg => base.add(tg))
+      })
+      merged[cat.id] = [...base]
+    })
+    return merged
+  }, [allProfiles])
 
   const LABELS = {
     de: {
@@ -1125,7 +1133,7 @@ function MatchPage({ lang, t }) {
 
   // Pure database filter + score — instant, free, no API
   const doMatch = () => {
-    const pool = PROFILES
+    const pool = allProfiles
       .filter(p => category === 'all' || p.cat === category)
       .filter(p => typeF === 'all' || p.type === typeF)
 
@@ -1706,7 +1714,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
 
   // Merge hardcoded suggestions with any extra tags from DB profiles
   const dbTags = React.useMemo(() => {
-    const src = window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : PROFILES
+    const src = window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : []
     const set = new Set()
     src.filter(p => p.cat === catChoice).forEach(p => (p.tags||[]).forEach(t => set.add(t)))
     return [...set].filter(t => !(TAG_SUGGESTIONS[catChoice]||[]).includes(t))
@@ -1825,8 +1833,6 @@ function SmartRegForm({ lang, t, regType, onDone }) {
 }
 
 // ─── ADMIN PAGE ──────────────────────────────────────────────────────────────
-const ADMIN_PASSWORD = 'techgate2025admin' // change before production
-
 // Simulated pending queue — in production this lives in Supabase
 // ─── SELF-SERVICE PROFILE EDIT MODAL ─────────────────────────────────────────
 // Flow: enter email → get 6-digit code → verify → fill changes → submitted for admin approval
@@ -2094,6 +2100,7 @@ const INITIAL_PENDING = [
 ]
 
 // ─── ADMIN PAGE ──────────────────────────────────────────────────────────────
+let ADMIN_PASSWORD = 'techgate2025admin'
 
 function AdminPage({ onExit, lang }) {
   const [pw, setPw] = React.useState('')
@@ -2470,75 +2477,114 @@ function AdminPage({ onExit, lang }) {
         </div>
       )}
 
-      {/* ── EDIT MODAL ────────────────────────────────────────────────────── */}
+      {/* ── EDIT MODAL — modern card layout ───────────────────────────── */}
       {editProfile && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.88)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, overflowY: 'auto' }}>
-          <div style={{ background: G.surface, border: `1px solid ${G.goldBorder}`, borderRadius: 18, padding: 30, maxWidth: 600, width: '100%', maxHeight: '90vh', overflowY: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 18 }}>Edit: {editProfile.name}</div>
-              <button onClick={() => setEditProfile(null)} className="btn ghost" style={{ padding: '5px 10px', fontSize: 15 }}>✕</button>
-            </div>
-            <div style={{ background: 'rgba(45,212,191,0.07)', border: '1px solid rgba(45,212,191,0.22)', borderRadius: 8, padding: '8px 13px', marginBottom: 16, fontSize: 12, color: G.teal }}>
-              🔧 Admin direct edit — changes go live immediately after saving.
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
-              <div><label className="flabel">Name *</label><input className="inp" value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} /></div>
-              <div><label className="flabel">City *</label><input className="inp" value={editForm.city} onChange={e => setEditForm(f => ({ ...f, city: e.target.value }))} /></div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
-              <div><label className="flabel">Email / Contact *</label><input className="inp" value={editForm.contact} onChange={e => setEditForm(f => ({ ...f, contact: e.target.value }))} /></div>
-              <div><label className="flabel">Phone</label><input className="inp" value={editForm.phone} onChange={e => setEditForm(f => ({ ...f, phone: e.target.value }))} /></div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
-              <div><label className="flabel">Website</label><input className="inp" value={editForm.website} onChange={e => setEditForm(f => ({ ...f, website: e.target.value }))} /></div>
-              <div><label className="flabel">Employees</label><input className="inp" value={editForm.employees} onChange={e => setEditForm(f => ({ ...f, employees: e.target.value }))} placeholder="15–30" /></div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
-              <div><label className="flabel">Languages</label><input className="inp" value={editForm.languages} onChange={e => setEditForm(f => ({ ...f, languages: e.target.value }))} placeholder="DE, EN, SQ" /></div>
-              <div><label className="flabel">Experience (freelancer)</label><input className="inp" value={editForm.experience} onChange={e => setEditForm(f => ({ ...f, experience: e.target.value }))} placeholder="5 years" /></div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 10 }}>
-              <div><label className="flabel">Type</label>
-                <select className="inp" value={editForm.type} onChange={e => setEditForm(f => ({ ...f, type: e.target.value }))}>
-                  <option value="company">Company</option>
-                  <option value="freelancer">Freelancer</option>
-                  <option value="partner">Partner</option>
-                </select>
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.9)', zIndex:300, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={e => e.target===e.currentTarget && setEditProfile(null)}>
+          <div style={{ background:'#0e1420', border:`1px solid ${G.goldBorder}`, borderRadius:20, width:'100%', maxWidth:680, maxHeight:'92vh', overflowY:'auto', display:'flex', flexDirection:'column' }}>
+
+            {/* Modal header */}
+            <div style={{ padding:'22px 28px 18px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, background:'#0e1420', zIndex:1 }}>
+              <div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20 }}>✏️ Edit Profile</div>
+                <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>{editProfile.name} · Changes go live immediately</div>
               </div>
-              <div><label className="flabel">Category</label>
-                <select className="inp" value={editForm.cat} onChange={e => setEditForm(f => ({ ...f, cat: e.target.value }))}>
-                  {CATS.map(c => <option key={c.id} value={c.id}>{c.icon} {c.labels.en}</option>)}
-                </select>
+              <button onClick={() => setEditProfile(null)} className="btn ghost" style={{ padding:'6px 12px', fontSize:15 }}>✕</button>
+            </div>
+
+            <div style={{ padding:'22px 28px', display:'flex', flexDirection:'column', gap:20 }}>
+
+              {/* Section: Identity */}
+              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
+                <div style={{ fontSize:11, fontWeight:700, color:G.gold, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>📋 Identity</div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                  <div><label className="flabel">Name *</label><input className="inp" value={editForm.name||''} onChange={e=>setEditForm(f=>({...f,name:e.target.value}))} /></div>
+                  <div><label className="flabel">City *</label><input className="inp" value={editForm.city||''} onChange={e=>setEditForm(f=>({...f,city:e.target.value}))} /></div>
+                </div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+                  <div><label className="flabel">Email *</label><input className="inp" value={editForm.contact||''} onChange={e=>setEditForm(f=>({...f,contact:e.target.value}))} /></div>
+                  <div><label className="flabel">Phone</label><input className="inp" value={editForm.phone||''} onChange={e=>setEditForm(f=>({...f,phone:e.target.value}))} placeholder="+383 44 …" /></div>
+                </div>
               </div>
-              <div><label className="flabel">Tier</label>
-                <select className="inp" value={editForm.tier} onChange={e => setEditForm(f => ({ ...f, tier: e.target.value }))}>
-                  <option value="free">Free</option>
-                  <option value="premium">⭐ Premium</option>
-                  <option value="sponsored">🚀 Sponsored</option>
-                </select>
+
+              {/* Section: Company details */}
+              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
+                <div style={{ fontSize:11, fontWeight:700, color:G.blue, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>🏢 Details</div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                  <div><label className="flabel">Website</label><input className="inp" value={editForm.website||''} onChange={e=>setEditForm(f=>({...f,website:e.target.value}))} placeholder="firma.com" /></div>
+                  <div><label className="flabel">Employees</label><input className="inp" value={editForm.employees||''} onChange={e=>setEditForm(f=>({...f,employees:e.target.value}))} placeholder="15–30" /></div>
+                </div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+                  <div><label className="flabel">Languages</label><input className="inp" value={editForm.languages||''} onChange={e=>setEditForm(f=>({...f,languages:e.target.value}))} placeholder="DE, EN, SQ" /></div>
+                  <div><label className="flabel">Experience (freelancer)</label><input className="inp" value={editForm.experience||''} onChange={e=>setEditForm(f=>({...f,experience:e.target.value}))} placeholder="7" /></div>
+                </div>
               </div>
+
+              {/* Section: Classification */}
+              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
+                <div style={{ fontSize:11, fontWeight:700, color:G.purple, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>🏷 Classification</div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:12, marginBottom:12 }}>
+                  <div><label className="flabel">Type</label>
+                    <select className="inp" value={editForm.type||'company'} onChange={e=>setEditForm(f=>({...f,type:e.target.value}))}>
+                      <option value="company">🏢 Company</option>
+                      <option value="freelancer">👤 Freelancer</option>
+                      <option value="partner">🤝 Partner</option>
+                    </select>
+                  </div>
+                  <div><label className="flabel">Category</label>
+                    <select className="inp" value={editForm.cat||'software'} onChange={e=>setEditForm(f=>({...f,cat:e.target.value}))}>
+                      {CATS.map(cat => <option key={cat.id} value={cat.id}>{cat.icon} {cat.labels.en}</option>)}
+                    </select>
+                  </div>
+                  <div><label className="flabel">Tier</label>
+                    <select className="inp" value={editForm.tier||'free'} onChange={e=>setEditForm(f=>({...f,tier:e.target.value}))}>
+                      <option value="free">🆓 Free</option>
+                      <option value="premium">⭐ Premium</option>
+                      <option value="sponsored">🚀 Sponsored</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="flabel">Tags (comma separated)</label>
+                  <input className="inp" value={editForm.tags||''} onChange={e=>setEditForm(f=>({...f,tags:e.target.value}))} placeholder="React, Node.js, TypeScript, Cybersecurity…" />
+                </div>
+              </div>
+
+              {/* Section: Reputation */}
+              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
+                <div style={{ fontSize:11, fontWeight:700, color:G.teal, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>⭐ Reputation</div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+                  <div>
+                    <label className="flabel">Rating (0.0 – 5.0)</label>
+                    <input className="inp" type="number" min="0" max="5" step="0.1" value={editForm.rating||0} onChange={e=>setEditForm(f=>({...f,rating:e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="flabel">Number of reviews</label>
+                    <input className="inp" type="number" min="0" value={editForm.reviews||0} onChange={e=>setEditForm(f=>({...f,reviews:e.target.value}))} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Section: Description */}
+              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
+                <div style={{ fontSize:11, fontWeight:700, color:G.muted, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>📝 Description</div>
+                <div style={{ marginBottom:12 }}>
+                  <label className="flabel">🇩🇪 German</label>
+                  <textarea className="inp" rows={2} style={{resize:'vertical'}} value={editForm.desc_de||''} onChange={e=>setEditForm(f=>({...f,desc_de:e.target.value}))} />
+                </div>
+                <div>
+                  <label className="flabel">🇬🇧 English</label>
+                  <textarea className="inp" rows={2} style={{resize:'vertical'}} value={editForm.desc_en||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value}))} />
+                </div>
+              </div>
+
             </div>
-            <div style={{ marginBottom: 10 }}>
-              <label className="flabel">Tags (comma separated)</label>
-              <input className="inp" value={editForm.tags} onChange={e => setEditForm(f => ({ ...f, tags: e.target.value }))} placeholder="React, Node.js, TypeScript" />
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
-              <div><label className="flabel">Rating (0–5)</label><input className="inp" type="number" min="0" max="5" step="0.1" value={editForm.rating} onChange={e => setEditForm(f => ({ ...f, rating: e.target.value }))} /></div>
-              <div><label className="flabel">Reviews count</label><input className="inp" type="number" min="0" value={editForm.reviews} onChange={e => setEditForm(f => ({ ...f, reviews: e.target.value }))} /></div>
-            </div>
-            <div style={{ marginBottom: 10 }}>
-              <label className="flabel">Description (DE)</label>
-              <textarea className="inp" rows={2} style={{ resize: 'vertical' }} value={editForm.desc_de} onChange={e => setEditForm(f => ({ ...f, desc_de: e.target.value }))} />
-            </div>
-            <div style={{ marginBottom: 20 }}>
-              <label className="flabel">Description (EN)</label>
-              <textarea className="inp" rows={2} style={{ resize: 'vertical' }} value={editForm.desc_en} onChange={e => setEditForm(f => ({ ...f, desc_en: e.target.value }))} />
-            </div>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn gbtn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }} onClick={saveEdit} disabled={saving}>
-                {saving ? <><div style={{ width: 12, height: 12, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: G.bg, borderRadius: '50%' }} className="sp" />Saving…</> : '💾 Save changes'}
+
+            {/* Sticky footer */}
+            <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0e1420' }}>
+              <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveEdit} disabled={saving}>
+                {saving ? <><div style={{width:13,height:13,border:'2px solid rgba(0,0,0,0.25)',borderTopColor:G.bg,borderRadius:'50%'}} className="sp" />Saving…</> : '💾 Save changes'}
               </button>
-              <button className="btn ghost" onClick={() => setEditProfile(null)} disabled={saving}>Cancel</button>
+              <button className="btn ghost" style={{ padding:'12px 22px' }} onClick={() => setEditProfile(null)} disabled={saving}>Cancel</button>
             </div>
           </div>
         </div>
