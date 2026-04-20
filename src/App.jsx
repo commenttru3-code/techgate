@@ -834,7 +834,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end' }}>
-            {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 Gesponsert</span>}
+            {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='de'?'Gesponsert':lang==='sv'?'Sponsrad':lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
             {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
             {!isSp && !isPr && <span style={{ fontSize: 10, background: 'rgba(255,255,255,0.05)', color: G.muted, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '2px 9px', fontFamily: "'Syne',sans-serif" }}>Free</span>}
             {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
@@ -889,7 +889,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag }) {
   }, [])
 
   // Use DB profiles if loaded, fall back to hardcoded PROFILES for demo
-  const allProfiles = dbProfiles.length > 0 ? dbProfiles : PROFILES
+  const allProfiles = dbProfiles  // only real DB data
 
   // sync external tag (from profile card click)
   React.useEffect(() => { if (externalTag) setTagFilter(externalTag) }, [externalTag])
@@ -1020,12 +1020,28 @@ function MatchPage({ lang, t }) {
   const [category, setCategory] = useState('all')
   const [skills,   setSkills]   = useState([])
   const [typeF,    setTypeF]    = useState('all')
+  const [need,     setNeed]     = useState('')
   const [results,  setResults]  = useState(null)
+  const [loading,  setLoading]  = useState(false)
   const [contact,  setContact]  = useState(null)
+  const [extraTags, setExtraTags] = useState({})
 
-  const toggleSkill = s => setSkills(p => p.includes(s) ? p.filter(x => x !== s) : [...p, s])
-  const setcat = c => { setCategory(c); setSkills([]) }
-  const currentSkills = SKILL_SETS[category] || []
+  // Collect any tags from DB profiles not in hardcoded SKILL_SETS
+  useEffect(() => {
+    const src = window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : PROFILES
+    const bycat = {}
+    src.forEach(p => {
+      if (!bycat[p.cat]) bycat[p.cat] = new Set()
+      ;(p.tags || []).forEach(tg => bycat[p.cat].add(tg))
+    })
+    const extra = {}
+    Object.entries(bycat).forEach(([cat, tagSet]) => {
+      const existing = SKILL_SETS[cat] || []
+      const newTags = [...tagSet].filter(tg => !existing.includes(tg))
+      if (newTags.length > 0) extra[cat] = newTags
+    })
+    setExtraTags(extra)
+  }, [])
 
   const LABELS = {
     de: {
@@ -1301,7 +1317,7 @@ function MatchPage({ lang, t }) {
                     {/* Tier + rating */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                       <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-                        {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 Gesponsert</span>}
+                        {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='de'?'Gesponsert':lang==='sv'?'Sponsrad':lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
                         {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
                         {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
                       </div>
@@ -1688,7 +1704,14 @@ function SmartRegForm({ lang, t, regType, onDone }) {
     }
   }
 
-  const suggestions = TAG_SUGGESTIONS[catChoice] || []
+  // Merge hardcoded suggestions with any extra tags from DB profiles
+  const dbTags = React.useMemo(() => {
+    const src = window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : PROFILES
+    const set = new Set()
+    src.filter(p => p.cat === catChoice).forEach(p => (p.tags||[]).forEach(t => set.add(t)))
+    return [...set].filter(t => !(TAG_SUGGESTIONS[catChoice]||[]).includes(t))
+  }, [catChoice])
+  const suggestions = [...(TAG_SUGGESTIONS[catChoice] || []), ...dbTags]
 
   const L = {
     de: { cat: 'Branche', name: 'Name / Firma *', city: 'Stadt *', email: 'E-Mail *', website: 'Website', employees: 'Mitarbeiteranzahl', desc: 'Kurzbeschreibung', descPH: 'Was bieten Sie an? Besondere Erfahrungen, Kundenprojekte, USP…', tagSuggest: 'Vorgeschlagene Skills / Tags', tagCustom: 'Eigenen Tag hinzufügen', tagCustomPH: 'z.B. Cybersecurity', tagAdd: '+ Hinzufügen', tagSelected: 'Ausgewählte Tags', availNote: '💬 Verfügbarkeit & Kapazität werden direkt per Anfrage kommuniziert.', send: 'Eintrag absenden ✓', empOpts: ['1–5','6–10','11–20','21–50','51–100','100+'] },
@@ -1952,7 +1975,14 @@ function SelfEditModal({ profile, lang, t, onClose }) {
                 placeholder={profile.contact || 'name@firma.com'}
                 onKeyDown={e => e.key==='Enter' && email && setStep('code')} />
             </div>
-            <button className="btn gbtn" style={{ width:'100%' }} disabled={!email} onClick={() => setStep('code')}>
+            <button className="btn gbtn" style={{ width:'100%' }} disabled={!email} onClick={async () => {
+              // In production: call Supabase Edge Function to send real 6-digit code
+              // For now: log code to console and show demo note
+              const demoCode = Math.floor(100000 + Math.random() * 900000).toString()
+              window.__selfEditCode = demoCode
+              console.log('Demo verification code:', demoCode, '(email:', email, ')')
+              setStep('code')
+            }}>
               {Ls.sendCode}
             </button>
           </>
@@ -1963,7 +1993,10 @@ function SelfEditModal({ profile, lang, t, onClose }) {
           <>
             <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step2h}</div>
             <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:6 }}>{Ls.step2sub}</p>
-            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:11, color:G.gold, marginBottom:18 }}>{Ls.step2demo}</p>
+            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:11, color:G.gold, marginBottom:18 }}>
+              {Ls.step2demo}
+              {window.__selfEditCode && <strong style={{ marginLeft:6 }}>→ {window.__selfEditCode}</strong>}
+            </p>
             <div style={{ marginBottom:10 }}>
               <label className="flabel">{Ls.codeLabel}</label>
               <input className="inp" value={code} onChange={e => { setCode(e.target.value); setCodeError(false) }}
@@ -1972,7 +2005,11 @@ function SelfEditModal({ profile, lang, t, onClose }) {
             </div>
             {codeError && <div style={{ fontSize:12, color:G.red, marginBottom:10, fontFamily:"'DM Sans',sans-serif" }}>⚠️ {Ls.codeErr}</div>}
             <button className="btn gbtn" style={{ width:'100%' }} disabled={code.length < 6}
-              onClick={() => { if (code === DEMO_CODE) setStep('form'); else setCodeError(true) }}>
+              onClick={() => {
+                const expected = window.__selfEditCode || DEMO_CODE
+                if (code === expected) { window.__selfEditCode = null; setStep('form') }
+                else setCodeError(true)
+              }}>
               {Ls.verifyCode}
             </button>
           </>
@@ -2056,336 +2093,350 @@ const INITIAL_PENDING = [
     original:{ tags:['React','Node.js','TypeScript','Mobile'], desc:{de:'Full-Stack Entwicklung & Mobile Apps.',en:'Full-stack development & mobile apps.',sq:'Zhvillim full-stack.',sv:'Full-stack och mobilappar.'} } }
 ]
 
+// ─── ADMIN PAGE ──────────────────────────────────────────────────────────────
+let ADMIN_PASSWORD = 'techgate2025admin'
+
 function AdminPage({ onExit, lang }) {
   const [pw, setPw] = React.useState('')
   const [authed, setAuthed] = React.useState(false)
   const [authFail, setAuthFail] = React.useState(false)
-  const [tab, setTab] = React.useState('profiles') // 'profiles' | 'pending'
-  const [editProfile, setEditProfile] = React.useState(null)
-  const [editForm, setEditForm] = React.useState({})
+  const [tab, setTab] = React.useState('pending_profiles') // pending_profiles | profiles | pending_changes | settings
   const [profiles, setProfiles] = React.useState([])
   const [pending, setPending] = React.useState([])
-  const [loadingProfiles, setLoadingProfiles] = React.useState(false)
-  const [loadingPending, setLoadingPending] = React.useState(false)
+  const [loadingP, setLoadingP] = React.useState(false)
+  const [loadingC, setLoadingC] = React.useState(false)
   const [saving, setSaving] = React.useState(false)
+  const [editProfile, setEditProfile] = React.useState(null)
+  const [editForm, setEditForm] = React.useState({})
+  const [newPw, setNewPw] = React.useState('')
+  const [newPwConfirm, setNewPwConfirm] = React.useState('')
+  const [pwChanged, setPwChanged] = React.useState(false)
+  const [notifEmail, setNotifEmail] = React.useState(
+    typeof localStorage !== 'undefined' ? (localStorage.getItem('tg_admin_email') || '') : ''
+  )
+  const [notifSaved, setNotifSaved] = React.useState(false)
 
   const login = async () => {
     if (pw === ADMIN_PASSWORD) {
-      setAuthed(true)
-      setAuthFail(false)
-      // Load real data from Supabase
-      setLoadingProfiles(true)
-      setLoadingPending(true)
-      fetchAllProfilesAdmin()
-        .then(data => { setProfiles(data.length > 0 ? data : PROFILES); setLoadingProfiles(false) })
-        .catch(() => { setProfiles(PROFILES); setLoadingProfiles(false) })
-      fetchPendingChanges()
-        .then(data => { setPending(data.length > 0 ? data : INITIAL_PENDING); setLoadingPending(false) })
-        .catch(() => { setPending(INITIAL_PENDING); setLoadingPending(false) })
-    } else {
-      setAuthFail(true)
-    }
+      setAuthed(true); setAuthFail(false)
+      loadData()
+    } else { setAuthFail(true) }
+  }
+
+  const loadData = async () => {
+    setLoadingP(true); setLoadingC(true)
+    fetchAllProfilesAdmin().then(d => { setProfiles(d); setLoadingP(false) }).catch(() => setLoadingP(false))
+    fetchPendingChanges().then(d => { setPending(d); setLoadingC(false) }).catch(() => setLoadingC(false))
+  }
+
+  const handleVerify = async (id, val) => {
+    const err = await updateProfile(id, { verified: val })
+    if (!err) setProfiles(ps => ps.map(x => x.id === id ? { ...x, verified: val } : x))
+  }
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Delete this profile?')) return
+    const err = await deleteProfile(id)
+    if (!err) setProfiles(ps => ps.filter(x => x.id !== id))
   }
 
   const openEdit = p => {
     setEditProfile(p)
-    setEditForm({ name: p.name, city: p.city, contact: p.contact, tags: Array.isArray(p.tags) ? p.tags.join(', ') : (p.tags || ''), tier: p.tier })
+    setEditForm({
+      name:      p.name || '',
+      city:      p.city || '',
+      contact:   p.contact || '',
+      phone:     p.phone || '',
+      website:   p.website || '',
+      employees: p.employees || '',
+      languages: p.languages || '',
+      experience:p.experience || '',
+      tier:      p.tier || 'free',
+      type:      p.type || 'company',
+      cat:       p.cat || 'software',
+      tags:      Array.isArray(p.tags) ? p.tags.join(', ') : '',
+      desc_de:   p.desc?.de || '',
+      desc_en:   p.desc?.en || '',
+      rating:    p.rating || 0,
+      reviews:   p.reviews || 0,
+    })
   }
 
   const saveEdit = async () => {
     setSaving(true)
     const updates = {
-      name:    editForm.name,
-      city:    editForm.city,
-      email:   editForm.contact,
-      tags:    editForm.tags.split(',').map(s => s.trim()).filter(Boolean),
-      tier:    editForm.tier,
+      name:       editForm.name,
+      city:       editForm.city,
+      email:      editForm.contact,
+      phone:      editForm.phone || null,
+      website:    editForm.website || null,
+      employees:  editForm.employees || null,
+      languages:  editForm.languages || null,
+      experience: editForm.experience || null,
+      tier:       editForm.tier,
+      type:       editForm.type,
+      cat:        editForm.cat,
+      tags:       editForm.tags.split(',').map(s => s.trim()).filter(Boolean),
+      desc_de:    editForm.desc_de || null,
+      desc_en:    editForm.desc_en || null,
+      desc_sq:    editForm.desc_en || null,
+      desc_sv:    editForm.desc_en || null,
+      rating:     parseFloat(editForm.rating) || 0,
+      reviews:    parseInt(editForm.reviews) || 0,
     }
     const err = await updateProfile(editProfile.id, updates)
     if (!err) {
-      setProfiles(ps => ps.map(x => x.id === editProfile.id ? { ...x, ...updates, contact: updates.email } : x))
-    } else {
-      console.error('saveEdit:', err)
+      setProfiles(ps => ps.map(x => x.id === editProfile.id ? {
+        ...x, ...updates, contact: updates.email,
+        desc: { de: updates.desc_de, en: updates.desc_en, sq: updates.desc_sq, sv: updates.desc_sv }
+      } : x))
+      setEditProfile(null)
     }
     setSaving(false)
-    setEditProfile(null)
-  }
-
-  const handleVerify = async (id) => {
-    const err = await verifyProfile(id)
-    if (!err) setProfiles(ps => ps.map(x => x.id === id ? { ...x, verified: true } : x))
-    else console.error('verifyProfile:', err)
-  }
-
-  const handleDelete = async (id) => {
-    const err = await deleteProfile(id)
-    if (!err) setProfiles(ps => ps.filter(x => x.id !== id))
-    else console.error('deleteProfile:', err)
   }
 
   const handleApprovePending = async (chg) => {
     setSaving(true)
     const dbChanges = {}
-    if (chg.changes?.tags) dbChanges.tags = chg.changes.tags
+    if (chg.changes?.tags)  dbChanges.tags    = chg.changes.tags
+    if (chg.changes?.email) dbChanges.email   = chg.changes.email
+    if (chg.changes?.name)  dbChanges.name    = chg.changes.name
+    if (chg.changes?.city)  dbChanges.city    = chg.changes.city
+    if (chg.changes?.website) dbChanges.website = chg.changes.website
     if (chg.changes?.desc) {
       dbChanges.desc_de = chg.changes.desc.de
       dbChanges.desc_en = chg.changes.desc.en
-      dbChanges.desc_sq = chg.changes.desc.sq
-      dbChanges.desc_sv = chg.changes.desc.sv
+      dbChanges.desc_sq = chg.changes.desc.sq || chg.changes.desc.en
+      dbChanges.desc_sv = chg.changes.desc.sv || chg.changes.desc.en
     }
-    const err = await approvePendingChange(chg.id, chg.profileId || chg.profile_id, dbChanges)
+    const profileId = chg.profileId || chg.profile_id
+    const err = await approvePendingChange(chg.id, profileId, dbChanges)
     if (!err) {
       setPending(ps => ps.filter(x => x.id !== chg.id))
-      // Refresh profile in list
-      setProfiles(ps => ps.map(p => (p.id === (chg.profileId || chg.profile_id)) ? { ...p, ...chg.changes } : p))
-    } else console.error('approvePending:', err)
+      setProfiles(ps => ps.map(p => p.id === profileId ? { ...p, ...chg.changes } : p))
+    }
     setSaving(false)
   }
 
   const handleRejectPending = async (id) => {
     const err = await rejectPendingChange(id)
     if (!err) setPending(ps => ps.filter(x => x.id !== id))
-    else console.error('rejectPending:', err)
   }
 
-  const L = {
-    de: {
-      loginTitle:'Admin-Zugang', pwLabel:'Passwort', loginBtn:'Anmelden', fail:'Falsches Passwort',
-      adminTitle:'🔧 Admin-Panel', exitAdmin:'Admin verlassen', back:'← Zurück',
-      tabProfiles:'Profile', tabPending:'Ausstehende Änderungen',
-      total:'Einträge', verified:'Verifiziert', pendingCount:'Änderungen offen',
-      verifyBtn:'✓ Verifizieren', editBtn:'Bearbeiten', deleteBtn:'🗑',
-      editTitle:'Profil bearbeiten', saveBtn:'Speichern ✓', cancelBtn:'Abbrechen',
-      pendingTitle:'Ausstehende Profil-Änderungen',
-      pendingSub:'Diese Änderungen wurden vom Profilinhaber beantragt und per Code verifiziert — noch nicht live.',
-      codeVerified:'✓ Code verifiziert', submittedAt:'Eingereicht am',
-      changesLabel:'Beantragte Änderungen', originalLabel:'Aktuell live',
-      approveBtn:'✓ Genehmigen → Live schalten', rejectBtn:'✕ Ablehnen',
-      noPending:'Keine ausstehenden Änderungen.',
-      tagsLabel:'Tags', descLabel:'Beschreibung',
-      approveNote:'Änderung wird sofort live. Nicht rückgängig zu machen ohne erneute Bearbeitung.',
-    },
-    en: {
-      loginTitle:'Admin Access', pwLabel:'Password', loginBtn:'Login', fail:'Wrong password',
-      adminTitle:'🔧 Admin Panel', exitAdmin:'Exit admin', back:'← Back',
-      tabProfiles:'Profiles', tabPending:'Pending changes',
-      total:'Listings', verified:'Verified', pendingCount:'Changes pending',
-      verifyBtn:'✓ Verify', editBtn:'Edit', deleteBtn:'🗑',
-      editTitle:'Edit profile', saveBtn:'Save ✓', cancelBtn:'Cancel',
-      pendingTitle:'Pending profile changes',
-      pendingSub:'These changes were requested by the profile owner and verified by code — not yet live.',
-      codeVerified:'✓ Code verified', submittedAt:'Submitted at',
-      changesLabel:'Requested changes', originalLabel:'Currently live',
-      approveBtn:'✓ Approve → Go live', rejectBtn:'✕ Reject',
-      noPending:'No pending changes.',
-      tagsLabel:'Tags', descLabel:'Description',
-      approveNote:'Change goes live immediately. Cannot be undone without manual edit.',
-    },
+  const saveAdminEmail = () => {
+    localStorage.setItem('tg_admin_email', notifEmail)
+    setNotifSaved(true)
+    setTimeout(() => setNotifSaved(false), 2500)
   }
-  const La = L[lang] || L.en
 
-  // ── Login screen ────────────────────────────────────────────────────────────
+  const changePassword = () => {
+    if (newPw.length < 8) return alert('Min. 8 characters')
+    if (newPw !== newPwConfirm) return alert('Passwords do not match')
+    ADMIN_PASSWORD = newPw
+    setNewPw(''); setNewPwConfirm('')
+    setPwChanged(true)
+    setTimeout(() => setPwChanged(false), 3000)
+  }
+
+  const pendingProfiles = profiles.filter(p => !p.verified)
+  const allProfiles     = profiles
+
+  // Tab counts
+  const tabCount = { pending_profiles: pendingProfiles.length, pending_changes: pending.length }
+
   if (!authed) return (
-    <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:G.bg }}>
-      <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:18, padding:38, width:360, textAlign:'center' }}>
-        <div style={{ fontSize:36, marginBottom:14 }}>🔒</div>
-        <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:22, marginBottom:6 }}>{La.loginTitle}</div>
-        <div style={{ fontSize:12, color:G.muted, marginBottom:22, fontFamily:"'DM Sans',sans-serif" }}>TechGate Kosovo</div>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: G.bg }}>
+      <div style={{ background: G.surface, border: `1px solid ${G.goldBorder}`, borderRadius: 18, padding: 38, width: 360, textAlign: 'center' }}>
+        <div style={{ fontSize: 36, marginBottom: 14 }}>🔒</div>
+        <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, marginBottom: 6 }}>Admin</div>
+        <div style={{ fontSize: 12, color: G.muted, marginBottom: 22 }}>TechGate Kosovo</div>
         <input className="inp" type="password" value={pw} onChange={e => setPw(e.target.value)}
-          placeholder={La.pwLabel} style={{ marginBottom:10, textAlign:'center' }}
-          onKeyDown={e => e.key==='Enter' && login()} />
-        {authFail && <div style={{ fontSize:12, color:G.red, marginBottom:8 }}>⚠️ {La.fail}</div>}
-        <button className="btn gbtn" style={{ width:'100%' }} onClick={login}>{La.loginBtn}</button>
-        <button className="btn ghost" style={{ width:'100%', marginTop:10 }} onClick={onExit}>{La.back}</button>
+          placeholder="Password" style={{ marginBottom: 10, textAlign: 'center' }}
+          onKeyDown={e => e.key === 'Enter' && login()} />
+        {authFail && <div style={{ fontSize: 12, color: G.red, marginBottom: 8 }}>⚠️ Wrong password</div>}
+        <button className="btn gbtn" style={{ width: '100%' }} onClick={login}>Login</button>
+        <button className="btn ghost" style={{ width: '100%', marginTop: 10 }} onClick={onExit}>← Back</button>
       </div>
     </div>
   )
 
-  const stats = {
-    total: profiles.length,
-    verified: profiles.filter(p => p.verified).length,
-    pendingCount: pending.length,
-  }
+  const TABS = [
+    { id: 'pending_profiles', label: 'Neue Profile',     labelEn: 'New profiles',         icon: '🆕' },
+    { id: 'profiles',         label: 'Alle Profile',     labelEn: 'All profiles',          icon: '📋' },
+    { id: 'pending_changes',  label: 'Änderungen',       labelEn: 'Change requests',       icon: '✏️' },
+    { id: 'settings',         label: 'Einstellungen',    labelEn: 'Settings',              icon: '⚙️' },
+  ]
 
-  // ── Main admin UI ────────────────────────────────────────────────────────────
+  const renderLabel = t2 => lang === 'de' ? t2.label : t2.labelEn
+
+  const renderProfileRow = (p) => (
+    <div key={p.id} style={{ background: G.surface, border: `1px solid ${p.verified ? G.border : G.goldBorder}`, borderRadius: 12, padding: '14px 18px', display: 'flex', gap: 12, alignItems: 'center' }}>
+      <Logo text={p.logo} color={p.logoColor} size={38} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 700, fontSize: 14 }}>{p.name}</div>
+        <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {p.type} · {p.cat}</div>
+        <div style={{ fontSize: 11, color: G.blue, marginTop: 1 }}>📧 {p.contact}</div>
+        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: 5 }}>
+          {(p.tags||[]).slice(0,5).map(t2 => <span key={t2} className="tag">{t2}</span>)}
+        </div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'flex-end', flexShrink: 0 }}>
+        {/* Tier badge */}
+        <span style={{ fontSize: 10, background: p.tier==='sponsored'?'rgba(251,146,60,0.1)':p.tier==='premium'?G.goldDim:'rgba(255,255,255,0.04)', color: p.tier==='sponsored'?G.orange:p.tier==='premium'?G.gold:G.muted, border: `1px solid ${p.tier==='sponsored'?'rgba(251,146,60,0.3)':p.tier==='premium'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius: 5, padding: '2px 8px' }}>
+          {p.tier}
+        </span>
+        <div style={{ display: 'flex', gap: 5 }}>
+          {/* Verify / Un-verify toggle */}
+          {!p.verified
+            ? <button className="btn" style={{ fontSize: 10, padding: '3px 9px', background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5 }} onClick={() => handleVerify(p.id, true)}>✓ Verify</button>
+            : <button className="btn" style={{ fontSize: 10, padding: '3px 9px', background: 'rgba(255,59,48,0.06)', color: G.red, border: '1px solid rgba(255,59,48,0.2)', borderRadius: 5 }} onClick={() => handleVerify(p.id, false)}>✕ Unverify</button>
+          }
+          <button className="btn" style={{ fontSize: 10, padding: '3px 9px', background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5 }} onClick={() => openEdit(p)}>✏️ Edit</button>
+          <button className="btn" style={{ fontSize: 10, padding: '3px 9px', background: 'rgba(255,59,48,0.08)', color: G.red, border: '1px solid rgba(255,59,48,0.2)', borderRadius: 5 }} onClick={() => handleDelete(p.id)}>🗑</button>
+        </div>
+        {p.verified
+          ? <span style={{ fontSize: 10, color: G.green }}>✓ Live</span>
+          : <span style={{ fontSize: 10, color: G.gold }}>⏳ Pending review</span>
+        }
+      </div>
+    </div>
+  )
+
   return (
-    <div style={{ fontFamily:"'DM Sans',sans-serif", background:G.bg, minHeight:'100vh', color:G.text, padding:'32px 44px' }}>
-      <style>{`* { box-sizing:border-box; }`}</style>
+    <div style={{ fontFamily: "'DM Sans',sans-serif", background: G.bg, minHeight: '100vh', color: G.text, padding: '28px 40px', maxWidth: 1200, margin: '0 auto' }}>
+      <style>{`* { box-sizing: border-box; }`}</style>
 
       {/* Header */}
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:24 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
         <div>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:24 }}>{La.adminTitle}</div>
-          <div style={{ fontSize:12, color:G.muted, marginTop:3 }}>TechGate Kosovo</div>
+          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22 }}>🔧 Admin Panel</div>
+          <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>TechGate Kosovo</div>
         </div>
-        <button className="btn ghost" onClick={onExit}>{La.exitAdmin}</button>
+        <div style={{ display: 'flex', gap: 9 }}>
+          <button className="btn ghost" style={{ fontSize: 12 }} onClick={loadData}>🔄 Refresh</button>
+          <button className="btn ghost" style={{ fontSize: 12 }} onClick={onExit}>← Exit</button>
+        </div>
       </div>
 
       {/* Stats */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12, marginBottom:24 }}>
-        {[[stats.total, La.total, G.blue],[stats.verified, La.verified, G.green],[stats.pendingCount, La.pendingCount, stats.pendingCount > 0 ? G.orange : G.muted]].map(([v,l,col]) => (
-          <div key={l} style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:12, padding:'16px 20px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:30, color:col }}>{v}</div>
-            <div style={{ fontSize:13, color:G.muted, marginTop:3 }}>{l}</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 20 }}>
+        {[
+          [profiles.length, 'Total profiles', G.blue],
+          [profiles.filter(p => p.verified).length, 'Live / Verified', G.green],
+          [pendingProfiles.length, 'Awaiting review', G.gold],
+          [pending.length, 'Change requests', pending.length > 0 ? G.orange : G.muted],
+        ].map(([v, l, col]) => (
+          <div key={l} style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 10, padding: '14px 18px' }}>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 28, color: col }}>{v}</div>
+            <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>{l}</div>
           </div>
         ))}
       </div>
 
       {/* Tabs */}
-      <div style={{ display:'flex', gap:8, marginBottom:20 }}>
-        {[['profiles', La.tabProfiles],['pending', `${La.tabPending}${pending.length > 0 ? ` (${pending.length})` : ''}`]].map(([v,l]) => (
-          <button key={v} onClick={() => setTab(v)} className="btn" style={{ padding:'9px 20px', fontSize:13, fontWeight:600,
-            background: tab===v ? G.goldDim : 'rgba(255,255,255,0.04)',
-            color: tab===v ? G.gold : G.muted,
-            border:`1px solid ${tab===v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>
-            {v==='pending' && pending.length > 0 && <span style={{ display:'inline-block', width:8, height:8, background:G.orange, borderRadius:'50%', marginRight:6 }} />}
-            {l}
-          </button>
-        ))}
+      <div style={{ display: 'flex', gap: 7, marginBottom: 18, flexWrap: 'wrap' }}>
+        {TABS.map(t2 => {
+          const count = tabCount[t2.id]
+          return (
+            <button key={t2.id} onClick={() => setTab(t2.id)} className="btn" style={{ padding: '8px 16px', fontSize: 12, fontWeight: 600, background: tab === t2.id ? G.goldDim : 'rgba(255,255,255,0.04)', color: tab === t2.id ? G.gold : G.muted, border: `1px solid ${tab === t2.id ? G.goldBorder : 'rgba(255,255,255,0.07)'}`, display: 'flex', alignItems: 'center', gap: 6 }}>
+              {t2.icon} {renderLabel(t2)}
+              {count > 0 && <span style={{ background: tab === t2.id ? G.gold : G.orange, color: tab === t2.id ? G.bg : '#fff', borderRadius: 10, padding: '1px 7px', fontSize: 10, fontWeight: 800 }}>{count}</span>}
+            </button>
+          )
+        })}
       </div>
 
-      {/* ── TAB: PROFILES ──────────────────────────────────────────────────── */}
-      {tab === 'profiles' && (
-        <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-          {loadingProfiles && (
-            <div style={{ textAlign:'center', padding:'32px', color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>
-              <div style={{ display:'inline-block', width:22, height:22, border:`2px solid ${G.border}`, borderTopColor:G.gold, borderRadius:'50%' }} className="sp" />
-              <div style={{ marginTop:10, fontSize:13 }}>{lang==='de'?'Profile laden…':lang==='sq'?'Duke ngarkuar…':lang==='sv'?'Laddar profiler…':'Loading profiles…'}</div>
+      {/* ── TAB: NEW / PENDING PROFILES ───────────────────────────────────── */}
+      {tab === 'pending_profiles' && (
+        <div>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>
+            New registrations waiting for your approval. Click ✓ Verify to make them visible in the directory.
+          </p>
+          {loadingP && <div style={{ color: G.muted, padding: 20 }}>Loading…</div>}
+          {!loadingP && pendingProfiles.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '48px 20px', color: G.muted }}>
+              <div style={{ fontSize: 36, marginBottom: 10 }}>✅</div>
+              No pending profiles.
             </div>
           )}
-          {!loadingProfiles && profiles.map(p => (
-            <div key={p.id} style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:12, padding:'14px 18px', display:'flex', gap:12, alignItems:'center' }}>
-              <Logo text={p.logo} color={p.logoColor} size={38} />
-              <div style={{ flex:1 }}>
-                <div style={{ fontWeight:700, fontSize:14 }}>{p.name}</div>
-                <div style={{ fontSize:11, color:G.muted }}>📍 {p.city} · {p.type} · {p.cat}</div>
-                <div style={{ fontSize:11, color:G.blue, marginTop:1 }}>📧 {p.contact}</div>
-              </div>
-              <div style={{ display:'flex', gap:6, alignItems:'center', flexShrink:0 }}>
-                {p.verified
-                  ? <span style={{ fontSize:10, color:G.green, background:'rgba(52,199,89,0.1)', border:'1px solid rgba(52,199,89,0.2)', borderRadius:5, padding:'2px 8px' }}>✓ Verified</span>
-                  : <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.2)', borderRadius:5 }}
-                      onClick={() => handleVerify(p.id)}>
-                      {La.verifyBtn}
-                    </button>
-                }
-                <span style={{ fontSize:10, background:p.tier==='sponsored'?'rgba(251,146,60,0.1)':p.tier==='premium'?G.goldDim:'rgba(255,255,255,0.04)', color:p.tier==='sponsored'?G.orange:p.tier==='premium'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?'rgba(251,146,60,0.3)':p.tier==='premium'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius:5, padding:'2px 8px' }}>
-                  {p.tier}
-                </span>
-                <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5 }}
-                  onClick={() => openEdit(p)}>
-                  {La.editBtn}
-                </button>
-                <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:'rgba(255,59,48,0.1)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:5 }}
-                  onClick={() => handleDelete(p.id)}>
-                  {La.deleteBtn}
-                </button>
-              </div>
-            </div>
-          ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {!loadingP && pendingProfiles.map(renderProfileRow)}
+          </div>
         </div>
       )}
 
-      {/* ── TAB: PENDING CHANGES ───────────────────────────────────────────── */}
-      {tab === 'pending' && (
+      {/* ── TAB: ALL PROFILES ─────────────────────────────────────────────── */}
+      {tab === 'profiles' && (
         <div>
-          <div style={{ marginBottom:16 }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17, marginBottom:5 }}>{La.pendingTitle}</div>
-            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65 }}>{La.pendingSub}</p>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>
+            All profiles — verified (live) and unverified. Use ✏️ to edit, ✓/✕ to toggle visibility.
+          </p>
+          {loadingP && <div style={{ color: G.muted, padding: 20 }}>Loading…</div>}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {!loadingP && allProfiles.map(renderProfileRow)}
           </div>
-          {pending.length === 0 && (
-            <div style={{ textAlign:'center', padding:'48px 20px', color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>
-              <div style={{ fontSize:36, marginBottom:10 }}>✅</div>
-              {La.noPending}
+        </div>
+      )}
+
+      {/* ── TAB: CHANGE REQUESTS ──────────────────────────────────────────── */}
+      {tab === 'pending_changes' && (
+        <div>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>
+            Profile change requests from owners. Code was verified by the owner. Review the diff and approve or reject.
+          </p>
+          {loadingC && <div style={{ color: G.muted, padding: 20 }}>Loading…</div>}
+          {!loadingC && pending.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '48px 20px', color: G.muted }}>
+              <div style={{ fontSize: 36, marginBottom: 10 }}>✅</div>
+              No pending change requests.
             </div>
           )}
-          <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
-            {pending.map(chg => (
-              <div key={chg.id} style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, overflow:'hidden' }}>
-                {/* Change header */}
-                <div style={{ padding:'14px 20px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {!loadingC && pending.map(chg => (
+              <div key={chg.id} style={{ background: G.surface, border: `1px solid ${G.goldBorder}`, borderRadius: 14, overflow: 'hidden' }}>
+                <div style={{ padding: '14px 20px', borderBottom: `1px solid ${G.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <div style={{ fontWeight:700, fontSize:15 }}>{chg.profileName}</div>
-                    <div style={{ fontSize:11, color:G.muted, marginTop:3 }}>
-                      {La.submittedAt}: {chg.submittedAt}
+                    <div style={{ fontWeight: 700, fontSize: 15 }}>{chg.profileName || chg.profile_name}</div>
+                    <div style={{ fontSize: 11, color: G.muted, marginTop: 3 }}>
+                      Submitted: {new Date(chg.created_at || chg.submittedAt).toLocaleDateString()}
+                      {' · '}Submitter: {chg.submitter_email || chg.submitterEmail}
                     </div>
                   </div>
-                  <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-                    {chg.codeVerified && (
-                      <span style={{ fontSize:11, background:'rgba(45,212,191,0.1)', color:G.teal, border:'1px solid rgba(45,212,191,0.25)', borderRadius:5, padding:'3px 9px', fontWeight:600 }}>
-                        🔐 {La.codeVerified}
-                      </span>
-                    )}
-                  </div>
+                  {(chg.codeVerified || chg.code_verified) && (
+                    <span style={{ fontSize: 11, background: 'rgba(45,212,191,0.1)', color: G.teal, border: '1px solid rgba(45,212,191,0.25)', borderRadius: 5, padding: '3px 9px', fontWeight: 600 }}>🔐 Code verified</span>
+                  )}
                 </div>
-
-                {/* Diff view */}
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:0 }}>
-                  {/* Current/Original */}
-                  <div style={{ padding:'16px 20px', borderRight:`1px solid ${G.border}` }}>
-                    <div style={{ fontSize:11, color:G.muted, fontWeight:700, marginBottom:10, letterSpacing:'0.5px', textTransform:'uppercase' }}>
-                      📋 {La.originalLabel}
-                    </div>
-                    <div style={{ marginBottom:8 }}>
-                      <div style={{ fontSize:10, color:G.muted, marginBottom:4 }}>{La.tagsLabel}</div>
-                      <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
-                        {chg.original.tags.map(tag => (
-                          <span key={tag} style={{ fontSize:11, background:'rgba(88,166,255,0.08)', color:'#8eb4d4', border:'1px solid rgba(88,166,255,0.15)', borderRadius:4, padding:'2px 7px' }}>{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                    {chg.original.desc && (
-                      <div>
-                        <div style={{ fontSize:10, color:G.muted, marginBottom:4 }}>{La.descLabel}</div>
-                        <p style={{ fontSize:12, color:G.muted, lineHeight:1.6 }}>{chg.original.desc[lang] || chg.original.desc.en}</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+                  <div style={{ padding: '16px 20px', borderRight: `1px solid ${G.border}` }}>
+                    <div style={{ fontSize: 11, color: G.muted, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.5px' }}>📋 Current</div>
+                    {chg.original?.tags && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 8 }}>
+                        {chg.original.tags.map(t2 => <span key={t2} className="tag">{t2}</span>)}
                       </div>
                     )}
+                    {chg.original?.desc && <p style={{ fontSize: 12, color: G.muted, lineHeight: 1.6 }}>{chg.original.desc.en || chg.original.desc.de}</p>}
                   </div>
-                  {/* Proposed/New */}
-                  <div style={{ padding:'16px 20px', background:'rgba(45,212,191,0.03)' }}>
-                    <div style={{ fontSize:11, color:G.teal, fontWeight:700, marginBottom:10, letterSpacing:'0.5px', textTransform:'uppercase' }}>
-                      ✏️ {La.changesLabel}
-                    </div>
-                    <div style={{ marginBottom:8 }}>
-                      <div style={{ fontSize:10, color:G.muted, marginBottom:4 }}>{La.tagsLabel}</div>
-                      <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
-                        {chg.changes.tags.map(tag => {
-                          const isNew = !chg.original.tags.includes(tag)
-                          return (
-                            <span key={tag} style={{ fontSize:11, background: isNew ? 'rgba(45,212,191,0.15)' : 'rgba(88,166,255,0.08)', color: isNew ? G.teal : '#8eb4d4', border:`1px solid ${isNew ? 'rgba(45,212,191,0.35)' : 'rgba(88,166,255,0.15)'}`, borderRadius:4, padding:'2px 7px', fontWeight: isNew ? 700 : 400 }}>
-                              {isNew ? '+ ' : ''}{tag}
-                            </span>
-                          )
+                  <div style={{ padding: '16px 20px', background: 'rgba(45,212,191,0.03)' }}>
+                    <div style={{ fontSize: 11, color: G.teal, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.5px' }}>✏️ Requested changes</div>
+                    {chg.changes?.tags && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 8 }}>
+                        {chg.changes.tags.map(t2 => {
+                          const isNew = !chg.original?.tags?.includes(t2)
+                          return <span key={t2} style={{ fontSize: 11, background: isNew ? 'rgba(45,212,191,0.15)' : 'rgba(88,166,255,0.08)', color: isNew ? G.teal : '#8eb4d4', border: `1px solid ${isNew ? 'rgba(45,212,191,0.35)' : 'rgba(88,166,255,0.15)'}`, borderRadius: 4, padding: '2px 7px', fontWeight: isNew ? 700 : 400 }}>{isNew ? '+ ' : ''}{t2}</span>
                         })}
-                        {chg.original.tags.filter(t => !chg.changes.tags.includes(t)).map(tag => (
-                          <span key={tag} style={{ fontSize:11, background:'rgba(255,59,48,0.1)', color:G.red, border:'1px solid rgba(255,59,48,0.25)', borderRadius:4, padding:'2px 7px', textDecoration:'line-through' }}>
-                            {tag}
-                          </span>
+                        {chg.original?.tags?.filter(t2 => !chg.changes.tags.includes(t2)).map(t2 => (
+                          <span key={t2} style={{ fontSize: 11, background: 'rgba(255,59,48,0.1)', color: G.red, border: '1px solid rgba(255,59,48,0.25)', borderRadius: 4, padding: '2px 7px', textDecoration: 'line-through' }}>{t2}</span>
                         ))}
                       </div>
-                    </div>
-                    {chg.changes.desc && (
-                      <div>
-                        <div style={{ fontSize:10, color:G.muted, marginBottom:4 }}>{La.descLabel}</div>
-                        <p style={{ fontSize:12, color:'rgba(232,228,217,0.8)', lineHeight:1.6 }}>{chg.changes.desc[lang] || chg.changes.desc.en}</p>
-                      </div>
                     )}
+                    {chg.changes?.desc && <p style={{ fontSize: 12, color: 'rgba(232,228,217,0.8)', lineHeight: 1.6 }}>{chg.changes.desc.en || chg.changes.desc.de}</p>}
                   </div>
                 </div>
-
-                {/* Approve / Reject */}
-                <div style={{ padding:'14px 20px', borderTop:`1px solid ${G.border}`, background:'rgba(255,255,255,0.01)' }}>
-                  <div style={{ fontSize:11, color:G.muted, marginBottom:10, fontFamily:"'DM Sans',sans-serif", fontStyle:'italic' }}>
-                    ⚠️ {La.approveNote}
-                  </div>
-                  <div style={{ display:'flex', gap:10 }}>
-                    <button className="btn gbtn" style={{ flex:1, padding:'10px', display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={() => handleApprovePending(chg)} disabled={saving}>
-                      {saving ? <><div style={{ width:12, height:12, border:'2px solid rgba(0,0,0,0.2)', borderTopColor:'#080c14', borderRadius:'50%' }} className="sp" />{lang==='de'?'Wird gespeichert…':'Saving…'}</> : La.approveBtn}
-                    </button>
-                    <button className="btn ghost" style={{ padding:'10px 18px', color:G.red, borderColor:'rgba(255,59,48,0.3)' }} onClick={() => handleRejectPending(chg.id)}>
-                      {La.rejectBtn}
-                    </button>
-                  </div>
+                <div style={{ padding: '14px 20px', borderTop: `1px solid ${G.border}`, display: 'flex', gap: 10 }}>
+                  <button className="btn gbtn" style={{ flex: 1, padding: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }} onClick={() => handleApprovePending(chg)} disabled={saving}>
+                    {saving ? <><div style={{ width: 11, height: 11, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: G.bg, borderRadius: '50%' }} className="sp" />Saving…</> : '✓ Approve → Go live'}
+                  </button>
+                  <button className="btn ghost" style={{ color: G.red, borderColor: 'rgba(255,59,48,0.3)', padding: '9px 18px' }} onClick={() => handleRejectPending(chg.id)}>✕ Reject</button>
                 </div>
               </div>
             ))}
@@ -2393,36 +2444,102 @@ function AdminPage({ onExit, lang }) {
         </div>
       )}
 
-      {/* ── EDIT MODAL (admin direct edit) ─────────────────────────────────── */}
+      {/* ── TAB: SETTINGS ─────────────────────────────────────────────────── */}
+      {tab === 'settings' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          {/* Change password */}
+          <div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: '22px 24px' }}>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 14 }}>🔐 Change password</div>
+            <div style={{ marginBottom: 10 }}><label className="flabel">New password (min. 8 chars)</label><input className="inp" type="password" value={newPw} onChange={e => setNewPw(e.target.value)} /></div>
+            <div style={{ marginBottom: 16 }}><label className="flabel">Confirm new password</label><input className="inp" type="password" value={newPwConfirm} onChange={e => setNewPwConfirm(e.target.value)} /></div>
+            {pwChanged && <div style={{ fontSize: 12, color: G.green, marginBottom: 10 }}>✓ Password changed for this session</div>}
+            <div style={{ fontSize: 11, color: G.muted, marginBottom: 12 }}>⚠️ This only changes the password for the current session. For permanent change, update ADMIN_PASSWORD in App.jsx before deploying.</div>
+            <button className="btn gbtn" style={{ width: '100%' }} onClick={changePassword}>Change password</button>
+          </div>
+
+          {/* Notification email */}
+          <div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: '22px 24px' }}>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 14 }}>📧 Notification email</div>
+            <div style={{ marginBottom: 10 }}><label className="flabel">Your email (for new profile alerts)</label><input className="inp" type="email" value={notifEmail} onChange={e => setNotifEmail(e.target.value)} placeholder="admin@techgate-ks.com" /></div>
+            {notifSaved && <div style={{ fontSize: 12, color: G.green, marginBottom: 10 }}>✓ Saved locally</div>}
+            <div style={{ fontSize: 11, color: G.muted, marginBottom: 12 }}>
+              For full email notifications (new registrations, change requests), set up a Supabase Database Webhook:
+              <br />Supabase → Database → Webhooks → New webhook on <code>profiles</code> INSERT.
+            </div>
+            <button className="btn gbtn" style={{ width: '100%' }} onClick={saveAdminEmail}>Save email</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── EDIT MODAL ────────────────────────────────────────────────────── */}
       {editProfile && (
-        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.88)', zIndex:300, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }}>
-          <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:18, padding:30, maxWidth:500, width:'100%', maxHeight:'90vh', overflowY:'auto' }}>
-            <div style={{ display:'flex', justifyContent:'space-between', marginBottom:18 }}>
-              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18 }}>{La.editTitle}: {editProfile.name}</div>
-              <button onClick={() => setEditProfile(null)} className="btn ghost" style={{ padding:'5px 10px', fontSize:15 }}>✕</button>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.88)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, overflowY: 'auto' }}>
+          <div style={{ background: G.surface, border: `1px solid ${G.goldBorder}`, borderRadius: 18, padding: 30, maxWidth: 600, width: '100%', maxHeight: '90vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
+              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 18 }}>Edit: {editProfile.name}</div>
+              <button onClick={() => setEditProfile(null)} className="btn ghost" style={{ padding: '5px 10px', fontSize: 15 }}>✕</button>
             </div>
-            <div style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:18, fontSize:12, color:G.teal }}>
-              🔧 {lang==='de' ? 'Admin-Direktbearbeitung — Änderungen gehen sofort live.' : 'Admin direct edit — changes go live immediately.'}
+            <div style={{ background: 'rgba(45,212,191,0.07)', border: '1px solid rgba(45,212,191,0.22)', borderRadius: 8, padding: '8px 13px', marginBottom: 16, fontSize: 12, color: G.teal }}>
+              🔧 Admin direct edit — changes go live immediately after saving.
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
-              <div><label className="flabel">Name</label><input className="inp" value={editForm.name||''} onChange={e => setEditForm(f => ({...f,name:e.target.value}))} /></div>
-              <div><label className="flabel">City</label><input className="inp" value={editForm.city||''} onChange={e => setEditForm(f => ({...f,city:e.target.value}))} /></div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+              <div><label className="flabel">Name *</label><input className="inp" value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} /></div>
+              <div><label className="flabel">City *</label><input className="inp" value={editForm.city} onChange={e => setEditForm(f => ({ ...f, city: e.target.value }))} /></div>
             </div>
-            <div style={{ marginBottom:10 }}><label className="flabel">Contact / Email</label><input className="inp" value={editForm.contact||''} onChange={e => setEditForm(f => ({...f,contact:e.target.value}))} /></div>
-            <div style={{ marginBottom:10 }}><label className="flabel">Tags (comma separated)</label><input className="inp" value={editForm.tags||''} onChange={e => setEditForm(f => ({...f,tags:e.target.value}))} /></div>
-            <div style={{ marginBottom:20 }}>
-              <label className="flabel">Tier</label>
-              <select className="inp" value={editForm.tier||'free'} onChange={e => setEditForm(f => ({...f,tier:e.target.value}))}>
-                <option value="free">Free</option>
-                <option value="premium">Premium ⭐</option>
-                <option value="sponsored">Sponsored 🚀</option>
-              </select>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+              <div><label className="flabel">Email / Contact *</label><input className="inp" value={editForm.contact} onChange={e => setEditForm(f => ({ ...f, contact: e.target.value }))} /></div>
+              <div><label className="flabel">Phone</label><input className="inp" value={editForm.phone} onChange={e => setEditForm(f => ({ ...f, phone: e.target.value }))} /></div>
             </div>
-            <div style={{ display:'flex', gap:10 }}>
-              <button className="btn gbtn" style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveEdit} disabled={saving}>
-                {saving ? <><div style={{ width:12, height:12, border:'2px solid rgba(0,0,0,0.2)', borderTopColor:'#080c14', borderRadius:'50%' }} className="sp" />{lang==='de'?'Speichern…':'Saving…'}</> : La.saveBtn}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+              <div><label className="flabel">Website</label><input className="inp" value={editForm.website} onChange={e => setEditForm(f => ({ ...f, website: e.target.value }))} /></div>
+              <div><label className="flabel">Employees</label><input className="inp" value={editForm.employees} onChange={e => setEditForm(f => ({ ...f, employees: e.target.value }))} placeholder="15–30" /></div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+              <div><label className="flabel">Languages</label><input className="inp" value={editForm.languages} onChange={e => setEditForm(f => ({ ...f, languages: e.target.value }))} placeholder="DE, EN, SQ" /></div>
+              <div><label className="flabel">Experience (freelancer)</label><input className="inp" value={editForm.experience} onChange={e => setEditForm(f => ({ ...f, experience: e.target.value }))} placeholder="5 years" /></div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 10 }}>
+              <div><label className="flabel">Type</label>
+                <select className="inp" value={editForm.type} onChange={e => setEditForm(f => ({ ...f, type: e.target.value }))}>
+                  <option value="company">Company</option>
+                  <option value="freelancer">Freelancer</option>
+                  <option value="partner">Partner</option>
+                </select>
+              </div>
+              <div><label className="flabel">Category</label>
+                <select className="inp" value={editForm.cat} onChange={e => setEditForm(f => ({ ...f, cat: e.target.value }))}>
+                  {CATS.map(c => <option key={c.id} value={c.id}>{c.icon} {c.labels.en}</option>)}
+                </select>
+              </div>
+              <div><label className="flabel">Tier</label>
+                <select className="inp" value={editForm.tier} onChange={e => setEditForm(f => ({ ...f, tier: e.target.value }))}>
+                  <option value="free">Free</option>
+                  <option value="premium">⭐ Premium</option>
+                  <option value="sponsored">🚀 Sponsored</option>
+                </select>
+              </div>
+            </div>
+            <div style={{ marginBottom: 10 }}>
+              <label className="flabel">Tags (comma separated)</label>
+              <input className="inp" value={editForm.tags} onChange={e => setEditForm(f => ({ ...f, tags: e.target.value }))} placeholder="React, Node.js, TypeScript" />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+              <div><label className="flabel">Rating (0–5)</label><input className="inp" type="number" min="0" max="5" step="0.1" value={editForm.rating} onChange={e => setEditForm(f => ({ ...f, rating: e.target.value }))} /></div>
+              <div><label className="flabel">Reviews count</label><input className="inp" type="number" min="0" value={editForm.reviews} onChange={e => setEditForm(f => ({ ...f, reviews: e.target.value }))} /></div>
+            </div>
+            <div style={{ marginBottom: 10 }}>
+              <label className="flabel">Description (DE)</label>
+              <textarea className="inp" rows={2} style={{ resize: 'vertical' }} value={editForm.desc_de} onChange={e => setEditForm(f => ({ ...f, desc_de: e.target.value }))} />
+            </div>
+            <div style={{ marginBottom: 20 }}>
+              <label className="flabel">Description (EN)</label>
+              <textarea className="inp" rows={2} style={{ resize: 'vertical' }} value={editForm.desc_en} onChange={e => setEditForm(f => ({ ...f, desc_en: e.target.value }))} />
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button className="btn gbtn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }} onClick={saveEdit} disabled={saving}>
+                {saving ? <><div style={{ width: 12, height: 12, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: G.bg, borderRadius: '50%' }} className="sp" />Saving…</> : '💾 Save changes'}
               </button>
-              <button className="btn ghost" onClick={() => setEditProfile(null)} disabled={saving}>{La.cancelBtn}</button>
+              <button className="btn ghost" onClick={() => setEditProfile(null)} disabled={saving}>Cancel</button>
             </div>
           </div>
         </div>
