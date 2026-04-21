@@ -1036,20 +1036,22 @@ function MatchPage({ lang, t }) {
     }).catch(() => setDbLoaded(true))
   }, [])
 
-  const allProfiles = dbProfiles.length > 0 ? dbProfiles : (window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : [])
+  const allProfiles = dbProfiles.length > 0 ? dbProfiles
+    : (window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : [])
 
-  // Build dynamic skill lists from DB profile tags, merged with hardcoded SKILL_SETS
-  const dynamicSkills = useMemo(() => {
-    const merged = {}
-    CATS.forEach(cat => {
-      const base = new Set(SKILL_SETS[cat.id] || [])
-      allProfiles.filter(p => p.cat === cat.id).forEach(p => {
-        ;(p.tags || []).forEach(tg => base.add(tg))
-      })
-      merged[cat.id] = [...base]
-    })
-    return merged
-  }, [allProfiles])
+  // Skills for the selected category: hardcoded base + any extra tags from DB profiles
+  const currentSkills = useMemo(() => {
+    const base = new Set(SKILL_SETS[category] || [])
+    // Add any tags from DB profiles in this category not already in base
+    allProfiles
+      .filter(p => p.cat === category)
+      .forEach(p => (p.tags || []).forEach(tg => base.add(tg)))
+    return [...base]
+  }, [category, allProfiles])
+
+  // setcat: change category and clear selected skills
+  const setcat = (newCat) => { setCategory(newCat); setSkills([]) }
+  const toggleSkill = s => setSkills(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])
 
   const LABELS = {
     de: {
