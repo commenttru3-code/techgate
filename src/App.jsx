@@ -6,7 +6,7 @@ import {
   insertContactLead, insertBooking,
   formToDb, fetchSiteContent, saveSiteContent,
   fetchSettings, upsertSetting,
-} from './supabase.js'
+} from 'src/supabase.js'
 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────────
 const T = {
