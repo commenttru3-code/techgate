@@ -32,31 +32,6 @@ export async function saveSiteContent(payload) {
   return error
 }
 
-// ─── SETTINGS ────────────────────────────────────────────────────────────────
-
-export async function fetchSettings() {
-  const { data, error } = await supabase
-    .from('settings')
-    .select('*')
-
-  if (error) {
-    console.error('fetchSettings:', error)
-    return []
-  }
-  return data || []
-}
-
-export async function upsertSetting(key, value) {
-  const { error } = await supabase
-    .from('settings')
-    .upsert({ key, value })
-
-  if (error) {
-    console.error('upsertSetting:', error)
-  }
-  return error
-}
-
 // ─── PROFILES ────────────────────────────────────────────────────────────────
 
 export async function fetchProfiles() {
