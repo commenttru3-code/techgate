@@ -2149,7 +2149,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     avail_note: '2 Active partners',
     pkg_sub: 'Rates and conditions are agreed in a personal conversation.',
     sp_title: 'The rootsGTM Sales Team',
-    sp_sub: 'rootsGTM's sales team works on the ground in Kosovo.',
+    sp_sub: 'rootsGTM\'s sales team works on the ground in Kosovo.',
     cta_title: 'Ready for your Kosovo visit?',
     cta_email: 'concierge@techgate-ks.com',
   })
