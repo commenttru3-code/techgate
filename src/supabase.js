@@ -7,6 +7,56 @@ const SUPABASE_ANON_KEY = 'sb_publishable_j00SlYMGML57sf24EXKBaA_nRyKVb82'
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
+// ─── SITE CONTENT ────────────────────────────────────────────────────────────
+
+export async function fetchSiteContent() {
+  const { data, error } = await supabase
+    .from('site_content')
+    .select('*')
+
+  if (error) {
+    console.error('fetchSiteContent:', error)
+    return []
+  }
+  return data || []
+}
+
+export async function saveSiteContent(payload) {
+  const { error } = await supabase
+    .from('site_content')
+    .upsert(payload)
+
+  if (error) {
+    console.error('saveSiteContent:', error)
+  }
+  return error
+}
+
+// ─── SETTINGS ────────────────────────────────────────────────────────────────
+
+export async function fetchSettings() {
+  const { data, error } = await supabase
+    .from('settings')
+    .select('*')
+
+  if (error) {
+    console.error('fetchSettings:', error)
+    return []
+  }
+  return data || []
+}
+
+export async function upsertSetting(key, value) {
+  const { error } = await supabase
+    .from('settings')
+    .upsert({ key, value })
+
+  if (error) {
+    console.error('upsertSetting:', error)
+  }
+  return error
+}
+
 // ─── PROFILES ────────────────────────────────────────────────────────────────
 
 export async function fetchProfiles() {
