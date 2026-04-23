@@ -4,7 +4,8 @@ import {
   insertProfile, updateProfile, deleteProfile, verifyProfile,
   fetchPendingChanges, insertPendingChange, approvePendingChange, rejectPendingChange,
   insertContactLead, insertBooking,
-  formToDb,
+  formToDb, fetchSiteContent, saveSiteContent,
+  fetchSettings, upsertSetting,
 } from './supabase.js'
 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────────
@@ -112,7 +113,12 @@ const T = {
       { ic: '🏦', t: 'Bankkonto', d: '10 lizenzierte Banken.', time: '2–5 Tage' },
     ],
     govFactsH: '🇽🇰 Kosovo auf einen Blick',
-    govFacts: [['10%', 'Körperschaftsteuer'], ['18%', 'MwSt'], ['1 EUR', 'Mindestkapital'], ['5–10 Tage', 'Gründungsdauer'], ['EUR', 'Währung'], ['1,8 Mio', 'Einwohner'], ['63%', 'Unter 35 J.'], ['2008', 'Unabhängig']],
+    govFacts: [
+            [gc.corporate_tax||'10%','Körperschaftsteuer'],[gc.vat||'18%','MwSt'],
+            [gc.min_capital||'1 EUR','Mindestkapital'],[`${gc.formation_days||'5–10'} Tage`,'Gründungsdauer'],
+            [gc.currency||'EUR','Währung'],[gc.population||'1,8 Mio','Einwohner'],
+            [gc.youth_pct||'63%','Unter 35 J.'],[gc.independence_year||'2008','Unabhängig']
+          ],
     govLinks: 'Offizielle Links',
     regTitle: 'Was möchten Sie eintragen?',
     regComp: '🏢 Firma', regCompS: 'Team, GmbH, Agentur',
@@ -870,8 +876,10 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
 }
 
 // ─── DIRECTORY PAGE ───────────────────────────────────────────────────────────
-function DirectoryPage({ lang, t, externalTag, onClearTag }) {
-  const [q, setQ] = useState('')
+function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear }) {
+  const [q, setQ] = useState(initialQ || '')
+  // Sync initialQ when coming from home search
+  React.useEffect(() => { if (initialQ) { setQ(initialQ) } }, [initialQ])
   const [typeF, setTypeF] = useState('all')
   const [cat, setCat] = useState('all')
   const [sort, setSort] = useState('rating')
@@ -1360,7 +1368,15 @@ function MatchPage({ lang, t }) {
 }
 
 // ─── CONCIERGE PAGE ───────────────────────────────────────────────────────────
-function ConciergePage({ lang, t }) {
+function ConciergePage({ lang, t, content = {} }) {
+  const raw = window.__siteContent || content
+  // Merge DB content on top of defaults
+  const sc = {
+    partners: { ...(raw.partners || {}) },
+    concierge: { ...(raw.concierge || {}) },
+  }
+  const P = sc.partners   // shorthand for partner fields
+  const CC = sc.concierge // shorthand for concierge fields
   const [bookModal, setBookModal] = useState(false)
   const [bookDone, setBookDone] = useState(false)
   const [partnerModal, setPartnerModal] = useState(false)
@@ -1383,11 +1399,11 @@ function ConciergePage({ lang, t }) {
             <span style={{ fontSize: 12, color: G.teal, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>2 {t.concAvail}</span>
           </div>
           <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4.5vw,48px)', letterSpacing: '-1.1px', lineHeight: 1.1, marginBottom: 14 }}>
-            {t.concHeroTitle}<br /><span style={{ color: G.teal }}>
+            {CC.hero_title || t.concHeroTitle}<br /><span style={{ color: G.teal }}>
               {lang === 'de' ? 'Wir organisieren alles.' : lang === 'sv' ? 'Vi ordnar allt.' : lang === 'sq' ? 'Ne organizojmë gjithçka.' : 'We organise everything.'}
             </span>
           </h1>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: G.muted, lineHeight: 1.82, marginBottom: 26, maxWidth: 520, fontWeight: 300 }}>{t.concHeroSub}</p>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: G.muted, lineHeight: 1.82, marginBottom: 26, maxWidth: 520, fontWeight: 300 }}>{CC.hero_sub || t.concHeroSub}</p>
           <div style={{ display: 'flex', gap: 10 }}>
             <button className="btn teal-btn" onClick={() => setBookModal(true)}>{t.concReq}</button>
             <button className="btn ghost">{t.concLearn}</button>
@@ -1408,7 +1424,7 @@ function ConciergePage({ lang, t }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
                 <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: '1px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>🚀</div>
                 <div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.teal }}>rootsGTM</div>
+                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.teal }}>{P.rootsgtm_name || 'rootsGTM'}</div>
                   <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
                     {lang === 'de' ? 'Offizieller Sales Partner · Aktiv' : lang === 'sv' ? 'Officiell säljpartner · Aktiv' : lang === 'sq' ? 'Partner Zyrtar i Shitjeve · Aktiv' : 'Official Sales Partner · Active'}
                   </div>
@@ -1416,7 +1432,7 @@ function ConciergePage({ lang, t }) {
                 <span style={{ marginLeft: 'auto', fontSize: 11, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.25)', borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>✓ Live</span>
               </div>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
-                {lang === 'de' ? 'rootsGTM ist unser exklusives Sales-Netzwerk — spezialisiert auf die Vermittlung zwischen EU-Unternehmen und Kosovo-Partnern. Sie übernehmen den direkten Kundenkontakt, organisieren Meetings und Follow-ups.' : lang === 'sv' ? 'rootsGTM är vårt exklusiva säljnätverk — specialiserat på att förmedla kontakter mellan EU-företag och Kosovo-partners. De hanterar direktkontakt med kunder, organiserar möten och uppföljning.' : lang === 'sq' ? 'rootsGTM është rrjeti ynë ekskluziv i shitjeve — i specializuar në ndërmjetësimin mes kompanive të BE-së dhe partnerëve të Kosovës. Ata trajtojnë kontaktet direkte me klientë dhe organizojnë takime.' : 'rootsGTM is our exclusive sales network — specialised in connecting EU companies with Kosovo partners. They handle direct client contact, meeting organisation and follow-ups.'}
+                {P.rootsgtm_desc || (lang === 'de' ? 'rootsGTM ist unser exklusives Sales-Netzwerk für EU–Kosovo Vermittlung.' : 'rootsGTM is our exclusive sales network for EU–Kosovo connections.')}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
                 {(lang === 'de' ? ['🤝 Direkter Kundenkontakt', '📅 Meeting-Organisation', '🎤 Events & Networking', '📄 Follow-up & Verträge'] : lang === 'sv' ? ['🤝 Direktkontakt', '📅 Mötesorganisation', '🎤 Event & Nätverk', '📄 Uppföljning & Avtal'] : lang === 'sq' ? ['🤝 Kontakt direkt', '📅 Organizim takimesh', '🎤 Evente & Rrjet', '📄 Vijim & Kontrata'] : ['🤝 Direct client contact', '📅 Meeting organisation', '🎤 Events & networking', '📄 Follow-up & contracts']).map(f => (
@@ -1647,7 +1663,8 @@ function ConciergePage({ lang, t }) {
 }
 
 // ─── GOV PAGE ─────────────────────────────────────────────────────────────────
-function GovPage({ lang, t }) {
+function GovPage({ lang, t, content = {} }) {
+  const gc = (window.__siteContent?.gov_content) || {}
   return (
     <div style={{ padding: '44px', maxWidth: 980, margin: '0 auto' }}>
       <div style={{ display: 'inline-block', background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 6, padding: '4px 12px', fontSize: 11, color: G.gold, marginBottom: 12, letterSpacing: '1px', textTransform: 'uppercase' }}>{t.govBadge}</div>
@@ -1675,7 +1692,7 @@ function GovPage({ lang, t }) {
           ))}
         </div>
         <div style={{ borderTop: `1px solid ${G.goldBorder}`, paddingTop: 16, display: 'flex', gap: 9, flexWrap: 'wrap' }}>
-          <button className="btn gbtn" style={{ padding: '8px 16px', fontSize: 12 }}>InvestKosova →</button>
+          <button className="btn gbtn" style={{ padding: '8px 16px', fontSize: 12 }} onClick={() => window.open(gc.investkosova_url||'https://investkosova.org','_blank')}>InvestKosova →</button>
           <button className="btn ghost" style={{ fontSize: 12 }}>ARBK</button>
           <button className="btn ghost" style={{ fontSize: 12 }}>ATK</button>
         </div>
@@ -2104,17 +2121,39 @@ const INITIAL_PENDING = [
 // ─── ADMIN PAGE ──────────────────────────────────────────────────────────────
 let ADMIN_PASSWORD = 'techgate2025admin'
 
-function AdminPage({ onExit, lang }) {
+function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave }) {
   const [pw, setPw] = React.useState('')
   const [authed, setAuthed] = React.useState(false)
   const [authFail, setAuthFail] = React.useState(false)
-  const [tab, setTab] = React.useState('pending_profiles') // pending_profiles | profiles | pending_changes | settings
+  const [tab, setTab] = React.useState('pending_profiles') // pending_profiles | profiles | pending_changes | partners | concierge | settings
   const [profiles, setProfiles] = React.useState([])
   const [pending, setPending] = React.useState([])
   const [loadingP, setLoadingP] = React.useState(false)
   const [loadingC, setLoadingC] = React.useState(false)
   const [saving, setSaving] = React.useState(false)
   const [editProfile, setEditProfile] = React.useState(null)
+  const [partners, setPartners] = React.useState({
+    rootsgtm_name: 'rootsGTM',
+    rootsgtm_email: 'mentor@techgate-ks.com',
+    rootsgtm_phone: '+383 44 123 456',
+    rootsgtm_website: 'rootsgtm.com',
+    rootsgtm_desc: 'rootsGTM is our exclusive sales network — specialised in connecting EU companies with Kosovo partners.',
+    gov_name: 'Kosovo Government / InvestKosova',
+    gov_email: 'info@invest-ks.com',
+    gov_website: 'invest-ks.com',
+    gov_desc: 'Official partnership with InvestKosova and the Ministry of Economy.',
+  })
+  const [concierge, setConcierge] = React.useState({
+    hero_title: 'Kosovo Concierge',
+    hero_sub: 'Our partners organise your complete business visit.',
+    avail_note: '2 Active partners',
+    pkg_sub: 'Rates and conditions are agreed in a personal conversation.',
+    sp_title: 'The rootsGTM Sales Team',
+    sp_sub: 'rootsGTM's sales team works on the ground in Kosovo.',
+    cta_title: 'Ready for your Kosovo visit?',
+    cta_email: 'concierge@techgate-ks.com',
+  })
+  const [settingsSaved, setSettingsSaved] = React.useState('')
   const [editForm, setEditForm] = React.useState({})
   const [newPw, setNewPw] = React.useState('')
   const [newPwConfirm, setNewPwConfirm] = React.useState('')
@@ -2128,6 +2167,11 @@ function AdminPage({ onExit, lang }) {
     if (pw === ADMIN_PASSWORD) {
       setAuthed(true); setAuthFail(false)
       loadData()
+      // Load site content from DB
+      fetchSiteContent().then(content => {
+        if (content.partners)  setPartners(prev => ({ ...prev, ...content.partners }))
+        if (content.concierge) setConcierge(prev => ({ ...prev, ...content.concierge }))
+      }).catch(() => {})
     } else { setAuthFail(true) }
   }
 
@@ -2135,6 +2179,24 @@ function AdminPage({ onExit, lang }) {
     setLoadingP(true); setLoadingC(true)
     fetchAllProfilesAdmin().then(d => { setProfiles(d); setLoadingP(false) }).catch(() => setLoadingP(false))
     fetchPendingChanges().then(d => { setPending(d); setLoadingC(false) }).catch(() => setLoadingC(false))
+    fetchSettings('partners').then(d => { if (d) setPartners(p => ({ ...p, ...d })) }).catch(() => {})
+    fetchSettings('concierge').then(d => { if (d) setConcierge(cc => ({ ...cc, ...d })) }).catch(() => {})
+  }
+
+  const savePartners = async () => {
+    setSaving(true)
+    await upsertSetting('partners', partners)
+    setSaving(false)
+    setSettingsSaved('partners')
+    setTimeout(() => setSettingsSaved(''), 2500)
+  }
+
+  const saveConcierge = async () => {
+    setSaving(true)
+    await upsertSetting('concierge', concierge)
+    setSaving(false)
+    setSettingsSaved('concierge')
+    setTimeout(() => setSettingsSaved(''), 2500)
   }
 
   const handleVerify = async (id, val) => {
@@ -2272,6 +2334,8 @@ function AdminPage({ onExit, lang }) {
     { id: 'pending_profiles', label: 'Neue Profile',     labelEn: 'New profiles',         icon: '🆕' },
     { id: 'profiles',         label: 'Alle Profile',     labelEn: 'All profiles',          icon: '📋' },
     { id: 'pending_changes',  label: 'Änderungen',       labelEn: 'Change requests',       icon: '✏️' },
+    { id: 'partners',         label: 'Partner',          labelEn: 'Partners',              icon: '🤝' },
+    { id: 'concierge',        label: 'Concierge',        labelEn: 'Concierge',             icon: '🗓' },
     { id: 'settings',         label: 'Einstellungen',    labelEn: 'Settings',              icon: '⚙️' },
   ]
 
@@ -2452,6 +2516,75 @@ function AdminPage({ onExit, lang }) {
         </div>
       )}
 
+      {/* ── TAB: PARTNERS ────────────────────────────────────────────────── */}
+      {tab === 'partners' && (
+        <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
+          <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted }}>
+            Edit the partner details shown on the Concierge page. Changes are saved to the database.
+          </p>
+
+          {/* rootsGTM */}
+          <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:14, padding:'22px 24px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.teal, marginBottom:16 }}>🚀 rootsGTM — Official Sales Partner</div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+              <div><label className="flabel">Organisation name</label><input className="inp" value={partners.rootsgtm_name||''} onChange={e=>setPartners(p=>({...p,rootsgtm_name:e.target.value}))} /></div>
+              <div><label className="flabel">Email</label><input className="inp" value={partners.rootsgtm_email||''} onChange={e=>setPartners(p=>({...p,rootsgtm_email:e.target.value}))} /></div>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+              <div><label className="flabel">Phone</label><input className="inp" value={partners.rootsgtm_phone||''} onChange={e=>setPartners(p=>({...p,rootsgtm_phone:e.target.value}))} /></div>
+              <div><label className="flabel">Website</label><input className="inp" value={partners.rootsgtm_website||''} onChange={e=>setPartners(p=>({...p,rootsgtm_website:e.target.value}))} placeholder="rootsgtm.com" /></div>
+            </div>
+            <div><label className="flabel">Description (shown on Concierge page)</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.rootsgtm_desc||''} onChange={e=>setPartners(p=>({...p,rootsgtm_desc:e.target.value}))} /></div>
+          </div>
+
+          {/* Kosovo Government */}
+          <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, padding:'22px 24px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.gold, marginBottom:16 }}>🏛️ Kosovo Government / InvestKosova</div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+              <div><label className="flabel">Organisation name</label><input className="inp" value={partners.gov_name||''} onChange={e=>setPartners(p=>({...p,gov_name:e.target.value}))} /></div>
+              <div><label className="flabel">Email</label><input className="inp" value={partners.gov_email||''} onChange={e=>setPartners(p=>({...p,gov_email:e.target.value}))} /></div>
+            </div>
+            <div style={{ marginBottom:12 }}><label className="flabel">Website</label><input className="inp" value={partners.gov_website||''} onChange={e=>setPartners(p=>({...p,gov_website:e.target.value}))} placeholder="invest-ks.com" /></div>
+            <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.gov_desc||''} onChange={e=>setPartners(p=>({...p,gov_desc:e.target.value}))} /></div>
+          </div>
+
+          {settingsSaved === 'partners' && <div style={{ fontSize:12, color:G.green }}>✓ Partners saved to database</div>}
+          <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'11px 28px' }} onClick={savePartners} disabled={saving}>
+            {saving ? 'Saving…' : '💾 Save partners'}
+          </button>
+        </div>
+      )}
+
+      {/* ── TAB: CONCIERGE ────────────────────────────────────────────────── */}
+      {tab === 'concierge' && (
+        <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
+          <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted }}>
+            Edit the text content on the Concierge page.
+          </p>
+          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'22px 24px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, marginBottom:16 }}>Hero section</div>
+            <div style={{ marginBottom:12 }}><label className="flabel">Hero title</label><input className="inp" value={concierge.hero_title||''} onChange={e=>setConcierge(cc=>({...cc,hero_title:e.target.value}))} /></div>
+            <div style={{ marginBottom:12 }}><label className="flabel">Hero subtitle</label><textarea className="inp" rows={2} style={{resize:'vertical'}} value={concierge.hero_sub||''} onChange={e=>setConcierge(cc=>({...cc,hero_sub:e.target.value}))} /></div>
+            <div><label className="flabel">Active partners note (e.g. "2 Active partners")</label><input className="inp" value={concierge.avail_note||''} onChange={e=>setConcierge(cc=>({...cc,avail_note:e.target.value}))} /></div>
+          </div>
+          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'22px 24px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, marginBottom:16 }}>Packages + Team</div>
+            <div style={{ marginBottom:12 }}><label className="flabel">Packages subtitle</label><textarea className="inp" rows={2} style={{resize:'vertical'}} value={concierge.pkg_sub||''} onChange={e=>setConcierge(cc=>({...cc,pkg_sub:e.target.value}))} /></div>
+            <div style={{ marginBottom:12 }}><label className="flabel">Sales team title</label><input className="inp" value={concierge.sp_title||''} onChange={e=>setConcierge(cc=>({...cc,sp_title:e.target.value}))} /></div>
+            <div><label className="flabel">Sales team subtitle</label><textarea className="inp" rows={2} style={{resize:'vertical'}} value={concierge.sp_sub||''} onChange={e=>setConcierge(cc=>({...cc,sp_sub:e.target.value}))} /></div>
+          </div>
+          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'22px 24px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, marginBottom:16 }}>CTA Banner</div>
+            <div style={{ marginBottom:12 }}><label className="flabel">CTA title</label><input className="inp" value={concierge.cta_title||''} onChange={e=>setConcierge(cc=>({...cc,cta_title:e.target.value}))} /></div>
+            <div><label className="flabel">Contact email (shown in booking modal)</label><input className="inp" value={concierge.cta_email||''} onChange={e=>setConcierge(cc=>({...cc,cta_email:e.target.value}))} /></div>
+          </div>
+          {settingsSaved === 'concierge' && <div style={{ fontSize:12, color:G.green }}>✓ Concierge content saved to database</div>}
+          <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'11px 28px' }} onClick={saveConcierge} disabled={saving}>
+            {saving ? 'Saving…' : '💾 Save concierge content'}
+          </button>
+        </div>
+      )}
+
       {/* ── TAB: SETTINGS ─────────────────────────────────────────────────── */}
       {tab === 'settings' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
@@ -2611,14 +2744,32 @@ export default function App() {
     return 'en'
   })
   const [page, setPage] = useState('home')
+  const [searchQ, setSearchQ] = useState('')
   const [showReg, setShowReg] = useState(false)
   const [regType, setRegType] = useState(null)
   const [regDone, setRegDone] = useState(false)
 
-  // Pre-load all verified profiles once — shared across DirectoryPage + MatchPage
+  const [homeStats, setHomeStats] = React.useState({ companies: 0, freelancers: 0, partners: 2 })
+  const [siteContent, setSiteContent] = useState({})
+
+  // Pre-load verified profiles + site content
   useEffect(() => {
     fetchProfiles().then(data => {
-      if (data.length > 0) window.__techgateProfiles = data
+      if (data.length > 0) {
+        window.__techgateProfiles = data
+        setHomeStats({
+          companies:   data.filter(p => p.type === 'company').length,
+          freelancers: data.filter(p => p.type === 'freelancer').length,
+          partners:    data.filter(p => p.type === 'partner').length || 2,
+        })
+      }
+    }).catch(() => {})
+    // Load editable site content
+    fetchSiteContent().then(content => {
+      if (Object.keys(content).length > 0) {
+        setSiteContent(content)
+        window.__siteContent = content
+      }
     }).catch(() => {})
   }, [])
   const [showAdmin, setShowAdmin] = useState(
@@ -2630,7 +2781,7 @@ export default function App() {
   const FLAGS = { de: '🇩🇪', en: '🇬🇧', sq: '🇽🇰', sv: '🇸🇪' }
 
   // Show admin panel if triggered
-  if (showAdmin) return <AdminPage lang={lang} onExit={() => setShowAdmin(false)} />
+  if (showAdmin) return <AdminPage lang={lang} onExit={() => setShowAdmin(false)} siteContent={siteContent} onContentSave={(key, val) => { saveSiteContent(key, val); setSiteContent(prev => ({...prev, [key]: val})); window.__siteContent = {...(window.__siteContent||{}), [key]: val} }} />
 
   return (
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: G.bg, minHeight: '100vh', color: G.text }}>
@@ -2679,11 +2830,13 @@ export default function App() {
               </h1>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: G.muted, lineHeight: 1.82, fontWeight: 300, maxWidth: 520, margin: '0 auto 32px' }}>{t.heroSub}</p>
               <div style={{ display: 'flex', gap: 7, maxWidth: 540, margin: '0 auto 32px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${G.goldBorder}`, borderRadius: 12, padding: 5 }}>
-                <input className="inp" style={{ flex: 1, background: 'transparent', border: 'none', fontSize: 15 }} placeholder={t.searchPH} onKeyDown={e => e.key === 'Enter' && setPage('directory')} />
+                <input className="inp" style={{ flex: 1, background: 'transparent', border: 'none', fontSize: 15 }} placeholder={t.searchPH}
+                  value={searchQ} onChange={e => setSearchQ(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') { setPage('directory') } }} />
                 <button className="btn gbtn" style={{ flexShrink: 0 }} onClick={() => setPage('directory')}>{t.searchBtn} →</button>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 30, flexWrap: 'wrap' }}>
-                {[['347', t.stat1], ['153', t.stat2], ['2', t.stat3], ['10%', t.stat4]].map(([n, l]) => (
+                {[[String(homeStats.companies), t.stat1], [String(homeStats.freelancers), t.stat2], [String(homeStats.partners), t.stat3], ['10%', t.stat4]].map(([n, l]) => (
                   <div key={l} style={{ textAlign: 'center' }}>
                     <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: G.gold }}>{n}</div>
                     <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>{l}</div>
@@ -2733,10 +2886,10 @@ export default function App() {
           </section>
         </>
       )}
-      {page === 'directory'  && <DirectoryPage lang={lang} t={t} />}
+      {page === 'directory'  && <DirectoryPage lang={lang} t={t} initialQ={searchQ} onQClear={() => setSearchQ('')} />}
       {page === 'match'      && <MatchPage lang={lang} t={t} />}
-      {page === 'concierge'  && <ConciergePage lang={lang} t={t} />}
-      {page === 'gov'        && <GovPage lang={lang} t={t} />}
+      {page === 'concierge'  && <ConciergePage lang={lang} t={t} content={siteContent} />}
+      {page === 'gov'        && <GovPage lang={lang} t={t} content={siteContent} />}
 
       {/* ── REGISTER ── */}
       {showReg && !regDone && (
