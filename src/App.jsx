@@ -206,7 +206,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'You arrive', d: 'Everything prepared.' },
       { n: '05', ic: '📄', t: 'Follow-up', d: 'Contracts & next steps.' },
     ],
-    concSpTitle: 'The rootsGTM Sales Team', concSpSub: 'rootsGTM\'s sales team works on the ground in Kosovo — they know the business culture, the best contacts and handle everything for you.',
+    concSpTitle: 'The rootsGTM Sales Team', concSpSub: "rootsGTM's sales team works on the ground in Kosovo — they know the business culture, the best contacts and handle everything for you.",
     spDeals: 'Deals',
     concCtaTitle: 'Ready for your Kosovo visit?',
     concCtaFeats: ['✓ Reply in 24h', '✓ No deposit', '✓ Free initial call', '✓ Flexible booking'],
@@ -634,14 +634,57 @@ body{background:#080c14;margin:0;}
 .navl:hover{color:#e8e4d9;background:rgba(255,255,255,0.04);}
 .navl.on{color:#d4a843;background:rgba(212,168,67,0.09);}
 .tag{display:inline-block;background:rgba(88,166,255,0.08);color:#8eb4d4;border:1px solid rgba(88,166,255,0.15);border-radius:5px;padding:2px 7px;font-size:11px;}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.84);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);}
-.modal{background:#0e1420;border:1px solid rgba(212,168,67,0.22);border-radius:18px;padding:32px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.84);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px);}
+.modal{background:#0e1420;border:1px solid rgba(212,168,67,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
 .flabel{display:block;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;color:rgba(232,228,217,0.46);margin-bottom:5px;letter-spacing:0.8px;text-transform:uppercase;}
 .sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#fb923c,#fdba74);}
 .pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#d4a843,#fde68a);}
 .rank-badge{position:absolute;top:10px;right:10px;}
+.mobile-menu-btn{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:transparent;border:none;}
+.mobile-menu-btn span{display:block;width:22px;height:2px;background:rgba(232,228,217,0.7);border-radius:1px;transition:all 0.2s;}
+.mobile-nav{display:none;position:fixed;inset:0;top:64px;background:#080c14f5;z-index:99;padding:20px 16px;flex-direction:column;gap:4px;overflow-y:auto;border-top:1px solid rgba(255,255,255,0.06);}
+.mobile-nav.open{display:flex;}
+.mobile-navl{background:transparent;color:rgba(232,228,217,0.7);padding:14px 16px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:500;border:none;cursor:pointer;border-radius:10px;text-align:left;width:100%;transition:all 0.14s;border-bottom:1px solid rgba(255,255,255,0.04);}
+.mobile-navl:hover,.mobile-navl.on{color:#d4a843;background:rgba(212,168,67,0.07);}
+@media(max-width:640px){
+  .nav-links{display:none !important;}
+  .mobile-menu-btn{display:flex !important;}
+  .hero-pad{padding:32px 16px 24px !important;}
+  .section-pad{padding:0 16px !important;}
+  .page-pad{padding:16px 16px !important;}
+  .page-pad-lg{padding:20px 16px !important;}
+  .hero-h1{font-size:28px !important;letter-spacing:-0.5px !important;}
+  .grid-2col{grid-template-columns:1fr !important;}
+  .grid-3col{grid-template-columns:1fr !important;}
+  .grid-4col{grid-template-columns:1fr 1fr !important;}
+  .grid-cards{grid-template-columns:1fr !important;}
+  .home-features{grid-template-columns:1fr !important;}
+  .stat-grid{grid-template-columns:1fr 1fr !important;}
+  .pkg-grid{grid-template-columns:1fr !important;}
+  .step-grid{grid-template-columns:1fr 1fr !important;}
+  .reg-types{flex-direction:column !important;}
+  .admin-stats{grid-template-columns:1fr 1fr !important;}
+  .admin-tabs{flex-wrap:wrap !important;}
+  .admin-edit-2col{grid-template-columns:1fr !important;}
+  .admin-edit-3col{grid-template-columns:1fr !important;}
+  .admin-settings{grid-template-columns:1fr !important;}
+  .partner-cards{grid-template-columns:1fr !important;}
+  .footer-inner{flex-direction:column !important;gap:12px !important;}
+  .search-row{flex-direction:column !important;}
+  .match-cats{gap:6px !important;}
+  .nav-reg-btn{display:none !important;}
+}
+@media(min-width:641px) and (max-width:900px){
+  .hero-pad{padding:40px 24px 32px !important;}
+  .section-pad{padding:0 24px !important;}
+  .page-pad{padding:20px 24px !important;}
+  .grid-3col{grid-template-columns:1fr 1fr !important;}
+  .grid-4col{grid-template-columns:1fr 1fr !important;}
+  .pkg-grid{grid-template-columns:1fr 1fr !important;}
+  .home-features{grid-template-columns:1fr 1fr !important;}
+  .admin-stats{grid-template-columns:repeat(2,1fr) !important;}
+}
 `
-
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 const catLabel = (id, lang) => CATS.find(c => c.id === id)?.labels[lang] || id
 const catColor  = id => CATS.find(c => c.id === id)?.color || G.gold
@@ -2149,7 +2192,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     avail_note: '2 Active partners',
     pkg_sub: 'Rates and conditions are agreed in a personal conversation.',
     sp_title: 'The rootsGTM Sales Team',
-    sp_sub: 'rootsGTM\'s sales team works on the ground in Kosovo.',
+    sp_sub: "rootsGTM's sales team works on the ground in Kosovo.",
     cta_title: 'Ready for your Kosovo visit?',
     cta_email: 'concierge@techgate-ks.com',
   })
@@ -2745,6 +2788,7 @@ export default function App() {
   })
   const [page, setPage] = useState('home')
   const [searchQ, setSearchQ] = useState('')
+  const [mobileNav, setMobileNav] = useState(false)
   const [showReg, setShowReg] = useState(false)
   const [regType, setRegType] = useState(null)
   const [regDone, setRegDone] = useState(false)
@@ -2797,12 +2841,15 @@ export default function App() {
           </div>
         </button>
         <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          {[['home', t.navHome], ['directory', t.navDir], ['match', t.navMatch], ['concierge', t.navConcierge], ['gov', t.navGov]].map(([p, l]) => (
-            <button key={p} className={`btn navl${page === p ? ' on' : ''}`} onClick={() => setPage(p)}
-              style={p === 'concierge' ? { color: page === 'concierge' ? G.teal : 'rgba(45,212,191,0.45)' } : {}}>
-              {l}
-            </button>
-          ))}
+          {/* Desktop nav links */}
+          <div className="nav-links" style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            {[['home', t.navHome], ['directory', t.navDir], ['match', t.navMatch], ['concierge', t.navConcierge], ['gov', t.navGov]].map(([p, l]) => (
+              <button key={p} className={`btn navl${page === p ? ' on' : ''}`} onClick={() => setPage(p)}
+                style={p === 'concierge' ? { color: page === 'concierge' ? G.teal : 'rgba(45,212,191,0.45)' } : {}}>
+                {l}
+              </button>
+            ))}
+          </div>
           <div style={{ width: 1, height: 18, background: G.border, margin: '0 6px' }} />
           <div style={{ display: 'flex', gap: 2, background: 'rgba(255,255,255,0.04)', border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
             {['de', 'en', 'sq', 'sv'].map(l => (
@@ -2811,9 +2858,33 @@ export default function App() {
               </button>
             ))}
           </div>
-          <button className="btn gbtn" style={{ marginLeft: 8, padding: '8px 16px', fontSize: 12 }} onClick={() => setShowReg(true)}>{t.registerBtn}</button>
+          <button className="btn gbtn nav-reg-btn" style={{ marginLeft: 8, padding: '8px 16px', fontSize: 12 }} onClick={() => setShowReg(true)}>{t.registerBtn}</button>
+          {/* Mobile hamburger */}
+          <button className="mobile-menu-btn" onClick={() => setMobileNav(v => !v)} style={{ marginLeft: 8 }}>
+            <span style={mobileNav ? { transform:'rotate(45deg) translate(5px,5px)' } : {}} />
+            <span style={mobileNav ? { opacity:0 } : {}} />
+            <span style={mobileNav ? { transform:'rotate(-45deg) translate(5px,-5px)' } : {}} />
+          </button>
         </div>
       </nav>
+
+      {/* ── MOBILE NAV MENU ── */}
+      <div className={`mobile-nav${mobileNav ? ' open' : ''}`}>
+        {[['home', t.navHome, '🏠'], ['directory', t.navDir, '🏢'], ['match', t.navMatch, '🔎'], ['concierge', t.navConcierge, '🤝'], ['gov', t.navGov, '🏛️']].map(([p, l, ic]) => (
+          <button key={p} className={`mobile-navl${page === p ? ' on' : ''}`}
+            onClick={() => { setPage(p); setMobileNav(false) }}>
+            <span style={{ marginRight: 10 }}>{ic}</span>{l}
+          </button>
+        ))}
+        <div style={{ borderTop: `1px solid ${G.border}`, marginTop: 12, paddingTop: 12, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          {['de', 'en', 'sq', 'sv'].map(l => (
+            <button key={l} onClick={() => setLang(l)} className="btn" style={{ padding: '7px 14px', fontSize: 12, fontWeight: 700, background: lang === l ? 'rgba(212,168,67,0.18)' : 'rgba(255,255,255,0.04)', color: lang === l ? G.gold : G.muted, border: `1px solid ${lang === l ? G.goldBorder : G.border}`, borderRadius: 8 }}>
+              {FLAGS[l]} {l.toUpperCase()}
+            </button>
+          ))}
+        </div>
+        <button className="btn gbtn" style={{ width: '100%', marginTop: 16 }} onClick={() => { setShowReg(true); setMobileNav(false) }}>{t.registerBtn}</button>
+      </div>
 
       {/* ── PAGES ── */}
       {page === 'home' && (
