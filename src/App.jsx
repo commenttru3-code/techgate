@@ -2248,7 +2248,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
   }
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this profile?')) return
+    if (!window.confirm('Delete this profile? This cannot be undone.')) return
     const err = await deleteProfile(id)
     if (!err) setProfiles(ps => ps.filter(x => x.id !== id))
   }
@@ -2773,6 +2773,25 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { error: null } }
+  static getDerivedStateFromError(err) { return { error: err } }
+  componentDidCatch(err) { console.error('TechGate crash:', err) }
+  render() {
+    if (this.state.error) return (
+      <div style={{ minHeight:'100vh', background:'#080c14', color:'#e8e4d9', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'DM Sans',sans-serif", padding:24, textAlign:'center' }}>
+        <div>
+          <div style={{ fontSize:40, marginBottom:16 }}>⚠️</div>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, marginBottom:8 }}>Something went wrong</div>
+          <div style={{ color:'rgba(232,228,217,0.5)', marginBottom:20 }}>{this.state.error?.message}</div>
+          <button onClick={() => window.location.reload()} style={{ background:'#d4a843', color:'#080c14', border:'none', padding:'10px 24px', borderRadius:8, cursor:'pointer', fontWeight:700 }}>Reload</button>
+        </div>
+      </div>
+    )
+    return this.props.children
+  }
+}
+
 export default function App() {
   const [lang, setLang] = useState(() => {
     // Auto-detect from browser locale
@@ -2810,11 +2829,13 @@ export default function App() {
     }).catch(() => {})
     // Load editable site content
     fetchSiteContent().then(content => {
-      if (Object.keys(content).length > 0) {
+      if (content && typeof content === 'object' && Object.keys(content).length > 0) {
         setSiteContent(content)
         window.__siteContent = content
       }
-    }).catch(() => {})
+    }).catch(err => {
+      console.warn('Site content load failed (table may not exist yet):', err?.message)
+    })
   }, [])
   const [showAdmin, setShowAdmin] = useState(
     // Secret admin URL: add ?admin to the URL
@@ -2827,6 +2848,7 @@ export default function App() {
   // Show admin panel if triggered
   if (showAdmin) return <AdminPage lang={lang} onExit={() => setShowAdmin(false)} siteContent={siteContent} onContentSave={(key, val) => { saveSiteContent(key, val); setSiteContent(prev => ({...prev, [key]: val})); window.__siteContent = {...(window.__siteContent||{}), [key]: val} }} />
 
+  // Render
   return (
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: G.bg, minHeight: '100vh', color: G.text }}>
       <style>{CSS}</style>
@@ -2865,10 +2887,11 @@ export default function App() {
             <span style={mobileNav ? { opacity:0 } : {}} />
             <span style={mobileNav ? { transform:'rotate(-45deg) translate(5px,-5px)' } : {}} />
           </button>
-        </div>
+        </div>{/* end nav-right */}
       </nav>
 
-      {/* ── MOBILE NAV MENU ── */}
+      {/* ── MOBILE NAV OVERLAY ── */}
+      {mobileNav && <div style={{ position:'fixed', inset:0, top:64, background:'rgba(0,0,0,0.5)', zIndex:98 }} onClick={() => setMobileNav(false)} />}
       <div className={`mobile-nav${mobileNav ? ' open' : ''}`}>
         {[['home', t.navHome, '🏠'], ['directory', t.navDir, '🏢'], ['match', t.navMatch, '🔎'], ['concierge', t.navConcierge, '🤝'], ['gov', t.navGov, '🏛️']].map(([p, l, ic]) => (
           <button key={p} className={`mobile-navl${page === p ? ' on' : ''}`}
