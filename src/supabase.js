@@ -7,31 +7,6 @@ const SUPABASE_ANON_KEY = 'sb_publishable_j00SlYMGML57sf24EXKBaA_nRyKVb82'
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-// ─── SITE CONTENT ────────────────────────────────────────────────────────────
-
-export async function fetchSiteContent() {
-  const { data, error } = await supabase
-    .from('site_content')
-    .select('*')
-
-  if (error) {
-    console.error('fetchSiteContent:', error)
-    return []
-  }
-  return data || []
-}
-
-export async function saveSiteContent(payload) {
-  const { error } = await supabase
-    .from('site_content')
-    .upsert(payload)
-
-  if (error) {
-    console.error('saveSiteContent:', error)
-  }
-  return error
-}
-
 // ─── PROFILES ────────────────────────────────────────────────────────────────
 
 export async function fetchProfiles() {
@@ -179,4 +154,47 @@ export function formToDb(form, catChoice, selectedTags, regType, tObj) {
     verified:     false,
     submitted_by: form.email,
   }
+}
+
+// ─── SITE SETTINGS (partners, concierge content) ─────────────────────────────
+
+
+export async function fetchSiteContent() {
+  const { data, error } = await supabase
+    .from('site_content')
+    .select('key, value')
+  if (error) { console.error('fetchSiteContent:', error.message); return {} }
+  const map = {}
+  ;(data || []).forEach(row => { map[row.key] = row.value })
+  return map
+}
+
+export async function saveSiteContent(key, value) {
+  const { error } = await supabase
+    .from('site_content')
+    .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+  if (error) console.error('saveSiteContent:', error.message)
+  return error
+}
+
+// ─── ALIASES for AdminPage content editing ────────────────────────────────────
+
+/** Fetch a single content block by key */
+export async function fetchSettings(key) {
+  const { data, error } = await supabase
+    .from('site_content')
+    .select('value')
+    .eq('key', key)
+    .maybeSingle()
+  if (error) { console.error('fetchSettings:', error.message); return null }
+  return data?.value || null
+}
+
+/** Save / update a single content block */
+export async function upsertSetting(key, value) {
+  const { error } = await supabase
+    .from('site_content')
+    .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+  if (error) console.error('upsertSetting:', error.message)
+  return error
 }
