@@ -2791,6 +2791,10 @@ class ErrorBoundary extends React.Component {
 }
 
 export default function App() {
+  const gc = React.useMemo(() => {
+    if (typeof window === "undefined") return {}
+    return window.__siteContent?.gov_content ?? {}
+  }, [])
   const [lang, setLang] = useState(() => {
     // Auto-detect from browser locale
     // de-DE / de-AT / de-CH → de
