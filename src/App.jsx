@@ -114,12 +114,7 @@ const T = {
       { ic: '🏦', t: 'Bankkonto', d: '10 lizenzierte Banken.', time: '2–5 Tage' },
     ],
     govFactsH: '🇽🇰 Kosovo auf einen Blick',
-    govFacts: [
-            [gc.corporate_tax||'10%','Körperschaftsteuer'],[gc.vat||'18%','MwSt'],
-            [gc.min_capital||'1 EUR','Mindestkapital'],[`${gc.formation_days||'5–10'} Tage`,'Gründungsdauer'],
-            [gc.currency||'EUR','Währung'],[gc.population||'1,8 Mio','Einwohner'],
-            [gc.youth_pct||'63%','Unter 35 J.'],[gc.independence_year||'2008','Unabhängig']
-          ],
+    govFacts: ['10%','Körperschaftsteuer'],['18%','MwSt'],['1 EUR','Mindestkapital'],['5–10' Tage`,'Gründungsdauer'],['EUR','Währung'],['1,8 Mio','Einwohner'],['63%','Unter 35 J.'],['2008','Unabhängig']],
     govLinks: 'Offizielle Links',
     regTitle: 'Was möchten Sie eintragen?',
     regComp: '🏢 Firma', regCompS: 'Team, GmbH, Agentur',
