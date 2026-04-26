@@ -114,7 +114,7 @@ const T = {
       { ic: '🏦', t: 'Bankkonto', d: '10 lizenzierte Banken.', time: '2–5 Tage' },
     ],
     govFactsH: '🇽🇰 Kosovo auf einen Blick',
-    govFacts: [['10%','Körperschaftsteuer'], ['18%','MwSt'], ['1 EUR','Mindestkapital'], ['5–10 Tage','Gründungsdauer'], ['EUR','Währung'], ['1,8 Mio','Einwohner'], ['63%','Unter 35 J.'], ['2008','Unabhängig']],
+    govFacts: [['10%','Körperschaftsteuer'],['18%','MwSt'],['1 EUR','Mindestkapital'],['5–10 Tage','Gründungsdauer'],['EUR','Währung'],['1,8 Mio','Einwohner'],['63%','Unter 35 J.'],['2008','Unabhängig']],
     govLinks: 'Offizielle Links',
     regTitle: 'Was möchten Sie eintragen?',
     regComp: '🏢 Firma', regCompS: 'Team, GmbH, Agentur',
@@ -855,7 +855,7 @@ function ContactModal({ profile, t, onClose }) {
 }
 
 // ─── PROFILE CARD ─────────────────────────────────────────────────────────────
-function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSelfEdit }) {
+function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSelfEdit, matchScore, matchHits }) {
   const isFL = p.type === 'freelancer'
   const isSp = p.tier === 'sponsored'
   const isPr = p.tier === 'premium'
@@ -876,6 +876,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='de'?'Gesponsert':lang==='sv'?'Sponsrad':lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
             {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
             {!isSp && !isPr && <span style={{ fontSize: 10, background: 'rgba(255,255,255,0.05)', color: G.muted, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '2px 9px', fontFamily: "'Syne',sans-serif" }}>Free</span>}
+              {matchScore !== null && matchScore !== undefined && <span style={{ fontSize: 10, background: matchScore>=80?'rgba(52,199,89,0.12)':matchScore>=50?G.goldDim:'rgba(255,255,255,0.04)', color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted, border: `1px solid ${matchScore>=80?'rgba(52,199,89,0.3)':matchScore>=50?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius: 5, padding: '2px 9px', fontWeight: 700 }}>{matchScore}% match</span>}
             {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
           </div>
         </div>
@@ -921,6 +922,10 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
   const [selfEdit, setSelfEdit] = useState(null)
   const [dbProfiles, setDbProfiles] = useState([])
   const [dbLoading, setDbLoading] = useState(true)
+  // Skill matching integrated into directory
+  const [matchCat, setMatchCat] = useState('all')
+  const [matchSkills, setMatchSkills] = useState([])
+  const [matchMode, setMatchMode] = useState(false) // toggle match panel
 
   // Load verified profiles from Supabase
   useEffect(() => {
@@ -955,12 +960,23 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
   const filtered = ranked.filter(p => {
     const s = q.toLowerCase()
     const desc = p.desc[lang] || p.desc.en || ''
+    const catMatch = matchMode && matchCat !== 'all' ? p.cat === matchCat : (cat === 'all' || p.cat === cat)
+    const skillMatch = matchMode && matchSkills.length > 0
+      ? matchSkills.some(sk => p.tags.some(tg => tg.toLowerCase().includes(sk.toLowerCase())))
+      : true
     return (
       (!q || p.name.toLowerCase().includes(s) || desc.toLowerCase().includes(s) || p.tags.some(tg => tg.toLowerCase().includes(s))) &&
       (typeF === 'all' || p.type === typeF) &&
-      (cat === 'all' || p.cat === cat) &&
+      catMatch && skillMatch &&
       (!tagFilter || p.tags.some(tg => tg.toLowerCase() === tagFilter.toLowerCase()))
     )
+  }).map(p => {
+    if (!matchMode || matchSkills.length === 0) return { ...p, _matchScore: null }
+    const hits = matchSkills.filter(sk => p.tags.some(tg => tg.toLowerCase().includes(sk.toLowerCase())))
+    return { ...p, _matchScore: Math.round((hits.length / matchSkills.length) * 100), _matchHits: hits }
+  }).sort((a, b) => {
+    if (matchMode && matchSkills.length > 0 && a._matchScore !== b._matchScore) return (b._matchScore||0) - (a._matchScore||0)
+    return 0
   })
 
   const catList = cat === 'all' ? CATS : CATS.filter(c => c.id === cat)
@@ -976,11 +992,62 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
           <option value="name">{t.sortAZ}</option>
         </select>
       </div>
-      <div style={{ display: 'flex', gap: 7, marginBottom: 11, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 7, marginBottom: 11, flexWrap: 'wrap', alignItems: 'center' }}>
         {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
           <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.04)', color: typeF === v ? G.gold : G.muted, border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{l}</button>
         ))}
+        <button onClick={() => { setMatchMode(v => !v); setMatchSkills([]); setMatchCat('all') }} className="btn"
+          style={{ marginLeft: 'auto', padding: '6px 14px', fontSize: 12, fontWeight: 600,
+            background: matchMode ? 'rgba(45,212,191,0.15)' : 'rgba(255,255,255,0.04)',
+            color: matchMode ? G.teal : G.muted,
+            border: `1px solid ${matchMode ? 'rgba(45,212,191,0.4)' : 'rgba(255,255,255,0.07)'}` }}>
+          🔎 {lang==='de'?'Skill-Matching':lang==='sv'?'Kompetensfilter':lang==='sq'?'Filtrim skills':'Skill filter'}
+          {matchMode && matchSkills.length > 0 && <span style={{ marginLeft:6, background:G.teal, color:'#080c14', borderRadius:10, padding:'1px 6px', fontSize:10, fontWeight:800 }}>{matchSkills.length}</span>}
+        </button>
       </div>
+
+      {/* ── SKILL MATCH PANEL ── */}
+      {matchMode && (
+        <div style={{ background:'rgba(45,212,191,0.05)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:12, padding:'14px 16px', marginBottom:18 }}>
+          <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:12 }}>
+            {lang==='de'?'Bereich & Skills auswählen':lang==='sv'?'Välj område & kompetenser':lang==='sq'?'Zgjidh fushën & aftësitë':'Select area & skills'}
+          </div>
+          {/* Category pills */}
+          <div style={{ display:'flex', flexWrap:'wrap', gap:6, marginBottom:10 }}>
+            <button onClick={() => { setMatchCat('all'); setMatchSkills([]) }} className="btn"
+              style={{ padding:'5px 12px', fontSize:11, fontWeight:600, borderRadius:16, background: matchCat==='all'?G.goldDim:'rgba(255,255,255,0.04)', color: matchCat==='all'?G.gold:G.muted, border:`1px solid ${matchCat==='all'?G.goldBorder:'rgba(255,255,255,0.07)'}` }}>
+              🌐 {t.allCats}
+            </button>
+            {CATS.map(cat => (
+              <button key={cat.id} onClick={() => { setMatchCat(cat.id); setMatchSkills([]) }} className="btn"
+                style={{ padding:'5px 12px', fontSize:11, fontWeight:600, borderRadius:16, background: matchCat===cat.id?`${cat.color}18`:'rgba(255,255,255,0.04)', color: matchCat===cat.id?cat.color:G.muted, border:`1px solid ${matchCat===cat.id?`${cat.color}45`:'rgba(255,255,255,0.07)'}` }}>
+                {cat.icon} {cat.labels[lang]}
+              </button>
+            ))}
+          </div>
+          {/* Skill pills — from SKILL_SETS + DB tags */}
+          {matchCat !== 'all' && (() => {
+            const base = new Set(SKILL_SETS[matchCat] || [])
+            dbProfiles.filter(p => p.cat === matchCat).forEach(p => (p.tags||[]).forEach(tg => base.add(tg)))
+            return (
+              <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:90, overflowY:'auto' }}>
+                {[...base].map(s => (
+                  <button key={s} onClick={() => setMatchSkills(prev => prev.includes(s)?prev.filter(x=>x!==s):[...prev,s])} className="btn"
+                    style={{ padding:'4px 10px', fontSize:11, fontWeight: matchSkills.includes(s)?700:500, borderRadius:14, background: matchSkills.includes(s)?'rgba(45,212,191,0.15)':'rgba(255,255,255,0.04)', color: matchSkills.includes(s)?G.teal:G.muted, border:`1px solid ${matchSkills.includes(s)?'rgba(45,212,191,0.4)':'rgba(255,255,255,0.07)'}` }}>
+                    {matchSkills.includes(s)?'✓ ':''}{s}
+                  </button>
+                ))}
+              </div>
+            )
+          })()}
+          {matchSkills.length > 0 && (
+            <div style={{ marginTop:8, fontSize:12, color:G.teal }}>
+              ✓ {matchSkills.length} {lang==='de'?'Skills gewählt':lang==='sv'?'valda':lang==='sq'?'zgjedhura':'selected'} · {filtered.length} {lang==='de'?'Treffer':lang==='sv'?'träffar':lang==='sq'?'rezultate':'results'}
+              <button onClick={() => setMatchSkills([])} className="btn ghost" style={{ marginLeft:10, fontSize:11, padding:'2px 8px' }}>✕ clear</button>
+            </div>
+          )}
+        </div>
+      )}
       <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 6, marginBottom: 22, scrollbarWidth: 'none' }}>
         <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
         {CATS.map(c => (
@@ -1012,7 +1079,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
               {catProfiles.map(p => (
-                <ProfileCard key={p.id} p={p} lang={lang} t={t} rank={p._rank} onContact={setContact} onUpgrade={setUpgrade} onTagClick={tag => setTagFilter(tag)} onSelfEdit={setSelfEdit} />
+                <ProfileCard key={p.id} p={p} lang={lang} t={t} rank={p._rank} onContact={setContact} onUpgrade={setUpgrade} onTagClick={tag => setTagFilter(tag)} onSelfEdit={setSelfEdit} matchScore={p._matchScore} matchHits={p._matchHits} />
               ))}
             </div>
           </div>
@@ -1402,14 +1469,19 @@ function MatchPage({ lang, t }) {
 // ─── CONCIERGE PAGE ───────────────────────────────────────────────────────────
 function ConciergePage({ lang, t, content = {} }) {
   const raw = window.__siteContent || content
-  // Merge DB content on top of defaults
-  const sc = {
-    partners: { ...(raw.partners || {}) },
-    concierge: { ...(raw.concierge || {}) },
-  }
-  const P = sc.partners   // shorthand for partner fields
-  const CC = sc.concierge // shorthand for concierge fields
+  const sc = { partners: { ...(raw.partners || {}) }, concierge: { ...(raw.concierge || {}) } }
+  const P = sc.partners
+  const CC = sc.concierge
   const [bookModal, setBookModal] = useState(false)
+  // Load partner-type profiles from DB for the team section
+  const [partnerProfiles, setPartnerProfiles] = useState([])
+  useEffect(() => {
+    if (window.__techgateProfiles) {
+      setPartnerProfiles(window.__techgateProfiles.filter(p => p.type === 'partner'))
+    } else {
+      fetchProfiles().then(data => setPartnerProfiles(data.filter(p => p.type === 'partner'))).catch(() => {})
+    }
+  }, [])
   const [bookDone, setBookDone] = useState(false)
   const [partnerModal, setPartnerModal] = useState(false)
   const [partnerDone, setPartnerDone] = useState(false)
@@ -1561,29 +1633,33 @@ function ConciergePage({ lang, t, content = {} }) {
             <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21 }}>{t.concSpTitle}</h2>
             <span style={{ background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 6, padding: '3px 10px', fontSize: 12, color: G.teal, fontFamily: "'Syne',sans-serif", fontWeight: 700 }}>rootsGTM</span>
           </div>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concSpSub}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(290px,1fr))', gap: 13 }}>
-            {SALES_PEOPLE.map((sp, i) => (
-              <div key={sp.id} className="card fu" style={{ padding: 20, animationDelay: `${i * 0.05}s` }}>
-                <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
-                  <Avatar text={sp.logo} color={sp.logoColor} />
-                  <div>
-                    <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{sp.name}</div>
-                    <div style={{ fontSize: 11, color: G.teal }}>{sp.title[lang] || sp.title.en}</div>
-                    <div style={{ fontSize: 11, color: G.muted, marginTop: 1 }}>📍 {sp.city} · 🗣 {sp.languages}</div>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{CC.sp_sub || t.concSpSub}</p>
+          {partnerProfiles.length === 0 ? (
+            <div style={{ color: G.muted, fontFamily: "'DM Sans',sans-serif", fontSize: 13, padding: '12px 0' }}>
+              {lang==='de'?'Keine Partner-Profile in der Datenbank — im Admin registrieren (Typ: Partner).':lang==='sv'?'Inga partnerprofile i databasen — registrera i admin (typ: Partner).':lang==='sq'?'Nuk ka profil partner në bazën e të dhënave — regjistro në admin (lloji: Partner).':'No partner profiles in database — register in admin (type: Partner).'}
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(290px,1fr))', gap: 13 }}>
+              {partnerProfiles.map((sp, i) => (
+                <div key={sp.id} className="card fu" style={{ padding: 20, animationDelay: `${i * 0.05}s` }}>
+                  <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
+                    <Logo text={sp.logo} color={sp.logoColor} />
+                    <div>
+                      <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{sp.name}</div>
+                      <div style={{ fontSize: 11, color: G.teal }}>{sp.employees || (lang==='de'?'Sales Partner':lang==='sv'?'Säljpartner':lang==='sq'?'Partner shitjesh':'Sales Partner')}</div>
+                      <div style={{ fontSize: 11, color: G.muted, marginTop: 1 }}>📍 {sp.city}{sp.languages ? ` · 🗣 ${sp.languages}` : ''}</div>
+                    </div>
                   </div>
+                  <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 10 }}>{sp.desc[lang] || sp.desc.en}</p>
+                  {sp.rating > 0 && <div style={{ fontSize: 12, color: G.muted, marginBottom: 10 }}>⭐ {sp.rating} ({sp.reviews} {t.spDeals})</div>}
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
+                    {(sp.tags||[]).map(s => <span key={s} style={{ background: 'rgba(45,212,191,0.08)', color: G.teal, border: '1px solid rgba(45,212,191,0.2)', borderRadius: 5, padding: '2px 7px', fontSize: 11 }}>{s}</span>)}
+                  </div>
+                  <button className="btn teal-btn" style={{ width: '100%', padding: '8px', fontSize: 12 }} onClick={() => setBookModal(true)}>{t.concReq}</button>
                 </div>
-                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 10 }}>{sp.bio[lang] || sp.bio.en}</p>
-                <div style={{ display: 'flex', gap: 10, marginBottom: 10, fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
-                  <span>⭐ {sp.rating}</span><span>🤝 {sp.deals}+ {t.spDeals}</span><span>📅 {sp.experience}y</span>
-                </div>
-                <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
-                  {(sp.specialties[lang] || sp.specialties.en).map(s => <span key={s} style={{ background: 'rgba(45,212,191,0.08)', color: G.teal, border: '1px solid rgba(45,212,191,0.2)', borderRadius: 5, padding: '2px 7px', fontSize: 11 }}>{s}</span>)}
-                </div>
-                <button className="btn teal-btn" style={{ width: '100%', padding: '8px', fontSize: 12 }} onClick={() => setBookModal(true)}>{t.concReq}</button>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* ── CTA ── */}
@@ -2786,10 +2862,6 @@ class ErrorBoundary extends React.Component {
 }
 
 export default function App() {
-  const gc = React.useMemo(() => {
-    if (typeof window === "undefined") return {}
-    return window.__siteContent?.gov_content ?? {}
-  }, [])
   const [lang, setLang] = useState(() => {
     // Auto-detect from browser locale
     // de-DE / de-AT / de-CH → de
@@ -2860,7 +2932,7 @@ export default function App() {
         <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
           {/* Desktop nav links */}
           <div className="nav-links" style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-            {[['home', t.navHome], ['directory', t.navDir], ['match', t.navMatch], ['concierge', t.navConcierge], ['gov', t.navGov]].map(([p, l]) => (
+            {[['home', t.navHome], ['directory', t.navDir], ['concierge', t.navConcierge], ['gov', t.navGov]].map(([p, l]) => (
               <button key={p} className={`btn navl${page === p ? ' on' : ''}`} onClick={() => setPage(p)}
                 style={p === 'concierge' ? { color: page === 'concierge' ? G.teal : 'rgba(45,212,191,0.45)' } : {}}>
                 {l}
@@ -2912,7 +2984,7 @@ export default function App() {
           <section style={{ padding: '44px 48px 0', maxWidth: 1200, margin: '0 auto' }}>
             <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 18 }}>{t.howTitle}</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 44 }}>
-              {[[G.blue, '🔍', t.f1t, t.f1d, 'directory'], [G.gold, '🔎', t.f2t, t.f2d, 'match'], [G.teal, '🤝', t.f3t, t.f3d, 'concierge']].map(([col, ic, title, desc, pg]) => (
+              {[[G.blue, '🔍', t.f1t, t.f1d, 'directory'], [G.teal, '🤝', t.f3t, t.f3d, 'concierge']].map(([col, ic, title, desc, pg]) => (
                 <div key={pg} className="card fu" style={{ padding: 24, cursor: 'pointer', background: col === G.teal ? 'rgba(45,212,191,0.04)' : G.card, border: `1px solid ${col === G.teal ? 'rgba(45,212,191,0.2)' : G.border}` }} onClick={() => setPage(pg)}>
                   <div style={{ fontSize: 26, marginBottom: 11 }}>{ic}</div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, color: col, marginBottom: 7 }}>{title}</div>
@@ -2951,7 +3023,6 @@ export default function App() {
         </>
       )}
       {page === 'directory'  && <DirectoryPage lang={lang} t={t} initialQ={searchQ} onQClear={() => setSearchQ('')} />}
-      {page === 'match'      && <MatchPage lang={lang} t={t} />}
       {page === 'concierge'  && <ConciergePage lang={lang} t={t} content={siteContent} />}
       {page === 'gov'        && <GovPage lang={lang} t={t} content={siteContent} />}
 
