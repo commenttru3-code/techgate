@@ -640,15 +640,8 @@ body{background:#080c14;margin:0;}
 .sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#fb923c,#fdba74);}
 .pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#d4a843,#fde68a);}
 .rank-badge{position:absolute;top:10px;right:10px;}
-.mobile-menu-btn{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:transparent;border:none;}
-.mobile-menu-btn span{display:block;width:22px;height:2px;background:rgba(232,228,217,0.7);border-radius:1px;transition:all 0.2s;}
-.mobile-nav{display:none;position:fixed;inset:0;top:64px;background:#080c14f5;z-index:99;padding:20px 16px;flex-direction:column;gap:4px;overflow-y:auto;border-top:1px solid rgba(255,255,255,0.06);}
-.mobile-nav.open{display:flex;}
-.mobile-navl{background:transparent;color:rgba(232,228,217,0.7);padding:14px 16px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:500;border:none;cursor:pointer;border-radius:10px;text-align:left;width:100%;transition:all 0.14s;border-bottom:1px solid rgba(255,255,255,0.04);}
-.mobile-navl:hover,.mobile-navl.on{color:#d4a843;background:rgba(212,168,67,0.07);}
+
 @media(max-width:640px){
-  .nav-links{display:none !important;}
-  .mobile-menu-btn{display:flex !important;}
   .hero-pad{padding:32px 16px 24px !important;}
   .section-pad{padding:0 16px !important;}
   .page-pad{padding:16px 16px !important;}
@@ -2773,25 +2766,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 
-class ErrorBoundary extends React.Component {
-  constructor(props) { super(props); this.state = { error: null } }
-  static getDerivedStateFromError(err) { return { error: err } }
-  componentDidCatch(err) { console.error('TechGate crash:', err) }
-  render() {
-    if (this.state.error) return (
-      <div style={{ minHeight:'100vh', background:'#080c14', color:'#e8e4d9', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'DM Sans',sans-serif", padding:24, textAlign:'center' }}>
-        <div>
-          <div style={{ fontSize:40, marginBottom:16 }}>⚠️</div>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, marginBottom:8 }}>Something went wrong</div>
-          <div style={{ color:'rgba(232,228,217,0.5)', marginBottom:20 }}>{this.state.error?.message}</div>
-          <button onClick={() => window.location.reload()} style={{ background:'#d4a843', color:'#080c14', border:'none', padding:'10px 24px', borderRadius:8, cursor:'pointer', fontWeight:700 }}>Reload</button>
-        </div>
-      </div>
-    )
-    return this.props.children
-  }
-}
-
 export default function App() {
   const [lang, setLang] = useState(() => {
     // Auto-detect from browser locale
@@ -2807,7 +2781,6 @@ export default function App() {
   })
   const [page, setPage] = useState('home')
   const [searchQ, setSearchQ] = useState('')
-  const [mobileNav, setMobileNav] = useState(false)
   const [showReg, setShowReg] = useState(false)
   const [regType, setRegType] = useState(null)
   const [regDone, setRegDone] = useState(false)
@@ -2848,7 +2821,6 @@ export default function App() {
   // Show admin panel if triggered
   if (showAdmin) return <AdminPage lang={lang} onExit={() => setShowAdmin(false)} siteContent={siteContent} onContentSave={(key, val) => { saveSiteContent(key, val); setSiteContent(prev => ({...prev, [key]: val})); window.__siteContent = {...(window.__siteContent||{}), [key]: val} }} />
 
-  // Render
   return (
     <div style={{ fontFamily: "'DM Sans',sans-serif", background: G.bg, minHeight: '100vh', color: G.text }}>
       <style>{CSS}</style>
@@ -2881,35 +2853,10 @@ export default function App() {
             ))}
           </div>
           <button className="btn gbtn nav-reg-btn" style={{ marginLeft: 8, padding: '8px 16px', fontSize: 12 }} onClick={() => setShowReg(true)}>{t.registerBtn}</button>
-          {/* Mobile hamburger */}
-          <button className="mobile-menu-btn" onClick={() => setMobileNav(v => !v)} style={{ marginLeft: 8 }}>
-            <span style={mobileNav ? { transform:'rotate(45deg) translate(5px,5px)' } : {}} />
-            <span style={mobileNav ? { opacity:0 } : {}} />
-            <span style={mobileNav ? { transform:'rotate(-45deg) translate(5px,-5px)' } : {}} />
-          </button>
-        </div>{/* end nav-right */}
+        </div>
       </nav>
 
-      {/* ── MOBILE NAV OVERLAY ── */}
-      {mobileNav && <div style={{ position:'fixed', inset:0, top:64, background:'rgba(0,0,0,0.5)', zIndex:98 }} onClick={() => setMobileNav(false)} />}
-      <div className={`mobile-nav${mobileNav ? ' open' : ''}`}>
-        {[['home', t.navHome, '🏠'], ['directory', t.navDir, '🏢'], ['match', t.navMatch, '🔎'], ['concierge', t.navConcierge, '🤝'], ['gov', t.navGov, '🏛️']].map(([p, l, ic]) => (
-          <button key={p} className={`mobile-navl${page === p ? ' on' : ''}`}
-            onClick={() => { setPage(p); setMobileNav(false) }}>
-            <span style={{ marginRight: 10 }}>{ic}</span>{l}
-          </button>
-        ))}
-        <div style={{ borderTop: `1px solid ${G.border}`, marginTop: 12, paddingTop: 12, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          {['de', 'en', 'sq', 'sv'].map(l => (
-            <button key={l} onClick={() => setLang(l)} className="btn" style={{ padding: '7px 14px', fontSize: 12, fontWeight: 700, background: lang === l ? 'rgba(212,168,67,0.18)' : 'rgba(255,255,255,0.04)', color: lang === l ? G.gold : G.muted, border: `1px solid ${lang === l ? G.goldBorder : G.border}`, borderRadius: 8 }}>
-              {FLAGS[l]} {l.toUpperCase()}
-            </button>
-          ))}
-        </div>
-        <button className="btn gbtn" style={{ width: '100%', marginTop: 16 }} onClick={() => { setShowReg(true); setMobileNav(false) }}>{t.registerBtn}</button>
-      </div>
-
-      {/* ── PAGES ── */}
+            {/* ── PAGES ── */}
       {page === 'home' && (
         <>
           <section style={{ padding: '80px 48px 56px', textAlign: 'center', position: 'relative', overflow: 'hidden', background: `radial-gradient(ellipse 70% 50% at 50% -5%,rgba(212,168,67,0.12) 0%,transparent 65%),${G.bg}` }}>
