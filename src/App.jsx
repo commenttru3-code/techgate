@@ -1,4 +1,4 @@
-// TechGate Kosovo v2.1 — build: 2025-04-26
+// TechGate Kosovo v2.2 — build: 2026-04-27 07:29
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import {
   fetchProfiles, fetchAllProfilesAdmin,
@@ -1473,6 +1473,7 @@ function ConciergePage({ lang, t, content = {} }) {
   const P = sc.partners
   const CC = sc.concierge
   const [bookModal, setBookModal] = useState(false)
+  const [bookForm, setBookForm] = useState({ name:'', company:'', email:'', goal:'', timeframe:'', pax:'1' })
   // Load partner-type profiles from DB for the team section
   const [partnerProfiles, setPartnerProfiles] = useState([])
   useEffect(() => {
@@ -1698,15 +1699,15 @@ function ConciergePage({ lang, t, content = {} }) {
               <ModalClose onClose={() => setBookModal(false)} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 11 }}>
-              <div><label className="flabel">{t.bookName}</label><input className="inp" /></div>
-              <div><label className="flabel">{t.bookComp}</label><input className="inp" /></div>
+              <div><label className="flabel">{t.bookName}</label><input className="inp" value={bookForm.name} onChange={e=>setBookForm(f=>({...f,name:e.target.value}))} /></div>
+              <div><label className="flabel">{t.bookComp}</label><input className="inp" value={bookForm.company} onChange={e=>setBookForm(f=>({...f,company:e.target.value}))} /></div>
             </div>
-            <div style={{ marginBottom: 11 }}><label className="flabel">{t.bookEmail}</label><input className="inp" /></div>
-            <div style={{ marginBottom: 11 }}><label className="flabel">{t.bookGoal}</label><textarea className="inp" rows={3} style={{ resize: 'vertical' }} placeholder={t.bookGoalPH} /></div>
+            <div style={{ marginBottom: 11 }}><label className="flabel">{t.bookEmail}</label><input className="inp" value={bookForm.email} onChange={e=>setBookForm(f=>({...f,email:e.target.value}))} /></div>
+            <div style={{ marginBottom: 11 }}><label className="flabel">{t.bookGoal}</label><textarea className="inp" rows={3} style={{ resize: 'vertical' }} value={bookForm.goal} onChange={e=>setBookForm(f=>({...f,goal:e.target.value}))} placeholder={t.bookGoalPH} /></div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
-              <div><label className="flabel">{t.bookWhen}</label><input className="inp" /></div>
+              <div><label className="flabel">{t.bookWhen}</label><input className="inp" value={bookForm.timeframe} onChange={e=>setBookForm(f=>({...f,timeframe:e.target.value}))} /></div>
               <div><label className="flabel">{t.bookPax}</label>
-                <select className="inp">{['1', '2', '3', '4', '5+'].map(n => <option key={n}>{n}</option>)}</select>
+                <select className="inp" value={bookForm.pax} onChange={e=>setBookForm(f=>({...f,pax:e.target.value}))}>{['1', '2', '3', '4', '5+'].map(n => <option key={n}>{n}</option>)}</select>
               </div>
             </div>
             <button className="btn teal-btn" style={{ width: '100%', padding: '11px' }} onClick={() => {
@@ -1863,7 +1864,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
     const PL = {
       de: { nameL:'Name / Organisation *', cityL:'Stadt *', emailL:'E-Mail *', phoneL:'Telefon', websiteL:'Website', focusL:'Branchen-Fokus', focusPH:'z.B. IT, Software, BPO, Produktion…', langsL:'EU-Sprachen', langsPH:'z.B. DE, EN, SV, FR', marketsL:'EU-Märkte', marketsPH:'z.B. Deutschland, Österreich, Schweiz, Schweden…', descL:'Über Sie / Ihre Organisation', descPH:'Beschreiben Sie Ihre Vertriebserfahrung, Netzwerk und warum Sie Kosovo-Unternehmen vermarkten möchten.', send:'Als Partner bewerben ✓', note:'💬 Ihr Antrag wird geprüft. Bei Eignung melden wir uns innerhalb von 48h.' },
       en: { nameL:'Name / Organisation *', cityL:'City *', emailL:'E-mail *', phoneL:'Phone', websiteL:'Website', focusL:'Industry focus', focusPH:'e.g. IT, Software, BPO, Production…', langsL:'EU languages', langsPH:'e.g. DE, EN, SV, FR', marketsL:'EU markets', marketsPH:'e.g. Germany, Austria, Switzerland, Sweden…', descL:'About you / your organisation', descPH:'Describe your sales experience, network and why you want to represent Kosovo companies.', send:'Apply as partner ✓', note:'💬 Your application will be reviewed. We will contact you within 48h if there is a match.' },
-      sq: { nameL:'Emri / Organizata *', cityL:'Qyteti *', emailL:'E-mail *', phoneL:'Telefon', websiteL:'Faqja web', focusL:'Fokusi i industrisë', focusPH:'p.sh. IT, Software, BPO…', langsL:'Gjuhët e BE-së', langsPH:'p.sh. DE, EN, SV', marketsL:'Tregjet e BE-së', marketsPH:'p.sh. Gjermani, Austri, Zvicër…', descL:'Rreth jush / organizatës', descPH:'Përshkruani eksperiencën tuaj të shitjeve dhe rrjetin.', send:'Apliko si partner ✓', note:'💬 Aplikimi juaj do të shqyrtohet. Do t'ju kontaktojmë brenda 48h.' },
+      sq: { nameL:'Emri / Organizata *', cityL:'Qyteti *', emailL:'E-mail *', phoneL:'Telefon', websiteL:'Faqja web', focusL:'Fokusi i industrisë', focusPH:'p.sh. IT, Software, BPO…', langsL:'Gjuhët e BE-së', langsPH:'p.sh. DE, EN, SV', marketsL:'Tregjet e BE-së', marketsPH:'p.sh. Gjermani, Austri, Zvicër…', descL:'Rreth jush / organizatës', descPH:'Përshkruani eksperiencën tuaj të shitjeve dhe rrjetin.', send:'Apliko si partner ✓', note:"💬 Aplikimi juaj do të shqyrtohet. Do t'ju kontaktojmë brenda 48h." },
       sv: { nameL:'Namn / Organisation *', cityL:'Stad *', emailL:'E-post *', phoneL:'Telefon', websiteL:'Webbplats', focusL:'Branschfokus', focusPH:'t.ex. IT, Mjukvara, BPO…', langsL:'EU-språk', langsPH:'t.ex. DE, EN, SV, FR', marketsL:'EU-marknader', marketsPH:'t.ex. Tyskland, Österrike, Sverige…', descL:'Om dig / din organisation', descPH:'Beskriv din säljfarenhet, nätverk och varför du vill representera Kosovo-företag.', send:'Ansök som partner ✓', note:'💬 Din ansökan granskas. Vi återkommer inom 48h om det finns en matchning.' },
     }
     const Lp = PL[lang] || PL.en
