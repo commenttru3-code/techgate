@@ -876,7 +876,14 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='de'?'Gesponsert':lang==='sv'?'Sponsrad':lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
             {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
             {!isSp && !isPr && <span style={{ fontSize: 10, background: 'rgba(255,255,255,0.05)', color: G.muted, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '2px 9px', fontFamily: "'Syne',sans-serif" }}>Free</span>}
-              {matchScore !== null && matchScore !== undefined && <span style={{ fontSize: 10, background: matchScore>=80?'rgba(52,199,89,0.12)':matchScore>=50?G.goldDim:'rgba(255,255,255,0.04)', color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted, border: `1px solid ${matchScore>=80?'rgba(52,199,89,0.3)':matchScore>=50?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius: 5, padding: '2px 9px', fontWeight: 700 }}>{matchScore}% match</span>}
+              {matchScore !== null && matchScore !== undefined && (
+                <span style={{ display:'inline-flex', flexDirection:'column', gap:2, verticalAlign:'middle' }}>
+                  <span style={{ fontSize:10, fontWeight:800, color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
+                  <span style={{ display:'block', width:40, height:3, background:'rgba(255,255,255,0.08)', borderRadius:2 }}>
+                    <span style={{ display:'block', height:'100%', width:`${matchScore}%`, background: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted, borderRadius:2 }} />
+                  </span>
+                </span>
+              )}
             {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
           </div>
         </div>
@@ -923,7 +930,6 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
   const [dbProfiles, setDbProfiles] = useState([])
   const [dbLoading, setDbLoading] = useState(true)
   // Skill matching integrated into directory
-  const [matchCat, setMatchCat] = useState('all')
   const [matchSkills, setMatchSkills] = useState([])
   const [matchMode, setMatchMode] = useState(false) // toggle match panel
 
@@ -960,7 +966,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
   const filtered = ranked.filter(p => {
     const s = q.toLowerCase()
     const desc = p.desc[lang] || p.desc.en || ''
-    const catMatch = matchMode && matchCat !== 'all' ? p.cat === matchCat : (cat === 'all' || p.cat === cat)
+    const catMatch = cat === 'all' || p.cat === cat
     const skillMatch = matchMode && matchSkills.length > 0
       ? matchSkills.some(sk => p.tags.some(tg => tg.toLowerCase().includes(sk.toLowerCase())))
       : true
@@ -996,7 +1002,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
         {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
           <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.04)', color: typeF === v ? G.gold : G.muted, border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{l}</button>
         ))}
-        <button onClick={() => { setMatchMode(v => !v); setMatchSkills([]); setMatchCat('all') }} className="btn"
+        <button onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }} className="btn"
           style={{ marginLeft: 'auto', padding: '6px 14px', fontSize: 12, fontWeight: 600,
             background: matchMode ? 'rgba(45,212,191,0.15)' : 'rgba(255,255,255,0.04)',
             color: matchMode ? G.teal : G.muted,
@@ -1007,47 +1013,41 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
       </div>
 
       {/* ── SKILL MATCH PANEL ── */}
-      {matchMode && (
-        <div style={{ background:'rgba(45,212,191,0.05)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:12, padding:'14px 16px', marginBottom:18 }}>
-          <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:12 }}>
-            {lang==='de'?'Bereich & Skills auswählen':lang==='sv'?'Välj område & kompetenser':lang==='sq'?'Zgjidh fushën & aftësitë':'Select area & skills'}
-          </div>
-          {/* Category pills */}
-          <div style={{ display:'flex', flexWrap:'wrap', gap:6, marginBottom:10 }}>
-            <button onClick={() => { setMatchCat('all'); setMatchSkills([]) }} className="btn"
-              style={{ padding:'5px 12px', fontSize:11, fontWeight:600, borderRadius:16, background: matchCat==='all'?G.goldDim:'rgba(255,255,255,0.04)', color: matchCat==='all'?G.gold:G.muted, border:`1px solid ${matchCat==='all'?G.goldBorder:'rgba(255,255,255,0.07)'}` }}>
-              🌐 {t.allCats}
-            </button>
-            {CATS.map(cat => (
-              <button key={cat.id} onClick={() => { setMatchCat(cat.id); setMatchSkills([]) }} className="btn"
-                style={{ padding:'5px 12px', fontSize:11, fontWeight:600, borderRadius:16, background: matchCat===cat.id?`${cat.color}18`:'rgba(255,255,255,0.04)', color: matchCat===cat.id?cat.color:G.muted, border:`1px solid ${matchCat===cat.id?`${cat.color}45`:'rgba(255,255,255,0.07)'}` }}>
-                {cat.icon} {cat.labels[lang]}
-              </button>
-            ))}
-          </div>
-          {/* Skill pills — from SKILL_SETS + DB tags */}
-          {matchCat !== 'all' && (() => {
-            const base = new Set(SKILL_SETS[matchCat] || [])
-            dbProfiles.filter(p => p.cat === matchCat).forEach(p => (p.tags||[]).forEach(tg => base.add(tg)))
-            return (
-              <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:90, overflowY:'auto' }}>
-                {[...base].map(s => (
-                  <button key={s} onClick={() => setMatchSkills(prev => prev.includes(s)?prev.filter(x=>x!==s):[...prev,s])} className="btn"
-                    style={{ padding:'4px 10px', fontSize:11, fontWeight: matchSkills.includes(s)?700:500, borderRadius:14, background: matchSkills.includes(s)?'rgba(45,212,191,0.15)':'rgba(255,255,255,0.04)', color: matchSkills.includes(s)?G.teal:G.muted, border:`1px solid ${matchSkills.includes(s)?'rgba(45,212,191,0.4)':'rgba(255,255,255,0.07)'}` }}>
-                    {matchSkills.includes(s)?'✓ ':''}{s}
-                  </button>
-                ))}
-              </div>
-            )
-          })()}
-          {matchSkills.length > 0 && (
-            <div style={{ marginTop:8, fontSize:12, color:G.teal }}>
-              ✓ {matchSkills.length} {lang==='de'?'Skills gewählt':lang==='sv'?'valda':lang==='sq'?'zgjedhura':'selected'} · {filtered.length} {lang==='de'?'Treffer':lang==='sv'?'träffar':lang==='sq'?'rezultate':'results'}
-              <button onClick={() => setMatchSkills([])} className="btn ghost" style={{ marginLeft:10, fontSize:11, padding:'2px 8px' }}>✕ clear</button>
+      {matchMode && (() => {
+        // Skills come from the currently selected category filter (or all cats)
+        const activeCat = cat !== 'all' ? cat : null
+        const base = new Set()
+        ;(activeCat ? [activeCat] : CATS.map(c2 => c2.id)).forEach(catId => {
+          ;(SKILL_SETS[catId] || []).forEach(s => base.add(s))
+          dbProfiles.filter(p => p.cat === catId).forEach(p => (p.tags||[]).forEach(tg => base.add(tg)))
+        })
+        const skillList = [...base].sort()
+        return (
+          <div style={{ background:'rgba(45,212,191,0.05)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:12, padding:'14px 16px', marginBottom:18 }}>
+            <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:10 }}>
+              {lang==='de'?'Skills auswählen':lang==='sv'?'Välj kompetenser':lang==='sq'?'Zgjidh aftësitë':'Select skills'}
+              {cat !== 'all' && <span style={{ color:G.muted, fontWeight:400, marginLeft:6, textTransform:'none' }}>· {CATS.find(c2=>c2.id===cat)?.labels[lang]}</span>}
             </div>
-          )}
-        </div>
-      )}
+            <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:120, overflowY:'auto' }}>
+              {skillList.map(s => (
+                <button key={s} onClick={() => setMatchSkills(prev => prev.includes(s)?prev.filter(x=>x!==s):[...prev,s])} className="btn"
+                  style={{ padding:'5px 12px', fontSize:11, fontWeight: matchSkills.includes(s)?700:500, borderRadius:14,
+                    background: matchSkills.includes(s)?'rgba(45,212,191,0.15)':'rgba(255,255,255,0.04)',
+                    color: matchSkills.includes(s)?G.teal:G.muted,
+                    border:`1px solid ${matchSkills.includes(s)?'rgba(45,212,191,0.4)':'rgba(255,255,255,0.07)'}` }}>
+                  {matchSkills.includes(s)?'✓ ':''}{s}
+                </button>
+              ))}
+            </div>
+            {matchSkills.length > 0 && (
+              <div style={{ marginTop:9, display:'flex', alignItems:'center', gap:10, fontSize:12, color:G.teal }}>
+                <span>✓ {matchSkills.length} {lang==='de'?'Skills':lang==='sv'?'kompetenser':lang==='sq'?'aftësi':'skills'} · {filtered.length} {lang==='de'?'Treffer':lang==='sv'?'träffar':lang==='sq'?'rezultate':'results'}</span>
+                <button onClick={() => setMatchSkills([])} className="btn ghost" style={{ fontSize:11, padding:'3px 9px' }}>✕</button>
+              </div>
+            )}
+          </div>
+        )
+      })()}
       <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 6, marginBottom: 22, scrollbarWidth: 'none' }}>
         <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
         {CATS.map(c => (
@@ -1824,7 +1824,8 @@ const TAG_SUGGESTIONS = {
 
 // ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
 function SmartRegForm({ lang, t, regType, onDone }) {
-  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', employees: '', desc: '', customTag: '' })
+  const isSP = regType === t.regSP  // Sales Partner — separate form
+  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '' })
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
   const f = (k, v) => setForm(p => ({ ...p, [k]: v }))
@@ -1856,6 +1857,50 @@ function SmartRegForm({ lang, t, regType, onDone }) {
   }
   const Lr = L[lang] || L.en
   const isFL = regType === t.regFL
+
+  // ── PARTNER REGISTRATION FORM ─────────────────────────────────────────────
+  if (isSP) {
+    const PL = {
+      de: { nameL:'Name / Organisation *', cityL:'Stadt *', emailL:'E-Mail *', phoneL:'Telefon', websiteL:'Website', focusL:'Branchen-Fokus', focusPH:'z.B. IT, Software, BPO, Produktion…', langsL:'EU-Sprachen', langsPH:'z.B. DE, EN, SV, FR', marketsL:'EU-Märkte', marketsPH:'z.B. Deutschland, Österreich, Schweiz, Schweden…', descL:'Über Sie / Ihre Organisation', descPH:'Beschreiben Sie Ihre Vertriebserfahrung, Netzwerk und warum Sie Kosovo-Unternehmen vermarkten möchten.', send:'Als Partner bewerben ✓', note:'💬 Ihr Antrag wird geprüft. Bei Eignung melden wir uns innerhalb von 48h.' },
+      en: { nameL:'Name / Organisation *', cityL:'City *', emailL:'E-mail *', phoneL:'Phone', websiteL:'Website', focusL:'Industry focus', focusPH:'e.g. IT, Software, BPO, Production…', langsL:'EU languages', langsPH:'e.g. DE, EN, SV, FR', marketsL:'EU markets', marketsPH:'e.g. Germany, Austria, Switzerland, Sweden…', descL:'About you / your organisation', descPH:'Describe your sales experience, network and why you want to represent Kosovo companies.', send:'Apply as partner ✓', note:'💬 Your application will be reviewed. We will contact you within 48h if there is a match.' },
+      sq: { nameL:'Emri / Organizata *', cityL:'Qyteti *', emailL:'E-mail *', phoneL:'Telefon', websiteL:'Faqja web', focusL:'Fokusi i industrisë', focusPH:'p.sh. IT, Software, BPO…', langsL:'Gjuhët e BE-së', langsPH:'p.sh. DE, EN, SV', marketsL:'Tregjet e BE-së', marketsPH:'p.sh. Gjermani, Austri, Zvicër…', descL:'Rreth jush / organizatës', descPH:'Përshkruani eksperiencën tuaj të shitjeve dhe rrjetin.', send:'Apliko si partner ✓', note:'💬 Aplikimi juaj do të shqyrtohet. Do t'ju kontaktojmë brenda 48h.' },
+      sv: { nameL:'Namn / Organisation *', cityL:'Stad *', emailL:'E-post *', phoneL:'Telefon', websiteL:'Webbplats', focusL:'Branschfokus', focusPH:'t.ex. IT, Mjukvara, BPO…', langsL:'EU-språk', langsPH:'t.ex. DE, EN, SV, FR', marketsL:'EU-marknader', marketsPH:'t.ex. Tyskland, Österrike, Sverige…', descL:'Om dig / din organisation', descPH:'Beskriv din säljfarenhet, nätverk och varför du vill representera Kosovo-företag.', send:'Ansök som partner ✓', note:'💬 Din ansökan granskas. Vi återkommer inom 48h om det finns en matchning.' },
+    }
+    const Lp = PL[lang] || PL.en
+    return (
+      <div>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
+          <div><label className="flabel">{Lp.nameL}</label><input className="inp" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} /></div>
+          <div><label className="flabel">{Lp.cityL}</label><input className="inp" value={form.city} onChange={e=>setForm(f=>({...f,city:e.target.value}))} placeholder="Berlin, Wien, Stockholm…" /></div>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
+          <div><label className="flabel">{Lp.emailL}</label><input className="inp" type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} /></div>
+          <div><label className="flabel">{Lp.phoneL}</label><input className="inp" value={form.phone} onChange={e=>setForm(f=>({...f,phone:e.target.value}))} /></div>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
+          <div><label className="flabel">{Lp.websiteL}</label><input className="inp" value={form.website} onChange={e=>setForm(f=>({...f,website:e.target.value}))} /></div>
+          <div><label className="flabel">{Lp.langsL}</label><input className="inp" value={form.eu_langs} onChange={e=>setForm(f=>({...f,eu_langs:e.target.value}))} placeholder={Lp.langsPH} /></div>
+        </div>
+        <div style={{ marginBottom:11 }}><label className="flabel">{Lp.focusL}</label><input className="inp" value={form.focus} onChange={e=>setForm(f=>({...f,focus:e.target.value}))} placeholder={Lp.focusPH} /></div>
+        <div style={{ marginBottom:11 }}><label className="flabel">{Lp.marketsL}</label><input className="inp" value={form.markets} onChange={e=>setForm(f=>({...f,markets:e.target.value}))} placeholder={Lp.marketsPH} /></div>
+        <div style={{ marginBottom:16 }}><label className="flabel">{Lp.descL}</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={form.desc} onChange={e=>setForm(f=>({...f,desc:e.target.value}))} placeholder={Lp.descPH} /></div>
+        <div style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.muted }}>{Lp.note}</div>
+        <button className="btn gbtn" style={{width:'100%'}} disabled={!form.name||!form.email} onClick={async () => {
+          await insertProfile({
+            name: form.name, city: form.city, email: form.email.toLowerCase(),
+            phone: form.phone||null, website: form.website||null,
+            languages: form.eu_langs||null,
+            type: 'partner', cat: 'consulting', tier: 'free', verified: false,
+            tags: form.focus ? form.focus.split(',').map(s=>s.trim()).filter(Boolean) : [],
+            desc_de: form.desc||null, desc_en: form.desc||null, desc_sq: form.desc||null, desc_sv: form.desc||null,
+            employees: form.markets||null,
+            submitted_by: form.email.toLowerCase(),
+          }).catch(console.error)
+          onDone()
+        }}>{Lp.send}</button>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -2527,23 +2572,79 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       </div>
 
       {/* ── TAB: NEW / PENDING PROFILES ───────────────────────────────────── */}
-      {tab === 'pending_profiles' && (
-        <div>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>
-            New registrations waiting for your approval. Click ✓ Verify to make them visible in the directory.
-          </p>
-          {loadingP && <div style={{ color: G.muted, padding: 20 }}>Loading…</div>}
-          {!loadingP && pendingProfiles.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '48px 20px', color: G.muted }}>
-              <div style={{ fontSize: 36, marginBottom: 10 }}>✅</div>
-              No pending profiles.
-            </div>
-          )}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {!loadingP && pendingProfiles.map(renderProfileRow)}
+      {tab === 'pending_profiles' && (() => {
+        const pendingFirms    = pendingProfiles.filter(p => p.type !== 'partner')
+        const pendingPartners = pendingProfiles.filter(p => p.type === 'partner')
+        return (
+          <div>
+            {loadingP && <div style={{ color: G.muted, padding: 20 }}>Loading…</div>}
+
+            {/* ── Pending Partners ── */}
+            {!loadingP && pendingPartners.length > 0 && (
+              <div style={{ marginBottom: 28 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
+                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15 }}>🤝 Partner Applications</div>
+                  <span style={{ background:'rgba(45,212,191,0.12)', color:G.teal, border:'1px solid rgba(45,212,191,0.3)', borderRadius:10, padding:'1px 8px', fontSize:11, fontWeight:700 }}>{pendingPartners.length}</span>
+                </div>
+                <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, marginBottom:12 }}>
+                  Sales partner applications. Verify to make them visible on the Concierge page.
+                </p>
+                <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+                  {pendingPartners.map(p => (
+                    <div key={p.id} style={{ background: G.surface, border:`1px solid rgba(45,212,191,0.25)`, borderRadius:12, padding:'14px 18px', display:'flex', gap:12, alignItems:'flex-start' }}>
+                      <Logo text={p.logo} color={p.logoColor} size={38} />
+                      <div style={{ flex:1, minWidth:0 }}>
+                        <div style={{ fontWeight:700, fontSize:14 }}>{p.name}</div>
+                        <div style={{ fontSize:11, color:G.muted }}>📍 {p.city} · 🤝 Sales Partner</div>
+                        <div style={{ fontSize:11, color:G.blue, marginTop:1 }}>📧 {p.contact}</div>
+                        {p.languages && <div style={{ fontSize:11, color:G.muted }}>🗣 {p.languages}</div>}
+                        {(p.tags||[]).length>0 && (
+                          <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginTop:6 }}>
+                            {p.tags.map(tg => <span key={tg} className="tag">{tg}</span>)}
+                          </div>
+                        )}
+                        {(p.desc?.en||p.desc?.de) && (
+                          <p style={{ fontSize:12, color:G.muted, marginTop:6, lineHeight:1.5 }}>{p.desc.en||p.desc.de}</p>
+                        )}
+                      </div>
+                      <div style={{ display:'flex', flexDirection:'column', gap:5, alignItems:'flex-end', flexShrink:0 }}>
+                        <button className="btn" style={{ fontSize:10, padding:'4px 11px', background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.2)', borderRadius:5, whiteSpace:'nowrap' }}
+                          onClick={() => handleVerify(p.id, true)}>✓ Verify → Live on Concierge</button>
+                        <button className="btn" style={{ fontSize:10, padding:'4px 11px', background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5 }}
+                          onClick={() => openEdit(p)}>✏️ Edit</button>
+                        <button className="btn" style={{ fontSize:10, padding:'4px 11px', background:'rgba(255,59,48,0.08)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:5 }}
+                          onClick={() => handleDelete(p.id)}>🗑 Reject</button>
+                        <span style={{ fontSize:10, color:G.gold }}>⏳ Pending</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Pending Companies / Freelancers ── */}
+            {!loadingP && (
+              <div>
+                {pendingPartners.length > 0 && (
+                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, marginBottom:12 }}>
+                    🏢 Companies & Freelancers
+                    <span style={{ marginLeft:8, background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:10, padding:'1px 8px', fontSize:11, fontWeight:700 }}>{pendingFirms.length}</span>
+                  </div>
+                )}
+                {pendingFirms.length === 0 && pendingPartners.length === 0 && (
+                  <div style={{ textAlign:'center', padding:'48px 20px', color:G.muted }}>
+                    <div style={{ fontSize:36, marginBottom:10 }}>✅</div>
+                    No pending profiles.
+                  </div>
+                )}
+                <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+                  {pendingFirms.map(renderProfileRow)}
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* ── TAB: ALL PROFILES ─────────────────────────────────────────────── */}
       {tab === 'profiles' && (
