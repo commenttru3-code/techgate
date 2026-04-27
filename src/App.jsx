@@ -336,7 +336,7 @@ const T = {
     partnerTypes: ['Qeveri / Autoritet', 'Rrjet Shitjesh', 'Dhomë Tregtie', 'Organizatë Diasporë', 'Tjetër'],
     partnerEmail: 'E-mail *', partnerDesc: 'Përshkrim i shkurtër',
     partnerDescPH: 'Çfarë mund të kontribuojë organizata juaj?', partnerSend: 'Dërgo ✓',
-    partnerDoneTitle: 'Aplikimi u dërgua!', partnerDoneSub: 'Do t'ju kontaktojmë brenda 48 orësh.',
+    partnerDoneTitle: 'Aplikimi u dërgua!', partnerDoneSub: "Do t'ju kontaktojmë brenda 48 orësh.",
     govBadge: 'Portal Zyrtar',
     govH1: 'Themelimi &', govH2: 'Investimi në Kosovë',
     govSub: 'Taksa të ulëta, Euro, perspektivë BE dhe talent i ri.',
