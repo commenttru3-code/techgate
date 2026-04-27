@@ -119,7 +119,7 @@ const T = {
     regTitle: 'Was möchten Sie eintragen?',
     regComp: '🏢 Firma', regCompS: 'Team, GmbH, Agentur',
     regFL: '👤 Freelancer', regFLS: 'Selbstständig, Solo',
-    regSP: '🤝 Sales Partner', regSPS: 'Kosovo-basiert',
+    regSP: '🤝 Sales Partner', regSPS: 'EU-basiert · Partnerantrag',
     regFree: 'Kostenlos · Prüfung in 24–48h',
     regName: 'Name / Firma *', regCity: 'Stadt *', regEmail: 'E-Mail *',
     regDesc: 'Beschreibung', regDescPH: 'Was bieten Sie an?',
@@ -236,7 +236,7 @@ const T = {
     regTitle: 'What would you like to list?',
     regComp: '🏢 Company', regCompS: 'Team, LLC, Agency',
     regFL: '👤 Freelancer', regFLS: 'Self-employed, solo',
-    regSP: '🤝 Sales Partner', regSPS: 'Kosovo-based',
+    regSP: '🤝 Sales Partner', regSPS: 'EU-based · Partner application',
     regFree: 'Free · Review within 24–48h',
     regName: 'Name / Company *', regCity: 'City *', regEmail: 'E-mail *',
     regDesc: 'Description', regDescPH: 'What do you offer?',
@@ -336,7 +336,7 @@ const T = {
     partnerTypes: ['Qeveri / Autoritet', 'Rrjet Shitjesh', 'Dhomë Tregtie', 'Organizatë Diasporë', 'Tjetër'],
     partnerEmail: 'E-mail *', partnerDesc: 'Përshkrim i shkurtër',
     partnerDescPH: 'Çfarë mund të kontribuojë organizata juaj?', partnerSend: 'Dërgo ✓',
-    partnerDoneTitle: 'Aplikimi u dërgua!', partnerDoneSub: 'Do t\'ju kontaktojmë brenda 48 orësh.',
+    partnerDoneTitle: 'Aplikimi u dërgua!', partnerDoneSub: 'Do t'ju kontaktojmë brenda 48 orësh.',
     govBadge: 'Portal Zyrtar',
     govH1: 'Themelimi &', govH2: 'Investimi në Kosovë',
     govSub: 'Taksa të ulëta, Euro, perspektivë BE dhe talent i ri.',
@@ -352,7 +352,7 @@ const T = {
     regTitle: 'Çfarë dëshironi?',
     regComp: '🏢 Kompani', regCompS: 'Ekip, SH.P.K.',
     regFL: '👤 Freelancer', regFLS: 'I vetëpunësuar',
-    regSP: '🤝 Partner Shitjesh', regSPS: 'Bazuar në Kosovë',
+    regSP: '🤝 Partner Shitjesh', regSPS: 'Bazuar në BE · Aplikim partner',
     regFree: 'Falas · 24–48h',
     regName: 'Emri / Kompania *', regCity: 'Qyteti *', regEmail: 'E-mail *',
     regDesc: 'Përshkrim', regDescPH: 'Çfarë ofroni?',
@@ -468,7 +468,7 @@ const T = {
     regTitle: 'Vad vill du registrera?',
     regComp: '🏢 Företag', regCompS: 'Team, AB, Byrå',
     regFL: '👤 Frilansare', regFLS: 'Egenföretagare',
-    regSP: '🤝 Säljpartner', regSPS: 'Kosovo-baserad',
+    regSP: '🤝 Säljpartner', regSPS: 'EU-baserad · Partneransökan',
     regFree: 'Gratis · 24–48h',
     regName: 'Namn / Företag *', regCity: 'Stad *', regEmail: 'E-post *',
     regDesc: 'Beskrivning', regDescPH: 'Vad erbjuder du?',
@@ -877,10 +877,10 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
             {!isSp && !isPr && <span style={{ fontSize: 10, background: 'rgba(255,255,255,0.05)', color: G.muted, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '2px 9px', fontFamily: "'Syne',sans-serif" }}>Free</span>}
               {matchScore !== null && matchScore !== undefined && (
-                <span style={{ display:'inline-flex', flexDirection:'column', gap:2, verticalAlign:'middle' }}>
-                  <span style={{ fontSize:10, fontWeight:800, color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
-                  <span style={{ display:'block', width:40, height:3, background:'rgba(255,255,255,0.08)', borderRadius:2 }}>
-                    <span style={{ display:'block', height:'100%', width:`${matchScore}%`, background: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted, borderRadius:2 }} />
+                <span style={{ display:'inline-flex', flexDirection:'column', gap:3, verticalAlign:'middle', minWidth:52 }}>
+                  <span style={{ fontSize:11, fontWeight:800, fontFamily:"'Syne',sans-serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
+                  <span style={{ display:'block', width:52, height:4, background:'rgba(255,255,255,0.08)', borderRadius:3, overflow:'hidden' }}>
+                    <span style={{ display:'block', height:'100%', width:`${matchScore}%`, background: matchScore>=80?`linear-gradient(90deg,${G.green},#4ade80)`:matchScore>=50?`linear-gradient(90deg,${G.gold},#fde68a)`:`linear-gradient(90deg,${G.muted},rgba(255,255,255,0.2))`, borderRadius:3, transition:'width 0.5s ease' }} />
                   </span>
                 </span>
               )}
@@ -1002,13 +1002,19 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
         {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
           <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.04)', color: typeF === v ? G.gold : G.muted, border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{l}</button>
         ))}
-        <button onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }} className="btn"
-          style={{ marginLeft: 'auto', padding: '6px 14px', fontSize: 12, fontWeight: 600,
-            background: matchMode ? 'rgba(45,212,191,0.15)' : 'rgba(255,255,255,0.04)',
+        <button onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
+          style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:7, padding:'7px 16px', fontSize:12, fontWeight:700, cursor:'pointer', fontFamily:"'Syne',sans-serif",
+            background: matchMode ? 'linear-gradient(135deg,rgba(45,212,191,0.25),rgba(45,212,191,0.1))' : 'rgba(255,255,255,0.04)',
             color: matchMode ? G.teal : G.muted,
-            border: `1px solid ${matchMode ? 'rgba(45,212,191,0.4)' : 'rgba(255,255,255,0.07)'}` }}>
-          🔎 {lang==='de'?'Skill-Matching':lang==='sv'?'Kompetensfilter':lang==='sq'?'Filtrim skills':'Skill filter'}
-          {matchMode && matchSkills.length > 0 && <span style={{ marginLeft:6, background:G.teal, color:'#080c14', borderRadius:10, padding:'1px 6px', fontSize:10, fontWeight:800 }}>{matchSkills.length}</span>}
+            border: `1px solid ${matchMode ? 'rgba(45,212,191,0.5)' : 'rgba(255,255,255,0.08)'}`,
+            borderRadius: 20,
+            boxShadow: matchMode ? '0 0 12px rgba(45,212,191,0.18)' : 'none',
+            transition: 'all 0.2s' }}>
+          <span style={{ fontSize:13 }}>{matchMode ? '🟢' : '🔎'}</span>
+          {lang==='de'?'Skill-Matching':lang==='sv'?'Kompetensfilter':lang==='sq'?'Filtrim skills':'Skill filter'}
+          {matchMode && matchSkills.length > 0 && (
+            <span style={{ background:G.teal, color:'#080c14', borderRadius:10, padding:'1px 7px', fontSize:10, fontWeight:800 }}>{matchSkills.length}</span>
+          )}
         </button>
       </div>
 
@@ -3138,17 +3144,39 @@ export default function App() {
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.regTitle}</div>
                   <ModalClose onClose={() => setShowReg(false)} />
                 </div>
-                <div style={{ display: 'flex', gap: 9 }}>
-                  {[[t.regComp, t.regCompS], [t.regFL, t.regFLS], [t.regSP, t.regSPS]].map(([l, sub], i) => (
-                    <div key={i} onClick={() => setRegType(l)} style={{ flex: 1, padding: '15px 9px', border: `1px solid ${G.border}`, borderRadius: 12, cursor: 'pointer', textAlign: 'center', transition: 'all 0.18s' }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = G.goldBorder; e.currentTarget.style.background = G.goldDim }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = G.border; e.currentTarget.style.background = 'transparent' }}>
-                      <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{l}</div>
-                      <div style={{ fontSize: 11, color: G.muted }}>{sub}</div>
+                {/* Kosovo-based: Firma & Freelancer */}
+                <div style={{ fontSize:10, color:G.muted, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
+                  🇽🇰 {lang==='de'?'Kosovo-basiert':lang==='sv'?'Kosovo-baserad':lang==='sq'?'Bazuar në Kosovë':'Kosovo-based'}
+                </div>
+                <div style={{ display: 'flex', gap: 9, marginBottom:12 }}>
+                  {[[t.regComp, t.regCompS], [t.regFL, t.regFLS]].map(([l, sub], i) => (
+                    <div key={i} onClick={() => setRegType(l)}
+                      style={{ flex:1, padding:'15px 9px', border:`1px solid ${G.border}`, borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor=G.goldBorder; e.currentTarget.style.background=G.goldDim }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor=G.border; e.currentTarget.style.background='transparent' }}>
+                      <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:4 }}>{l}</div>
+                      <div style={{ fontSize:11, color:G.muted }}>{sub}</div>
                     </div>
                   ))}
                 </div>
-              </>
+                {/* EU-based: Sales Partner */}
+                <div style={{ fontSize:10, color:G.teal, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
+                  🇪🇺 {lang==='de'?'EU-basiert · Sales Partner werden':lang==='sv'?'EU-baserad · Bli säljpartner':lang==='sq'?'Bazuar në BE · Bëhu partner shitjesh':'EU-based · Become a sales partner'}
+                </div>
+                <div style={{ display: 'flex', gap: 9 }}>
+                  {[[t.regSP, t.regSPS, true]].map(([l, sub, isPartner], i) => (                    <div key={i} onClick={() => setRegType(l)}
+                      style={{ flex:1, padding:'15px 9px',
+                        border:`1px solid rgba(45,212,191,0.35)`,
+                        background:'rgba(45,212,191,0.05)',
+                        borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(45,212,191,0.7)'; e.currentTarget.style.background='rgba(45,212,191,0.12)' }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(45,212,191,0.35)'; e.currentTarget.style.background='rgba(45,212,191,0.05)' }}>
+                      <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:4, color:G.teal }}>{l}</div>
+                      <div style={{ fontSize:11, color:'rgba(45,212,191,0.6)' }}>{sub}</div>
+                    </div>
+                  ))}
+                </div>
+              <>>
             ) : (
               <>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
