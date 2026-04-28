@@ -1,4 +1,4 @@
-// TechGate Kosovo v2.2 — build: 2026-04-27 07:29
+// TechGate Kosovo v2.3 — build: 2026-04-28
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import {
   fetchProfiles, fetchAllProfilesAdmin,
@@ -119,7 +119,7 @@ const T = {
     regTitle: 'Was möchten Sie eintragen?',
     regComp: '🏢 Firma', regCompS: 'Team, GmbH, Agentur',
     regFL: '👤 Freelancer', regFLS: 'Selbstständig, Solo',
-    regSP: '🤝 Sales Partner', regSPS: 'EU-basiert · Partnerantrag',
+    regSP: '🤝 Sales Partner', regSPS: 'Kostenlos · 48h Antwort',
     regFree: 'Kostenlos · Prüfung in 24–48h',
     regName: 'Name / Firma *', regCity: 'Stadt *', regEmail: 'E-Mail *',
     regDesc: 'Beschreibung', regDescPH: 'Was bieten Sie an?',
@@ -236,7 +236,7 @@ const T = {
     regTitle: 'What would you like to list?',
     regComp: '🏢 Company', regCompS: 'Team, LLC, Agency',
     regFL: '👤 Freelancer', regFLS: 'Self-employed, solo',
-    regSP: '🤝 Sales Partner', regSPS: 'EU-based · Partner application',
+    regSP: '🤝 Sales Partner', regSPS: 'Free · Reply within 48h',
     regFree: 'Free · Review within 24–48h',
     regName: 'Name / Company *', regCity: 'City *', regEmail: 'E-mail *',
     regDesc: 'Description', regDescPH: 'What do you offer?',
@@ -352,7 +352,7 @@ const T = {
     regTitle: 'Çfarë dëshironi?',
     regComp: '🏢 Kompani', regCompS: 'Ekip, SH.P.K.',
     regFL: '👤 Freelancer', regFLS: 'I vetëpunësuar',
-    regSP: '🤝 Partner Shitjesh', regSPS: 'Bazuar në BE · Aplikim partner',
+    regSP: '🤝 Partner Shitjesh', regSPS: "Falas · Përgjigje brenda 48h",
     regFree: 'Falas · 24–48h',
     regName: 'Emri / Kompania *', regCity: 'Qyteti *', regEmail: 'E-mail *',
     regDesc: 'Përshkrim', regDescPH: 'Çfarë ofroni?',
@@ -468,7 +468,7 @@ const T = {
     regTitle: 'Vad vill du registrera?',
     regComp: '🏢 Företag', regCompS: 'Team, AB, Byrå',
     regFL: '👤 Frilansare', regFLS: 'Egenföretagare',
-    regSP: '🤝 Säljpartner', regSPS: 'EU-baserad · Partneransökan',
+    regSP: '🤝 Säljpartner', regSPS: 'Gratis · Svar inom 48h',
     regFree: 'Gratis · 24–48h',
     regName: 'Namn / Företag *', regCity: 'Stad *', regEmail: 'E-post *',
     regDesc: 'Beskrivning', regDescPH: 'Vad erbjuder du?',
@@ -916,6 +916,29 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
 }
 
 // ─── DIRECTORY PAGE ───────────────────────────────────────────────────────────
+
+const SKILL_SETS = {
+  software:   ['React','Vue','Angular','Next.js','TypeScript','JavaScript','Node.js','Python','Django','PHP','Java','DevOps','Kubernetes','AWS','Azure','Mobile','React Native','Flutter','PostgreSQL','MongoDB','GraphQL'],
+  support:    ['Helpdesk','ITIL v4','24/7','Windows','CompTIA','ServiceNow','Zendesk','Remote Support','Network','Linux'],
+  consulting: ['Agile','Scrum','PMP','SAP','ERP','Change Management','Business Analysis','Digitalisierung','IT-Strategy','PMO'],
+  design:     ['Figma','UI/UX','Branding','Adobe XD','Illustrator','Motion','Video','Webflow','Brand Identity','Copywriting'],
+  bpo:        ['Inbound','Outbound','CRM','Salesforce','HubSpot','Customer Service','Sales','Lead Generation','GDPR','Multi-language'],
+  production: ['CNC','ISO 9001','Lean','CAD','SolidWorks','Quality Control','Injection Moulding','Welding','Sheet Metal','Assembly'],
+  logistics:  ['Customs','Freight','EU Corridor','Warehouse','Cold Chain','Tracking','Import/Export','Last Mile','3PL'],
+  legal:      ['Commercial Law','Corporate Law','Foreign Investment','Contracts','IP','Compliance','Tax Law','Employment Law'],
+}
+
+// Score a profile against selected skills — pure math, no API, free forever
+function scoreProfile(profile, selectedSkills) {
+  if (selectedSkills.length === 0) return { score: 0, matched: [] }
+  const profileTags = profile.tags.map(tg => tg.toLowerCase())
+  const matched = selectedSkills.filter(s =>
+    profileTags.some(pt => pt.includes(s.toLowerCase()) || s.toLowerCase().includes(pt))
+  )
+  const score = Math.round((matched.length / selectedSkills.length) * 100)
+  return { score, matched }
+}
+
 function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear }) {
   const [q, setQ] = useState(initialQ || '')
   // Sync initialQ when coming from home search
@@ -1108,28 +1131,6 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
 }
 
 // ─── MATCH PAGE ───────────────────────────────────────────────────────────────
-const SKILL_SETS = {
-  software:   ['React','Vue','Angular','Next.js','TypeScript','JavaScript','Node.js','Python','Django','PHP','Java','DevOps','Kubernetes','AWS','Azure','Mobile','React Native','Flutter','PostgreSQL','MongoDB','GraphQL'],
-  support:    ['Helpdesk','ITIL v4','24/7','Windows','CompTIA','ServiceNow','Zendesk','Remote Support','Network','Linux'],
-  consulting: ['Agile','Scrum','PMP','SAP','ERP','Change Management','Business Analysis','Digitalisierung','IT-Strategy','PMO'],
-  design:     ['Figma','UI/UX','Branding','Adobe XD','Illustrator','Motion','Video','Webflow','Brand Identity','Copywriting'],
-  bpo:        ['Inbound','Outbound','CRM','Salesforce','HubSpot','Customer Service','Sales','Lead Generation','GDPR','Multi-language'],
-  production: ['CNC','ISO 9001','Lean','CAD','SolidWorks','Quality Control','Injection Moulding','Welding','Sheet Metal','Assembly'],
-  logistics:  ['Customs','Freight','EU Corridor','Warehouse','Cold Chain','Tracking','Import/Export','Last Mile','3PL'],
-  legal:      ['Commercial Law','Corporate Law','Foreign Investment','Contracts','IP','Compliance','Tax Law','Employment Law'],
-}
-
-// Score a profile against selected skills — pure math, no API, free forever
-function scoreProfile(profile, selectedSkills) {
-  if (selectedSkills.length === 0) return { score: 0, matched: [] }
-  const profileTags = profile.tags.map(tg => tg.toLowerCase())
-  const matched = selectedSkills.filter(s =>
-    profileTags.some(pt => pt.includes(s.toLowerCase()) || s.toLowerCase().includes(pt))
-  )
-  const score = Math.round((matched.length / selectedSkills.length) * 100)
-  return { score, matched }
-}
-
 function MatchPage({ lang, t }) {
   const [category, setCategory] = useState('all')
   const [skills,   setSkills]   = useState([])
@@ -3159,9 +3160,9 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                {/* EU-based: Sales Partner */}
+                {/* Partner */}
                 <div style={{ fontSize:10, color:G.teal, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
-                  🇪🇺 {lang==='de'?'EU-basiert · Sales Partner werden':lang==='sv'?'EU-baserad · Bli säljpartner':lang==='sq'?'Bazuar në BE · Bëhu partner shitjesh':'EU-based · Become a sales partner'}
+                  🤝 {lang==='de'?'Partner werden':lang==='sv'?'Bli partner':lang==='sq'?'Bëhu partner':'Become a partner'}
                 </div>
                 <div style={{ display: 'flex', gap: 9 }}>
                   {[[t.regSP, t.regSPS, true]].map(([l, sub, isPartner], i) => (                    <div key={i} onClick={() => setRegType(l)}
