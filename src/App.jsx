@@ -119,7 +119,7 @@ const T = {
     regTitle: 'Was möchten Sie eintragen?',
     regComp: '🏢 Firma', regCompS: 'Team, GmbH, Agentur',
     regFL: '👤 Freelancer', regFLS: 'Selbstständig, Solo',
-    regSP: '🤝 Sales Partner', regSPS: 'Kostenlos · 48h Antwort',
+    regSP: '🤝 Partner', regSPS: 'Kostenlos · 48h Antwort',
     regFree: 'Kostenlos · Prüfung in 24–48h',
     regName: 'Name / Firma *', regCity: 'Stadt *', regEmail: 'E-Mail *',
     regDesc: 'Beschreibung', regDescPH: 'Was bieten Sie an?',
@@ -202,7 +202,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'You arrive', d: 'Everything prepared.' },
       { n: '05', ic: '📄', t: 'Follow-up', d: 'Contracts & next steps.' },
     ],
-    concSpTitle: 'The rootsGTM Sales Team', concSpSub: "rootsGTM's sales team works on the ground in Kosovo — they know the business culture, the best contacts and handle everything for you.",
+    concSpTitle: 'rootsGTM', concSpSub: 'rootsGTM is our exclusive partner — they know the business culture, the best contacts and handle everything for you.',
     spDeals: 'Deals',
     concCtaTitle: 'Ready for your Kosovo visit?',
     concCtaFeats: ['✓ Reply in 24h', '✓ No deposit', '✓ Free initial call', '✓ Flexible booking'],
@@ -236,7 +236,7 @@ const T = {
     regTitle: 'What would you like to list?',
     regComp: '🏢 Company', regCompS: 'Team, LLC, Agency',
     regFL: '👤 Freelancer', regFLS: 'Self-employed, solo',
-    regSP: '🤝 Sales Partner', regSPS: 'Free · Reply within 48h',
+    regSP: '🤝 Partner', regSPS: 'Free · Reply within 48h',
     regFree: 'Free · Review within 24–48h',
     regName: 'Name / Company *', regCity: 'City *', regEmail: 'E-mail *',
     regDesc: 'Description', regDescPH: 'What do you offer?',
@@ -318,7 +318,7 @@ const T = {
       { n: '04', ic: '✈️', t: 'Mbërrini', d: 'Gjithçka e përgatitur.' },
       { n: '05', ic: '📄', t: 'Vijim', d: 'Kontrata & hapat e ardhshëm.' },
     ],
-    concSpTitle: 'Ekipi i Shitjeve rootsGTM', concSpSub: 'Ekipi i shitjeve i rootsGTM punon në terren në Kosovë — njohin kulturën e biznesit, kontaktet më të mira dhe organizojnë gjithçka për ju.',
+    concSpTitle: 'rootsGTM', concSpSub: 'Ekipi i shitjeve i rootsGTM punon në terren në Kosovë — njohin kulturën e biznesit, kontaktet më të mira dhe organizojnë gjithçka për ju.',
     spDeals: 'Marrëveshje',
     concCtaTitle: 'Gati për vizitën tuaj?',
     concCtaFeats: ['✓ Përgjigje 24h', '✓ Pa paradhënie', '✓ Thirrje falas', '✓ Fleksibël'],
@@ -352,7 +352,7 @@ const T = {
     regTitle: 'Çfarë dëshironi?',
     regComp: '🏢 Kompani', regCompS: 'Ekip, SH.P.K.',
     regFL: '👤 Freelancer', regFLS: 'I vetëpunësuar',
-    regSP: '🤝 Partner Shitjesh', regSPS: "Falas · Përgjigje brenda 48h",
+    regSP: '🤝 Partner', regSPS: "Falas · Përgjigje brenda 48h",
     regFree: 'Falas · 24–48h',
     regName: 'Emri / Kompania *', regCity: 'Qyteti *', regEmail: 'E-mail *',
     regDesc: 'Përshkrim', regDescPH: 'Çfarë ofroni?',
@@ -468,7 +468,7 @@ const T = {
     regTitle: 'Vad vill du registrera?',
     regComp: '🏢 Företag', regCompS: 'Team, AB, Byrå',
     regFL: '👤 Frilansare', regFLS: 'Egenföretagare',
-    regSP: '🤝 Säljpartner', regSPS: 'Gratis · Svar inom 48h',
+    regSP: '🤝 Partner', regSPS: 'Gratis · Svar inom 48h',
     regFree: 'Gratis · 24–48h',
     regName: 'Namn / Företag *', regCity: 'Stad *', regEmail: 'E-post *',
     regDesc: 'Beskrivning', regDescPH: 'Vad erbjuder du?',
@@ -888,7 +888,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           </div>
         </div>
         <div style={{ display: 'flex', gap: 12, marginBottom: 9, fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
-          <span><Stars r={p.rating} /> {p.rating} ({p.reviews})</span>
+
           {isFL ? <span>🗣 {p.languages}</span> : <span>👥 {p.employees}</span>}
         </div>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 11 }}>{p.desc[lang] || p.desc.en}</p>
@@ -1017,7 +1017,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
         <input className="inp" style={{ flex: 1, fontSize: 15 }} placeholder={t.searchPH} value={q} onChange={e => setQ(e.target.value)} />
         <select className="inp" style={{ width: 148, fontSize: 12 }} value={sort} onChange={e => setSort(e.target.value)}>
           <option value="rating">{t.sortRating}</option>
-          <option value="reviews">{t.sortReviews}</option>
+
           <option value="name">{t.sortAZ}</option>
         </select>
       </div>
@@ -1026,17 +1026,22 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
           <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.04)', color: typeF === v ? G.gold : G.muted, border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{l}</button>
         ))}
         <button onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
-          style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:7, padding:'7px 16px', fontSize:12, fontWeight:700, cursor:'pointer', fontFamily:"'Syne',sans-serif",
-            background: matchMode ? 'linear-gradient(135deg,rgba(45,212,191,0.25),rgba(45,212,191,0.1))' : 'rgba(255,255,255,0.04)',
-            color: matchMode ? G.teal : G.muted,
-            border: `1px solid ${matchMode ? 'rgba(45,212,191,0.5)' : 'rgba(255,255,255,0.08)'}`,
-            borderRadius: 20,
-            boxShadow: matchMode ? '0 0 12px rgba(45,212,191,0.18)' : 'none',
-            transition: 'all 0.2s' }}>
-          <span style={{ fontSize:13 }}>{matchMode ? '🟢' : '🔎'}</span>
-          {lang==='de'?'Skill-Matching':lang==='sv'?'Kompetensfilter':lang==='sq'?'Filtrim skills':'Skill filter'}
+          style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:8, padding:'9px 20px', fontSize:13, fontWeight:700, cursor:'pointer', fontFamily:"'Syne',sans-serif",
+            background: matchMode
+              ? 'linear-gradient(135deg,#2dd4bf,#0d9488)'
+              : 'linear-gradient(135deg,rgba(45,212,191,0.15),rgba(45,212,191,0.07))',
+            color: matchMode ? '#080c14' : G.teal,
+            border: `1px solid ${matchMode ? 'transparent' : 'rgba(45,212,191,0.45)'}`,
+            borderRadius: 22,
+            boxShadow: matchMode
+              ? '0 4px 20px rgba(45,212,191,0.4), 0 0 0 1px rgba(45,212,191,0.3)'
+              : '0 2px 10px rgba(45,212,191,0.15)',
+            transition: 'all 0.22s',
+            letterSpacing: '0.2px' }}>
+          <span style={{ fontSize:14, lineHeight:1 }}>{matchMode ? '✓' : '🔎'}</span>
+          {lang==='de'?'Skill-Filter':lang==='sv'?'Kompetensfilter':lang==='sq'?'Filtrim':'Skill filter'}
           {matchMode && matchSkills.length > 0 && (
-            <span style={{ background:G.teal, color:'#080c14', borderRadius:10, padding:'1px 7px', fontSize:10, fontWeight:800 }}>{matchSkills.length}</span>
+            <span style={{ background: matchMode?'rgba(0,0,0,0.2)':'rgba(45,212,191,0.2)', color: matchMode?'#080c14':G.teal, borderRadius:10, padding:'2px 7px', fontSize:10, fontWeight:800 }}>{matchSkills.length}</span>
           )}
         </button>
       </div>
@@ -1446,7 +1451,7 @@ function MatchPage({ lang, t }) {
                         {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
                       </div>
                       <div style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
-                        <Stars r={p.rating} /> {p.rating} ({p.reviews})
+
                       </div>
                     </div>
 
@@ -1538,7 +1543,7 @@ function ConciergePage({ lang, t, content = {} }) {
                 <div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.teal }}>{P.rootsgtm_name || 'rootsGTM'}</div>
                   <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
-                    {lang === 'de' ? 'Offizieller Sales Partner · Aktiv' : lang === 'sv' ? 'Officiell säljpartner · Aktiv' : lang === 'sq' ? 'Partner Zyrtar i Shitjeve · Aktiv' : 'Official Sales Partner · Active'}
+                    {lang === 'de' ? 'Exklusiver Partner · Aktiv' : lang === 'sv' ? 'Exklusiv partner · Aktiv' : lang === 'sq' ? 'Partner Ekskluziv · Aktiv' : 'Exclusive Partner · Active'}
                   </div>
                 </div>
                 <span style={{ marginLeft: 'auto', fontSize: 11, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.25)', borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>✓ Live</span>
@@ -1642,6 +1647,17 @@ function ConciergePage({ lang, t, content = {} }) {
             <span style={{ background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 6, padding: '3px 10px', fontSize: 12, color: G.teal, fontFamily: "'Syne',sans-serif", fontWeight: 700 }}>rootsGTM</span>
           </div>
           <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{CC.sp_sub || t.concSpSub}</p>
+          {partnerProfiles.length > 0 && (
+            <div style={{ marginBottom:10 }}>
+              <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:14 }}>
+                <div style={{ flex:1, height:1, background:G.border }} />
+                <span style={{ fontSize:11, color:G.muted, fontFamily:"'DM Sans',sans-serif", fontWeight:600, textTransform:'uppercase', letterSpacing:'0.8px' }}>
+                  {lang==='de'?'Weitere Partner':lang==='sv'?'Ytterligare partners':lang==='sq'?'Partnerë të tjerë':'Additional partners'}
+                </span>
+                <div style={{ flex:1, height:1, background:G.border }} />
+              </div>
+            </div>
+          )}
           {partnerProfiles.length === 0 ? (
             <div style={{ color: G.muted, fontFamily: "'DM Sans',sans-serif", fontSize: 13, padding: '12px 0' }}>
               {lang==='de'?'Keine Partner-Profile in der Datenbank — im Admin registrieren (Typ: Partner).':lang==='sv'?'Inga partnerprofile i databasen — registrera i admin (typ: Partner).':lang==='sq'?'Nuk ka profil partner në bazën e të dhënave — regjistro në admin (lloji: Partner).':'No partner profiles in database — register in admin (type: Partner).'}
@@ -1654,12 +1670,12 @@ function ConciergePage({ lang, t, content = {} }) {
                     <Logo text={sp.logo} color={sp.logoColor} />
                     <div>
                       <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{sp.name}</div>
-                      <div style={{ fontSize: 11, color: G.teal }}>{sp.employees || (lang==='de'?'Sales Partner':lang==='sv'?'Säljpartner':lang==='sq'?'Partner shitjesh':'Sales Partner')}</div>
+                      <div style={{ fontSize: 11, color: G.teal }}>{sp.employees || (lang==='de'?'Partner':lang==='sv'?'Partner':lang==='sq'?'Partner':'Partner')}</div>
                       <div style={{ fontSize: 11, color: G.muted, marginTop: 1 }}>📍 {sp.city}{sp.languages ? ` · 🗣 ${sp.languages}` : ''}</div>
                     </div>
                   </div>
                   <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 10 }}>{sp.desc[lang] || sp.desc.en}</p>
-                  {sp.rating > 0 && <div style={{ fontSize: 12, color: G.muted, marginBottom: 10 }}>⭐ {sp.rating} ({sp.reviews} {t.spDeals})</div>}
+
                   <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
                     {(sp.tags||[]).map(s => <span key={s} style={{ background: 'rgba(45,212,191,0.08)', color: G.teal, border: '1px solid rgba(45,212,191,0.2)', borderRadius: 5, padding: '2px 7px', fontSize: 11 }}>{s}</span>)}
                   </div>
@@ -1832,7 +1848,7 @@ const TAG_SUGGESTIONS = {
 
 // ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
 function SmartRegForm({ lang, t, regType, onDone }) {
-  const isSP = regType === t.regSP  // Sales Partner — separate form
+  const isSP = regType === t.regSP  // Partner — separate form
   const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '' })
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
@@ -2309,7 +2325,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     hero_sub: 'Our partners organise your complete business visit.',
     avail_note: '2 Active partners',
     pkg_sub: 'Rates and conditions are agreed in a personal conversation.',
-    sp_title: 'The rootsGTM Sales Team',
+    sp_title: 'rootsGTM',
     sp_sub: "rootsGTM's sales team works on the ground in Kosovo.",
     cta_title: 'Ready for your Kosovo visit?',
     cta_email: 'concierge@techgate-ks.com',
@@ -2603,7 +2619,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                       <Logo text={p.logo} color={p.logoColor} size={38} />
                       <div style={{ flex:1, minWidth:0 }}>
                         <div style={{ fontWeight:700, fontSize:14 }}>{p.name}</div>
-                        <div style={{ fontSize:11, color:G.muted }}>📍 {p.city} · 🤝 Sales Partner</div>
+                        <div style={{ fontSize:11, color:G.muted }}>📍 {p.city} · 🤝 Partner</div>
                         <div style={{ fontSize:11, color:G.blue, marginTop:1 }}>📧 {p.contact}</div>
                         {p.languages && <div style={{ fontSize:11, color:G.muted }}>🗣 {p.languages}</div>}
                         {(p.tags||[]).length>0 && (
@@ -2742,7 +2758,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
           {/* rootsGTM */}
           <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:14, padding:'22px 24px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.teal, marginBottom:16 }}>🚀 rootsGTM — Official Sales Partner</div>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.teal, marginBottom:16 }}>🚀 rootsGTM — Exklusiver Partner</div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
               <div><label className="flabel">Organisation name</label><input className="inp" value={partners.rootsgtm_name||''} onChange={e=>setPartners(p=>({...p,rootsgtm_name:e.target.value}))} /></div>
               <div><label className="flabel">Email</label><input className="inp" value={partners.rootsgtm_email||''} onChange={e=>setPartners(p=>({...p,rootsgtm_email:e.target.value}))} /></div>
