@@ -1652,8 +1652,7 @@ function ConciergePage({ lang, t, content = {} }) {
             </span>
             <div style={{ flex:1, height:1, background:`linear-gradient(90deg,${G.goldBorder},transparent)` }} />
           </div>
-          {(
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(290px,1fr))', gap: 13 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(290px,1fr))', gap: 13 }}>
               {partnerProfiles.map((sp, i) => (
                 <div key={sp.id} className="card fu" style={{ padding: 20, animationDelay: `${i * 0.05}s` }}>
                   <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
@@ -1674,7 +1673,6 @@ function ConciergePage({ lang, t, content = {} }) {
               ))}
             </div>
           </div>
-        )}
         </div>
 
         {/* ── CTA ── */}
