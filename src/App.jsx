@@ -1477,6 +1477,52 @@ function MatchPage({ lang, t }) {
   )
 }
 
+function PartnerCards({ lang, profiles, G, t, onBook }) {
+  if (!profiles || profiles.length === 0) return null
+  const dividerLabel = lang === 'de' ? 'Weitere Partner' : lang === 'sv' ? 'Fler partners' : lang === 'sq' ? 'Partnerë të tjerë' : 'More partners'
+  return (
+    <div style={{ marginBottom: 48 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
+        <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(212,168,67,0.22))' }} />
+        <span style={{ fontSize: 11, color: '#d4a843', fontFamily: "'Syne',sans-serif", fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(212,168,67,0.10)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: 20, padding: '4px 16px' }}>
+          {dividerLabel}
+        </span>
+        <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,168,67,0.22),transparent)' }} />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 13 }}>
+        {profiles.map(function(sp, i) {
+          return (
+            <div key={sp.id} className="card fu" style={{ padding: 20, animationDelay: (i * 0.05) + 's' }}>
+              <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
+                <Logo text={sp.logo} color={sp.logoColor} />
+                <div>
+                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{sp.name}</div>
+                  <div style={{ fontSize: 11, color: '#2dd4bf' }}>Partner</div>
+                  <div style={{ fontSize: 11, color: 'rgba(232,228,217,0.45)', marginTop: 1 }}>
+                    {sp.city}{sp.languages ? (' · ' + sp.languages) : ''}
+                  </div>
+                </div>
+              </div>
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.45)', lineHeight: 1.62, marginBottom: 10 }}>
+                {(sp.desc && (sp.desc[lang] || sp.desc.en)) || ''}
+              </p>
+              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
+                {(sp.tags || []).map(function(s) {
+                  return (
+                    <span key={s} style={{ background: 'rgba(45,212,191,0.08)', color: '#2dd4bf', border: '1px solid rgba(45,212,191,0.2)', borderRadius: 5, padding: '2px 7px', fontSize: 11 }}>{s}</span>
+                  )
+                })}
+              </div>
+              <button className="btn teal-btn" style={{ width: '100%', padding: '8px', fontSize: 12 }} onClick={onBook}>{t.concReq}</button>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+
 // ─── CONCIERGE PAGE ───────────────────────────────────────────────────────────
 function ConciergePage({ lang, t, content = {} }) {
   const raw = window.__siteContent || content
@@ -1641,39 +1687,7 @@ function ConciergePage({ lang, t, content = {} }) {
           </div>
         </div>
 
-        {/* ── ADDITIONAL PARTNERS (from DB) ── */}
-        {partnerProfiles.length > 0 && (
-        <div style={{ marginBottom: 48 }}>
-          {/* Divider — exclusive styling */}
-          <div style={{ display:'flex', alignItems:'center', gap:14, marginBottom:28 }}>
-            <div style={{ flex:1, height:1, background:`linear-gradient(90deg,transparent,${G.goldBorder})` }} />
-            <span style={{ fontSize:11, color:G.gold, fontFamily:"'Syne',sans-serif", fontWeight:700, letterSpacing:'2px', textTransform:'uppercase', background:G.goldDim, border:`1px solid ${G.goldBorder}`, borderRadius:20, padding:'4px 16px' }}>
-              {lang==='de'?'Unsere Partner':lang==='sv'?'Våra partners':lang==='sq'?'Partnerët tanë':'Our partners'}
-            </span>
-            <div style={{ flex:1, height:1, background:`linear-gradient(90deg,${G.goldBorder},transparent)` }} />
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(290px,1fr))', gap: 13 }}>
-              {partnerProfiles.map((sp, i) => (
-                <div key={sp.id} className="card fu" style={{ padding: 20, animationDelay: `${i * 0.05}s` }}>
-                  <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
-                    <Logo text={sp.logo} color={sp.logoColor} />
-                    <div>
-                      <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{sp.name}</div>
-                      <div style={{ fontSize: 11, color: G.teal }}>{sp.employees || (lang==='de'?'Partner':lang==='sv'?'Partner':lang==='sq'?'Partner':'Partner')}</div>
-                      <div style={{ fontSize: 11, color: G.muted, marginTop: 1 }}>📍 {sp.city}{sp.languages ? ` · 🗣 ${sp.languages}` : ''}</div>
-                    </div>
-                  </div>
-                  <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 10 }}>{sp.desc[lang] || sp.desc.en}</p>
-
-                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
-                    {(sp.tags||[]).map(s => <span key={s} style={{ background: 'rgba(45,212,191,0.08)', color: G.teal, border: '1px solid rgba(45,212,191,0.2)', borderRadius: 5, padding: '2px 7px', fontSize: 11 }}>{s}</span>)}
-                  </div>
-                  <button className="btn teal-btn" style={{ width: '100%', padding: '8px', fontSize: 12 }} onClick={() => setBookModal(true)}>{t.concReq}</button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <PartnerCards lang={lang} profiles={partnerProfiles} G={G} t={t} onBook={() => setBookModal(true)} />
 
         {/* ── CTA ── */}
         <div style={{ background: 'linear-gradient(135deg,rgba(45,212,191,0.08),rgba(212,168,67,0.04))', border: '1px solid rgba(45,212,191,0.2)', borderRadius: 14, padding: '30px 36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap', marginBottom: 32 }}>
