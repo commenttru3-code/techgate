@@ -1559,8 +1559,8 @@ function ConciergePage({ lang, t, content = {} }) {
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 100, padding: '5px 16px', marginBottom: 18 }}>
             <span style={{ width: 7, height: 7, background: G.teal, borderRadius: '50%', display: 'inline-block' }} className="pg" />
             <span style={{ fontSize: 12, color: G.teal, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>
-                  {1 + partnerProfiles.length} {t.concAvail}
-                </span>
+              {(1 + (partnerProfiles?.length || 0))} {t.concAvail}
+            </span>
           </div>
           <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4.5vw,48px)', letterSpacing: '-1.1px', lineHeight: 1.1, marginBottom: 14 }}>
             {CC.hero_title || t.concHeroTitle}<br /><span style={{ color: G.teal }}>
@@ -2431,10 +2431,11 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       type:      p.type || 'company',
       cat:       p.cat || 'software',
       tags:      Array.isArray(p.tags) ? p.tags.join(', ') : '',
-      desc_de:   p.desc?.de || '',
-      desc_en:   p.desc?.en || '',
-      rating:    p.rating || 0,
-      reviews:   p.reviews || 0,
+      logoColor: p.logoColor || '#58a6ff',
+      desc_de:   p.desc?.de || p.desc?.en || '',
+      desc_en:   p.desc?.en || p.desc?.de || '',
+      desc_sq:   p.desc?.sq || p.desc?.en || '',
+      desc_sv:   p.desc?.sv || p.desc?.en || '',
     })
   }
 
@@ -2452,13 +2453,12 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       tier:       editForm.tier,
       type:       editForm.type,
       cat:        editForm.cat,
-      tags:       editForm.tags.split(',').map(s => s.trim()).filter(Boolean),
-      desc_de:    editForm.desc_de || null,
-      desc_en:    editForm.desc_en || null,
-      desc_sq:    editForm.desc_en || null,
-      desc_sv:    editForm.desc_en || null,
-      rating:     parseFloat(editForm.rating) || 0,
-      reviews:    parseInt(editForm.reviews) || 0,
+      tags:       typeof editForm.tags === 'string' ? editForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : (editForm.tags||[]),
+      logo_color: editForm.logoColor || '#58a6ff',
+      desc_de:    editForm.desc_de || editForm.desc_en || null,
+      desc_en:    editForm.desc_en || editForm.desc_de || null,
+      desc_sq:    editForm.desc_sq || editForm.desc_en || null,
+      desc_sv:    editForm.desc_sv || editForm.desc_en || null,
     }
     const err = await updateProfile(editProfile.id, updates)
     if (!err) {
@@ -2890,91 +2890,70 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
             <div style={{ padding:'22px 28px', display:'flex', flexDirection:'column', gap:20 }}>
 
-              {/* Section: Identity */}
-              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:G.gold, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>📋 Identity</div>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
-                  <div><label className="flabel">Name *</label><input className="inp" value={editForm.name||''} onChange={e=>setEditForm(f=>({...f,name:e.target.value}))} /></div>
-                  <div><label className="flabel">City *</label><input className="inp" value={editForm.city||''} onChange={e=>setEditForm(f=>({...f,city:e.target.value}))} /></div>
-                </div>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
-                  <div><label className="flabel">Email *</label><input className="inp" value={editForm.contact||''} onChange={e=>setEditForm(f=>({...f,contact:e.target.value}))} /></div>
-                  <div><label className="flabel">Phone</label><input className="inp" value={editForm.phone||''} onChange={e=>setEditForm(f=>({...f,phone:e.target.value}))} placeholder="+383 44 …" /></div>
-                </div>
+              {/* ── Basic Info ── */}
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Name *</label><input className="inp" value={editForm.name||''} onChange={e=>setEditForm(f=>({...f,name:e.target.value}))} /></div>
+                <div><label className="flabel">City *</label><input className="inp" value={editForm.city||''} onChange={e=>setEditForm(f=>({...f,city:e.target.value}))} /></div>
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Email *</label><input className="inp" value={editForm.contact||''} onChange={e=>setEditForm(f=>({...f,contact:e.target.value}))} /></div>
+                <div><label className="flabel">Phone</label><input className="inp" value={editForm.phone||''} onChange={e=>setEditForm(f=>({...f,phone:e.target.value}))} /></div>
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Website</label><input className="inp" value={editForm.website||''} onChange={e=>setEditForm(f=>({...f,website:e.target.value}))} placeholder="firma.com" /></div>
+                <div><label className="flabel">Employees</label><input className="inp" value={editForm.employees||''} onChange={e=>setEditForm(f=>({...f,employees:e.target.value}))} placeholder="15–30" /></div>
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Languages</label><input className="inp" value={editForm.languages||''} onChange={e=>setEditForm(f=>({...f,languages:e.target.value}))} placeholder="DE, EN, SQ" /></div>
+                <div><label className="flabel">Experience (Freelancer)</label><input className="inp" value={editForm.experience||''} onChange={e=>setEditForm(f=>({...f,experience:e.target.value}))} placeholder="7 Jahre" /></div>
               </div>
 
-              {/* Section: Company details */}
-              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:G.blue, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>🏢 Details</div>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
-                  <div><label className="flabel">Website</label><input className="inp" value={editForm.website||''} onChange={e=>setEditForm(f=>({...f,website:e.target.value}))} placeholder="firma.com" /></div>
-                  <div><label className="flabel">Employees</label><input className="inp" value={editForm.employees||''} onChange={e=>setEditForm(f=>({...f,employees:e.target.value}))} placeholder="15–30" /></div>
-                </div>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
-                  <div><label className="flabel">Languages</label><input className="inp" value={editForm.languages||''} onChange={e=>setEditForm(f=>({...f,languages:e.target.value}))} placeholder="DE, EN, SQ" /></div>
-                  <div><label className="flabel">Experience (freelancer)</label><input className="inp" value={editForm.experience||''} onChange={e=>setEditForm(f=>({...f,experience:e.target.value}))} placeholder="7" /></div>
-                </div>
-              </div>
-
-              {/* Section: Classification */}
-              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:G.purple, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>🏷 Classification</div>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:12, marginBottom:12 }}>
-                  <div><label className="flabel">Type</label>
-                    <select className="inp" value={editForm.type||'company'} onChange={e=>setEditForm(f=>({...f,type:e.target.value}))}>
-                      <option value="company">🏢 Company</option>
-                      <option value="freelancer">👤 Freelancer</option>
-                      <option value="partner">🤝 Partner</option>
-                    </select>
+              {/* ── Logo color ── */}
+              <div style={{ marginBottom:12 }}>
+                <label className="flabel">Profil-Farbe (Logo-Hintergrund)</label>
+                <div style={{ display:'flex', gap:8, alignItems:'center', marginTop:6 }}>
+                  <div style={{ width:40, height:40, borderRadius:9, background:editForm.logoColor||'#58a6ff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:'#fff', flexShrink:0 }}>
+                    {(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
                   </div>
-                  <div><label className="flabel">Category</label>
-                    <select className="inp" value={editForm.cat||'software'} onChange={e=>setEditForm(f=>({...f,cat:e.target.value}))}>
-                      {CATS.map(cat => <option key={cat.id} value={cat.id}>{cat.icon} {cat.labels.en}</option>)}
-                    </select>
-                  </div>
-                  <div><label className="flabel">Tier</label>
-                    <select className="inp" value={editForm.tier||'free'} onChange={e=>setEditForm(f=>({...f,tier:e.target.value}))}>
-                      <option value="free">🆓 Free</option>
-                      <option value="premium">⭐ Premium</option>
-                      <option value="sponsored">🚀 Sponsored</option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="flabel">Tags (comma separated)</label>
-                  <input className="inp" value={editForm.tags||''} onChange={e=>setEditForm(f=>({...f,tags:e.target.value}))} placeholder="React, Node.js, TypeScript, Cybersecurity…" />
-                </div>
-              </div>
-
-              {/* Section: Reputation */}
-              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:G.teal, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>⭐ Reputation</div>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
-                  <div>
-                    <label className="flabel">Rating (0.0 – 5.0)</label>
-                    <input className="inp" type="number" min="0" max="5" step="0.1" value={editForm.rating||0} onChange={e=>setEditForm(f=>({...f,rating:e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="flabel">Number of reviews</label>
-                    <input className="inp" type="number" min="0" value={editForm.reviews||0} onChange={e=>setEditForm(f=>({...f,reviews:e.target.value}))} />
+                  <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                    {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>(
+                      <button key={col} onClick={()=>setEditForm(f=>({...f,logoColor:col}))} style={{ width:26, height:26, borderRadius:'50%', background:col, border:`2px solid ${(editForm.logoColor||'#58a6ff')===col?'#fff':'transparent'}`, cursor:'pointer' }} />
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Section: Description */}
-              <div style={{ background:'rgba(255,255,255,0.025)', border:`1px solid ${G.border}`, borderRadius:12, padding:'18px 20px' }}>
-                <div style={{ fontSize:11, fontWeight:700, color:G.muted, letterSpacing:'0.8px', textTransform:'uppercase', marginBottom:14 }}>📝 Description</div>
-                <div style={{ marginBottom:12 }}>
-                  <label className="flabel">🇩🇪 German</label>
-                  <textarea className="inp" rows={2} style={{resize:'vertical'}} value={editForm.desc_de||''} onChange={e=>setEditForm(f=>({...f,desc_de:e.target.value}))} />
+              {/* ── Tags + Tier + Type + Cat ── */}
+              <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Tags / Skills (Komma-getrennt)</label><input className="inp" value={editForm.tags||''} onChange={e=>setEditForm(f=>({...f,tags:e.target.value}))} placeholder="React, Node.js, TypeScript…" /></div>
+                <div><label className="flabel">Tier</label>
+                  <select className="inp" value={editForm.tier||'free'} onChange={e=>setEditForm(f=>({...f,tier:e.target.value}))}>
+                    <option value="free">🆓 Free</option>
+                    <option value="premium">⭐ Premium</option>
+                    <option value="sponsored">🚀 Sponsored</option>
+                  </select>
                 </div>
-                <div>
-                  <label className="flabel">🇬🇧 English</label>
-                  <textarea className="inp" rows={2} style={{resize:'vertical'}} value={editForm.desc_en||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value}))} />
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Typ</label>
+                  <select className="inp" value={editForm.type||'company'} onChange={e=>setEditForm(f=>({...f,type:e.target.value}))}>
+                    <option value="company">🏢 Firma</option>
+                    <option value="freelancer">👤 Freelancer</option>
+                    <option value="partner">🤝 Partner</option>
+                  </select>
+                </div>
+                <div><label className="flabel">Kategorie</label>
+                  <select className="inp" value={editForm.cat||'software'} onChange={e=>setEditForm(f=>({...f,cat:e.target.value}))}>
+                    {CATS.map(cat=><option key={cat.id} value={cat.id}>{cat.icon} {cat.labels.en}</option>)}
+                  </select>
                 </div>
               </div>
 
-            </div>
+              {/* ── Description (shared for all languages) ── */}
+              <div style={{ marginBottom:12 }}>
+                <label className="flabel">Beschreibung <span style={{fontWeight:400,textTransform:'none',fontSize:10,color:G.muted}}>(gilt für alle Sprachen)</span></label>
+                <textarea className="inp" rows={3} style={{resize:'vertical'}} value={editForm.desc_en||editForm.desc_de||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value,desc_de:e.target.value,desc_sq:e.target.value,desc_sv:e.target.value}))} placeholder="Kurzbeschreibung des Angebots…" />
+              </div>
 
             {/* Sticky footer */}
             <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0e1420' }}>
@@ -3127,7 +3106,7 @@ export default function App() {
                 <button className="btn gbtn" style={{ flexShrink: 0 }} onClick={() => setPage('directory')}>{t.searchBtn} →</button>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 30, flexWrap: 'wrap' }}>
-                {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], [String(homeStats.total||0), lang==='de'?'Einträge gesamt':lang==='sv'?'Totalt':lang==='sq'?'Gjithsej':'Total listings']].map(([n, l]) => (
+                {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], [homeStats.total > 0 ? String(homeStats.total) : '—', lang==='de'?'Einträge gesamt':lang==='sv'?'Totalt':lang==='sq'?'Gjithsej':'Total listings']].map(([n, l]) => (
                   <div key={l} style={{ textAlign: 'center' }}>
                     <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: G.gold }}>{n}</div>
                     <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>{l}</div>
@@ -3263,4 +3242,45 @@ export default function App() {
       </footer>
     </div>
   )
+}
+/* ── MOBILE RESPONSIVE ─────────────────────────────── */
+@media(max-width:640px){
+  nav{padding:0 16px !important;}
+  nav .nav-links-desktop{display:none !important;}
+  .home-hero{padding:28px 16px 20px !important;}
+  .home-section{padding:0 16px 16px !important;}
+  .dir-page{padding:16px !important;}
+  .match-page{padding:16px !important;}
+  .conc-page{padding:0 !important;}
+  .conc-section{padding:28px 16px !important;}
+  .gov-page{padding:20px 16px !important;}
+  .admin-page{padding:16px !important;}
+  .admin-stats-grid{grid-template-columns:1fr 1fr !important;}
+  .admin-tabs{flex-wrap:wrap !important;}
+  .reg-type-row{flex-direction:column !important;}
+  .modal{padding:20px 14px !important;border-radius:14px !important;}
+  .modal-bg{padding:8px !important;}
+  .grid-2{grid-template-columns:1fr !important;}
+  .grid-3{grid-template-columns:1fr !important;}
+  .grid-4{grid-template-columns:1fr 1fr !important;}
+  .hero-h1{font-size:28px !important;letter-spacing:-0.5px !important;}
+  .hero-sub{font-size:14px !important;}
+  .cat-pills{gap:5px !important;}
+  .cat-pill{padding:6px 10px !important;font-size:11px !important;}
+  .search-bar{flex-direction:column !important;}
+  .stat-grid{grid-template-columns:1fr 1fr !important;}
+  .feat-grid{grid-template-columns:1fr !important;}
+  .pkg-grid{grid-template-columns:1fr !important;}
+  .dir-filters{flex-wrap:wrap !important;}
+  .partner-cards-grid{grid-template-columns:1fr !important;}
+  .match-pills{gap:5px !important;}
+  .footer-row{flex-direction:column !important;gap:8px !important;}
+}
+@media(min-width:641px) and (max-width:960px){
+  .home-hero{padding:36px 24px !important;}
+  .home-section{padding:0 24px !important;}
+  .dir-page,.match-page{padding:20px 24px !important;}
+  .feat-grid{grid-template-columns:1fr 1fr !important;}
+  .pkg-grid{grid-template-columns:1fr 1fr !important;}
+  .admin-stats-grid{grid-template-columns:repeat(2,1fr) !important;}
 }
