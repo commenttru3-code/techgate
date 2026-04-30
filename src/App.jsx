@@ -2972,22 +2972,26 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 
 class ErrorBoundary extends React.Component {
-  constructor(props) { super(props); this.state = { hasError: false, error: null } }
-  static getDerivedStateFromError(error) { return { hasError: true, error } }
-  componentDidCatch(error, info) { console.error('App crash:', error, info) }
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false, error: null }
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error: error }
+  }
+  componentDidCatch(error, info) {
+    console.error('App crash:', error, info)
+  }
   render() {
     if (this.state.hasError) {
-      return (
-        <div style={{ minHeight: '100vh', background: '#080c14', color: '#e8e4d9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'DM Sans, sans-serif', padding: 32, textAlign: 'center' }}>
-          <div>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
-            <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 8 }}>App Error</div>
-            <div style={{ color: 'rgba(232,228,217,0.5)', fontSize: 14, marginBottom: 24, maxWidth: 400 }}>{String(this.state.error)}</div>
-            <button onClick={() => window.location.reload()} style={{ background: '#d4a843', color: '#080c14', border: 'none', padding: '10px 24px', borderRadius: 8, cursor: 'pointer', fontWeight: 700, fontSize: 14 }}>
-              Reload page
-            </button>
-          </div>
-        </div>
+      return React.createElement('div',
+        { style: { minHeight:'100vh', background:'#080c14', color:'#e8e4d9', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'DM Sans,sans-serif', padding:32, textAlign:'center' } },
+        React.createElement('div', null,
+          React.createElement('div', { style: { fontSize:48, marginBottom:16 } }, '⚠️'),
+          React.createElement('div', { style: { fontSize:20, fontWeight:700, marginBottom:8 } }, 'Something went wrong'),
+          React.createElement('div', { style: { color:'rgba(232,228,217,0.5)', fontSize:14, marginBottom:24 } }, String(this.state.error)),
+          React.createElement('button', { onClick: function(){ window.location.reload() }, style: { background:'#d4a843', color:'#080c14', border:'none', padding:'10px 24px', borderRadius:8, cursor:'pointer', fontWeight:700 } }, 'Reload')
+        )
       )
     }
     return this.props.children
