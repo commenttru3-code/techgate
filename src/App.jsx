@@ -1916,7 +1916,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           <label className="flabel">{lang==='de'?'Profil-Farbe':lang==='sv'?'Profilfärg':lang==='sq'?'Ngjyra e profilit':'Profile color'}</label>
           <div style={{ display:'flex', gap:7, flexWrap:'wrap', marginTop:6 }}>
             {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>(
-              <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:28, height:28, borderRadius:'50%', background:col, border:`2px solid ${(form.logoColor||'#58a6ff')===col?'#fff':'transparent'}`, cursor:'pointer' }} />
+              <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:28, height:28, borderRadius:'50%', background:col, border:'2px solid '+((form.logoColor||'#58a6ff')===col?'#fff':'transparent'), cursor:'pointer' }} />
             ))}
           </div>
         </div>
@@ -1950,9 +1950,10 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           <div style={{ flex:1 }}>
             <div style={{ fontSize:11, color:G.muted, marginBottom:6, fontFamily:"'DM Sans',sans-serif" }}>{lang==='de'?'Hintergrundfarbe':lang==='sv'?'Bakgrundsfärg':lang==='sq'?'Ngjyra e sfondit':'Background color'}</div>
             <div style={{ display:'flex', gap:7, flexWrap:'wrap' }}>
-              {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>(
-                <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:26, height:26, borderRadius:'50%', background:col, border:`2px solid ${(form.logoColor||'#58a6ff')===col?'#fff':'transparent'}`, cursor:'pointer' }} />
-              ))}
+              {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>{
+                const isSel = (form.logoColor||'#58a6ff') === col
+                return <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:26, height:26, borderRadius:'50%', background:col, border:'2px solid '+(isSel?'#fff':'transparent'), cursor:'pointer' }} />
+              })}
             </div>
           </div>
         </div>
@@ -2916,9 +2917,10 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                     {(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
                   </div>
                   <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                    {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>(
-                      <button key={col} onClick={()=>setEditForm(f=>({...f,logoColor:col}))} style={{ width:26, height:26, borderRadius:'50%', background:col, border:`2px solid ${(editForm.logoColor||'#58a6ff')===col?'#fff':'transparent'}`, cursor:'pointer' }} />
-                    ))}
+                    {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>{
+                      const isSelected = (editForm.logoColor||'#58a6ff') === col
+                      return <button key={col} onClick={()=>setEditForm(f=>({...f,logoColor:col}))} style={{ width:26, height:26, borderRadius:'50%', background:col, border:'2px solid '+(isSelected?'#fff':'transparent'), cursor:'pointer' }} />
+                    })}
                   </div>
                 </div>
               </div>
