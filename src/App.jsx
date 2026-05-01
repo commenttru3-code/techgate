@@ -1827,7 +1827,7 @@ function GovPage({ lang, t, content = {} }) {
           ))}
         </div>
         <div style={{ borderTop: `1px solid ${G.goldBorder}`, paddingTop: 16, display: 'flex', gap: 9, flexWrap: 'wrap' }}>
-          <button className="btn gbtn" style={{ padding: '8px 16px', fontSize: 12 }} onClick={() => window.open(gc.investkosova_url||'https://investkosova.org','_blank')}>InvestKosova →</button>
+          <button className="btn gbtn" style={{ padding: '8px 16px', fontSize: 12 }} onClick={() => window.open(gc.investkosova_url||"https://investkosova.org","_blank")}>InvestKosova →</button>
           <button className="btn ghost" style={{ fontSize: 12 }}>ARBK</button>
           <button className="btn ghost" style={{ fontSize: 12 }}>ATK</button>
         </div>
