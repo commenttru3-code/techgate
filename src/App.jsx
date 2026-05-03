@@ -1,4 +1,4 @@
-// TechGate Kosovo v2.3 — build: 2026-04-28
+// TechGate Kosovo v2.4 — build: 2025-05-01
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import {
   fetchProfiles, fetchAllProfilesAdmin,
