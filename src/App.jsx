@@ -939,6 +939,42 @@ function scoreProfile(profile, selectedSkills) {
   return { score, matched }
 }
 
+function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills, resultCount }) {
+  const base = new Set()
+  const catIds = cat !== 'all' ? [cat] : CATS.map(c => c.id)
+  catIds.forEach(catId => {
+    ;(SKILL_SETS[catId] || []).forEach(s => base.add(s))
+    ;(dbProfiles || []).filter(p => p.cat === catId).forEach(p => (p.tags||[]).forEach(tg => base.add(tg)))
+  })
+  const skillList = [...base].sort()
+  const toggleSkill = s => setMatchSkills(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])
+  return (
+    <div style={{ background:'rgba(45,212,191,0.05)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:12, padding:'14px 16px', marginBottom:18 }}>
+      <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:10 }}>
+        {lang==='de'?'Skills auswählen':lang==='sv'?'Välj kompetenser':lang==='sq'?'Zgjidh aftësitë':'Select skills'}
+        {cat !== 'all' && <span style={{ color:G.muted, fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
+      </div>
+      <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:120, overflowY:'auto' }}>
+        {skillList.map(s => (
+          <button key={s} onClick={() => toggleSkill(s)} className="btn"
+            style={{ padding:'5px 12px', fontSize:11, fontWeight:matchSkills.includes(s)?700:500, borderRadius:14,
+              background:matchSkills.includes(s)?'rgba(45,212,191,0.15)':'rgba(255,255,255,0.04)',
+              color:matchSkills.includes(s)?G.teal:G.muted,
+              border:'1px solid '+(matchSkills.includes(s)?'rgba(45,212,191,0.4)':'rgba(255,255,255,0.07)') }}>
+            {matchSkills.includes(s)?'✓ ':''}{s}
+          </button>
+        ))}
+      </div>
+      {matchSkills.length > 0 && (
+        <div style={{ marginTop:9, display:'flex', alignItems:'center', gap:10, fontSize:12, color:G.teal }}>
+          <span>✓ {matchSkills.length} {lang==='de'?'Skills':lang==='sv'?'kompetenser':lang==='sq'?'aftësi':'skills'} · {resultCount} {lang==='de'?'Treffer':lang==='sv'?'träffar':lang==='sq'?'rezultate':'results'}</span>
+          <button onClick={() => setMatchSkills([])} className="btn ghost" style={{ fontSize:11, padding:'3px 9px' }}>✕</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear }) {
   const [q, setQ] = useState(initialQ || '')
   // Sync initialQ when coming from home search
@@ -1046,41 +1082,13 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
       </div>
 
       {/* ── SKILL MATCH PANEL ── */}
-      {matchMode && (() => {
-        // Skills come from the currently selected category filter (or all cats)
-        const activeCat = cat !== 'all' ? cat : null
-        const base = new Set()
-        ;(activeCat ? [activeCat] : CATS.map(c2 => c2.id)).forEach(catId => {
-          ;(SKILL_SETS[catId] || []).forEach(s => base.add(s))
-          dbProfiles.filter(p => p.cat === catId).forEach(p => (p.tags||[]).forEach(tg => base.add(tg)))
-        })
-        const skillList = [...base].sort()
-        return (
-          <div style={{ background:'rgba(45,212,191,0.05)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:12, padding:'14px 16px', marginBottom:18 }}>
-            <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:10 }}>
-              {lang==='de'?'Skills auswählen':lang==='sv'?'Välj kompetenser':lang==='sq'?'Zgjidh aftësitë':'Select skills'}
-              {cat !== 'all' && <span style={{ color:G.muted, fontWeight:400, marginLeft:6, textTransform:'none' }}>· {CATS.find(c2=>c2.id===cat)?.labels[lang]}</span>}
-            </div>
-            <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:120, overflowY:'auto' }}>
-              {skillList.map(s => (
-                <button key={s} onClick={() => setMatchSkills(prev => prev.includes(s)?prev.filter(x=>x!==s):[...prev,s])} className="btn"
-                  style={{ padding:'5px 12px', fontSize:11, fontWeight: matchSkills.includes(s)?700:500, borderRadius:14,
-                    background: matchSkills.includes(s)?'rgba(45,212,191,0.15)':'rgba(255,255,255,0.04)',
-                    color: matchSkills.includes(s)?G.teal:G.muted,
-                    border:`1px solid ${matchSkills.includes(s)?'rgba(45,212,191,0.4)':'rgba(255,255,255,0.07)'}` }}>
-                  {matchSkills.includes(s)?'✓ ':''}{s}
-                </button>
-              ))}
-            </div>
-            {matchSkills.length > 0 && (
-              <div style={{ marginTop:9, display:'flex', alignItems:'center', gap:10, fontSize:12, color:G.teal }}>
-                <span>✓ {matchSkills.length} {lang==='de'?'Skills':lang==='sv'?'kompetenser':lang==='sq'?'aftësi':'skills'} · {filtered.length} {lang==='de'?'Treffer':lang==='sv'?'träffar':lang==='sq'?'rezultate':'results'}</span>
-                <button onClick={() => setMatchSkills([])} className="btn ghost" style={{ fontSize:11, padding:'3px 9px' }}>✕</button>
-              </div>
-            )}
-          </div>
-        )
-      })()}
+      {matchMode && <SkillMatchPanel
+        lang={lang} cat={cat} G={G}
+        dbProfiles={dbProfiles}
+        matchSkills={matchSkills}
+        setMatchSkills={setMatchSkills}
+        resultCount={filtered.length}
+      />}
       <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 6, marginBottom: 22, scrollbarWidth: 'none' }}>
         <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
         {CATS.map(c => (
@@ -1122,7 +1130,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
       {filtered.length === 0 && (
         <div style={{ textAlign: 'center', padding: '64px 20px', color: G.muted }}>
           <div style={{ fontSize: 42, marginBottom: 12 }}>🔍</div>
-          <div style={{ fontSize: 15, fontFamily: "'DM Sans',sans-serif" }}>{t.noResults} „{q}"</div>
+          <div style={{ fontSize: 15, fontFamily: "'DM Sans',sans-serif" }}>{t.noResults} "{q}"</div>
           <div style={{ fontSize: 13, fontFamily: "'DM Sans',sans-serif", marginTop: 6 }}>{t.noResultsSub}</div>
         </div>
       )}
