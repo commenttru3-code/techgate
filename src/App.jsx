@@ -3232,7 +3232,7 @@ export default function App() {
   )
 }
 /* ── MOBILE RESPONSIVE ─────────────────────────────── */
-@media(max-width:640px){
+@media(max-width):640px){
   nav{padding:0 16px !important;}
   nav .nav-links-desktop{display:none !important;}
   .home-hero{padding:28px 16px 20px !important;}
