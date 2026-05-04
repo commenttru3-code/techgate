@@ -637,7 +637,7 @@ body{background:#080c14;margin:0;}
 .pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#d4a843,#fde68a);}
 .rank-badge{position:absolute;top:10px;right:10px;}
 
-@media(max-width:640px){
+@media(max-width):640px){
   .hero-pad{padding:32px 16px 24px !important;}
   .section-pad{padding:0 16px !important;}
   .page-pad{padding:16px 16px !important;}
