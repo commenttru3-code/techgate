@@ -3232,7 +3232,7 @@ export default function App() {
   )
 }
 /* ── MOBILE RESPONSIVE ─────────────────────────────── */
-@media(max-width):640px){
+@media (max-width: 640px){
   nav{padding:0 16px !important;}
   nav .nav-links-desktop{display:none !important;}
   .home-hero{padding:28px 16px 20px !important;}
@@ -3264,7 +3264,7 @@ export default function App() {
   .match-pills{gap:5px !important;}
   .footer-row{flex-direction:column !important;gap:8px !important;}
 }
-@media(min-width:641px) and (max-width:960px){
+@media(min-width: 641px) and (max-width: 960px){
   .home-hero{padding:36px 24px !important;}
   .home-section{padding:0 24px !important;}
   .dir-page,.match-page{padding:20px 24px !important;}
