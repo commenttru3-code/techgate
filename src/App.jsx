@@ -3231,44 +3231,48 @@ export default function App() {
     </div>
   )
 }
-/* ── MOBILE RESPONSIVE ─────────────────────────────── */
-@media (max-width: 640px){
-  nav{padding:0 16px !important;}
-  nav .nav-links-desktop{display:none !important;}
-  .home-hero{padding:28px 16px 20px !important;}
-  .home-section{padding:0 16px 16px !important;}
-  .dir-page{padding:16px !important;}
-  .match-page{padding:16px !important;}
-  .conc-page{padding:0 !important;}
-  .conc-section{padding:28px 16px !important;}
-  .gov-page{padding:20px 16px !important;}
-  .admin-page{padding:16px !important;}
-  .admin-stats-grid{grid-template-columns:1fr 1fr !important;}
-  .admin-tabs{flex-wrap:wrap !important;}
-  .reg-type-row{flex-direction:column !important;}
-  .modal{padding:20px 14px !important;border-radius:14px !important;}
-  .modal-bg{padding:8px !important;}
-  .grid-2{grid-template-columns:1fr !important;}
-  .grid-3{grid-template-columns:1fr !important;}
-  .grid-4{grid-template-columns:1fr 1fr !important;}
-  .hero-h1{font-size:28px !important;letter-spacing:-0.5px !important;}
-  .hero-sub{font-size:14px !important;}
-  .cat-pills{gap:5px !important;}
-  .cat-pill{padding:6px 10px !important;font-size:11px !important;}
-  .search-bar{flex-direction:column !important;}
-  .stat-grid{grid-template-columns:1fr 1fr !important;}
-  .feat-grid{grid-template-columns:1fr !important;}
-  .pkg-grid{grid-template-columns:1fr !important;}
-  .dir-filters{flex-wrap:wrap !important;}
-  .partner-cards-grid{grid-template-columns:1fr !important;}
-  .match-pills{gap:5px !important;}
-  .footer-row{flex-direction:column !important;gap:8px !important;}
-}
-@media(min-width: 641px) and (max-width: 960px){
-  .home-hero{padding:36px 24px !important;}
-  .home-section{padding:0 24px !important;}
-  .dir-page,.match-page{padding:20px 24px !important;}
-  .feat-grid{grid-template-columns:1fr 1fr !important;}
-  .pkg-grid{grid-template-columns:1fr 1fr !important;}
-  .admin-stats-grid{grid-template-columns:repeat(2,1fr) !important;}
-}
+<style>{`
+  /* ── MOBILE RESPONSIVE ─────────────────────────────── */
+
+  @media (max-width: 640px){
+    nav{padding:0 16px !important;}
+    nav .nav-links-desktop{display:none !important;}
+    .home-hero{padding:28px 16px 20px !important;}
+    .home-section{padding:0 16px 16px !important;}
+    .dir-page{padding:16px !important;}
+    .match-page{padding:16px !important;}
+    .conc-page{padding:0 !important;}
+    .conc-section{padding:28px 16px !important;}
+    .gov-page{padding:20px 16px !important;}
+    .admin-page{padding:16px !important;}
+    .admin-stats-grid{grid-template-columns:1fr 1fr !important;}
+    .admin-tabs{flex-wrap:wrap !important;}
+    .reg-type-row{flex-direction:column !important;}
+    .modal{padding:20px 14px !important;border-radius:14px !important;}
+    .modal-bg{padding:8px !important;}
+    .grid-2{grid-template-columns:1fr !important;}
+    .grid-3{grid-template-columns:1fr !important;}
+    .grid-4{grid-template-columns:1fr 1fr !important;}
+    .hero-h1{font-size:28px !important;letter-spacing:-0.5px !important;}
+    .hero-sub{font-size:14px !important;}
+    .cat-pills{gap:5px !important;}
+    .cat-pill{padding:6px 10px !important;font-size:11px !important;}
+    .search-bar{flex-direction:column !important;}
+    .stat-grid{grid-template-columns:1fr 1fr !important;}
+    .feat-grid{grid-template-columns:1fr !important;}
+    .pkg-grid{grid-template-columns:1fr !important;}
+    .dir-filters{flex-wrap:wrap !important;}
+    .partner-cards-grid{grid-template-columns:1fr !important;}
+    .match-pills{gap:5px !important;}
+    .footer-row{flex-direction:column !important;gap:8px !important;}
+  }
+
+  @media(min-width: 641px) and (max-width: 960px){
+    .home-hero{padding:36px 24px !important;}
+    .home-section{padding:0 24px !important;}
+    .dir-page,.match-page{padding:20px 24px !important;}
+    .feat-grid{grid-template-columns:1fr 1fr !important;}
+    .pkg-grid{grid-template-columns:1fr 1fr !important;}
+    .admin-stats-grid{grid-template-columns:repeat(2,1fr) !important;}
+  }
+`}</style>
