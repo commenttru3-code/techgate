@@ -3313,6 +3313,7 @@ export default function App() {
     </div>
   )
 }
+
 <style>{`
   /* ── MOBILE RESPONSIVE ─────────────────────────────── */
 
