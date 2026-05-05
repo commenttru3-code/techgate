@@ -637,7 +637,7 @@ body{background:#080c14;margin:0;}
 .pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#d4a843,#fde68a);}
 .rank-badge{position:absolute;top:10px;right:10px;}
 
-@media(max-width):640px){
+@media(max-width:640px){
   .hero-pad{padding:32px 16px 24px !important;}
   .section-pad{padding:0 16px !important;}
   .page-pad{padding:16px 16px !important;}
@@ -1567,7 +1567,7 @@ function ConciergePage({ lang, t, content = {} }) {
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 100, padding: '5px 16px', marginBottom: 18 }}>
             <span style={{ width: 7, height: 7, background: G.teal, borderRadius: '50%', display: 'inline-block' }} className="pg" />
             <span style={{ fontSize: 12, color: G.teal, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>
-              {(1 + (partnerProfiles?.length || 0))} {t.concAvail}
+              {(2 + (partnerProfiles?.length || 0))} {t.concAvail}
             </span>
           </div>
           <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4.5vw,48px)', letterSpacing: '-1.1px', lineHeight: 1.1, marginBottom: 14 }}>
@@ -2964,7 +2964,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 <label className="flabel">Beschreibung <span style={{fontWeight:400,textTransform:'none',fontSize:10,color:G.muted}}>(gilt für alle Sprachen)</span></label>
                 <textarea className="inp" rows={3} style={{resize:'vertical'}} value={editForm.desc_en||editForm.desc_de||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value,desc_de:e.target.value,desc_sq:e.target.value,desc_sv:e.target.value}))} placeholder="Kurzbeschreibung des Angebots…" />
               </div>
-              </div>
 
             {/* Sticky footer */}
             <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0e1420' }}>
@@ -3001,7 +3000,7 @@ export default function App() {
   const [regType, setRegType] = useState(null)
   const [regDone, setRegDone] = useState(false)
 
-  const [homeStats, setHomeStats] = React.useState({ companies: 0, freelancers: 0, partners: 2 })
+  const [homeStats, setHomeStats] = React.useState({ companies: 0, freelancers: 0, partners: 2, total: 0 })
   const [siteContent, setSiteContent] = useState({})
 
   // Pre-load verified profiles + site content
@@ -3012,7 +3011,7 @@ export default function App() {
         setHomeStats({
           companies:   data.filter(p => p.type === 'company').length,
           freelancers: data.filter(p => p.type === 'freelancer').length,
-          partners:    data.filter(p => p.type === 'partner').length,
+          partners:    2 + data.filter(p => p.type === 'partner').length, // 2 = rootsGTM + Kosovo Gov
           total:       data.length,
         })
       }
@@ -3094,7 +3093,7 @@ export default function App() {
                 <button className="btn gbtn" style={{ flexShrink: 0 }} onClick={() => setPage('directory')}>{t.searchBtn} →</button>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 30, flexWrap: 'wrap' }}>
-                {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], [homeStats.total > 0 ? String(homeStats.total) : '—', lang==='de'?'Einträge gesamt':lang==='sv'?'Totalt':lang==='sq'?'Gjithsej':'Total listings']].map(([n, l]) => (
+                {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], [homeStats.total > 0 ? String(homeStats.total) : (homeStats.companies+homeStats.freelancers+homeStats.partners > 0 ? String(homeStats.companies+homeStats.freelancers+homeStats.partners) : '…'), lang==='de'?'Einträge gesamt':lang==='sv'?'Totalt':lang==='sq'?'Gjithsej':'Total listings']].map(([n, l]) => (
                   <div key={l} style={{ textAlign: 'center' }}>
                     <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: G.gold }}>{n}</div>
                     <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>{l}</div>
@@ -3231,48 +3230,44 @@ export default function App() {
     </div>
   )
 }
-<style>{`
-  /* ── MOBILE RESPONSIVE ─────────────────────────────── */
-
-  @media (max-width: 640px){
-    nav{padding:0 16px !important;}
-    nav .nav-links-desktop{display:none !important;}
-    .home-hero{padding:28px 16px 20px !important;}
-    .home-section{padding:0 16px 16px !important;}
-    .dir-page{padding:16px !important;}
-    .match-page{padding:16px !important;}
-    .conc-page{padding:0 !important;}
-    .conc-section{padding:28px 16px !important;}
-    .gov-page{padding:20px 16px !important;}
-    .admin-page{padding:16px !important;}
-    .admin-stats-grid{grid-template-columns:1fr 1fr !important;}
-    .admin-tabs{flex-wrap:wrap !important;}
-    .reg-type-row{flex-direction:column !important;}
-    .modal{padding:20px 14px !important;border-radius:14px !important;}
-    .modal-bg{padding:8px !important;}
-    .grid-2{grid-template-columns:1fr !important;}
-    .grid-3{grid-template-columns:1fr !important;}
-    .grid-4{grid-template-columns:1fr 1fr !important;}
-    .hero-h1{font-size:28px !important;letter-spacing:-0.5px !important;}
-    .hero-sub{font-size:14px !important;}
-    .cat-pills{gap:5px !important;}
-    .cat-pill{padding:6px 10px !important;font-size:11px !important;}
-    .search-bar{flex-direction:column !important;}
-    .stat-grid{grid-template-columns:1fr 1fr !important;}
-    .feat-grid{grid-template-columns:1fr !important;}
-    .pkg-grid{grid-template-columns:1fr !important;}
-    .dir-filters{flex-wrap:wrap !important;}
-    .partner-cards-grid{grid-template-columns:1fr !important;}
-    .match-pills{gap:5px !important;}
-    .footer-row{flex-direction:column !important;gap:8px !important;}
-  }
-
-  @media(min-width: 641px) and (max-width: 960px){
-    .home-hero{padding:36px 24px !important;}
-    .home-section{padding:0 24px !important;}
-    .dir-page,.match-page{padding:20px 24px !important;}
-    .feat-grid{grid-template-columns:1fr 1fr !important;}
-    .pkg-grid{grid-template-columns:1fr 1fr !important;}
-    .admin-stats-grid{grid-template-columns:repeat(2,1fr) !important;}
-  }
-`}</style>
+/* ── MOBILE RESPONSIVE ─────────────────────────────── */
+@media(max-width:640px){
+  nav{padding:0 16px !important;}
+  nav .nav-links-desktop{display:none !important;}
+  .home-hero{padding:28px 16px 20px !important;}
+  .home-section{padding:0 16px 16px !important;}
+  .dir-page{padding:16px !important;}
+  .match-page{padding:16px !important;}
+  .conc-page{padding:0 !important;}
+  .conc-section{padding:28px 16px !important;}
+  .gov-page{padding:20px 16px !important;}
+  .admin-page{padding:16px !important;}
+  .admin-stats-grid{grid-template-columns:1fr 1fr !important;}
+  .admin-tabs{flex-wrap:wrap !important;}
+  .reg-type-row{flex-direction:column !important;}
+  .modal{padding:20px 14px !important;border-radius:14px !important;}
+  .modal-bg{padding:8px !important;}
+  .grid-2{grid-template-columns:1fr !important;}
+  .grid-3{grid-template-columns:1fr !important;}
+  .grid-4{grid-template-columns:1fr 1fr !important;}
+  .hero-h1{font-size:28px !important;letter-spacing:-0.5px !important;}
+  .hero-sub{font-size:14px !important;}
+  .cat-pills{gap:5px !important;}
+  .cat-pill{padding:6px 10px !important;font-size:11px !important;}
+  .search-bar{flex-direction:column !important;}
+  .stat-grid{grid-template-columns:1fr 1fr !important;}
+  .feat-grid{grid-template-columns:1fr !important;}
+  .pkg-grid{grid-template-columns:1fr !important;}
+  .dir-filters{flex-wrap:wrap !important;}
+  .partner-cards-grid{grid-template-columns:1fr !important;}
+  .match-pills{gap:5px !important;}
+  .footer-row{flex-direction:column !important;gap:8px !important;}
+}
+@media(min-width:641px) and (max-width:960px){
+  .home-hero{padding:36px 24px !important;}
+  .home-section{padding:0 24px !important;}
+  .dir-page,.match-page{padding:20px 24px !important;}
+  .feat-grid{grid-template-columns:1fr 1fr !important;}
+  .pkg-grid{grid-template-columns:1fr 1fr !important;}
+  .admin-stats-grid{grid-template-columns:repeat(2,1fr) !important;}
+}
