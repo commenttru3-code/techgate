@@ -3019,12 +3019,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     </div>
       
   )
-}, [])
-
-      
-// ─── ROOT APP ─────────────────────────────────────────────────────────────────
-
-export default function App() {
+}
   const [lang, setLang] = useState(() => {
     // Auto-detect from browser locale
     // de-DE / de-AT / de-CH → de
