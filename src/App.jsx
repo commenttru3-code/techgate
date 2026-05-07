@@ -3020,6 +3020,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       
   )
 }
+</div>
       
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 
