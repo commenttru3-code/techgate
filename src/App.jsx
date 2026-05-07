@@ -3017,7 +3017,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
         </div>
       )}
     </div>
-    
   )
 }
       
@@ -3057,7 +3056,7 @@ export default function App() {
           partners:    2 + data.filter(p => p.type === 'partner').length, // 2 = rootsGTM + Kosovo Gov
           total:       data.length,
         })
-      }, [])
+      }
     }).catch(() => {})
     // Load editable site content
     fetchSiteContent().then(content => {
