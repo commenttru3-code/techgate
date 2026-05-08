@@ -2914,138 +2914,138 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
           </div>
         </div>
       )}
-      
-{/* ───────────────────────────────────────────────────────────── */}
-{/* EDIT PROFILE MODAL */}
-{/* ───────────────────────────────────────────────────────────── */}
 
-{editProfile && (
-  <div className="modalWrap">
-    <div className="modalCard">
+      {/* ── EDIT MODAL — modern card layout ───────────────────────────── */}
+      {editProfile && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.9)', zIndex:300, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={e => e.target===e.currentTarget && setEditProfile(null)}>
+          <div style={{ background:'#0e1420', border:`1px solid ${G.goldBorder}`, borderRadius:20, width:'100%', maxWidth:680, maxHeight:'92vh', overflowY:'auto', display:'flex', flexDirection:'column' }}>
 
-      {/* ── Description (shared for all languages) ── */}
-      <div style={{ marginBottom:12 }}>
-        <label className="flabel">
-          Beschreibung
-          <span
-            style={{
-              fontWeight:400,
-              textTransform:'none',
-              fontSize:10,
-              color:G.muted
-            }}
-          >
-            (gilt für alle Sprachen)
-          </span>
-        </label>
+            {/* Modal header */}
+            <div style={{ padding:'22px 28px 18px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, background:'#0e1420', zIndex:1 }}>
+              <div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20 }}>✏️ Edit Profile</div>
+                <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>{editProfile.name} · Changes go live immediately</div>
+              </div>
+              <button onClick={() => setEditProfile(null)} className="btn ghost" style={{ padding:'6px 12px', fontSize:15 }}>✕</button>
+            </div>
 
-        <textarea
-          className="inp"
-          rows={3}
-          style={{ resize:'vertical' }}
-          value={editForm.desc_en || editForm.desc_de || ''}
-          onChange={e =>
-            setEditForm(f => ({
-              ...f,
-              desc_en:e.target.value,
-              desc_de:e.target.value,
-              desc_sq:e.target.value,
-              desc_sv:e.target.value
-            }))
-          }
-          placeholder="Kurzbeschreibung des Angebots…"
-        />
-      </div>
+            <div style={{ padding:'22px 28px', display:'flex', flexDirection:'column', gap:20 }}>
 
-      {/* Sticky footer */}
-      <div
-        style={{
-          padding:'16px 28px',
-          borderTop:`1px solid ${G.border}`,
-          display:'flex',
-          gap:12,
-          position:'sticky',
-          bottom:0,
-          background:'#0e1420'
-        }}
-      >
-        <button
-          className="btn gbtn"
-          style={{
-            flex:1,
-            padding:'12px',
-            fontSize:14,
-            display:'flex',
-            alignItems:'center',
-            justifyContent:'center',
-            gap:8
-          }}
-          onClick={saveEdit}
-          disabled={saving}
-        >
-          {saving ? (
-            <>
-              <div
-                style={{
-                  width:13,
-                  height:13,
-                  border:'2px solid rgba(0,0,0,0.25)',
-                  borderTopColor:G.bg,
-                  borderRadius:'50%'
-                }}
-                className="sp"
-              />
-              Saving…
-            </>
-          ) : (
-            '💾 Save changes'
-          )}
-        </button>
+              {/* ── Basic Info ── */}
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Name *</label><input className="inp" value={editForm.name||''} onChange={e=>setEditForm(f=>({...f,name:e.target.value}))} /></div>
+                <div><label className="flabel">City *</label><input className="inp" value={editForm.city||''} onChange={e=>setEditForm(f=>({...f,city:e.target.value}))} /></div>
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Email *</label><input className="inp" value={editForm.contact||''} onChange={e=>setEditForm(f=>({...f,contact:e.target.value}))} /></div>
+                <div><label className="flabel">Phone</label><input className="inp" value={editForm.phone||''} onChange={e=>setEditForm(f=>({...f,phone:e.target.value}))} /></div>
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Website</label><input className="inp" value={editForm.website||''} onChange={e=>setEditForm(f=>({...f,website:e.target.value}))} placeholder="firma.com" /></div>
+                <div><label className="flabel">Employees</label><input className="inp" value={editForm.employees||''} onChange={e=>setEditForm(f=>({...f,employees:e.target.value}))} placeholder="15–30" /></div>
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Languages</label><input className="inp" value={editForm.languages||''} onChange={e=>setEditForm(f=>({...f,languages:e.target.value}))} placeholder="DE, EN, SQ" /></div>
+                <div><label className="flabel">Experience (Freelancer)</label><input className="inp" value={editForm.experience||''} onChange={e=>setEditForm(f=>({...f,experience:e.target.value}))} placeholder="7 Jahre" /></div>
+              </div>
 
-        <button
-          className="btn ghost"
-          style={{ padding:'12px 22px' }}
-          onClick={() => setEditProfile(null)}
-          disabled={saving}
-        >
-          Cancel
-        </button>
-      </div>
+              {/* ── Logo / Image ── */}
+              <div style={{ marginBottom:12 }}>
+                <label className="flabel">Logo / Profilbild</label>
+                <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
+                  <div style={{ width:48, height:48, borderRadius:10, background:editForm.logoPreview?'transparent':(editForm.logoColor||'#58a6ff'), display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:14, color:'#fff', flexShrink:0, overflow:'hidden', border:`1px solid ${G.border}` }}>
+                    {editForm.logoPreview
+                      ? <img src={editForm.logoPreview} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                      : (editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()
+                    }
+                  </div>
+                  <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, cursor:'pointer', fontSize:12, color:G.muted }}>
+                    📁 Bild hochladen
+                    <input type="file" accept="image/*" style={{ display:'none' }} onChange={handleAdminLogoUpload} />
+                  </label>
+                  <div>
+                    <div style={{ fontSize:10, color:G.muted, marginBottom:5 }}>oder Farbe:</div>
+                  <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                    {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>{
+                      const isSelected = (editForm.logoColor||'#58a6ff') === col
+                      return <button key={col} onClick={()=>setEditForm(f=>({...f,logoColor:col}))} style={{ width:26, height:26, borderRadius:'50%', background:col, border:'2px solid '+(isSelected?'#fff':'transparent'), cursor:'pointer' }} />
+                    })}
+                  </div>
+                </div>
+              </div>
 
+              {/* ── Tags + Tier + Type + Cat ── */}
+              <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Tags / Skills (Komma-getrennt)</label><input className="inp" value={editForm.tags||''} onChange={e=>setEditForm(f=>({...f,tags:e.target.value}))} placeholder="React, Node.js, TypeScript…" /></div>
+                <div><label className="flabel">Tier</label>
+                  <select className="inp" value={editForm.tier||'free'} onChange={e=>setEditForm(f=>({...f,tier:e.target.value}))}>
+                    <option value="free">🆓 Free</option>
+                    <option value="premium">⭐ Premium</option>
+                    <option value="sponsored">🚀 Sponsored</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
+                <div><label className="flabel">Typ</label>
+                  <select className="inp" value={editForm.type||'company'} onChange={e=>setEditForm(f=>({...f,type:e.target.value}))}>
+                    <option value="company">🏢 Firma</option>
+                    <option value="freelancer">👤 Freelancer</option>
+                    <option value="partner">🤝 Partner</option>
+                  </select>
+                </div>
+                <div><label className="flabel">Kategorie</label>
+                  <select className="inp" value={editForm.cat||'software'} onChange={e=>setEditForm(f=>({...f,cat:e.target.value}))}>
+                    {CATS.map(cat=><option key={cat.id} value={cat.id}>{cat.icon} {cat.labels.en}</option>)}
+                  </select>
+                </div>
+              </div>
+
+              {/* ── Description (shared for all languages) ── */}
+              <div style={{ marginBottom:12 }}>
+                <label className="flabel">Beschreibung <span style={{fontWeight:400,textTransform:'none',fontSize:10,color:G.muted}}>(gilt für alle Sprachen)</span></label>
+                <textarea className="inp" rows={3} style={{resize:'vertical'}} value={editForm.desc_en||editForm.desc_de||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value,desc_de:e.target.value,desc_sq:e.target.value,desc_sv:e.target.value}))} placeholder="Kurzbeschreibung des Angebots…" />
+              </div>
+            </div>
+
+            {/* Sticky footer */}
+            <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0e1420' }}>
+              <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveEdit} disabled={saving}>
+                {saving ? <><div style={{width:13,height:13,border:'2px solid rgba(0,0,0,0.25)',borderTopColor:G.bg,borderRadius:'50%'}} className="sp" />Saving…</> : '💾 Save changes'}
+              </button>
+              <button className="btn ghost" style={{ padding:'12px 22px' }} onClick={() => setEditProfile(null)} disabled={saving}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  </div>
-)}
-
-</div>
-);
+      
+  )
 }
-
+      
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 
 export default function App() {
   const [lang, setLang] = useState(() => {
-    const loc = (
-      navigator.language ||
-      navigator.languages?.[0] ||
-      'en'
-    ).toLowerCase()
-
+    // Auto-detect from browser locale
+    // de-DE / de-AT / de-CH → de
+    // sv-SE / sv             → sv
+    // sq / sq-AL / sq-XK    → sq  (Kosovo Albanian)
+    // everything else        → en
+    const loc = (navigator.language || navigator.languages?.[0] || 'en').toLowerCase()
     if (loc.startsWith('de')) return 'de'
     if (loc.startsWith('sv')) return 'sv'
     if (loc.startsWith('sq') || loc === 'ks') return 'sq'
-
     return 'en'
   })
-```
+  const [page, setPage] = useState('home')
+  const [searchQ, setSearchQ] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showReg, setShowReg] = useState(false)
+  const [regType, setRegType] = useState(null)
+  const [regDone, setRegDone] = useState(false)
 
-Main fixes:
-
-1. Removed the extra `</div>`.
-2. Properly balanced all JSX wrappers.
-3. Added clean formatting so nested elements are easier to verify.
-4. Ensured the component closes before `export default function App()`.
-5. Kept `<textarea />` as a valid self-closing JSX element.
-
+  const [homeStats, setHomeStats] = React.useState({ companies: 0, freelancers: 0, partners: 2, total: 0 })
+  const [siteContent, setSiteContent] = useState({})
 
   // Pre-load verified profiles + site content
   useEffect(() => {
