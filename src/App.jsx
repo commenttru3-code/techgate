@@ -1950,6 +1950,12 @@ function SmartRegForm({ lang, t, regType, onDone }) {
     )
   }
 
+  const handleLogoUpload = e => {
+    if (!e.target.files[0]) return
+    const r = new FileReader()
+    r.onload = ev => setForm(f => ({...f, logoPreview: ev.target.result}))
+    r.readAsDataURL(e.target.files[0])
+  }
   return (
     <div>
       {/* Logo */}
@@ -1965,13 +1971,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           <div>
             <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'7px 14px', background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, cursor:'pointer', fontSize:12, color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>
               📁 {lang==='de'?'Bild hochladen':lang==='sv'?'Ladda upp bild':lang==='sq'?'Ngarko foto':'Upload image'}
-              <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => {
-                const file = e.target.files[0]
-                if (!file) return
-                const reader = new FileReader()
-                reader.onload = ev => setForm(f => ({...f, logoPreview: ev.target.result}))
-                reader.readAsDataURL(file)
-              }} />
+              <input type="file" accept="image/*" style={{ display:'none' }} onChange={handleLogoUpload} />
             </label>
             <div style={{ fontSize:10, color:G.muted, marginTop:4, fontFamily:"'DM Sans',sans-serif" }}>
               {lang==='de'?'oder Farbe wählen:':lang==='sv'?'eller välj färg:':lang==='sq'?'ose zgjidhni ngjyrë:':'or pick color:'}
@@ -2434,6 +2434,13 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     setSaving(false)
     setSettingsSaved('concierge')
     setTimeout(() => setSettingsSaved(''), 2500)
+  }
+
+  const handleAdminLogoUpload = e => {
+    if (!e.target.files[0]) return
+    const r = new FileReader()
+    r.onload = ev => setEditForm(f => ({...f, logoPreview: ev.target.result}))
+    r.readAsDataURL(e.target.files[0])
   }
 
   const handleVerify = async (id, val) => {
@@ -2954,13 +2961,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                   </div>
                   <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, cursor:'pointer', fontSize:12, color:G.muted }}>
                     📁 Bild hochladen
-                    <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => {
-                      const file = e.target.files[0]
-                      if (!file) return
-                      const reader = new FileReader()
-                      reader.onload = ev => setEditForm(f => ({...f, logoPreview: ev.target.result}))
-                      reader.readAsDataURL(file)
-                    }} />
+                    <input type="file" accept="image/*" style={{ display:'none' }} onChange={handleAdminLogoUpload} />
                   </label>
                   <div>
                     <div style={{ fontSize:10, color:G.muted, marginBottom:5 }}>oder Farbe:</div>
@@ -3020,6 +3021,10 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       
   )
 }
+      
+// ─── ROOT APP ─────────────────────────────────────────────────────────────────
+
+export default function App() {
   const [lang, setLang] = useState(() => {
     // Auto-detect from browser locale
     // de-DE / de-AT / de-CH → de
