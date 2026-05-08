@@ -3017,8 +3017,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
           </div>
         </div>
       )}
-    </div>
-    </div>
   )
 }
       
