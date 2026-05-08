@@ -3014,7 +3014,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
               </button>
               <button className="btn ghost" style={{ padding:'12px 22px' }} onClick={() => setEditProfile(null)} disabled={saving}>Cancel</button>
             </div>
-          </div>
   
       
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
