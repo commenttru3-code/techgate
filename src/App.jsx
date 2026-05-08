@@ -3005,7 +3005,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 <label className="flabel">Beschreibung <span style={{fontWeight:400,textTransform:'none',fontSize:10,color:G.muted}}>(gilt für alle Sprachen)</span></label>
                 <textarea className="inp" rows={3} style={{resize:'vertical'}} value={editForm.desc_en||editForm.desc_de||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value,desc_de:e.target.value,desc_sq:e.target.value,desc_sv:e.target.value}))} placeholder="Kurzbeschreibung des Angebots…" />
               </div>
-            </div>
+            
 
             {/* Sticky footer */}
             <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0e1420' }}>
@@ -3018,7 +3018,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
         </div>
       )}
     </div>
-      
+  </div>
   )
 }
       
