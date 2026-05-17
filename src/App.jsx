@@ -638,14 +638,10 @@ body{background:#080c14;margin:0;}
 .rank-badge{position:absolute;top:10px;right:10px;}
 
 @media(max-width:640px){
-  .hamburger-btn{display:flex !important;}
   .nav-links{display:none !important;}
   .nav-lang{display:none !important;}
   .nav-reg-btn{display:none !important;}
-  .mobile-dropdown{display:none;position:fixed;top:64px;left:0;right:0;background:#0e1420;border-bottom:1px solid rgba(255,255,255,0.07);z-index:99;padding:12px 16px 20px;flex-direction:column;gap:4px;}
-  #tg-menu-toggle:checked ~ .mobile-dropdown, .mobile-dropdown.open{display:flex !important;}
-  .mobile-dropdown{display:none;position:fixed;top:64px;left:0;right:0;background:#0e1420;border-bottom:1px solid rgba(255,255,255,0.07);z-index:99;padding:12px 16px 20px;flex-direction:column;gap:4px;}
-  #tg-menu-toggle:checked ~ .mobile-dropdown{display:flex !important;}
+  .hamburger{display:flex !important;}
   .hero-pad{padding:32px 16px 24px !important;}
   .section-pad{padding:0 16px !important;}
   .page-pad{padding:16px 16px !important;}
@@ -1868,7 +1864,7 @@ const TAG_SUGGESTIONS = {
 // ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
 function SmartRegForm({ lang, t, regType, onDone }) {
   const isSP = regType === t.regSP  // Partner — separate form
-  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#58a6ff', logoPreview: null })
+  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#58a6ff' })
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
   const f = (k, v) => setForm(p => ({ ...p, [k]: v }))
@@ -1954,32 +1950,14 @@ function SmartRegForm({ lang, t, regType, onDone }) {
     )
   }
 
-  const handleLogoUpload = e => {
-    if (!e.target.files[0]) return
-    const r = new FileReader()
-    r.onload = ev => setForm(f => ({...f, logoPreview: ev.target.result}))
-    r.readAsDataURL(e.target.files[0])
-  }
   return (
     <div>
       {/* Logo */}
       <div style={{ marginBottom:14 }}>
-        <label className="flabel">{lang==='de'?'Logo / Profilbild':lang==='sv'?'Logo / Profilbild':lang==='sq'?'Logo / Foto profili':'Logo / Profile image'}</label>
+        <label className="flabel">{lang==='de'?'Logo / Initialen (automatisch aus Name)':lang==='sv'?'Logo / Initialer (automatiskt från namn)':lang==='sq'?'Logo / Inicialet (automatikisht nga emri)':'Logo / Initials (auto from name)'}</label>
         <div style={{ display:'flex', gap:10, alignItems:'center' }}>
-          <div style={{ width:52, height:52, borderRadius:10, background:form.logoPreview?'transparent':(form.logoColor||'#58a6ff'), display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, color:'#fff', flexShrink:0, overflow:'hidden', border:`1px solid ${G.border}` }}>
-            {form.logoPreview
-              ? <img src={form.logoPreview} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-              : (form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??')
-            }
-          </div>
-          <div>
-            <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'7px 14px', background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, cursor:'pointer', fontSize:12, color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>
-              📁 {lang==='de'?'Bild hochladen':lang==='sv'?'Ladda upp bild':lang==='sq'?'Ngarko foto':'Upload image'}
-              <input type="file" accept="image/*" style={{ display:'none' }} onChange={handleLogoUpload} />
-            </label>
-            <div style={{ fontSize:10, color:G.muted, marginTop:4, fontFamily:"'DM Sans',sans-serif" }}>
-              {lang==='de'?'oder Farbe wählen:':lang==='sv'?'eller välj färg:':lang==='sq'?'ose zgjidhni ngjyrë:':'or pick color:'}
-            </div>
+          <div style={{ width:44, height:44, borderRadius:10, background:form.logoColor||'#58a6ff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:15, color:'#fff', flexShrink:0 }}>
+            {form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}
           </div>
           <div style={{ flex:1 }}>
             <div style={{ fontSize:11, color:G.muted, marginBottom:6, fontFamily:"'DM Sans',sans-serif" }}>{lang==='de'?'Hintergrundfarbe':lang==='sv'?'Bakgrundsfärg':lang==='sq'?'Ngjyra e sfondit':'Background color'}</div>
@@ -2440,13 +2418,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     setTimeout(() => setSettingsSaved(''), 2500)
   }
 
-  const handleAdminLogoUpload = e => {
-    if (!e.target.files[0]) return
-    const r = new FileReader()
-    r.onload = ev => setEditForm(f => ({...f, logoPreview: ev.target.result}))
-    r.readAsDataURL(e.target.files[0])
-  }
-
   const handleVerify = async (id, val) => {
     const err = await updateProfile(id, { verified: val })
     if (!err) setProfiles(ps => ps.map(x => x.id === id ? { ...x, verified: val } : x))
@@ -2474,8 +2445,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       cat:       p.cat || 'software',
       tags:      Array.isArray(p.tags) ? p.tags.join(', ') : '',
       logoColor: p.logoColor || '#58a6ff',
-      logoPreview: null,
-      logoPreview: null,
       desc_de:   p.desc?.de || p.desc?.en || '',
       desc_en:   p.desc?.en || p.desc?.de || '',
       desc_sq:   p.desc?.sq || p.desc?.en || '',
@@ -2499,7 +2468,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       cat:        editForm.cat,
       tags:       typeof editForm.tags === 'string' ? editForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : (editForm.tags||[]),
       logo_color: editForm.logoColor || '#58a6ff',
-      logo_text: editForm.logoPreview ? null : (editForm.name||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() || null,
       desc_de:    editForm.desc_de || editForm.desc_en || null,
       desc_en:    editForm.desc_en || editForm.desc_de || null,
       desc_sq:    editForm.desc_sq || editForm.desc_en || null,
@@ -2953,22 +2921,13 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 <div><label className="flabel">Experience (Freelancer)</label><input className="inp" value={editForm.experience||''} onChange={e=>setEditForm(f=>({...f,experience:e.target.value}))} placeholder="7 Jahre" /></div>
               </div>
 
-              {/* ── Logo / Image ── */}
+              {/* ── Logo color ── */}
               <div style={{ marginBottom:12 }}>
-                <label className="flabel">Logo / Profilbild</label>
-                <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
-                  <div style={{ width:48, height:48, borderRadius:10, background:editForm.logoPreview?'transparent':(editForm.logoColor||'#58a6ff'), display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:14, color:'#fff', flexShrink:0, overflow:'hidden', border:`1px solid ${G.border}` }}>
-                    {editForm.logoPreview
-                      ? <img src={editForm.logoPreview} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                      : (editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()
-                    }
+                <label className="flabel">Profil-Farbe (Logo-Hintergrund)</label>
+                <div style={{ display:'flex', gap:8, alignItems:'center', marginTop:6 }}>
+                  <div style={{ width:40, height:40, borderRadius:9, background:editForm.logoColor||'#58a6ff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:'#fff', flexShrink:0 }}>
+                    {(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
                   </div>
-                  <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, cursor:'pointer', fontSize:12, color:G.muted }}>
-                    📁 Bild hochladen
-                    <input type="file" accept="image/*" style={{ display:'none' }} onChange={handleAdminLogoUpload} />
-                  </label>
-                  <div>
-                    <div style={{ fontSize:10, color:G.muted, marginBottom:5 }}>oder Farbe:</div>
                   <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
                     {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>{
                       const isSelected = (editForm.logoColor||'#58a6ff') === col
@@ -3043,6 +3002,7 @@ export default function App() {
   })
   const [page, setPage] = useState('home')
   const [searchQ, setSearchQ] = useState('')
+  const [mobileNav, setMobileNav] = useState(false)
   const [showReg, setShowReg] = useState(false)
   const [regType, setRegType] = useState(null)
   const [regDone, setRegDone] = useState(false)
@@ -3107,43 +3067,43 @@ export default function App() {
               </button>
             ))}
           </div>
-          <div className="nav-lang" style={{ display: 'flex', gap: 2, background: 'rgba(255,255,255,0.04)', border: `1px solid ${G.border}`, borderRadius: 8, padding: 3, marginLeft: 6 }}>
+          <div style={{ width: 1, height: 18, background: G.border, margin: '0 6px' }} />
+          <div style={{ display: 'flex', gap: 2, background: 'rgba(255,255,255,0.04)', border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
             {['de', 'en', 'sq', 'sv'].map(l => (
               <button key={l} onClick={() => setLang(l)} className="btn" style={{ padding: '4px 9px', fontSize: 11, fontWeight: 700, background: lang === l ? 'rgba(212,168,67,0.18)' : 'transparent', color: lang === l ? G.gold : G.muted, border: `1px solid ${lang === l ? G.goldBorder : 'transparent'}`, borderRadius: 6 }}>
-                {FLAGS[l]}
+                {FLAGS[l]} {l.toUpperCase()}
               </button>
             ))}
           </div>
           <button className="btn gbtn nav-reg-btn" style={{ marginLeft: 8, padding: '8px 16px', fontSize: 12 }} onClick={() => setShowReg(true)}>{t.registerBtn}</button>
-          {/* Hamburger — mobile only, CSS checkbox trick */}
-          <label htmlFor="tg-menu-toggle" className="hamburger-btn" style={{ display: 'none', flexDirection: 'column', gap: 5, cursor: 'pointer', padding: 8, marginLeft: 4, background: 'transparent', border: 'none' }}>
-            <span style={{ display: 'block', width: 22, height: 2, background: 'rgba(232,228,217,0.7)', borderRadius: 1 }} />
-            <span style={{ display: 'block', width: 22, height: 2, background: 'rgba(232,228,217,0.7)', borderRadius: 1 }} />
-            <span style={{ display: 'block', width: 22, height: 2, background: 'rgba(232,228,217,0.7)', borderRadius: 1 }} />
-          </label>
+          <button className="hamburger" onClick={() => setMobileNav(v => !v)} style={{ display:'none', flexDirection:'column', gap:5, background:'transparent', border:'none', cursor:'pointer', padding:8, marginLeft:4 }}>
+            <span style={{ display:'block', width:22, height:2, background:'rgba(232,228,217,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
+            <span style={{ display:'block', width:22, height:2, background:'rgba(232,228,217,0.7)', borderRadius:1, transition:'all 0.2s', opacity: mobileNav ? 0 : 1 }} />
+            <span style={{ display:'block', width:22, height:2, background:'rgba(232,228,217,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
+          </button>
         </div>
       </nav>
-      {/* Mobile dropdown — hidden checkbox + CSS */}
-      <input type="checkbox" id="tg-menu-toggle" style={{ display: 'none' }} />
-      <div className="mobile-dropdown">
-        {[['home', t.navHome, '🏠'], ['directory', t.navDir, '🏢'], ['concierge', t.navConcierge, '🤝'], ['gov', t.navGov, '🏛️']].map(([pg, l, ic]) => (
-          <button key={pg} onClick={() => setPage(pg)}
-            style={{ background: page===pg?'rgba(212,168,67,0.1)':'transparent', color: page===pg?G.gold:'rgba(232,228,217,0.75)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'DM Sans',sans-serif", fontSize:15, fontWeight:500, display:'flex', alignItems:'center', gap:10, width:'100%' }}>
-            <span>{ic}</span>{l}
-          </button>
-        ))}
-        <div style={{ borderTop:`1px solid ${G.border}`, marginTop:8, paddingTop:12, display:'flex', gap:6 }}>
-          {['de','en','sq','sv'].map(l => (
-            <button key={l} onClick={() => setLang(l)}
-              style={{ flex:1, padding:'8px 4px', borderRadius:8, background:lang===l?'rgba(212,168,67,0.15)':'rgba(255,255,255,0.04)', color:lang===l?G.gold:G.muted, border:'1px solid '+(lang===l?G.goldBorder:G.border), cursor:'pointer', fontWeight:700, fontSize:12 }}>
-              {FLAGS[l]} {l.toUpperCase()}
+      {mobileNav && (
+        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#0e1420', borderBottom:'1px solid rgba(255,255,255,0.07)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4 }}>
+          {[['home',t.navHome,'🏠'],['directory',t.navDir,'🏢'],['concierge',t.navConcierge,'🤝'],['gov',t.navGov,'🏛️']].map(([pg,l,ic]) => (
+            <button key={pg} onClick={() => { setPage(pg); setMobileNav(false) }}
+              style={{ background: page===pg?'rgba(212,168,67,0.1)':'transparent', color: page===pg?'#d4a843':'rgba(232,228,217,0.75)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'DM Sans',sans-serif", fontSize:15, fontWeight:500, display:'flex', alignItems:'center', gap:10, width:'100%' }}>
+              <span>{ic}</span>{l}
             </button>
           ))}
+          <div style={{ borderTop:'1px solid rgba(255,255,255,0.07)', marginTop:8, paddingTop:12, display:'flex', gap:6 }}>
+            {['de','en','sq','sv'].map(l => (
+              <button key={l} onClick={() => { setLang(l) }}
+                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(212,168,67,0.15)':'rgba(255,255,255,0.04)', color: lang===l?'#d4a843':'rgba(232,228,217,0.45)', border:'1px solid '+(lang===l?'rgba(212,168,67,0.22)':'rgba(255,255,255,0.07)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
+                {FLAGS[l]} {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+          <button className="btn gbtn" style={{ marginTop:8, width:'100%' }} onClick={() => { setShowReg(true); setMobileNav(false) }}>{t.registerBtn}</button>
         </div>
-        <button className="btn gbtn" style={{ marginTop:8, width:'100%' }} onClick={() => setShowReg(true)}>{t.registerBtn}</button>
-      </div>
+      )}
 
-      {/* ── PAGES ── */}
+            {/* ── PAGES ── */}
       {page === 'home' && (
         <>
           <section style={{ padding: '80px 48px 56px', textAlign: 'center', position: 'relative', overflow: 'hidden', background: `radial-gradient(ellipse 70% 50% at 50% -5%,rgba(212,168,67,0.12) 0%,transparent 65%),${G.bg}` }}>
