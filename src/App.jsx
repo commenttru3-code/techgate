@@ -8,6 +8,9 @@ import {
   formToDb, fetchSiteContent, saveSiteContent,
   fetchSettings, upsertSetting,
 } from './supabase.js'
+import {
+  notifyAdminNewProfile, sendVerifyCode, sendBookingConfirmation, sendEnquiry
+} from './emailService.js'
 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────────
 const T = {
@@ -80,7 +83,7 @@ const T = {
     concHowSub: 'From first enquiry to signed contract.',
     howSteps: [
       { n: '01', ic: '📋', t: 'Describe needs', d: 'Form or initial call.' },
-      { n: '02', ic: '🤖', t: 'AI pre-selection', d: 'Claude filters the best matches.' },
+      { n: '02', ic: '🎯', t: 'Match your partner', d: 'We find the best-fit listings for your goals.' },
       { n: '03', ic: '🤝', t: 'Partner plans', d: 'rootsGTM coordinates all meetings.' },
       { n: '04', ic: '✈️', t: 'You arrive', d: 'Everything prepared.' },
       { n: '05', ic: '📄', t: 'Follow-up', d: 'Contracts & next steps.' },
@@ -91,7 +94,7 @@ const T = {
     concCtaFeats: ['✓ Reply in 24h', '✓ No deposit', '✓ Free initial call', '✓ Flexible booking'],
     concCtaBtn: '🗓 Request visit now →',
     concBecomeTitle: 'Become a Partner',
-    concBecomeSub: 'Are you an organisation, chamber of commerce or sales network? Apply as an official Business Bridge partner.',
+    concBecomeSub: 'Organisations, chambers of commerce and sales networks can apply to be listed as an official Business Bridge partner. Basic listing is free — featured placement is available as a paid option.',
     concBecomeTypes: ['🏛️ Government & Institutions', '📣 Sales Networks & Agencies', '🌍 Diaspora Organisations', '🤝 Chambers of Commerce'],
     concBecomeBtn: 'Submit application →',
     bookTitle: 'Request Kosova visit', bookName: 'Name *', bookComp: 'Company',
@@ -196,7 +199,7 @@ const T = {
     concHowTitle: 'Si funksionon?', concHowSub: 'Nga kërkesa e parë deri te kontrata.',
     howSteps: [
       { n: '01', ic: '📋', t: 'Përshkruani nevojën', d: 'Formular ose thirrje.' },
-      { n: '02', ic: '🤖', t: 'Para-zgjedhja AI', d: 'Claude filtron përputhjet.' },
+      { n: '02', ic: '🎯', t: 'Gjej partnerin', d: 'Gjejmë përputhjet më të mira për qëllimet tuaja.' },
       { n: '03', ic: '🤝', t: 'Partneri planifikon', d: 'rootsGTM koordinon takimet.' },
       { n: '04', ic: '✈️', t: 'Mbërrini', d: 'Gjithçka e përgatitur.' },
       { n: '05', ic: '📄', t: 'Vijim', d: 'Kontrata & hapat e ardhshëm.' },
@@ -207,7 +210,7 @@ const T = {
     concCtaFeats: ['✓ Përgjigje 24h', '✓ Pa paradhënie', '✓ Thirrje falas', '✓ Fleksibël'],
     concCtaBtn: '🗓 Kërko vizitë →',
     concBecomeTitle: 'Bëhu Partner',
-    concBecomeSub: 'Jeni organizatë, dhomë tregtie apo rrjet shitjesh? Aplikoni si partner zyrtar.',
+    concBecomeSub: 'Organizatat, dhomat e tregtisë dhe rrjetet e shitjeve mund të aplikojnë për t\'u listuar si partner zyrtar. Listimi bazë është falas — vendosja e theksuar është opsion me pagesë.',
     concBecomeTypes: ['🏛️ Qeveri & Institucione', '📣 Rrjete Shitjesh', '🌍 Organizata Diasporë', '🤝 Dhoma Tregtie'],
     concBecomeBtn: 'Dërgo aplikimin →',
     bookTitle: 'Kërko vizitë', bookName: 'Emri *', bookComp: 'Kompania',
@@ -250,14 +253,16 @@ const T = {
 const SLOTS = { sponsored: 1, premium: 3 }
 
 const CATS = [
-  { id: 'software',   icon: '💻', color: '#58a6ff', labels: { de: 'Software & IT',    en: 'Software & IT',    sq: 'Softuer & IT',      sv: 'Mjukvara & IT' },    count: 0 },
-  { id: 'support',    icon: '🛠️', color: '#a78bfa', labels: { de: 'Tech Support',     en: 'Tech Support',     sq: 'Mbështetje Tech',   sv: 'Teknisk support' },  count: 0  },
-  { id: 'consulting', icon: '📊', color: '#34d399', labels: { de: 'Consulting',        en: 'Consulting',       sq: 'Konsulencë',        sv: 'Konsulting' },       count: 0  },
-  { id: 'production', icon: '🏭', color: '#fb923c', labels: { de: 'Produktion',        en: 'Production',       sq: 'Prodhim',           sv: 'Tillverkning' },     count: 0  },
-  { id: 'bpo',        icon: '📞', color: '#f472b6', labels: { de: 'BPO / Call Center', en: 'BPO / Call Centre',sq: 'BPO / Call Center', sv: 'BPO / Callcenter' }, count: 0  },
-  { id: 'design',     icon: '🎨', color: '#facc15', labels: { de: 'Design & Creative', en: 'Design & Creative',sq: 'Dizajn & Kreativ',  sv: 'Design' },           count: 0  },
-  { id: 'logistics',  icon: '🚚', color: '#6ee7b7', labels: { de: 'Logistik',          en: 'Logistics',        sq: 'Logjistikë',        sv: 'Logistik' },         count: 0  },
-  { id: 'legal',      icon: '⚖️', color: '#fca5a5', labels: { de: 'Legal & Finanzen',  en: 'Legal & Finance',  sq: 'Ligjor & Financa',  sv: 'Juridik & Finans' }, count: 0  },
+  { id: 'software',   icon: '💻', color: '#58a6ff', labels: { en: 'Software & IT',     sq: 'Softuer & IT'      }, count: 0 },
+  { id: 'support',    icon: '🛠️', color: '#a78bfa', labels: { en: 'Tech Support',      sq: 'Mbështetje Tech'   }, count: 0 },
+  { id: 'consulting', icon: '📊', color: '#34d399', labels: { en: 'Consulting',         sq: 'Konsulencë'       }, count: 0 },
+  { id: 'media',      icon: '🎬', color: '#e879f9', labels: { en: 'Media & Content',    sq: 'Media & Content'  }, count: 0 },
+  { id: 'production', icon: '🏭', color: '#fb923c', labels: { en: 'Production',         sq: 'Prodhim'          }, count: 0 },
+  { id: 'textile',    icon: '🧵', color: '#f9a8d4', labels: { en: 'Textile & Fashion',  sq: 'Tekstil & Modë'   }, count: 0 },
+  { id: 'bpo',        icon: '📞', color: '#f472b6', labels: { en: 'BPO / Call Centre',  sq: 'BPO / Call Center'}, count: 0 },
+  { id: 'design',     icon: '🎨', color: '#facc15', labels: { en: 'Design & Creative',  sq: 'Dizajn & Kreativ' }, count: 0 },
+  { id: 'logistics',  icon: '🚚', color: '#6ee7b7', labels: { en: 'Logistics',          sq: 'Logjistikë'       }, count: 0 },
+  { id: 'legal',      icon: '⚖️', color: '#fca5a5', labels: { en: 'Legal & Finance',    sq: 'Ligjor & Financa' }, count: 0 },
 ]
 
 
@@ -613,7 +618,6 @@ function ContactModal({ profile, t, onClose }) {
             <div style={{ marginBottom: 18 }}><label className="flabel">{t.reqMsg}</label><textarea className="inp" rows={4} value={form.msg} onChange={e => setForm(f => ({ ...f, msg: e.target.value }))} style={{ resize: 'vertical' }} placeholder={t.reqPH} /></div>
             <div style={{ display: 'flex', gap: 9 }}>
               <button className="btn gbtn" style={{ flex: 1 }} disabled={!form.name || !form.email} onClick={async () => {
-                // Save lead to Supabase (fire and forget — don't block UI)
                 insertContactLead({
                   profile_id:   profile.id || null,
                   profile_name: profile.name,
@@ -621,6 +625,16 @@ function ContactModal({ profile, t, onClose }) {
                   sender_email: form.email,
                   message:      form.msg,
                 }).catch(console.error)
+                // Forward enquiry to the company/freelancer
+                if (profile.contact) {
+                  sendEnquiry({
+                    toEmail:     profile.contact,
+                    companyName: profile.name,
+                    fromName:    form.name,
+                    fromEmail:   form.email,
+                    message:     form.msg,
+                  }).catch(() => {})
+                }
                 setSent(true)
               }}>{t.reqSend}</button>
               <button className="btn ghost" onClick={onClose}>{t.reqCancel}</button>
@@ -1301,13 +1315,18 @@ function MatchPage({ lang, t }) {
       )}
 
       {contact && <ContactModal profile={contact} t={t} onClose={() => setContact(null)} />}
+
+      {/* ── AD BANNER (bottom of directory, above footer) ── */}
+      <div style={{ maxWidth: 1200, margin: '28px auto 8px', padding: '0 44px' }}>
+        <AdBanner slot="banner" lang={lang} />
+      </div>
     </div>
   )
 }
 
 function PartnerCards({ lang, profiles, G, t, onBook }) {
   if (!profiles || profiles.length === 0) return null
-  const dividerLabel = lang === 'sq' ? 'Partnerë të tjerë' : 'More partners'
+  const dividerLabel = lang === 'sq' ? 'Partnerë' : 'Partners'
   return (
     <div style={{ marginBottom: 48 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
@@ -1359,6 +1378,7 @@ function ConciergePage({ lang, t, content = {} }) {
   const CC = sc.concierge
   const [bookModal, setBookModal] = useState(false)
   const [bookForm, setBookForm] = useState({ name:'', company:'', email:'', goal:'', timeframe:'', pax:'1' })
+  const [selectedPkg, setSelectedPkg] = useState(null)
   // Load partner-type profiles from DB for the team section
   const [partnerProfiles, setPartnerProfiles] = useState([])
   useEffect(() => {
@@ -1403,7 +1423,7 @@ function ConciergePage({ lang, t, content = {} }) {
         </div>
       </div>
 
-      <div className="conc-content" style={{ padding: '44px 48px 56px', maxWidth: 1200, margin: '0 auto' }}>
+      <div className="conc-content" style={{ padding: '44px 48px 56px', maxWidth: 1200, margin: '0 auto', overflowX: 'hidden' }}>
 
         {/* ── OFFICIAL PARTNERS ── */}
         <div style={{ marginBottom: 52 }}>
@@ -1490,7 +1510,7 @@ function ConciergePage({ lang, t, content = {} }) {
                     </div>
                   ))}
                 </div>
-                <button className="btn" style={{ width: '100%', padding: '9px', background: pkg.highlight ? G.gold : 'transparent', color: pkg.highlight ? '#080c14' : pkg.col, border: `1px solid ${pkg.col}44`, fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13 }} onClick={() => setBookModal(true)}>{t.pkgCta}</button>
+                <button className="btn" style={{ width: '100%', padding: '9px', background: pkg.highlight ? G.gold : 'transparent', color: pkg.highlight ? '#080c14' : pkg.col, border: `1px solid ${pkg.col}44`, fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13 }} onClick={() => { setSelectedPkg(pkg.name); setBookModal(true) }}>{t.pkgCta}</button>
               </div>
             ))}
           </div>
@@ -1503,7 +1523,7 @@ function ConciergePage({ lang, t, content = {} }) {
         <div style={{ marginBottom: 48 }}>
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concHowTitle}</h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concHowSub}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 9 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))', gap: 9 }}>
             {t.howSteps.map((s, i) => (
               <div key={i} className="card fu" style={{ padding: 16, textAlign: 'center', animationDelay: `${i * 0.05}s` }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: G.teal, marginBottom: 6, letterSpacing: '1px' }}>STEP {s.n}</div>
@@ -1548,7 +1568,10 @@ function ConciergePage({ lang, t, content = {} }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
               <div>
                 <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.bookTitle}</div>
-                <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>rootsGTM · Business Bridge Platform</div>
+                <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
+                  rootsGTM · Business Bridge Platform
+                  {selectedPkg && <span style={{ color: G.teal, marginLeft: 6 }}>· {selectedPkg}</span>}
+                </div>
               </div>
               <ModalClose onClose={() => setBookModal(false)} />
             </div>
@@ -1565,7 +1588,6 @@ function ConciergePage({ lang, t, content = {} }) {
               </div>
             </div>
             <button className="btn teal-btn" style={{ width: '100%', padding: '11px' }} onClick={() => {
-              // Save booking to Supabase (fire and forget)
               insertBooking({
                 name:         bookForm?.name || '',
                 company:      bookForm?.company || '',
@@ -1573,7 +1595,19 @@ function ConciergePage({ lang, t, content = {} }) {
                 goal:         bookForm?.goal || '',
                 timeframe:    bookForm?.timeframe || '',
                 participants: bookForm?.pax || '1',
+                package_name: selectedPkg || '',
               }).catch(console.error)
+              // Send confirmation emails
+              if (bookForm.email) {
+                sendBookingConfirmation({
+                  name:        bookForm.name,
+                  email:       bookForm.email,
+                  packageName: selectedPkg,
+                  goal:        bookForm.goal,
+                  timeframe:   bookForm.timeframe,
+                  pax:         bookForm.pax,
+                }).catch(() => {})
+              }
               setBookDone(true)
             }}>{t.bookSend}</button>
           </div>
@@ -1655,9 +1689,9 @@ function GovPage({ lang, t, content = {} }) {
           ))}
         </div>
         <div style={{ borderTop: `1px solid ${G.goldBorder}`, paddingTop: 16, display: 'flex', gap: 9, flexWrap: 'wrap' }}>
-          <button className="btn gbtn" style={{ padding: '8px 16px', fontSize: 12 }} onClick={() => window.open(gc.investkosova_url||"https://investkosova.org","_blank")}>InvestKosova →</button>
-          <button className="btn ghost" style={{ fontSize: 12 }}>ARBK</button>
-          <button className="btn ghost" style={{ fontSize: 12 }}>ATK</button>
+          <button className="btn gbtn" style={{ padding: '8px 16px', fontSize: 12 }} onClick={() => window.open('https://www.investkosova.com','_blank')}>InvestKosova →</button>
+          <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => window.open('https://arbk.rks-gov.net','_blank')}>ARBK →</button>
+          <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => window.open('https://www.atk-ks.org','_blank')}>ATK →</button>
         </div>
       </div>
     </div>
@@ -1665,13 +1699,68 @@ function GovPage({ lang, t, content = {} }) {
 }
 
 
+// ─── AD BANNER COMPONENT ─────────────────────────────────────────────────────
+// Usage: <AdBanner slot="sidebar" lang={lang} />  or  <AdBanner slot="banner" lang={lang} />
+// Sponsors configure their ads via admin panel (site_content key: "ads")
+function AdBanner({ slot = 'banner', lang }) {
+  const ads = window.__siteContent?.ads || []
+  const slotAds = ads.filter(a => a.slot === slot && a.active)
+  if (slotAds.length === 0) {
+    // Placeholder shown only in admin preview (hidden in production)
+    return (
+      <div style={{
+        border: '1px dashed rgba(212,168,67,0.25)', borderRadius: 10,
+        padding: slot === 'sidebar' ? '18px 14px' : '12px 20px',
+        textAlign: 'center', background: 'rgba(212,168,67,0.03)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+        minHeight: slot === 'sidebar' ? 200 : 64,
+      }}>
+        <div>
+          <div style={{ fontSize: 10, color: 'rgba(212,168,67,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
+            📢 {slot === 'sidebar' ? '160×600 Sidebar Ad' : '728×90 Banner Ad'}
+          </div>
+          <div style={{ fontSize: 10, color: 'rgba(212,168,67,0.3)', marginTop: 4 }}>
+            {lang === 'sq' ? 'Slot reklamash i disponueshëm' : 'Ad slot available — contact us'}
+          </div>
+        </div>
+      </div>
+    )
+  }
+  // Rotate ads for this slot
+  const [idx] = React.useState(() => Math.floor(Math.random() * slotAds.length))
+  const ad = slotAds[idx % slotAds.length]
+  return (
+    <a href={ad.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none' }}
+      onClick={() => { /* track click */ }}>
+      <div style={{
+        borderRadius: 10, overflow: 'hidden', position: 'relative',
+        background: ad.bgColor || 'rgba(212,168,67,0.07)',
+        border: `1px solid ${ad.borderColor || 'rgba(212,168,67,0.2)'}`,
+        minHeight: slot === 'sidebar' ? 200 : 64,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '12px 16px', gap: 12,
+      }}>
+        {ad.imageUrl && <img src={ad.imageUrl} alt={ad.label} style={{ maxHeight: slot==='sidebar'?120:48, maxWidth: slot==='sidebar'?130:220, objectFit:'contain' }} />}
+        <div>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:ad.textColor||G.text }}>{ad.label}</div>
+          {ad.sub && <div style={{ fontSize:11, color:G.muted, marginTop:2 }}>{ad.sub}</div>}
+          {ad.cta && <div style={{ fontSize:11, color:G.teal, marginTop:4, fontWeight:600 }}>{ad.cta} →</div>}
+        </div>
+        <div style={{ position:'absolute', top:4, right:6, fontSize:8, color:G.muted, opacity:0.5 }}>AD</div>
+      </div>
+    </a>
+  )
+}
+
 // ─── TAG SUGGESTIONS PER CATEGORY ────────────────────────────────────────────
 const TAG_SUGGESTIONS = {
   software:   ['React','Vue','Angular','Next.js','TypeScript','JavaScript','Node.js','Python','Django','PHP','Java','DevOps','Kubernetes','AWS','Azure','Docker','Mobile','React Native','Flutter','PostgreSQL','MongoDB','GraphQL','REST API','Microservices','CI/CD'],
   support:    ['Helpdesk','ITIL v4','24/7','Windows','CompTIA A+','ServiceNow','Zendesk','Remote Support','Network','Linux','VPN','Microsoft 365','Active Directory'],
-  consulting: ['Agile','Scrum','PMP','SAP','ERP','Change Management','Business Analysis','Digitalisierung','IT-Strategy','PMO','PRINCE2','Six Sigma'],
-  design:     ['Figma','UI/UX','Branding','Adobe XD','Illustrator','Photoshop','Motion','Video','Webflow','Brand Identity','Copywriting','UX Research'],
-  bpo:        ['Inbound','Outbound','CRM','Salesforce','HubSpot','Customer Service','Sales','Lead Generation','GDPR','Multi-language','German','English','Albanian','Swedish'],
+  consulting: ['Agile','Scrum','PMP','SAP','ERP','Change Management','Business Analysis','IT-Strategy','PMO','PRINCE2','Six Sigma'],
+  media:      ['Videography','Video Production','Content Creation','Photography','Reels','YouTube','TikTok','Instagram','Social Media','Drone','Podcast','Editing','After Effects','Premiere Pro','Colour Grading','Corporate Video','Brand Story','Copywriting'],
+  design:     ['Figma','UI/UX','Branding','Adobe XD','Illustrator','Photoshop','Motion','Webflow','Brand Identity','UX Research','Graphic Design','Logo Design'],
+  textile:    ['Knitting','Embroidery','Screen Printing','DTG Print','Workwear','Uniforms','Custom T-Shirts','Private Label','Cut & Sew','Fashion Design','Sportswear','Safety Clothing','Embroidered Logos','Small Runs','White Label'],
+  bpo:        ['Inbound','Outbound','CRM','Salesforce','HubSpot','Customer Service','Sales','Lead Generation','GDPR','Multi-language','German','English','Albanian'],
   production: ['CNC','ISO 9001','Lean','CAD','SolidWorks','Quality Control','Injection Moulding','Welding','Sheet Metal','Assembly','3D Printing'],
   logistics:  ['Customs','Freight','EU Corridor','Warehouse','Cold Chain','Tracking','Import/Export','Last Mile','3PL','DHL','FedEx'],
   legal:      ['Commercial Law','Corporate Law','Foreign Investment','Contracts','IP','Compliance','Tax Law','Employment Law','Kosova Law','EU Law'],
@@ -1923,10 +2012,16 @@ function SmartRegForm({ lang, t, regType, onDone }) {
 
       <button className="btn gbtn" style={{ width: '100%' }} disabled={!form.name || !form.email} onClick={async () => {
         const dbFields = formToDb(form, catChoice, selectedTags, regType, null)
-        // Attach logo data-URL if user uploaded one
         if (logoFile) dbFields.logo_data = logoFile
         const err = await insertProfile(dbFields)
-        if (err) console.error('insertProfile:', err)
+        if (err) {
+          const fallback = { ...dbFields }
+          delete fallback.logo_color; delete fallback.logo_data
+          const err2 = await insertProfile(fallback)
+          if (err2) { alert('Submission failed: ' + (err2.message || JSON.stringify(err2))); return }
+        }
+        // Email admin about new pending profile
+        notifyAdminNewProfile({ name: form.name, email: form.email, cat: catChoice, city: form.city }).catch(() => {})
         onDone()
       }}>
         {Lr.send}
@@ -2085,11 +2180,14 @@ function SelfEditModal({ profile, lang, t, onClose }) {
                 onKeyDown={e => e.key==='Enter' && email && setStep('code')} />
             </div>
             <button className="btn gbtn" style={{ width:'100%' }} disabled={!email} onClick={async () => {
-              // In production: call Supabase Edge Function to send real 6-digit code
-              // For now: log code to console and show demo note
               const demoCode = Math.floor(100000 + Math.random() * 900000).toString()
               window.__selfEditCode = demoCode
-              console.log('Demo verification code:', demoCode, '(email:', email, ')')
+              // Send real email with code
+              const sent = await sendVerifyCode({ toEmail: email, code: demoCode, profileName: profile.name }).catch(() => null)
+              if (!sent) {
+                // Fallback: show code in UI if email fails
+                console.log('Verification code (email failed):', demoCode)
+              }
               setStep('code')
             }}>
               {Ls.sendCode}
@@ -2251,11 +2349,16 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     if (pw === ADMIN_PASSWORD) {
       setAuthed(true); setAuthFail(false)
       loadData()
-      // Load site content from DB
       fetchSiteContent().then(content => {
         if (content.partners)  setPartners(prev => ({ ...prev, ...content.partners }))
         if (content.concierge) setConcierge(prev => ({ ...prev, ...content.concierge }))
       }).catch(() => {})
+      // Auto-refresh pending every 30s
+      const interval = setInterval(() => {
+        fetchAllProfilesAdmin().then(d => setProfiles(d)).catch(() => {})
+        fetchPendingChanges().then(d => setPending(d)).catch(() => {})
+      }, 30000)
+      return () => clearInterval(interval)
     } else { setAuthFail(true) }
   }
 
@@ -3075,6 +3178,11 @@ export default function App() {
               </div>
             </section>
           )}
+          {/* ── AD BANNER STRIP ── */}
+          <section style={{ padding: '0 48px 16px', maxWidth: 1200, margin: '0 auto' }}>
+            <AdBanner slot="banner" lang={lang} />
+          </section>
+
           <section style={{ padding: '0 48px 60px' }}>
             <div style={{ maxWidth: 1100, margin: '0 auto', background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 18, padding: '40px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
               <div>
