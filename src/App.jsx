@@ -1,4 +1,4 @@
-// TechGate Kosovo v2.4 — build: 2025-05-01
+// Business Bridge Platform v2.4 — build: 2025-05-01
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import {
   fetchProfiles, fetchAllProfilesAdmin,
@@ -11,139 +11,22 @@ import {
 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────────
 const T = {
-  de: {
-    tagline: 'Business Bridge Platform',
-    navHome: 'Home', navDir: 'Firmen & Freelancer', navMatch: 'Partner finden',
-    navConcierge: 'Concierge', navGov: 'Regierung', registerBtn: '+ Eintragen',
-    live: null,
-    h1a: 'Ihr Tor zum', h1b: 'Tech-Standort Kosovo',
-    heroSub: 'Firmen, Freelancer und Consultants aus Kosovo — für Ihr nächstes Outsourcing- oder Kooperationsprojekt.',
-    searchPH: 'z.B. React Entwickler, Call Center, CNC Fertigung…', searchBtn: 'Suchen',
-    stat1: 'Firmen', stat2: 'Freelancer', stat3: 'Partner', stat4: 'Körperschaftsteuer',
-    howTitle: 'Wie es funktioniert',
-    f1t: 'Firmen & Freelancer finden', f1d: 'Durchsuchen Sie alle verifizierten Einträge nach Branche und Skills.',
-    f2t: 'Partner finden', f2d: 'Bereich und Skills wählen — wir zeigen sofort passende Partner aus Kosovo.',
-    f3t: 'Kosovo Concierge', f3d: 'rootsGTM organisiert Ihren kompletten Business-Visit vor Ort.',
-    catsTitle: 'Branchen', topTitle: '⭐ Top-Einträge', viewAll: 'Alle →',
-    ctaTitle: 'Jetzt kostenlos eintragen', ctaSub: '3 Minuten, kostenlos. Sichtbar für EU-Kunden.',
-    ctaBtn: 'Eintragen →', ctaGov: 'Über Kosovo',
-    rankSub: 'Alle Kontakte öffentlich sichtbar · Konditionen per Gespräch',
-    allCats: 'Alle', allTypes: '🌐 Alle', onlyComp: '🏢 Firmen', onlyFL: '👤 Freelancer',
-    sortRating: '⭐ Bewertung', sortReviews: '💬 Reviews', sortAZ: 'A–Z',
-    noResults: 'Keine Ergebnisse', noResultsSub: 'Andere Begriffe versuchen',
-    rateNote: 'Konditionen per Gespräch', verified: '✓ Verifiziert',
-    sendReq: 'Anfrage senden', viewProf: 'Profil',
-    upgradeBtn: '⭐',
-    upgradeTitle: 'Sichtbarkeit erhöhen',
-    upgradeSubSp: 'Gesponsert · 1 Slot pro Kategorie',
-    upgradeSubPr: 'Premium · max. 3 Slots pro Kategorie',
-    upgradeBenSp: ['🥇 Platz 1 in der Kategorie', 'Gesponsert-Label', 'Feature auf der Startseite', 'Newsletter-Erwähnung'],
-    upgradeBenPr: ['⭐ Platz 2–4 in der Kategorie', 'Premium-Badge', 'Höhere Sichtbarkeit', 'Profilstatistiken'],
-    upgradeNoteSp: 'Nur 1 Sponsor pro Kategorie.',
-    upgradeNotePr: 'Maximal 3 Premium-Profile pro Kategorie.',
-    upgradeContact: 'Kontakt für Upgrade:', upgradeMail: 'upgrade@techgate-ks.com',
-    waitTitle: 'Warteliste beitreten', waitSub: 'Wir benachrichtigen Sie sobald ein Slot frei wird.',
-    waitName: 'Ihr Name *', waitEmail: 'Ihre E-Mail *', waitSend: 'Auf Warteliste ✓',
-    waitDoneTitle: 'Sie sind auf der Liste!', waitDoneSub: 'Wir melden uns sobald ein Slot frei wird.',
-    reqTitle: 'Anfrage an', reqName: 'Ihr Name *', reqEmail: 'Ihre E-Mail *', reqMsg: 'Nachricht',
-    reqPH: 'Guten Tag, wir suchen…', reqSend: 'Senden ✓', reqCancel: 'Abbrechen',
-    reqDoneTitle: 'Gesendet!', reqDoneSub: 'meldet sich bei Ihnen.',
-    close: 'Schließen', back: '← Zurück',
-    matchTitle: 'Partner-Matching', matchSub: 'Bereich und Skills wählen — sofortiger Abgleich mit allen Kosovo-Einträgen.',
-    matchWhat: 'Was suchen Sie? *', matchPH: 'z.B. React-Team, 3–4 Entwickler, Remote, Start Mai…',
-    matchType: 'Typ', matchBoth: 'Firma & Freelancer', matchFirm: 'Nur Firmen', matchFL: 'Nur Freelancer',
-    matchDur: 'Dauer', matchDurOpts: ['–', 'Einmalig', '1–3 Monate', '3–6 Monate', '6–12 Monate', 'Dauerhaft'],
-    matchBtn: '🔍 Jetzt filtern', matchRunning: 'Suche…',
-    matchResults: 'Verfügbare Einträge', matchWhy: 'Warum?', noMatch: 'Kein Match — andere Kriterien versuchen.',
-    matchDateFrom: 'Verfügbar ab', matchDateUntil: 'Verfügbar bis', matchCapacity: 'Anzahl Personen',
-    matchSkills: 'Skills (kommagetrennt)', matchSkillsPH: 'React, Node.js, TypeScript',
-    matchAIBtn: '🤖 KI erklärt die Treffer', matchAIRunning: 'KI analysiert…',
-    availFrom: 'Verfügbar ab', availUntil: 'Verfügbar bis', availCap: 'Kapazität',
-    availOnRequest: 'Auf Anfrage', availLabel: 'Verfügbarkeit',
-    avail: 'Verfügbar', availSoon: 'Bald verfügbar', unavail: 'Belegt',
-    regAvailTitle: 'Verfügbarkeit (für IT / Freelancer / Consulting)',
-    regAvailSub: 'Leer lassen = Auf Anfrage (Standard für alle anderen Branchen)',
-    regAvailFrom: 'Verfügbar ab', regAvailUntil: 'Verfügbar bis',
-    regAvailCap: 'Kapazität (Anzahl Personen/Entwickler)',
-    regAvailCapPH: 'z.B. 3', regSkills: 'Skills / Technologien',
-    regSkillsPH: 'React, Node.js, Python, Figma…', regRemote: 'Remote-Arbeit möglich',
-    regOnsite: 'Vor Ort (Kosovo)', regLangs: 'Sprachen',
-    concHeroTitle: 'Kosovo Concierge',
-    concHeroSub: 'Unsere Partner organisieren Ihren kompletten Business-Visit — Meetings, Events, Behördentermine. Alles aus einer Hand.',
-    concReq: '🗓 Visit anfragen', concLearn: 'Mehr erfahren',
-    concAvail: 'Aktive Partner',
-    concPartnersTitle: 'Unsere Partner',
-    concPartnersSub: 'rootsGTM und die Kosovo-Regierung sind unsere offiziellen Partner — sie bringen Kunden und öffnen Türen.',
-    concPkgTitle: 'Visit-Pakete', concPkgSub: 'Konditionen werden im persönlichen Gespräch vereinbart.',
-    pkgCta: 'Anfragen',
-    concHowTitle: 'Wie funktioniert es?',
-    concHowSub: 'Von der ersten Anfrage bis zum unterzeichneten Vertrag.',
-    howSteps: [
-      { n: '01', ic: '📋', t: 'Bedarf beschreiben', d: 'Formular ausfüllen oder Erst-Call.' },
-      { n: '02', ic: '🤖', t: 'KI-Vorauswahl', d: 'Claude filtert die besten Matches.' },
-      { n: '03', ic: '🤝', t: 'Partner plant', d: 'rootsGTM koordiniert alle Meetings.' },
-      { n: '04', ic: '✈️', t: 'Sie reisen an', d: 'Alles vorbereitet.' },
-      { n: '05', ic: '📄', t: 'Follow-up', d: 'Verträge & nächste Schritte.' },
-    ],
-    concSpTitle: 'rootsGTM', concSpSub: 'rootsGTM ist unser exklusiver Partner vor Ort in Kosovo.',
-    spDeals: 'Deals',
-    concCtaTitle: 'Bereit für Ihren Kosovo-Visit?',
-    concCtaFeats: ['✓ Antwort in 24h', '✓ Keine Anzahlung', '✓ Kostenloser Erst-Call', '✓ Flexibel buchbar'],
-    concCtaBtn: '🗓 Visit anfragen →',
-    concBecomeTitle: 'Als Partner bewerben',
-    concBecomeSub: 'Sie sind eine Organisation, Handelskammer oder ein Sales-Netzwerk? Bewerben Sie sich als offizieller TechGate-Partner.',
-    concBecomeTypes: ['🏛️ Regierung & Institutionen', '📣 Sales-Netzwerke & Agenturen', '🌍 Diaspora-Organisationen', '🤝 Handelskammern'],
-    concBecomeBtn: 'Bewerbung einreichen →',
-    bookTitle: 'Kosovo Visit anfragen', bookName: 'Name *', bookComp: 'Firma',
-    bookEmail: 'E-Mail *', bookGoal: 'Ihr Ziel', bookGoalPH: 'z.B. Software-Team kennenlernen…',
-    bookWhen: 'Zeitraum', bookPax: 'Teilnehmer', bookSend: 'Anfrage absenden ✓',
-    bookDoneTitle: 'Anfrage gesendet!', bookDoneSub: 'Unser Team meldet sich innerhalb von 24 Stunden.',
-    partnerRegTitle: 'Als Partner bewerben', partnerRegSub: 'Kostenlos · Wir melden uns innerhalb 48h',
-    partnerOrg: 'Organisation / Name *', partnerType: 'Art der Organisation',
-    partnerTypes: ['Regierung / Behörde', 'Sales-Netzwerk / Agentur', 'Handelskammer / Verband', 'Diaspora-Organisation', 'Sonstiges'],
-    partnerEmail: 'E-Mail *', partnerDesc: 'Kurze Beschreibung',
-    partnerDescPH: 'Was kann Ihre Organisation beitragen?', partnerSend: 'Bewerbung absenden ✓',
-    partnerDoneTitle: 'Bewerbung eingereicht!', partnerDoneSub: 'Wir melden uns innerhalb von 48 Stunden.',
-    govBadge: 'Offizielles Informationsportal',
-    govH1: 'Firmengründung &', govH2: 'Investition in Kosovo',
-    govSub: 'Niedrige Steuern, Euro-Währung, EU-Beitrittsperspektive und eine junge Talentbasis.',
-    govSteps: [
-      { ic: '🖥️', t: 'Online-Registrierung', d: 'ARBK komplett online.', time: '1–3 Tage' },
-      { ic: '💶', t: 'Stammkapital', d: 'Mindestkapital: 1 EUR.', time: '1 Tag' },
-      { ic: '📋', t: 'Steuernummer', d: 'Automatisch bei ATK.', time: '1–2 Tage' },
-      { ic: '🏦', t: 'Bankkonto', d: '10 lizenzierte Banken.', time: '2–5 Tage' },
-    ],
-    govFactsH: '🇽🇰 Kosovo auf einen Blick',
-    govFacts: [['10%','Körperschaftsteuer'],['18%','MwSt'],['1 EUR','Mindestkapital'],['5–10 Tage','Gründungsdauer'],['EUR','Währung'],['1,8 Mio','Einwohner'],['63%','Unter 35 J.'],['2008','Unabhängig']],
-    govLinks: 'Offizielle Links',
-    regTitle: 'Was möchten Sie eintragen?',
-    regComp: '🏢 Firma', regCompS: 'Firma, Team, Agentur',
-    regFL: '👤 Freelancer', regFLS: 'Selbstständig · Solo',
-    regSP: '🤝 Partner', regSPS: 'Kostenlos · 48h Antwort',
-    regFree: 'Kostenlos · Prüfung in 24–48h',
-    regName: 'Name / Firma *', regCity: 'Stadt *', regEmail: 'E-Mail *',
-    regDesc: 'Beschreibung', regDescPH: 'Was bieten Sie an?',
-    regTags: 'Skills / Tags', regTagsPH: 'React, Node.js…',
-    regSend: 'Absenden ✓', regDoneTitle: 'Eingereicht!', regDoneSub: 'Prüfung & Freischaltung in 24–48h.',
-    footer: '© 2025 TechGate Kosovo · Business Bridge Platform',
-    footLinks: ['Datenschutz', 'AGB', 'Impressum', 'Kontakt'],
-  },
   en: {
     tagline: 'Business Bridge Platform',
     navHome: 'Home', navDir: 'Companies & Freelancers', navMatch: 'Find Partners',
     navConcierge: 'Concierge', navGov: 'Government', registerBtn: '+ List Profile',
-    live: null,
-    h1a: 'Your Gateway to the', h1b: 'Kosovo Tech Hub',
-    heroSub: 'Companies, freelancers and consultants from Kosovo — for your next outsourcing or cooperation project.',
+    live: 'Verified Listings · Live',
+    h1a: 'Your Gateway to the', h1b: 'Kosova Business Hub',
+    heroSub: 'Companies, freelancers and consultants from Kosova — for your next outsourcing or cooperation project.',
     searchPH: 'e.g. React developer, call centre, CNC manufacturing…', searchBtn: 'Search',
     stat1: 'Companies', stat2: 'Freelancers', stat3: 'Partners', stat4: 'Corporate Tax',
     howTitle: 'How it works',
     f1t: 'Find Companies & Freelancers', f1d: 'Browse all verified listings by sector and skills.',
-    f2t: 'Find Partners', f2d: 'Select area and skills — instantly matched against all Kosovo listings.',
-    f3t: 'Kosovo Concierge', f3d: 'rootsGTM organises your complete on-site business visit.',
-    catsTitle: 'Sectors', topTitle: '⭐ Top Listings', viewAll: 'View all →',
+    f2t: 'Find Partners', f2d: 'Select area and skills — instantly matched against all Kosova listings.',
+    f3t: 'Kosova Concierge', f3d: 'rootsGTM organises your complete on-site business visit.',
+    catsTitle: 'Sectors', topTitle: '⭐ Top Verified Listings', viewAll: 'View all →',
     ctaTitle: 'List your profile for free', ctaSub: '3 minutes, free. Visible to EU clients.',
-    ctaBtn: 'Register →', ctaGov: 'About Kosovo',
+    ctaBtn: 'Register →', ctaGov: 'About Kosova',
     rankSub: 'All contacts publicly visible · Rates by conversation',
     allCats: 'All', allTypes: '🌐 All', onlyComp: '🏢 Companies', onlyFL: '👤 Freelancers',
     sortRating: '⭐ Rating', sortReviews: '💬 Reviews', sortAZ: 'A–Z',
@@ -158,7 +41,7 @@ const T = {
     upgradeBenPr: ['⭐ Position 2–4 in category', 'Premium badge', 'Higher visibility', 'Profile analytics'],
     upgradeNoteSp: 'Only 1 sponsor per category.',
     upgradeNotePr: 'Maximum 3 premium profiles per category.',
-    upgradeContact: 'Contact for upgrade:', upgradeMail: 'upgrade@techgate-ks.com',
+    upgradeContact: 'Contact for upgrade:', upgradeMail: 'upgrade@bbplatform.com',
     waitTitle: 'Join waitlist', waitSub: 'We\'ll notify you when a slot opens.',
     waitName: 'Your name *', waitEmail: 'Your e-mail *', waitSend: 'Join waitlist ✓',
     waitDoneTitle: 'You\'re on the list!', waitDoneSub: 'We\'ll contact you when a slot opens.',
@@ -166,7 +49,7 @@ const T = {
     reqPH: 'Hello, we are looking for…', reqSend: 'Send ✓', reqCancel: 'Cancel',
     reqDoneTitle: 'Sent!', reqDoneSub: 'will get back to you.',
     close: 'Close', back: '← Back',
-    matchTitle: 'Partner Matching', matchSub: 'Select area and skills — instant match against all Kosovo listings.',
+    matchTitle: 'Match Filter', matchSub: 'Select area and skills — instant match against all Kosova listings.',
     matchWhat: 'What are you looking for? *', matchPH: 'e.g. React team, 3–4 developers, remote, start May…',
     matchType: 'Type', matchBoth: 'Company & Freelancer', matchFirm: 'Companies only', matchFL: 'Freelancers only',
     matchDur: 'Duration', matchDurOpts: ['–', 'One-time', '1–3 months', '3–6 months', '6–12 months', 'Ongoing'],
@@ -184,13 +67,13 @@ const T = {
     regAvailCap: 'Capacity (number of people/developers)',
     regAvailCapPH: 'e.g. 3', regSkills: 'Skills / Technologies',
     regSkillsPH: 'React, Node.js, Python, Figma…', regRemote: 'Remote work possible',
-    regOnsite: 'On-site (Kosovo)', regLangs: 'Languages',
-    concHeroTitle: 'Kosovo Concierge',
+    regOnsite: 'On-site (Kosova)', regLangs: 'Languages',
+    concHeroTitle: 'Kosova Concierge',
     concHeroSub: 'Our partners organise your complete business visit — meetings, events, government appointments. All from one place.',
     concReq: '🗓 Request visit', concLearn: 'Learn more',
     concAvail: 'Active partners',
-    concPartnersTitle: 'Our Partners',
-    concPartnersSub: 'rootsGTM and the Kosovo Government are our official partners — they bring clients and open doors.',
+    concPartnersTitle: 'General Partners',
+    concPartnersSub: 'rootsGTM and the Kosova Government are our official partners — they bring clients and open doors.',
     concPkgTitle: 'Visit Packages', concPkgSub: 'Rates and conditions are agreed in conversation.',
     pkgCta: 'Enquire',
     concHowTitle: 'How does it work?',
@@ -204,14 +87,14 @@ const T = {
     ],
     concSpTitle: 'rootsGTM', concSpSub: 'rootsGTM is our exclusive partner — they know the business culture, the best contacts and handle everything for you.',
     spDeals: 'Deals',
-    concCtaTitle: 'Ready for your Kosovo visit?',
+    concCtaTitle: 'Ready for your Kosova visit?',
     concCtaFeats: ['✓ Reply in 24h', '✓ No deposit', '✓ Free initial call', '✓ Flexible booking'],
     concCtaBtn: '🗓 Request visit now →',
     concBecomeTitle: 'Become a Partner',
-    concBecomeSub: 'Are you an organisation, chamber of commerce or sales network? Apply as an official TechGate partner.',
+    concBecomeSub: 'Are you an organisation, chamber of commerce or sales network? Apply as an official Business Bridge partner.',
     concBecomeTypes: ['🏛️ Government & Institutions', '📣 Sales Networks & Agencies', '🌍 Diaspora Organisations', '🤝 Chambers of Commerce'],
     concBecomeBtn: 'Submit application →',
-    bookTitle: 'Request Kosovo visit', bookName: 'Name *', bookComp: 'Company',
+    bookTitle: 'Request Kosova visit', bookName: 'Name *', bookComp: 'Company',
     bookEmail: 'E-mail *', bookGoal: 'Your goal', bookGoalPH: 'e.g. Meet software teams…',
     bookWhen: 'Preferred dates', bookPax: 'Participants', bookSend: 'Submit request ✓',
     bookDoneTitle: 'Request sent!', bookDoneSub: 'Our team will reply within 24 hours.',
@@ -222,7 +105,7 @@ const T = {
     partnerDescPH: 'What can your organisation contribute?', partnerSend: 'Submit application ✓',
     partnerDoneTitle: 'Application submitted!', partnerDoneSub: 'We\'ll be in touch within 48 hours.',
     govBadge: 'Official Information Portal',
-    govH1: 'Company Formation &', govH2: 'Investment in Kosovo',
+    govH1: 'Company Formation &', govH2: 'Investment in Kosova',
     govSub: 'Low taxes, Euro currency, EU accession perspective and a young talent base.',
     govSteps: [
       { ic: '🖥️', t: 'Online Registration', d: 'ARBK fully online.', time: '1–3 days' },
@@ -230,7 +113,7 @@ const T = {
       { ic: '📋', t: 'Tax Number', d: 'Automatically assigned.', time: '1–2 days' },
       { ic: '🏦', t: 'Bank Account', d: '10 licensed banks.', time: '2–5 days' },
     ],
-    govFactsH: '🇽🇰 Kosovo at a glance',
+    govFactsH: '🇽🇰 Kosova at a glance',
     govFacts: [['10%', 'Corporate Tax'], ['18%', 'VAT'], ['€1', 'Min. Capital'], ['5–10 days', 'Formation'], ['EUR', 'Currency'], ['1.8M', 'Population'], ['63%', 'Under 35'], ['2008', 'Independence']],
     govLinks: 'Official Links',
     regTitle: 'What would you like to list?',
@@ -242,23 +125,23 @@ const T = {
     regDesc: 'Description', regDescPH: 'What do you offer?',
     regTags: 'Skills / Tags', regTagsPH: 'React, Node.js…',
     regSend: 'Submit ✓', regDoneTitle: 'Submitted!', regDoneSub: 'Review and publish within 24–48h.',
-    footer: '© 2025 TechGate Kosovo · Business Bridge Platform',
+    footer: '© 2025 Business Bridge Platform · Kosova',
     footLinks: ['Privacy', 'Terms', 'Imprint', 'Contact'],
   },
   sq: {
     tagline: 'Platforma Urë Biznesi',
     navHome: 'Kreu', navDir: 'Kompani & Freelancerë', navMatch: 'Gjej Partnerë',
     navConcierge: 'Concierge', navGov: 'Qeveria', registerBtn: '+ Regjistrohu',
-    live: null,
-    h1a: 'Porta Juaj drejt', h1b: 'Qendrës Teknologjike të Kosovës',
+    live: 'Regjistrimet e Verifikuara · Live',
+    h1a: 'Porta Juaj drejt', h1b: 'Qendrës së Biznesit Kosova',
     heroSub: 'Kompani, freelancerë dhe konsulentë nga Kosova — për projektin tuaj të ardhshëm.',
     searchPH: 'p.sh. Zhvillues React, qendër thirrjesh…', searchBtn: 'Kërko',
     stat1: 'Kompani', stat2: 'Freelancerë', stat3: 'Partnerë', stat4: 'Tatim mbi korp.',
     howTitle: 'Si funksionon',
     f1t: 'Gjej Kompani & Freelancerë', f1d: 'Shfletoni të gjitha regjistrimet sipas sektorit dhe aftësive.',
     f2t: 'Gjej Partnerë', f2d: 'Zgjidhni fushën dhe aftësitë — përputhje e menjëhershme me të gjitha regjistrimet.',
-    f3t: 'Kosovo Concierge', f3d: 'rootsGTM organizon vizitën tuaj të plotë të biznesit.',
-    catsTitle: 'Sektorët', topTitle: '⭐ Regjistrimet Kryesore', viewAll: 'Shiko →',
+    f3t: 'Concierge Kosova', f3d: 'rootsGTM organizon vizitën tuaj të plotë të biznesit.',
+    catsTitle: 'Sektorët', topTitle: '⭐ Regjistrimet e Verifikuara', viewAll: 'Shiko →',
     ctaTitle: 'Regjistrohu falas tani', ctaSub: '3 minuta, falas. I dukshëm për klientë europianë.',
     ctaBtn: 'Regjistrohu →', ctaGov: 'Rreth Kosovës',
     rankSub: 'Të gjitha kontaktet publike · Kushtet me bisedë',
@@ -275,7 +158,7 @@ const T = {
     upgradeBenPr: ['⭐ Pozicioni 2–4', 'Distinktiv Premium', 'Dukshmëri më e lartë', 'Statistika'],
     upgradeNoteSp: 'Vetëm 1 sponsor për kategori.',
     upgradeNotePr: 'Maksimum 3 premium për kategori.',
-    upgradeContact: 'Kontakti:', upgradeMail: 'upgrade@techgate-ks.com',
+    upgradeContact: 'Kontakti:', upgradeMail: 'upgrade@bbplatform.com',
     waitTitle: 'Lista e pritjes', waitSub: 'Ju njoftojmë kur hapet një slot.',
     waitName: 'Emri *', waitEmail: 'E-mail *', waitSend: 'Bashkohu ✓',
     waitDoneTitle: 'Jeni në listë!', waitDoneSub: 'Ju kontaktojmë kur hapet slot.',
@@ -283,7 +166,7 @@ const T = {
     reqPH: 'Mirëdita, ne kërkojmë…', reqSend: 'Dërgo ✓', reqCancel: 'Anulo',
     reqDoneTitle: 'U dërgua!', reqDoneSub: 'do t\'ju kontaktojë.',
     close: 'Mbyll', back: '← Kthehu',
-    matchTitle: 'Përputhja e Partnerëve', matchSub: 'Zgjidhni fushën dhe aftësitë — krahasim i menjëhershëm me të gjitha regjistrimet.',
+    matchTitle: 'Filtri i Përputhjes', matchSub: 'Zgjidhni fushën dhe aftësitë — krahasim i menjëhershëm me të gjitha regjistrimet.',
     matchWhat: 'Çfarë po kërkoni? *', matchPH: 'p.sh. Ekip React, 3–4 zhvillues, remote…',
     matchType: 'Lloji', matchBoth: 'Kompani & Freelancer', matchFirm: 'Vetëm kompani', matchFL: 'Vetëm freelancerë',
     matchDur: 'Kohëzgjatja', matchDurOpts: ['–', 'Njëherë', '1–3 muaj', '3–6 muaj', '6–12 muaj', 'Afatgjatë'],
@@ -302,11 +185,11 @@ const T = {
     regAvailCapPH: 'p.sh. 3', regSkills: 'Aftësi / Teknologji',
     regSkillsPH: 'React, Node.js, Python, Figma…', regRemote: 'Punë remote e mundshme',
     regOnsite: 'Në vend (Kosovë)', regLangs: 'Gjuhët',
-    concHeroTitle: 'Kosovo Concierge',
+    concHeroTitle: 'Concierge Kosova',
     concHeroSub: 'Partnerët tanë organizojnë vizitën tuaj të plotë — takime, evente, takime qeveritare. Gjithçka nga një burim.',
     concReq: '🗓 Kërko vizitë', concLearn: 'Mëso më shumë',
     concAvail: 'Partnerë aktivë',
-    concPartnersTitle: 'Partnerët Tanë',
+    concPartnersTitle: 'Partnerët e Përgjithshëm',
     concPartnersSub: 'rootsGTM dhe Qeveria e Kosovës janë partnerët tanë zyrtarë.',
     concPkgTitle: 'Paketat e Vizitës', concPkgSub: 'Kushtet bien dakord në bisedë personale.',
     pkgCta: 'Kërko',
@@ -358,124 +241,8 @@ const T = {
     regDesc: 'Përshkrim', regDescPH: 'Çfarë ofroni?',
     regTags: 'Aftësi / Tags', regTagsPH: 'React, Node.js…',
     regSend: 'Dërgo ✓', regDoneTitle: 'U dërgua!', regDoneSub: 'Publikohet brenda 24–48h.',
-    footer: '© 2025 TechGate Kosovo · Platforma Urë Biznesi',
+    footer: '© 2025 Business Bridge Platform · Kosova',
     footLinks: ['Privatësia', 'Kushtet', 'Imprint', 'Kontakti'],
-  },
-  sv: {
-    tagline: 'Business Bridge Platform',
-    navHome: 'Hem', navDir: 'Företag & Frilansare', navMatch: 'Hitta Partners',
-    navConcierge: 'Concierge', navGov: 'Myndigheter', registerBtn: '+ Registrera',
-    live: null,
-    h1a: 'Din ingång till', h1b: 'Kosovos Tech-hubb',
-    heroSub: 'Företag, frilansare och konsulter från Kosovo — för ditt nästa outsourcing- eller samarbetsprojekt.',
-    searchPH: 't.ex. React-utvecklare, callcenter, CNC-tillverkning…', searchBtn: 'Sök',
-    stat1: 'Företag', stat2: 'Frilansare', stat3: 'Partners', stat4: 'Bolagsskatt',
-    howTitle: 'Hur det fungerar',
-    f1t: 'Hitta Företag & Frilansare', f1d: 'Bläddra bland alla verifierade profiler.',
-    f2t: 'Hitta Partners', f2d: 'Välj område och kompetenser — omedelbar matchning mot alla Kosovo-profiler.',
-    f3t: 'Kosovo Concierge', f3d: 'rootsGTM organiserar ditt kompletta affärsbesök.',
-    catsTitle: 'Branscher', topTitle: '⭐ Topprofiler', viewAll: 'Visa alla →',
-    ctaTitle: 'Registrera dig gratis', ctaSub: '3 minuter, gratis. Synlig för EU-kunder.',
-    ctaBtn: 'Registrera →', ctaGov: 'Om Kosovo',
-    rankSub: 'Alla kontakter offentliga · Priser per samtal',
-    allCats: 'Alla', allTypes: '🌐 Alla', onlyComp: '🏢 Företag', onlyFL: '👤 Frilansare',
-    sortRating: '⭐ Betyg', sortReviews: '💬 Recensioner', sortAZ: 'A–Ö',
-    noResults: 'Inga resultat', noResultsSub: 'Prova andra sökord',
-    rateNote: 'Priser överenskommes', verified: '✓ Verifierad',
-    sendReq: 'Skicka förfrågan', viewProf: 'Profil',
-    upgradeBtn: '⭐',
-    upgradeTitle: 'Öka synligheten',
-    upgradeSubSp: 'Sponsrad · 1 slot per kategori',
-    upgradeSubPr: 'Premium · max. 3 slots',
-    upgradeBenSp: ['🥇 Position 1', 'Sponsrad-etikett', 'Visas på startsidan', 'Nyhetsbrev'],
-    upgradeBenPr: ['⭐ Position 2–4', 'Premium-badge', 'Högre synlighet', 'Statistik'],
-    upgradeNoteSp: 'Endast 1 sponsor per kategori.',
-    upgradeNotePr: 'Maximalt 3 premium per kategori.',
-    upgradeContact: 'Kontakt:', upgradeMail: 'upgrade@techgate-ks.com',
-    waitTitle: 'Gå med i kö', waitSub: 'Vi meddelar dig när en slot öppnas.',
-    waitName: 'Ditt namn *', waitEmail: 'Din e-post *', waitSend: 'Gå med ✓',
-    waitDoneTitle: 'Du är i kön!', waitDoneSub: 'Vi kontaktar dig när slot öppnas.',
-    reqTitle: 'Förfrågan till', reqName: 'Ditt namn *', reqEmail: 'Din e-post *', reqMsg: 'Meddelande',
-    reqPH: 'Hej, vi söker…', reqSend: 'Skicka ✓', reqCancel: 'Avbryt',
-    reqDoneTitle: 'Skickat!', reqDoneSub: 'återkommer till dig.',
-    close: 'Stäng', back: '← Tillbaka',
-    matchTitle: 'Partnermatchning', matchSub: 'Välj område och kompetenser — omedelbar matchning mot alla Kosovo-profiler.',
-    matchWhat: 'Vad söker du? *', matchPH: 't.ex. React-team, 3–4 utvecklare, distans…',
-    matchType: 'Typ', matchBoth: 'Företag & Frilansare', matchFirm: 'Företag', matchFL: 'Frilansare',
-    matchDur: 'Varaktighet', matchDurOpts: ['–', 'Engång', '1–3 månader', '3–6 månader', '6–12 månader', 'Löpande'],
-    matchBtn: '🔍 Filtrera nu', matchRunning: 'Söker…',
-    matchResults: 'Tillgängliga profiler', matchWhy: 'Varför?', noMatch: 'Inga träffar — prova andra kriterier.',
-    matchDateFrom: 'Tillgänglig från', matchDateUntil: 'Tillgänglig till', matchCapacity: 'Antal personer',
-    matchSkills: 'Kompetenser (kommaseparerat)', matchSkillsPH: 'React, Node.js, TypeScript',
-    matchAIBtn: '🤖 AI förklarar träffarna', matchAIRunning: 'AI analyserar…',
-    availFrom: 'Tillgänglig från', availUntil: 'Tillgänglig till', availCap: 'Kapacitet',
-    availOnRequest: 'På förfrågan', availLabel: 'Tillgänglighet',
-    avail: 'Tillgänglig', availSoon: 'Snart tillgänglig', unavail: 'Bokad',
-    regAvailTitle: 'Tillgänglighet (för IT / Frilansare / Konsulting)',
-    regAvailSub: 'Lämna tomt = På förfrågan (standard för alla andra branscher)',
-    regAvailFrom: 'Tillgänglig från', regAvailUntil: 'Tillgänglig till',
-    regAvailCap: 'Kapacitet (antal personer/utvecklare)',
-    regAvailCapPH: 't.ex. 3', regSkills: 'Kompetenser / Teknologier',
-    regSkillsPH: 'React, Node.js, Python, Figma…', regRemote: 'Distansarbete möjligt',
-    regOnsite: 'På plats (Kosovo)', regLangs: 'Språk',
-    concHeroTitle: 'Kosovo Concierge',
-    concHeroSub: 'Våra partners organiserar ditt kompletta affärsbesök — möten, evenemang, myndighetsbesök. Allt på ett ställe.',
-    concReq: '🗓 Boka besök', concLearn: 'Läs mer',
-    concAvail: 'Aktiva partners',
-    concPartnersTitle: 'Våra Partners',
-    concPartnersSub: 'rootsGTM och Kosovos regering är våra officiella partners.',
-    concPkgTitle: 'Besökspaket', concPkgSub: 'Villkor och priser överenskommes i samtal.',
-    pkgCta: 'Förfrågan',
-    concHowTitle: 'Hur fungerar det?', concHowSub: 'Från första förfrågan till signerat avtal.',
-    howSteps: [
-      { n: '01', ic: '📋', t: 'Beskriv behov', d: 'Formulär eller samtal.' },
-      { n: '02', ic: '🤖', t: 'AI-förval', d: 'Claude filtrerar matcherna.' },
-      { n: '03', ic: '🤝', t: 'Partnern planerar', d: 'rootsGTM koordinerar.' },
-      { n: '04', ic: '✈️', t: 'Du anländer', d: 'Allt förberett.' },
-      { n: '05', ic: '📄', t: 'Uppföljning', d: 'Avtal & nästa steg.' },
-    ],
-    concSpTitle: 'rootsGTM', concSpSub: 'rootsGTM är vår exklusiva partner på plats i Kosovo.',
-    spDeals: 'Affärer',
-    concCtaTitle: 'Redo för Kosovo-besök?',
-    concCtaFeats: ['✓ Svar 24h', '✓ Ingen förskottsbetalning', '✓ Gratis samtal', '✓ Flexibelt'],
-    concCtaBtn: '🗓 Boka besök →',
-    concBecomeTitle: 'Bli Partner',
-    concBecomeSub: 'Är du en organisation, handelskammare eller säljnätverk? Ansök som officiell TechGate-partner.',
-    concBecomeTypes: ['🏛️ Myndigheter', '📣 Säljnätverk', '🌍 Diasporaorganisationer', '🤝 Handelskammare'],
-    concBecomeBtn: 'Skicka ansökan →',
-    bookTitle: 'Boka Kosovo-besök', bookName: 'Namn *', bookComp: 'Företag',
-    bookEmail: 'E-post *', bookGoal: 'Ditt mål', bookGoalPH: 't.ex. Träffa mjukvaruteam…',
-    bookWhen: 'Datum', bookPax: 'Deltagare', bookSend: 'Skicka ✓',
-    bookDoneTitle: 'Förfrågan skickad!', bookDoneSub: 'Vårt team återkommer inom 24 timmar.',
-    partnerRegTitle: 'Ansök som Partner', partnerRegSub: 'Gratis · Svar inom 48h',
-    partnerOrg: 'Organisation / Namn *', partnerType: 'Typ',
-    partnerTypes: ['Myndighet', 'Säljnätverk', 'Handelskammare', 'Diasporaorganisation', 'Annat'],
-    partnerEmail: 'E-post *', partnerDesc: 'Kort beskrivning',
-    partnerDescPH: 'Vad kan din organisation bidra med?', partnerSend: 'Skicka ansökan ✓',
-    partnerDoneTitle: 'Ansökan inskickad!', partnerDoneSub: 'Vi återkommer inom 48 timmar.',
-    govBadge: 'Officiell informationsportal',
-    govH1: 'Bolagsregistrering &', govH2: 'Investering i Kosovo',
-    govSub: 'Låga skatter, euro, EU-anslutning och ung talangtbas.',
-    govSteps: [
-      { ic: '🖥️', t: 'Online-registrering', d: 'ARBK online.', time: '1–3 dagar' },
-      { ic: '💶', t: 'Aktiekapital', d: 'Min. 1 EUR.', time: '1 dag' },
-      { ic: '📋', t: 'Skattenummer', d: 'Automatiskt.', time: '1–2 dagar' },
-      { ic: '🏦', t: 'Bankkonto', d: '10 banker.', time: '2–5 dagar' },
-    ],
-    govFactsH: '🇽🇰 Kosovo',
-    govFacts: [['10%', 'Bolagsskatt'], ['18%', 'Moms'], ['1 EUR', 'Kapital'], ['5–10 dagar', 'Bildning'], ['EUR', 'Valuta'], ['1,8M', 'Invånare'], ['63%', 'Under 35'], ['2008', 'Självständig']],
-    govLinks: 'Officiella länkar',
-    regTitle: 'Vad vill du registrera?',
-    regComp: '🏢 Företag', regCompS: 'Företag, Team, Byrå',
-    regFL: '👤 Frilansare', regFLS: 'Egenföretagare',
-    regSP: '🤝 Partner', regSPS: 'Gratis · Svar inom 48h',
-    regFree: 'Gratis · 24–48h',
-    regName: 'Namn / Företag *', regCity: 'Stad *', regEmail: 'E-post *',
-    regDesc: 'Beskrivning', regDescPH: 'Vad erbjuder du?',
-    regTags: 'Kompetenser / Taggar', regTagsPH: 'React, Node.js…',
-    regSend: 'Skicka ✓', regDoneTitle: 'Inskickad!', regDoneSub: 'Publiceras inom 24–48h.',
-    footer: '© 2025 TechGate Kosovo · Business Bridge Platform',
-    footLinks: ['Integritetspolicy', 'Villkor', 'Impressum', 'Kontakt'],
   },
 }
 
@@ -582,9 +349,9 @@ const PROFILES = [
 ]
 
 const SALES_PEOPLE = [
-  { id: 'sp1', name: 'Mentor Gashi', city: 'Pristina', languages: 'DE, EN, SQ', logo: 'MG', logoColor: '#2dd4bf', rating: 4.9, reviews: 47, deals: 124, experience: '8', title: { de: 'Senior Sales Spezialist', en: 'Senior Sales Specialist', sq: 'Specialist i Lartë Shitjesh', sv: 'Senior säljspecialist' }, specialties: { de: ['IT-Outsourcing', 'Firmengründung', 'Tech-Events'], en: ['IT Outsourcing', 'Company formation', 'Tech events'], sq: ['IT Outsourcing', 'Themelim', 'Evente'], sv: ['IT-outsourcing', 'Bolagsbildning', 'Event'] }, bio: { de: 'Ehemaliger BD-Manager bei deutschem IT-Konzern. 124 erfolgreiche EU-Kosovo-Kooperationen.', en: 'Former BD manager at German IT company. 124 successful deals.', sq: 'Ish-menaxher BD. 124 bashkëpunime të suksesshme.', sv: 'Tidigare BD-chef. 124 framgångsrika affärer.' }, contact: 'mentor@techgate-ks.com', phone: '+383 44 123 456' },
-  { id: 'sp2', name: 'Fjolla Kelmendi', city: 'Prizren', languages: 'DE, EN, SQ, IT', logo: 'FK', logoColor: '#a78bfa', rating: 4.8, reviews: 31, deals: 67, experience: '5', title: { de: 'Sales Spezialistin · Süd-Kosovo', en: 'Sales Specialist · South Kosovo', sq: 'Specialiste · Jug-Kosovë', sv: 'Säljspecialist · Södra Kosovo' }, specialties: { de: ['Produktion', 'Design', 'E-Commerce'], en: ['Production', 'Design', 'E-Commerce'], sq: ['Prodhim', 'Dizajn', 'E-Commerce'], sv: ['Tillverkning', 'Design', 'E-handel'] }, bio: { de: 'MBA. Fokus auf Produktionsbetriebe. Handelskammer Prizren.', en: 'MBA. Focus on production. Prizren Chamber of Commerce.', sq: 'MBA. Fokus prodhimi. Dhoma Tregtie Prizren.', sv: 'MBA. Tillverkning. Handelskammare Prizren.' }, contact: 'fjolla@techgate-ks.com', phone: '+383 45 234 567' },
-  { id: 'sp3', name: 'Besnik Rama', city: 'Pristina', languages: 'EN, SQ, DE', logo: 'BR', logoColor: '#fb923c', rating: 4.7, reviews: 22, deals: 44, experience: '4', title: { de: 'Sales Spezialist · Startups', en: 'Sales Specialist · Startups', sq: 'Specialist · Startup', sv: 'Säljspecialist · Startups' }, specialties: { de: ['Startups', 'Software-Teams', 'Investoren'], en: ['Startups', 'Software teams', 'Investors'], sq: ['Startup', 'Ekipe software', 'Investitorë'], sv: ['Startups', 'Mjukvaruteam', 'Investerare'] }, bio: { de: 'Serial Entrepreneur, 2 Exits. Kennt die kosovarische Startup-Szene.', en: 'Serial entrepreneur, 2 exits. Kosovo startup expert.', sq: 'Sipërmarrës serial, 2 exits. Ekspert startup.', sv: 'Serieentreprenör, 2 exiter.' }, contact: 'besnik@techgate-ks.com', phone: '+383 46 345 678' },
+  { id: 'sp1', name: 'Mentor Gashi', city: 'Pristina', languages: 'DE, EN, SQ', logo: 'MG', logoColor: '#2dd4bf', rating: 4.9, reviews: 47, deals: 124, experience: '8', title: { de: 'Senior Sales Spezialist', en: 'Senior Sales Specialist', sq: 'Specialist i Lartë Shitjesh', sv: 'Senior säljspecialist' }, specialties: { de: ['IT-Outsourcing', 'Firmengründung', 'Tech-Events'], en: ['IT Outsourcing', 'Company formation', 'Tech events'], sq: ['IT Outsourcing', 'Themelim', 'Evente'], sv: ['IT-outsourcing', 'Bolagsbildning', 'Event'] }, bio: { de: 'Ehemaliger BD-Manager bei deutschem IT-Konzern. 124 erfolgreiche EU-Kosovo-Kooperationen.', en: 'Former BD manager at German IT company. 124 successful deals.', sq: 'Ish-menaxher BD. 124 bashkëpunime të suksesshme.', sv: 'Tidigare BD-chef. 124 framgångsrika affärer.' }, contact: 'mentor@bbplatform.com', phone: '+383 44 123 456' },
+  { id: 'sp2', name: 'Fjolla Kelmendi', city: 'Prizren', languages: 'DE, EN, SQ, IT', logo: 'FK', logoColor: '#a78bfa', rating: 4.8, reviews: 31, deals: 67, experience: '5', title: { de: 'Sales Spezialistin · Süd-Kosovo', en: 'Sales Specialist · South Kosovo', sq: 'Specialiste · Jug-Kosovë', sv: 'Säljspecialist · Södra Kosovo' }, specialties: { de: ['Produktion', 'Design', 'E-Commerce'], en: ['Production', 'Design', 'E-Commerce'], sq: ['Prodhim', 'Dizajn', 'E-Commerce'], sv: ['Tillverkning', 'Design', 'E-handel'] }, bio: { de: 'MBA. Fokus auf Produktionsbetriebe. Handelskammer Prizren.', en: 'MBA. Focus on production. Prizren Chamber of Commerce.', sq: 'MBA. Fokus prodhimi. Dhoma Tregtie Prizren.', sv: 'MBA. Tillverkning. Handelskammare Prizren.' }, contact: 'fjolla@bbplatform.com', phone: '+383 45 234 567' },
+  { id: 'sp3', name: 'Besnik Rama', city: 'Pristina', languages: 'EN, SQ, DE', logo: 'BR', logoColor: '#fb923c', rating: 4.7, reviews: 22, deals: 44, experience: '4', title: { de: 'Sales Spezialist · Startups', en: 'Sales Specialist · Startups', sq: 'Specialist · Startup', sv: 'Säljspecialist · Startups' }, specialties: { de: ['Startups', 'Software-Teams', 'Investoren'], en: ['Startups', 'Software teams', 'Investors'], sq: ['Startup', 'Ekipe software', 'Investitorë'], sv: ['Startups', 'Mjukvaruteam', 'Investerare'] }, bio: { de: 'Serial Entrepreneur, 2 Exits. Kennt die kosovarische Startup-Szene.', en: 'Serial entrepreneur, 2 exits. Kosova startup expert.', sq: 'Sipërmarrës serial, 2 exits. Ekspert startup.', sv: 'Serieentreprenör, 2 exiter.' }, contact: 'besnik@bbplatform.com', phone: '+383 46 345 678' },
 ]
 
 // ─── THEME ────────────────────────────────────────────────────────────────────
@@ -666,6 +433,13 @@ body{background:#080c14;margin:0;}
   .search-row{flex-direction:column !important;}
   .match-cats{gap:6px !important;}
   .nav-reg-btn{display:none !important;}
+  /* Concierge responsive */
+  .conc-hero{padding:32px 16px 24px !important;}
+  .conc-content{padding:24px 16px 40px !important;}
+  .conc-partners-grid{grid-template-columns:1fr !important;}
+  .conc-pkg-grid{grid-template-columns:1fr !important;}
+  /* Match filter bar */
+  .match-filter-bar{padding:10px 13px !important;}
 }
 @media(min-width:641px) and (max-width:900px){
   .hero-pad{padding:40px 24px 32px !important;}
@@ -818,7 +592,7 @@ function ContactModal({ profile, t, onClose }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
               <div>
                 <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.reqTitle}: {profile.name}</div>
-                <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>TechGate Kosovo</div>
+                <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>Business Bridge Platform</div>
               </div>
               <ModalClose onClose={onClose} />
             </div>
@@ -877,7 +651,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end' }}>
-            {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='de'?'Gesponsert':lang==='sv'?'Sponsrad':lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
+            {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
             {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
             {!isSp && !isPr && <span style={{ fontSize: 10, background: 'rgba(255,255,255,0.05)', color: G.muted, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '2px 9px', fontFamily: "'Syne',sans-serif" }}>Free</span>}
               {matchScore !== null && matchScore !== undefined && (
@@ -912,7 +686,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
         <div style={{ display: 'flex', gap: 7 }}>
           <button className="btn gbtn" style={{ flex: 1, padding: '8px', fontSize: 12 }} onClick={() => onContact(p)}>{t.sendReq}</button>
           <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 13 }} title="Sichtbarkeit erhöhen" onClick={() => onUpgrade(p.cat)}>⭐</button>
-          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 12 }} title={lang==='de'?'Mein Profil bearbeiten':lang==='sv'?'Redigera min profil':lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={() => onSelfEdit && onSelfEdit(p)}>✏️</button>
+          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 12 }} title={lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={() => onSelfEdit && onSelfEdit(p)}>✏️</button>
         </div>
       </div>
     </div>
@@ -955,7 +729,7 @@ function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills
   return (
     <div style={{ background:'rgba(45,212,191,0.05)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:12, padding:'14px 16px', marginBottom:18 }}>
       <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:10 }}>
-        {lang==='de'?'Skills auswählen':lang==='sv'?'Välj kompetenser':lang==='sq'?'Zgjidh aftësitë':'Select skills'}
+        {lang==='sq'?'Zgjidh aftësitë':'Select skills'}
         {cat !== 'all' && <span style={{ color:G.muted, fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
       </div>
       <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:120, overflowY:'auto' }}>
@@ -971,7 +745,7 @@ function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills
       </div>
       {matchSkills.length > 0 && (
         <div style={{ marginTop:9, display:'flex', alignItems:'center', gap:10, fontSize:12, color:G.teal }}>
-          <span>✓ {matchSkills.length} {lang==='de'?'Skills':lang==='sv'?'kompetenser':lang==='sq'?'aftësi':'skills'} · {resultCount} {lang==='de'?'Treffer':lang==='sv'?'träffar':lang==='sq'?'rezultate':'results'}</span>
+          <span>✓ {matchSkills.length} {lang==='sq'?'aftësi':'skills'} · {resultCount} {lang==='sq'?'rezultate':'results'}</span>
           <button onClick={() => setMatchSkills([])} className="btn ghost" style={{ fontSize:11, padding:'3px 9px' }}>✕</button>
         </div>
       )}
@@ -1078,11 +852,48 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
             transition: 'all 0.22s',
             letterSpacing: '0.2px' }}>
           <span style={{ fontSize:14, lineHeight:1 }}>{matchMode ? '✓' : '🔎'}</span>
-          {lang==='de'?'Skill-Filter':lang==='sv'?'Kompetensfilter':lang==='sq'?'Filtrim':'Skill filter'}
+          {lang==='sq' ? 'Filtri i Përputhjes' : 'Match Filter'}
           {matchMode && matchSkills.length > 0 && (
             <span style={{ background: matchMode?'rgba(0,0,0,0.2)':'rgba(45,212,191,0.2)', color: matchMode?'#080c14':G.teal, borderRadius:10, padding:'2px 7px', fontSize:10, fontWeight:800 }}>{matchSkills.length}</span>
           )}
         </button>
+      </div>
+
+      {/* ── MATCH FILTER FULL-WIDTH BAR ── */}
+      <div onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
+        className="match-filter-bar"
+        style={{
+          display: 'flex', alignItems: 'center', gap: 12, padding: '13px 18px',
+          background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.14),rgba(45,212,191,0.06))' : 'rgba(45,212,191,0.04)',
+          border: `1px solid ${matchMode ? 'rgba(45,212,191,0.5)' : 'rgba(45,212,191,0.2)'}`,
+          borderRadius: 12, cursor: 'pointer', marginBottom: 0,
+          boxShadow: matchMode ? '0 0 0 2px rgba(45,212,191,0.15), 0 4px 20px rgba(45,212,191,0.1)' : 'none',
+          transition: 'all 0.22s',
+        }}>
+        <div style={{ width: 32, height: 32, borderRadius: 8,
+          background: matchMode ? 'linear-gradient(135deg,#2dd4bf,#0d9488)' : 'rgba(45,212,191,0.12)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
+          {matchMode ? '✓' : '🔎'}
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: matchMode ? G.teal : G.text, letterSpacing: '0.2px' }}>
+            {lang==='sq' ? 'Filtri i Përputhjes — Kërko sipas aftësive' : 'Match Filter — Search by skills & expertise'}
+          </div>
+          <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>
+            {matchMode
+              ? (matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length > 1 ? 's' : ''} selected · ${lang==='sq'?'Kliko për të hequr':'Click to clear'}` : (lang==='sq'?'Zgjidhni aftësi më poshtë':'Select skills below to filter results'))
+              : (lang==='sq' ? 'Aktivizo për të filtruar sipas aftësive specifike' : 'Activate to filter listings by specific skills')
+            }
+          </div>
+        </div>
+        {matchMode && matchSkills.length > 0 && (
+          <div style={{ background: G.teal, color: '#080c14', borderRadius: 12, padding: '3px 10px', fontSize: 12, fontWeight: 800, flexShrink: 0 }}>
+            {matchSkills.length} {lang==='sq'?'aftësi':'skills'}
+          </div>
+        )}
+        <div style={{ color: matchMode ? G.teal : G.muted, fontSize: 18, fontWeight: 300, flexShrink: 0 }}>{matchMode ? '▲' : '▼'}</div>
+      </div>
+
       </div>
 
       {/* ── SKILL MATCH PANEL ── */}
@@ -1106,9 +917,9 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
       {tagFilter && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 9, padding: '9px 14px' }}>
           <span style={{ fontSize: 13, color: G.teal, fontFamily: "'DM Sans',sans-serif" }}>
-            🏷 {lang === 'de' ? 'Tag-Filter:' : lang === 'sv' ? 'Tagg-filter:' : lang === 'sq' ? 'Filtër tag:' : 'Tag filter:'} <strong>{tagFilter}</strong>
+            🏷 {lang === 'sq' ? 'Filtër tag:' : 'Tag filter:'} <strong>{tagFilter}</strong>
           </span>
-          <button onClick={clearTagFilter} className="btn ghost" style={{ fontSize: 11, padding: '3px 10px', marginLeft: 'auto' }}>✕ {lang === 'de' ? 'Entfernen' : lang === 'sv' ? 'Ta bort' : lang === 'sq' ? 'Hiq' : 'Remove'}</button>
+          <button onClick={clearTagFilter} className="btn ghost" style={{ fontSize: 11, padding: '3px 10px', marginLeft: 'auto' }}>✕ {lang === 'sq' ? 'Hiq' : 'Remove'}</button>
         </div>
       )}
 
@@ -1457,7 +1268,7 @@ function MatchPage({ lang, t }) {
                     {/* Tier + rating */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                       <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-                        {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='de'?'Gesponsert':lang==='sv'?'Sponsrad':lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
+                        {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
                         {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
                         {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
                       </div>
@@ -1491,7 +1302,7 @@ function MatchPage({ lang, t }) {
 
 function PartnerCards({ lang, profiles, G, t, onBook }) {
   if (!profiles || profiles.length === 0) return null
-  const dividerLabel = lang === 'de' ? 'Weitere Partner' : lang === 'sv' ? 'Fler partners' : lang === 'sq' ? 'Partnerë të tjerë' : 'More partners'
+  const dividerLabel = lang === 'sq' ? 'Partnerë të tjerë' : 'More partners'
   return (
     <div style={{ marginBottom: 48 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
@@ -1557,15 +1368,15 @@ function ConciergePage({ lang, t, content = {} }) {
   const [partnerDone, setPartnerDone] = useState(false)
 
   const PACKAGES = [
-    { ic: '🔍', col: '#58a6ff', price: { de: 'ab €390', en: 'from €390', sq: 'nga €390', sv: 'från €390' }, name: lang === 'de' ? 'Discovery Visit' : lang === 'sv' ? 'Discovery-besök' : lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'de' ? '1–2 Tage' : lang === 'sv' ? '1–2 dagar' : lang === 'sq' ? '1–2 ditë' : '1–2 days', ideal: lang === 'de' ? 'Erste Erkundung' : lang === 'sv' ? 'Första utforskning' : lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'de' ? ['Bedarfsanalyse (Call)', '2–3 Meetings', 'Briefing & Nachbericht'] : lang === 'sv' ? ['Behovsanalys', '2–3 möten', 'Briefing & rapport'] : lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
-    { ic: '🤝', col: G.gold, highlight: true, price: { de: 'ab €790', en: 'from €790', sq: 'nga €790', sv: 'från €790' }, name: lang === 'de' ? 'Business Visit' : lang === 'sv' ? 'Business-besök' : lang === 'sq' ? 'Vizita Biznesi' : 'Business Visit', dur: lang === 'de' ? '2–3 Tage' : lang === 'sv' ? '2–3 dagar' : lang === 'sq' ? '2–3 ditë' : '2–3 days', ideal: lang === 'de' ? 'Konkretes Projekt' : lang === 'sv' ? 'Konkret projekt' : lang === 'sq' ? 'Projekt konkret' : 'Concrete project', inc: lang === 'de' ? ['Alles aus Discovery', '4–6 Meetings', 'Hotel & Transfer', 'Networking-Abend'] : lang === 'sv' ? ['Allt i Discovery', '4–6 möten', 'Hotell & transfer', 'Nätverkskväll'] : lang === 'sq' ? ['Gjithçka nga Discovery', '4–6 takime', 'Hotel & transport', 'Mbrëmje rrjetëzimi'] : ['Everything in Discovery', '4–6 meetings', 'Hotel & transfer', 'Networking evening'] },
-    { ic: '🏛️', col: '#a78bfa', price: { de: 'ab €1.490', en: 'from €1,490', sq: 'nga €1.490', sv: 'från €1 490' }, name: lang === 'de' ? 'Executive Visit' : lang === 'sv' ? 'Executive-besök' : lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'de' ? '3–5 Tage' : lang === 'sv' ? '3–5 dagar' : lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'de' ? 'Firmengründung / Investition' : lang === 'sv' ? 'Bolagsbildning / Investering' : lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'de' ? ['Alles aus Business Visit', 'Ministeriumstermin', 'Partner-Dinner', 'Rechtliche Erstberatung'] : lang === 'sv' ? ['Allt i Business-besök', 'Myndighetsmöte', 'Partner-middag', 'Juridisk rådgivning'] : lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
+    { ic: '🔍', col: '#58a6ff', price: { de: 'ab €390', en: 'from €390', sq: 'nga €390', sv: 'från €390' }, name: lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'sq' ? '1–2 ditë' : '1–2 days', ideal: lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
+    { ic: '🤝', col: G.gold, highlight: true, price: { de: 'ab €790', en: 'from €790', sq: 'nga €790', sv: 'från €790' }, name: lang === 'sq' ? 'Vizita Biznesi' : 'Business Visit', dur: lang === 'sq' ? '2–3 ditë' : '2–3 days', ideal: lang === 'sq' ? 'Projekt konkret' : 'Concrete project', inc: lang === 'sq' ? ['Gjithçka nga Discovery', '4–6 takime', 'Hotel & transport', 'Mbrëmje rrjetëzimi'] : ['Everything in Discovery', '4–6 meetings', 'Hotel & transfer', 'Networking evening'] },
+    { ic: '🏛️', col: '#a78bfa', price: { de: 'ab €1.490', en: 'from €1,490', sq: 'nga €1.490', sv: 'från €1 490' }, name: lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
   ]
 
   return (
     <div>
       {/* ── HERO ── */}
-      <div style={{ padding: '56px 48px 40px', background: 'linear-gradient(135deg,rgba(45,212,191,0.09),transparent 70%)', borderBottom: `1px solid ${G.border}`, position: 'relative', overflow: 'hidden' }}>
+      <div className="conc-hero" style={{ padding: '56px 48px 40px', background: 'linear-gradient(135deg,rgba(45,212,191,0.09),transparent 70%)', borderBottom: `1px solid ${G.border}`, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle,rgba(45,212,191,0.02) 1px,transparent 1px)', backgroundSize: '38px 38px', pointerEvents: 'none' }} />
         <div style={{ maxWidth: 660, position: 'relative' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 100, padding: '5px 16px', marginBottom: 18 }}>
@@ -1576,7 +1387,7 @@ function ConciergePage({ lang, t, content = {} }) {
           </div>
           <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4.5vw,48px)', letterSpacing: '-1.1px', lineHeight: 1.1, marginBottom: 14 }}>
             {CC.hero_title || t.concHeroTitle}<br /><span style={{ color: G.teal }}>
-              {lang === 'de' ? 'Wir organisieren alles.' : lang === 'sv' ? 'Vi ordnar allt.' : lang === 'sq' ? 'Ne organizojmë gjithçka.' : 'We organise everything.'}
+              {lang === 'sq' ? 'Ne organizojmë gjithçka.' : 'We organise everything.'}
             </span>
           </h1>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: G.muted, lineHeight: 1.82, marginBottom: 26, maxWidth: 520, fontWeight: 300 }}>{CC.hero_sub || t.concHeroSub}</p>
@@ -1587,13 +1398,13 @@ function ConciergePage({ lang, t, content = {} }) {
         </div>
       </div>
 
-      <div style={{ padding: '44px 48px 56px', maxWidth: 1200, margin: '0 auto' }}>
+      <div className="conc-content" style={{ padding: '44px 48px 56px', maxWidth: 1200, margin: '0 auto' }}>
 
         {/* ── OFFICIAL PARTNERS ── */}
         <div style={{ marginBottom: 52 }}>
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concPartnersTitle}</h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22, lineHeight: 1.7 }}>{t.concPartnersSub}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div className="conc-partners-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
             {/* rootsGTM */}
             <div style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: '28px 26px' }}>
@@ -1602,21 +1413,21 @@ function ConciergePage({ lang, t, content = {} }) {
                 <div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.teal }}>{P.rootsgtm_name || 'rootsGTM'}</div>
                   <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
-                    {lang === 'de' ? 'Exklusiver Partner · Aktiv' : lang === 'sv' ? 'Exklusiv partner · Aktiv' : lang === 'sq' ? 'Partner Ekskluziv · Aktiv' : 'Exclusive Partner · Active'}
+                    {lang === 'sq' ? 'Partner Ekskluziv · Aktiv' : 'Exclusive Partner · Active'}
                   </div>
                 </div>
                 <span style={{ marginLeft: 'auto', fontSize: 11, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.25)', borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>✓ Live</span>
               </div>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
-                {P.rootsgtm_desc || (lang === 'de' ? 'rootsGTM ist unser exklusives Sales-Netzwerk für EU–Kosovo Vermittlung.' : 'rootsGTM is our exclusive sales network for EU–Kosovo connections.')}
+                {P.rootsgtm_desc || 'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
-                {(lang === 'de' ? ['🤝 Direkter Kundenkontakt', '📅 Meeting-Organisation', '🎤 Events & Networking', '📄 Follow-up & Verträge'] : lang === 'sv' ? ['🤝 Direktkontakt', '📅 Mötesorganisation', '🎤 Event & Nätverk', '📄 Uppföljning & Avtal'] : lang === 'sq' ? ['🤝 Kontakt direkt', '📅 Organizim takimesh', '🎤 Evente & Rrjet', '📄 Vijim & Kontrata'] : ['🤝 Direct client contact', '📅 Meeting organisation', '🎤 Events & networking', '📄 Follow-up & contracts']).map(f => (
+                {(lang === 'sq' ? ['🤝 Kontakt direkt', '📅 Organizim takimesh', '🎤 Evente & Rrjet', '📄 Vijim & Kontrata'] : ['🤝 Direct client contact', '📅 Meeting organisation', '🎤 Events & networking', '📄 Follow-up & contracts']).map(f => (
                   <div key={f} style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
                 ))}
               </div>
               <button className="btn teal-btn" style={{ width: '100%', padding: '11px' }} onClick={() => setBookModal(true)}>
-                {lang === 'de' ? 'Mit rootsGTM anfragen →' : lang === 'sv' ? 'Förfrågan via rootsGTM →' : lang === 'sq' ? 'Kërko me rootsGTM →' : 'Enquire via rootsGTM →'}
+                {lang === 'sq' ? 'Kërko me rootsGTM →' : 'Enquire via rootsGTM →'}
               </button>
             </div>
 
@@ -1626,24 +1437,24 @@ function ConciergePage({ lang, t, content = {} }) {
                 <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: `1px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>🏛️</div>
                 <div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.gold }}>
-                    {lang === 'de' ? 'Regierung Kosovo' : lang === 'sv' ? 'Kosovos regering' : lang === 'sq' ? 'Qeveria e Kosovës' : 'Kosovo Government'}
+                    {lang === 'sq' ? 'Qeveria e Kosovës' : 'Kosova Government'}
                   </div>
-                  <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>InvestKosova · {lang === 'de' ? 'Offizieller Partner' : lang === 'sv' ? 'Officiell partner' : lang === 'sq' ? 'Partner Zyrtar' : 'Official Partner'}</div>
+                  <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>InvestKosova · {lang === 'sq' ? 'Partner Zyrtar' : 'Official Partner'}</div>
                 </div>
                 <span style={{ marginLeft: 'auto', fontSize: 11, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>
-                  {lang === 'de' ? '⏳ In Verhandlung' : lang === 'sv' ? '⏳ Under förhandling' : lang === 'sq' ? '⏳ Në negocim' : '⏳ In negotiation'}
+                  {lang === 'sq' ? '⏳ Në negocim' : '⏳ In negotiation'}
                 </span>
               </div>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
-                {lang === 'de' ? 'TechGate Kosovo baut eine offizielle Partnerschaft mit InvestKosova und dem Ministerium für Wirtschaft auf. Ziel: Behördentermine, Firmengründungsberatung und offizielle Investitionsförderung direkt über die Plattform.' : lang === 'sv' ? 'TechGate Kosovo håller på att etablera ett officiellt partnerskap med InvestKosova och Ekonomiministeriet. Mål: myndighetsmöten, bolagsrådgivning och investeringsstöd direkt via plattformen.' : lang === 'sq' ? 'TechGate Kosovo po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë. Qëllimi: takime qeveritare, këshillim themelimi dhe mbështetje investimesh direkt nëpërmjet platformës.' : 'TechGate Kosovo is building an official partnership with InvestKosova and the Ministry of Economy. Goal: government appointments, company formation advice and investment support directly through the platform.'}
+                {lang === 'sq' ? 'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë. Qëllimi: takime qeveritare, këshillim themelimi dhe mbështetje investimesh direkt nëpërmjet platformës.' : 'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy. Goal: government appointments, company formation advice and investment support directly through the platform.'}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
-                {(lang === 'de' ? ['🏛️ InvestKosova-Termine', '📋 Firmengründungsberatung', '🤝 Ministeriumstermine', '📊 Investitionsförderung'] : lang === 'sv' ? ['🏛️ InvestKosova-möten', '📋 Bolagsrådgivning', '🤝 Ministeriumsmöten', '📊 Investeringsstöd'] : lang === 'sq' ? ['🏛️ Takime InvestKosova', '📋 Këshillim themelimi', '🤝 Takime ministrie', '📊 Mbështetje investimesh'] : ['🏛️ InvestKosova meetings', '📋 Company formation advice', '🤝 Ministry appointments', '📊 Investment support']).map(f => (
+                {(lang === 'sq' ? ['🏛️ Takime InvestKosova', '📋 Këshillim themelimi', '🤝 Takime ministrie', '📊 Mbështetje investimesh'] : ['🏛️ InvestKosova meetings', '📋 Company formation advice', '🤝 Ministry appointments', '📊 Investment support']).map(f => (
                   <div key={f} style={{ background: 'rgba(212,168,67,0.07)', border: `1px solid ${G.goldBorder}`, borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
                 ))}
               </div>
               <button className="btn gbtn" style={{ width: '100%', padding: '11px' }} onClick={() => setBookModal(true)}>
-                {lang === 'de' ? 'Regierungstermin anfragen →' : lang === 'sv' ? 'Begär myndighetsmöte →' : lang === 'sq' ? 'Kërko takim qeveritar →' : 'Request government meeting →'}
+                {lang === 'sq' ? 'Kërko takim qeveritar →' : 'Request government meeting →'}
               </button>
             </div>
           </div>
@@ -1653,7 +1464,7 @@ function ConciergePage({ lang, t, content = {} }) {
         <div style={{ marginBottom: 48 }}>
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concPkgTitle}</h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concPkgSub}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 13 }}>
+          <div className="conc-pkg-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 13 }}>
             {PACKAGES.map((pkg, i) => (
               <div key={i} style={{ background: pkg.highlight ? G.goldDim : G.card, border: `1px solid ${pkg.highlight ? G.goldBorder : G.border}`, borderRadius: 14, padding: '22px 20px', position: 'relative', transition: 'all 0.22s' }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)' }}
@@ -1679,7 +1490,7 @@ function ConciergePage({ lang, t, content = {} }) {
             ))}
           </div>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, marginTop: 12, fontStyle: 'italic' }}>
-            {lang === 'de' ? '* Preise sind Richtwerte. Der finale Preis wird gemeinsam vereinbart — abhängig von Umfang, Teilnehmern und gewünschten Leistungen.' : lang === 'sv' ? '* Priser är riktpriser. Det slutliga priset överenskommes gemensamt.' : lang === 'sq' ? '* Çmimet janë orientuese. Çmimi final bien dakord bashkërisht.' : '* Prices are indicative. The final price is agreed together based on scope and requirements.'}
+            {lang === 'sq' ? '* Çmimet janë orientuese. Çmimi final bien dakord bashkërisht.' : '* Prices are indicative. The final price is agreed together based on scope and requirements.'}
           </p>
         </div>
 
@@ -1732,7 +1543,7 @@ function ConciergePage({ lang, t, content = {} }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
               <div>
                 <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.bookTitle}</div>
-                <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>rootsGTM · TechGate Kosovo</div>
+                <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>rootsGTM · Business Bridge Platform</div>
               </div>
               <ModalClose onClose={() => setBookModal(false)} />
             </div>
@@ -1858,7 +1669,7 @@ const TAG_SUGGESTIONS = {
   bpo:        ['Inbound','Outbound','CRM','Salesforce','HubSpot','Customer Service','Sales','Lead Generation','GDPR','Multi-language','German','English','Albanian','Swedish'],
   production: ['CNC','ISO 9001','Lean','CAD','SolidWorks','Quality Control','Injection Moulding','Welding','Sheet Metal','Assembly','3D Printing'],
   logistics:  ['Customs','Freight','EU Corridor','Warehouse','Cold Chain','Tracking','Import/Export','Last Mile','3PL','DHL','FedEx'],
-  legal:      ['Commercial Law','Corporate Law','Foreign Investment','Contracts','IP','Compliance','Tax Law','Employment Law','Kosovo Law','EU Law'],
+  legal:      ['Commercial Law','Corporate Law','Foreign Investment','Contracts','IP','Compliance','Tax Law','Employment Law','Kosova Law','EU Law'],
 }
 
 // ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
@@ -1901,7 +1712,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
   if (isSP) {
     const PL = {
       de: { nameL:'Name / Organisation *', cityL:'Stadt *', emailL:'E-Mail *', phoneL:'Telefon', websiteL:'Website', focusL:'Branchen-Fokus', focusPH:'z.B. IT, Software, BPO, Produktion…', langsL:'EU-Sprachen', langsPH:'z.B. DE, EN, SV, FR', marketsL:'EU-Märkte', marketsPH:'z.B. Deutschland, Österreich, Schweiz, Schweden…', descL:'Über Sie / Ihre Organisation', descPH:'Beschreiben Sie Ihre Vertriebserfahrung, Netzwerk und warum Sie Kosovo-Unternehmen vermarkten möchten.', send:'Als Partner bewerben ✓', note:'💬 Ihr Antrag wird geprüft. Bei Eignung melden wir uns innerhalb von 48h.' },
-      en: { nameL:'Name / Organisation *', cityL:'City *', emailL:'E-mail *', phoneL:'Phone', websiteL:'Website', focusL:'Industry focus', focusPH:'e.g. IT, Software, BPO, Production…', langsL:'EU languages', langsPH:'e.g. DE, EN, SV, FR', marketsL:'EU markets', marketsPH:'e.g. Germany, Austria, Switzerland, Sweden…', descL:'About you / your organisation', descPH:'Describe your sales experience, network and why you want to represent Kosovo companies.', send:'Apply as partner ✓', note:'💬 Your application will be reviewed. We will contact you within 48h if there is a match.' },
+      en: { nameL:'Name / Organisation *', cityL:'City *', emailL:'E-mail *', phoneL:'Phone', websiteL:'Website', focusL:'Industry focus', focusPH:'e.g. IT, Software, BPO, Production…', langsL:'EU languages', langsPH:'e.g. DE, EN, SV, FR', marketsL:'EU markets', marketsPH:'e.g. Germany, Austria, Switzerland, Sweden…', descL:'About you / your organisation', descPH:'Describe your sales experience, network and why you want to represent Kosova companies.', send:'Apply as partner ✓', note:'💬 Your application will be reviewed. We will contact you within 48h if there is a match.' },
       sq: { nameL:'Emri / Organizata *', cityL:'Qyteti *', emailL:'E-mail *', phoneL:'Telefon', websiteL:'Faqja web', focusL:'Fokusi i industrisë', focusPH:'p.sh. IT, Software, BPO…', langsL:'Gjuhët e BE-së', langsPH:'p.sh. DE, EN, SV', marketsL:'Tregjet e BE-së', marketsPH:'p.sh. Gjermani, Austri, Zvicër…', descL:'Rreth jush / organizatës', descPH:'Përshkruani eksperiencën tuaj të shitjeve dhe rrjetin.', send:'Apliko si partner ✓', note:"💬 Aplikimi juaj do të shqyrtohet. Do t'ju kontaktojmë brenda 48h." },
       sv: { nameL:'Namn / Organisation *', cityL:'Stad *', emailL:'E-post *', phoneL:'Telefon', websiteL:'Webbplats', focusL:'Branschfokus', focusPH:'t.ex. IT, Mjukvara, BPO…', langsL:'EU-språk', langsPH:'t.ex. DE, EN, SV, FR', marketsL:'EU-marknader', marketsPH:'t.ex. Tyskland, Österrike, Sverige…', descL:'Om dig / din organisation', descPH:'Beskriv din säljfarenhet, nätverk och varför du vill representera Kosovo-företag.', send:'Ansök som partner ✓', note:'💬 Din ansökan granskas. Vi återkommer inom 48h om det finns en matchning.' },
     }
@@ -1925,7 +1736,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         <div style={{ marginBottom:16 }}><label className="flabel">{Lp.descL}</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={form.desc} onChange={e=>setForm(f=>({...f,desc:e.target.value}))} placeholder={Lp.descPH} /></div>
         {/* Logo color */}
         <div style={{ marginBottom:14 }}>
-          <label className="flabel">{lang==='de'?'Profil-Farbe':lang==='sv'?'Profilfärg':lang==='sq'?'Ngjyra e profilit':'Profile color'}</label>
+          <label className="flabel">{lang==='sq'?'Ngjyra e profilit':'Profile color'}</label>
           <div style={{ display:'flex', gap:7, flexWrap:'wrap', marginTop:6 }}>
             {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>(
               <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:28, height:28, borderRadius:'50%', background:col, border:'2px solid '+((form.logoColor||'#58a6ff')===col?'#fff':'transparent'), cursor:'pointer' }} />
@@ -1952,19 +1763,21 @@ function SmartRegForm({ lang, t, regType, onDone }) {
 
   return (
     <div>
-      {/* Logo */}
-      <div style={{ marginBottom:14 }}>
-        <label className="flabel">{lang==='de'?'Logo / Initialen (automatisch aus Name)':lang==='sv'?'Logo / Initialer (automatiskt från namn)':lang==='sq'?'Logo / Inicialet (automatikisht nga emri)':'Logo / Initials (auto from name)'}</label>
-        <div style={{ display:'flex', gap:10, alignItems:'center' }}>
-          <div style={{ width:44, height:44, borderRadius:10, background:form.logoColor||'#58a6ff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:15, color:'#fff', flexShrink:0 }}>
+      {/* Profile color picker */}
+      <div style={{ marginBottom:16 }}>
+        <label className="flabel">{lang==='sq'?'Ngjyra e profilit (për logon)':'Profile color (for logo)'}</label>
+        <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:8 }}>
+          <div style={{ width:44, height:44, borderRadius:10, background:`linear-gradient(135deg,${form.logoColor||'#58a6ff'}20,${form.logoColor||'#58a6ff'}46)`, border:`1px solid ${form.logoColor||'#58a6ff'}44`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:15, color:form.logoColor||'#58a6ff', flexShrink:0 }}>
             {form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}
           </div>
           <div style={{ flex:1 }}>
-            <div style={{ fontSize:11, color:G.muted, marginBottom:6, fontFamily:"'DM Sans',sans-serif" }}>{lang==='de'?'Hintergrundfarbe':lang==='sv'?'Bakgrundsfärg':lang==='sq'?'Ngjyra e sfondit':'Background color'}</div>
+            <div style={{ fontSize:11, color:G.muted, marginBottom:7, fontFamily:"'DM Sans',sans-serif" }}>{lang==='sq'?'Zgjidhni ngjyrën e sfondit të logosë suaj':'Choose your logo background color'}</div>
             <div style={{ display:'flex', gap:7, flexWrap:'wrap' }}>
               {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>{
                 const isSel = (form.logoColor||'#58a6ff') === col
-                return <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:26, height:26, borderRadius:'50%', background:col, border:'2px solid '+(isSel?'#fff':'transparent'), cursor:'pointer' }} />
+                return (
+                  <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:30, height:30, borderRadius:'50%', background:col, border: isSel?'3px solid #fff':'2px solid transparent', cursor:'pointer', boxShadow: isSel?`0 0 0 2px ${col}`:'none', transition:'all 0.15s' }} />
+                )
               })}
             </div>
           </div>
@@ -2194,7 +2007,7 @@ function SelfEditModal({ profile, lang, t, onClose }) {
         <div style={{ display:'flex', justifyContent:'space-between', marginBottom:18 }}>
           <div>
             <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:19 }}>{Ls.title}: {profile.name}</div>
-            <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>TechGate Kosovo</div>
+            <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Business Bridge Platform</div>
           </div>
           <button onClick={onClose} className="btn ghost" style={{ padding:'5px 10px', fontSize:15, alignSelf:'flex-start' }}>✕</button>
         </div>
@@ -2264,7 +2077,7 @@ function SelfEditModal({ profile, lang, t, onClose }) {
           <>
             <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step3h}</div>
             <div style={{ background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.22)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.teal }}>
-              🔐 {lang==='de'?'Code verifiziert':lang==='sv'?'Kod verifierad':lang==='sq'?'Kodi u verifikua':'Code verified'}
+              🔐 {lang==='sq'?'Kodi u verifikua':'Code verified'}
               <span style={{ color:G.muted, marginLeft:8 }}>— {Ls.step3sub}</span>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
@@ -2279,7 +2092,7 @@ function SelfEditModal({ profile, lang, t, onClose }) {
             <div style={{ marginBottom:18 }}><label className="flabel">{Ls.tagsLabel}</label><input className="inp" value={form.tags} onChange={e => f('tags',e.target.value)} placeholder="React, Node.js, TypeScript…" /></div>
             {/* Pending warning */}
             <div style={{ background:G.goldDim, border:`1px solid ${G.goldBorder}`, borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.muted }}>
-              ℹ️ {lang==='de'?'Ihre Änderungen werden vom Admin geprüft und freigeschaltet — nicht sofort live.':lang==='sv'?'Dina ändringar granskas av admin och aktiveras — inte omedelbart live.':lang==='sq'?'Ndryshimet tuaja shqyrtohen nga admin — jo menjëherë live.':'Your changes will be reviewed by admin — not immediately live.'}
+              ℹ️ {lang==='sq'?'Ndryshimet tuaja shqyrtohen nga admin — jo menjëherë live.':'Your changes will be reviewed by admin — not immediately live.'}
             </div>
             <button className="btn gbtn" style={{ width:'100%' }} disabled={!form.name} onClick={async () => {
               // Submit pending change to Supabase
@@ -2338,7 +2151,7 @@ const INITIAL_PENDING = [
 ]
 
 // ─── ADMIN PAGE ──────────────────────────────────────────────────────────────
-let ADMIN_PASSWORD = 'techgate2025admin'
+let ADMIN_PASSWORD = 'bbplatform2025admin'
 
 function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave }) {
   const [pw, setPw] = React.useState('')
@@ -2353,24 +2166,24 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
   const [editProfile, setEditProfile] = React.useState(null)
   const [partners, setPartners] = React.useState({
     rootsgtm_name: 'rootsGTM',
-    rootsgtm_email: 'mentor@techgate-ks.com',
+    rootsgtm_email: 'mentor@bbplatform.com',
     rootsgtm_phone: '+383 44 123 456',
     rootsgtm_website: 'rootsgtm.com',
-    rootsgtm_desc: 'rootsGTM is our exclusive sales network — specialised in connecting EU companies with Kosovo partners.',
-    gov_name: 'Kosovo Government / InvestKosova',
+    rootsgtm_desc: 'rootsGTM is our exclusive sales network — specialised in connecting EU companies with Kosova partners.',
+    gov_name: 'Kosova Government / InvestKosova',
     gov_email: 'info@invest-ks.com',
     gov_website: 'invest-ks.com',
     gov_desc: 'Official partnership with InvestKosova and the Ministry of Economy.',
   })
   const [concierge, setConcierge] = React.useState({
-    hero_title: 'Kosovo Concierge',
+    hero_title: 'Kosova Concierge',
     hero_sub: 'Our partners organise your complete business visit.',
     avail_note: '2 Active partners',
     pkg_sub: 'Rates and conditions are agreed in a personal conversation.',
     sp_title: 'rootsGTM',
     sp_sub: "rootsGTM's sales team works on the ground in Kosovo.",
-    cta_title: 'Ready for your Kosovo visit?',
-    cta_email: 'concierge@techgate-ks.com',
+    cta_title: 'Ready for your Kosova visit?',
+    cta_email: 'concierge@bbplatform.com',
   })
   const [settingsSaved, setSettingsSaved] = React.useState('')
   const [editForm, setEditForm] = React.useState({})
@@ -2538,7 +2351,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       <div style={{ background: G.surface, border: `1px solid ${G.goldBorder}`, borderRadius: 18, padding: 38, width: 360, textAlign: 'center' }}>
         <div style={{ fontSize: 36, marginBottom: 14 }}>🔒</div>
         <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, marginBottom: 6 }}>Admin</div>
-        <div style={{ fontSize: 12, color: G.muted, marginBottom: 22 }}>TechGate Kosovo</div>
+        <div style={{ fontSize: 12, color: G.muted, marginBottom: 22 }}>Business Bridge Platform</div>
         <input className="inp" type="password" value={pw} onChange={e => setPw(e.target.value)}
           placeholder="Password" style={{ marginBottom: 10, textAlign: 'center' }}
           onKeyDown={e => e.key === 'Enter' && login()} />
@@ -2558,7 +2371,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     { id: 'settings',         label: 'Einstellungen',    labelEn: 'Settings',              icon: '⚙️' },
   ]
 
-  const renderLabel = t2 => lang === 'de' ? t2.label : t2.labelEn
+  const renderLabel = t2 => t2.labelEn
 
   const renderProfileRow = (p) => (
     <div key={p.id} style={{ background: G.surface, border: `1px solid ${p.verified ? G.border : G.goldBorder}`, borderRadius: 12, padding: '14px 18px', display: 'flex', gap: 12, alignItems: 'center' }}>
@@ -2601,7 +2414,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
         <div>
           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22 }}>🔧 Admin Panel</div>
-          <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>TechGate Kosovo</div>
+          <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>Business Bridge Platform</div>
         </div>
         <div style={{ display: 'flex', gap: 9 }}>
           <button className="btn ghost" style={{ fontSize: 12 }} onClick={loadData}>🔄 Refresh</button>
@@ -2812,9 +2625,9 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
             <div><label className="flabel">Description (shown on Concierge page)</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.rootsgtm_desc||''} onChange={e=>setPartners(p=>({...p,rootsgtm_desc:e.target.value}))} /></div>
           </div>
 
-          {/* Kosovo Government */}
+          {/* Kosova Government */}
           <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, padding:'22px 24px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.gold, marginBottom:16 }}>🏛️ Kosovo Government / InvestKosova</div>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.gold, marginBottom:16 }}>🏛️ Kosova Government / InvestKosova</div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
               <div><label className="flabel">Organisation name</label><input className="inp" value={partners.gov_name||''} onChange={e=>setPartners(p=>({...p,gov_name:e.target.value}))} /></div>
               <div><label className="flabel">Email</label><input className="inp" value={partners.gov_email||''} onChange={e=>setPartners(p=>({...p,gov_email:e.target.value}))} /></div>
@@ -2876,7 +2689,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
           {/* Notification email */}
           <div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: '22px 24px' }}>
             <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 14 }}>📧 Notification email</div>
-            <div style={{ marginBottom: 10 }}><label className="flabel">Your email (for new profile alerts)</label><input className="inp" type="email" value={notifEmail} onChange={e => setNotifEmail(e.target.value)} placeholder="admin@techgate-ks.com" /></div>
+            <div style={{ marginBottom: 10 }}><label className="flabel">Your email (for new profile alerts)</label><input className="inp" type="email" value={notifEmail} onChange={e => setNotifEmail(e.target.value)} placeholder="admin@bbplatform.com" /></div>
             {notifSaved && <div style={{ fontSize: 12, color: G.green, marginBottom: 10 }}>✓ Saved locally</div>}
             <div style={{ fontSize: 11, color: G.muted, marginBottom: 12 }}>
               For full email notifications (new registrations, change requests), set up a Supabase Database Webhook:
@@ -2995,8 +2808,6 @@ export default function App() {
     // sq / sq-AL / sq-XK    → sq  (Kosovo Albanian)
     // everything else        → en
     const loc = (navigator.language || navigator.languages?.[0] || 'en').toLowerCase()
-    if (loc.startsWith('de')) return 'de'
-    if (loc.startsWith('sv')) return 'sv'
     if (loc.startsWith('sq') || loc === 'ks') return 'sq'
     return 'en'
   })
@@ -3039,7 +2850,7 @@ export default function App() {
   )
 
   const t = T[lang]
-  const FLAGS = { de: '🇩🇪', en: '🇬🇧', sq: '🇽🇰', sv: '🇸🇪' }
+  const FLAGS = { en: '🇬🇧', sq: '🇽🇰' }
 
   // Show admin panel if triggered
   if (showAdmin) return <AdminPage lang={lang} onExit={() => setShowAdmin(false)} siteContent={siteContent} onContentSave={(key, val) => { saveSiteContent(key, val); setSiteContent(prev => ({...prev, [key]: val})); window.__siteContent = {...(window.__siteContent||{}), [key]: val} }} />
@@ -3053,7 +2864,7 @@ export default function App() {
         <button onClick={() => setPage('home')} className="btn" style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: 0 }}>
           <div style={{ width: 32, height: 32, background: 'linear-gradient(135deg,#d4a843,#b8892e)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🇽🇰</div>
           <div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: G.text }}>TechGate <span style={{ color: G.gold }}>Kosovo</span></div>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: G.text }}>Business <span style={{ color: G.gold }}>Bridge</span></div>
             <div style={{ fontSize: 9, color: G.muted, letterSpacing: '0.7px', textTransform: 'uppercase' }}>{t.tagline}</div>
           </div>
         </button>
@@ -3069,7 +2880,7 @@ export default function App() {
           </div>
           <div style={{ width: 1, height: 18, background: G.border, margin: '0 6px' }} />
           <div style={{ display: 'flex', gap: 2, background: 'rgba(255,255,255,0.04)', border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
-            {['de', 'en', 'sq', 'sv'].map(l => (
+            {['en', 'sq'].map(l => (
               <button key={l} onClick={() => setLang(l)} className="btn" style={{ padding: '4px 9px', fontSize: 11, fontWeight: 700, background: lang === l ? 'rgba(212,168,67,0.18)' : 'transparent', color: lang === l ? G.gold : G.muted, border: `1px solid ${lang === l ? G.goldBorder : 'transparent'}`, borderRadius: 6 }}>
                 {FLAGS[l]} {l.toUpperCase()}
               </button>
@@ -3092,7 +2903,7 @@ export default function App() {
             </button>
           ))}
           <div style={{ borderTop:'1px solid rgba(255,255,255,0.07)', marginTop:8, paddingTop:12, display:'flex', gap:6 }}>
-            {['de','en','sq','sv'].map(l => (
+            {['en','sq'].map(l => (
               <button key={l} onClick={() => { setLang(l) }}
                 style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(212,168,67,0.15)':'rgba(255,255,255,0.04)', color: lang===l?'#d4a843':'rgba(232,228,217,0.45)', border:'1px solid '+(lang===l?'rgba(212,168,67,0.22)':'rgba(255,255,255,0.07)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
                 {FLAGS[l]} {l.toUpperCase()}
@@ -3111,7 +2922,12 @@ export default function App() {
             <div className="fu" style={{ maxWidth: 680, margin: '0 auto', position: 'relative' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 100, padding: '5px 16px', marginBottom: 22 }}>
                 <span style={{ width: 7, height: 7, background: G.green, borderRadius: '50%', display: 'inline-block', boxShadow: `0 0 8px ${G.green}` }} />
-                <span style={{ fontSize: 12, color: G.gold, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>{t.live}</span>
+                <span style={{ fontSize: 12, color: G.gold, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>
+                  {(window.__techgateProfiles||[]).filter(p => p.verified !== false).length > 0
+                    ? `${(window.__techgateProfiles||[]).filter(p => p.verified !== false).length} ${lang==='sq' ? 'Regjistrimet e Verifikuara · Live' : 'Verified Listings · Live'}`
+                    : (lang==='sq' ? 'Platforma e Biznesit Kosova · Live' : 'Business Bridge Platform · Live')
+                  }
+                </span>
               </div>
               <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(32px,5vw,56px)', letterSpacing: '-1.5px', lineHeight: 1.08, marginBottom: 16 }}>
                 {t.h1a}<br /><span style={{ color: G.gold }}>{t.h1b}</span>
@@ -3124,7 +2940,7 @@ export default function App() {
                 <button className="btn gbtn" style={{ flexShrink: 0 }} onClick={() => setPage('directory')}>{t.searchBtn} →</button>
               </div>
               <div style={{ display: 'flex', justifyContent: 'center', gap: 30, flexWrap: 'wrap' }}>
-                {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], [homeStats.total > 0 ? String(homeStats.total) : (homeStats.companies+homeStats.freelancers+homeStats.partners > 0 ? String(homeStats.companies+homeStats.freelancers+homeStats.partners) : '…'), lang==='de'?'Einträge gesamt':lang==='sv'?'Totalt':lang==='sq'?'Gjithsej':'Total listings']].map(([n, l]) => (
+                {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], [homeStats.total > 0 ? String(homeStats.total) : (homeStats.companies+homeStats.freelancers+homeStats.partners > 0 ? String(homeStats.companies+homeStats.freelancers+homeStats.partners) : '…'), lang==='sq'?'Gjithsej':'Total listings']].map(([n, l]) => (
                   <div key={l} style={{ textAlign: 'center' }}>
                     <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: G.gold }}>{n}</div>
                     <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>{l}</div>
@@ -3160,6 +2976,53 @@ export default function App() {
               ))}
             </div>
           </section>
+
+          {/* ── TOP VERIFIED LISTINGS ── */}
+          {(window.__techgateProfiles||[]).filter(p => p.verified !== false).length > 0 && (
+            <section style={{ padding: '0 48px 44px', maxWidth: 1200, margin: '0 auto' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                <div>
+                  <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 3 }}>{t.topTitle}</h2>
+                  <div style={{ fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>{t.rankSub}</div>
+                </div>
+                <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 12 }}>
+                {(window.__techgateProfiles||[])
+                  .filter(p => p.verified !== false)
+                  .sort((a,b) => (b.tier==='sponsored'?2:b.tier==='premium'?1:0)-(a.tier==='sponsored'?2:a.tier==='premium'?1:0))
+                  .slice(0, 6)
+                  .map(p => {
+                    const isSp = p.tier === 'sponsored'
+                    const isPr = p.tier === 'premium'
+                    const desc = p.desc?.[lang] || p.desc?.en || ''
+                    return (
+                      <div key={p.id} className="card fu" style={{ padding: 0, overflow: 'hidden',
+                        borderColor: isSp ? 'rgba(251,146,60,0.4)' : isPr ? 'rgba(212,168,67,0.3)' : G.border,
+                        background: isSp ? 'rgba(251,146,60,0.03)' : isPr ? 'rgba(212,168,67,0.025)' : G.card }}>
+                        {isSp && <div className="sp-bar" />}
+                        {isPr && <div className="pr-bar" />}
+                        <div style={{ padding: 16 }}>
+                          <div style={{ display: 'flex', gap: 10, marginBottom: 9 }}>
+                            <Logo text={p.logo} color={p.logoColor} size={40} />
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 13 }}>{p.name}</div>
+                              <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
+                            </div>
+                            {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px', alignSelf: 'flex-start', flexShrink: 0 }}>{t.verified}</span>}
+                          </div>
+                          {desc && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.65)', lineHeight: 1.6, marginBottom: 9 }}>{desc.slice(0, 90)}{desc.length > 90 ? '…' : ''}</p>}
+                          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 11 }}>
+                            {(p.tags||[]).slice(0,4).map(tag => <span key={tag} className="tag">{tag}</span>)}
+                          </div>
+                          <button className="btn gbtn" style={{ width:'100%', padding:'8px', fontSize:12 }} onClick={() => setPage('directory')}>{t.sendReq}</button>
+                        </div>
+                      </div>
+                    )
+                  })}
+              </div>
+            </section>
+          )}
           <section style={{ padding: '0 48px 60px' }}>
             <div style={{ maxWidth: 1100, margin: '0 auto', background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 18, padding: '40px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
               <div>
@@ -3190,7 +3053,7 @@ export default function App() {
                 </div>
                 {/* Kosovo-based: Firma & Freelancer */}
                 <div style={{ fontSize:10, color:G.muted, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
-                  🇽🇰 {lang==='de'?'Kosovo-basiert':lang==='sv'?'Kosovo-baserad':lang==='sq'?'Bazuar në Kosovë':'Kosovo-based'}
+                  🇽🇰 {lang==='sq'?'Bazuar në Kosovë':'Kosova-based'}
                 </div>
                 <div style={{ display: 'flex', gap: 9, marginBottom:12 }}>
                   {[[t.regComp, t.regCompS], [t.regFL, t.regFLS]].map(([l, sub], i) => (
@@ -3205,7 +3068,7 @@ export default function App() {
                 </div>
                 {/* Partner */}
                 <div style={{ fontSize:10, color:G.teal, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
-                  🤝 {lang==='de'?'Partner werden':lang==='sv'?'Bli partner':lang==='sq'?'Bëhu partner':'Become a partner'}
+                  🤝 {lang==='sq'?'Bëhu partner':'Become a partner'}
                 </div>
                 <div style={{ display: 'flex', gap: 9 }}>
                   {[[t.regSP, t.regSPS, true]].map(([l, sub, isPartner], i) => (                    <div key={i} onClick={() => setRegType(l)}
