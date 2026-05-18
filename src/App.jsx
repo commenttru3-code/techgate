@@ -838,25 +838,6 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
         {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
           <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.04)', color: typeF === v ? G.gold : G.muted, border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{l}</button>
         ))}
-        <button onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
-          style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:8, padding:'9px 20px', fontSize:13, fontWeight:700, cursor:'pointer', fontFamily:"'Syne',sans-serif",
-            background: matchMode
-              ? 'linear-gradient(135deg,#2dd4bf,#0d9488)'
-              : 'linear-gradient(135deg,rgba(45,212,191,0.15),rgba(45,212,191,0.07))',
-            color: matchMode ? '#080c14' : G.teal,
-            border: `1px solid ${matchMode ? 'transparent' : 'rgba(45,212,191,0.45)'}`,
-            borderRadius: 22,
-            boxShadow: matchMode
-              ? '0 4px 20px rgba(45,212,191,0.4), 0 0 0 1px rgba(45,212,191,0.3)'
-              : '0 2px 10px rgba(45,212,191,0.15)',
-            transition: 'all 0.22s',
-            letterSpacing: '0.2px' }}>
-          <span style={{ fontSize:14, lineHeight:1 }}>{matchMode ? '✓' : '🔎'}</span>
-          {lang==='sq' ? 'Filtri i Përputhjes' : 'Match Filter'}
-          {matchMode && matchSkills.length > 0 && (
-            <span style={{ background: matchMode?'rgba(0,0,0,0.2)':'rgba(45,212,191,0.2)', color: matchMode?'#080c14':G.teal, borderRadius:10, padding:'2px 7px', fontSize:10, fontWeight:800 }}>{matchSkills.length}</span>
-          )}
-        </button>
       </div>
 
       {/* ── MATCH FILTER FULL-WIDTH BAR ── */}
@@ -892,8 +873,6 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
           </div>
         )}
         <div style={{ color: matchMode ? G.teal : G.muted, fontSize: 18, fontWeight: 300, flexShrink: 0 }}>{matchMode ? '▲' : '▼'}</div>
-      </div>
-
       </div>
 
       {/* ── SKILL MATCH PANEL ── */}
