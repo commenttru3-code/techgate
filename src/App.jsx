@@ -133,7 +133,7 @@ const T = {
     navHome: 'Kreu', navDir: 'Kompani & Freelancerë', navMatch: 'Gjej Partnerë',
     navConcierge: 'Concierge', navGov: 'Qeveria', registerBtn: '+ Regjistrohu',
     live: 'Regjistrimet e Verifikuara · Live',
-    h1a: 'Porta Juaj drejt', h1b: 'Qendrës së Biznesit Kosova',
+    h1a: 'Porta Juaj drejt', h1b: 'Qendrës së Biznesit në Kosovë',
     heroSub: 'Kompani, freelancerë dhe konsulentë nga Kosova — për projektin tuaj të ardhshëm.',
     searchPH: 'p.sh. Zhvillues React, qendër thirrjesh…', searchBtn: 'Kërko',
     stat1: 'Kompani', stat2: 'Freelancerë', stat3: 'Partnerë', stat4: 'Tatim mbi korp.',
@@ -466,7 +466,14 @@ function Stars({ r }) {
   )
 }
 
-function Logo({ text, color, size = 44 }) {
+function Logo({ text, color, size = 44, url = null }) {
+  if (url) {
+    return (
+      <div style={{ width: size, height: size, borderRadius: 10, overflow: 'hidden', border: `1px solid rgba(255,255,255,0.10)`, flexShrink: 0 }}>
+        <img src={url} alt={text} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+    )
+  }
   return (
     <div style={{ width: size, height: size, borderRadius: 10, background: `linear-gradient(135deg,${color}20,${color}46)`, border: `1px solid ${color}32`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: size > 36 ? 13 : 11, color, flexShrink: 0 }}>
       {text}
@@ -644,7 +651,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
       <div style={{ padding: 20 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 11 }}>
           <div style={{ display: 'flex', gap: 10 }}>
-            <Logo text={p.logo} color={p.logoColor} />
+            <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
             <div>
               <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{p.name}</div>
               <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
@@ -827,27 +834,54 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
   return (
     <div style={{ padding: '28px 44px', maxWidth: 1200, margin: '0 auto' }}>
       <div style={{ marginBottom: 16, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>{t.rankSub}</div>
-      <div style={{ display: 'flex', gap: 9, marginBottom: 12 }}>
+      <div style={{ display: 'flex', gap: 9, marginBottom: 16 }}>
         <input className="inp" style={{ flex: 1, fontSize: 15 }} placeholder={t.searchPH} value={q} onChange={e => setQ(e.target.value)} />
         <select className="inp" style={{ width: 148, fontSize: 12 }} value={sort} onChange={e => setSort(e.target.value)}>
-
           <option value="name">{t.sortAZ}</option>
         </select>
       </div>
-      <div style={{ display: 'flex', gap: 7, marginBottom: 11, flexWrap: 'wrap', alignItems: 'center' }}>
-        {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
-          <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.04)', color: typeF === v ? G.gold : G.muted, border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{l}</button>
-        ))}
+
+      {/* ── ROW 1: Type filter ── */}
+      <div style={{ marginBottom: 6 }}>
+        <div style={{ fontSize: 10, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
+          {lang==='sq' ? '👥 Lloji i profilit' : '👥 Profile type'}
+        </div>
+        <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'center' }}>
+          {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
+            <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.04)', color: typeF === v ? G.gold : G.muted, border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{l}</button>
+          ))}
+        </div>
       </div>
 
-      {/* ── MATCH FILTER FULL-WIDTH BAR ── */}
+      {/* ── DIVIDER ── */}
+      <div style={{ height: 1, background: G.border, margin: '12px 0' }} />
+
+      {/* ── ROW 2: Sector filter ── */}
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ fontSize: 10, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
+          {lang==='sq' ? '🏭 Sektori' : '🏭 Sector'}
+        </div>
+        <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 4, scrollbarWidth: 'none' }}>
+          <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
+          {CATS.map(c => (
+            <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)', color: cat === c.id ? c.color : G.muted, border: `1px solid ${cat === c.id ? `${c.color}40` : 'rgba(255,255,255,0.07)'}` }}>
+              {c.icon} {c.labels[lang]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── DIVIDER ── */}
+      <div style={{ height: 1, background: G.border, marginBottom: 12 }} />
+
+      {/* ── ROW 3: MATCH FILTER FULL-WIDTH BAR (last) ── */}
       <div onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
         className="match-filter-bar"
         style={{
           display: 'flex', alignItems: 'center', gap: 12, padding: '13px 18px',
           background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.14),rgba(45,212,191,0.06))' : 'rgba(45,212,191,0.04)',
           border: `1px solid ${matchMode ? 'rgba(45,212,191,0.5)' : 'rgba(45,212,191,0.2)'}`,
-          borderRadius: 12, cursor: 'pointer', marginBottom: 0,
+          borderRadius: 12, cursor: 'pointer', marginBottom: 4,
           boxShadow: matchMode ? '0 0 0 2px rgba(45,212,191,0.15), 0 4px 20px rgba(45,212,191,0.1)' : 'none',
           transition: 'all 0.22s',
         }}>
@@ -883,14 +917,6 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
         setMatchSkills={setMatchSkills}
         resultCount={filtered.length}
       />}
-      <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 6, marginBottom: 22, scrollbarWidth: 'none' }}>
-        <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
-        {CATS.map(c => (
-          <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)', color: cat === c.id ? c.color : G.muted, border: `1px solid ${cat === c.id ? `${c.color}40` : 'rgba(255,255,255,0.07)'}` }}>
-            {c.icon} {c.labels[lang]}
-          </button>
-        ))}
-      </div>
 
       {/* Active tag filter banner */}
       {tagFilter && (
@@ -1200,7 +1226,7 @@ function MatchPage({ lang, t }) {
                     {/* Header row */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                       <div style={{ display: 'flex', gap: 10 }}>
-                        <Logo text={p.logo} color={p.logoColor} />
+                        <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
                         <div>
                           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{p.name}</div>
                           <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
@@ -1296,7 +1322,7 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
           return (
             <div key={sp.id} className="card fu" style={{ padding: 20, animationDelay: (i * 0.05) + 's' }}>
               <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
-                <Logo text={sp.logo} color={sp.logoColor} />
+                <Logo text={sp.logo} color={sp.logoColor} url={sp.logoUrl} />
                 <div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{sp.name}</div>
                   <div style={{ fontSize: 11, color: '#2dd4bf' }}>Partner</div>
@@ -1740,26 +1766,71 @@ function SmartRegForm({ lang, t, regType, onDone }) {
     )
   }
 
+  const [logoFile, setLogoFile] = React.useState(null)   // compressed data-URL
+  const handleLogoUpload = React.useCallback((e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      const SIZE = 88   // render at 2× the 44px logo for retina
+      const canvas = document.createElement('canvas')
+      canvas.width = SIZE; canvas.height = SIZE
+      const ctx = canvas.getContext('2d')
+      // Centre-crop square
+      const side = Math.min(img.width, img.height)
+      const sx = (img.width - side) / 2
+      const sy = (img.height - side) / 2
+      ctx.drawImage(img, sx, sy, side, side, 0, 0, SIZE, SIZE)
+      URL.revokeObjectURL(url)
+      setLogoFile(canvas.toDataURL('image/webp', 0.82))
+    }
+    img.src = url
+  }, [])
+
   return (
     <div>
-      {/* Profile color picker */}
+      {/* Profile logo: upload or color */}
       <div style={{ marginBottom:16 }}>
-        <label className="flabel">{lang==='sq'?'Ngjyra e profilit (për logon)':'Profile color (for logo)'}</label>
-        <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:8 }}>
-          <div style={{ width:44, height:44, borderRadius:10, background:`linear-gradient(135deg,${form.logoColor||'#58a6ff'}20,${form.logoColor||'#58a6ff'}46)`, border:`1px solid ${form.logoColor||'#58a6ff'}44`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:15, color:form.logoColor||'#58a6ff', flexShrink:0 }}>
-            {form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}
+        <label className="flabel">{lang==='sq' ? 'Logo e profilit' : 'Profile logo'}</label>
+        <div style={{ display:'flex', gap:12, alignItems:'flex-start', marginTop:8 }}>
+
+          {/* Preview */}
+          <div style={{ width:52, height:52, borderRadius:12, overflow:'hidden', flexShrink:0, border:`2px solid ${form.logoColor||'#58a6ff'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${form.logoColor||'#58a6ff'}20,${form.logoColor||'#58a6ff'}46)` }}>
+            {logoFile
+              ? <img src={logoFile} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+              : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, color:form.logoColor||'#58a6ff' }}>{form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}</span>
+            }
           </div>
+
           <div style={{ flex:1 }}>
-            <div style={{ fontSize:11, color:G.muted, marginBottom:7, fontFamily:"'DM Sans',sans-serif" }}>{lang==='sq'?'Zgjidhni ngjyrën e sfondit të logosë suaj':'Choose your logo background color'}</div>
-            <div style={{ display:'flex', gap:7, flexWrap:'wrap' }}>
-              {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>{
+            {/* Upload button */}
+            <label style={{ display:'flex', alignItems:'center', gap:7, padding:'7px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, fontFamily:"'DM Sans',sans-serif", marginBottom:8, width:'fit-content' }}>
+              📷 {lang==='sq' ? 'Ngarko logo (opsionale)' : 'Upload logo (optional)'}
+              <input type="file" accept="image/*" style={{ display:'none' }} onChange={handleLogoUpload} />
+            </label>
+            {logoFile && (
+              <button onClick={() => setLogoFile(null)} className="btn ghost" style={{ fontSize:11, padding:'3px 9px', marginBottom:8 }}>
+                ✕ {lang==='sq' ? 'Hiq foton' : 'Remove photo'}
+              </button>
+            )}
+            <div style={{ fontSize:10, color:G.muted, marginBottom:6 }}>
+              {lang==='sq' ? 'Ose zgjidhni ngjyrën e sfondit:' : 'Or pick a background colour:'}
+            </div>
+            {/* Color swatches */}
+            <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+              {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col => {
                 const isSel = (form.logoColor||'#58a6ff') === col
                 return (
-                  <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:30, height:30, borderRadius:'50%', background:col, border: isSel?'3px solid #fff':'2px solid transparent', cursor:'pointer', boxShadow: isSel?`0 0 0 2px ${col}`:'none', transition:'all 0.15s' }} />
+                  <button key={col} onClick={() => { setForm(f=>({...f,logoColor:col})); setLogoFile(null) }}
+                    style={{ width:26, height:26, borderRadius:'50%', background:col, border: isSel?'3px solid #fff':'2px solid transparent', cursor:'pointer', boxShadow: isSel?`0 0 0 2px ${col}`:'none', transition:'all 0.15s' }} />
                 )
               })}
             </div>
           </div>
+        </div>
+        <div style={{ fontSize:10, color:G.muted, marginTop:6 }}>
+          {lang==='sq' ? '💡 Fotoja kompresohet automatikisht në madhësinë e duhur.' : '💡 Photo is auto-cropped & compressed to fit the logo size.'}
         </div>
       </div>
       {/* Sector for tag suggestions */}
@@ -1852,6 +1923,8 @@ function SmartRegForm({ lang, t, regType, onDone }) {
 
       <button className="btn gbtn" style={{ width: '100%' }} disabled={!form.name || !form.email} onClick={async () => {
         const dbFields = formToDb(form, catChoice, selectedTags, regType, null)
+        // Attach logo data-URL if user uploaded one
+        if (logoFile) dbFields.logo_data = logoFile
         const err = await insertProfile(dbFields)
         if (err) console.error('insertProfile:', err)
         onDone()
@@ -2354,7 +2427,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
   const renderProfileRow = (p) => (
     <div key={p.id} style={{ background: G.surface, border: `1px solid ${p.verified ? G.border : G.goldBorder}`, borderRadius: 12, padding: '14px 18px', display: 'flex', gap: 12, alignItems: 'center' }}>
-      <Logo text={p.logo} color={p.logoColor} size={38} />
+      <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} size={38} />
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontWeight: 700, fontSize: 14 }}>{p.name}</div>
         <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {p.type} · {p.cat}</div>
@@ -2450,7 +2523,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
                   {pendingPartners.map(p => (
                     <div key={p.id} style={{ background: G.surface, border:`1px solid rgba(45,212,191,0.25)`, borderRadius:12, padding:'14px 18px', display:'flex', gap:12, alignItems:'flex-start' }}>
-                      <Logo text={p.logo} color={p.logoColor} size={38} />
+                      <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} size={38} />
                       <div style={{ flex:1, minWidth:0 }}>
                         <div style={{ fontWeight:700, fontSize:14 }}>{p.name}</div>
                         <div style={{ fontSize:11, color:G.muted }}>📍 {p.city} · 🤝 Partner</div>
@@ -2843,7 +2916,7 @@ export default function App() {
         <button onClick={() => setPage('home')} className="btn" style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: 0 }}>
           <div style={{ width: 32, height: 32, background: 'linear-gradient(135deg,#d4a843,#b8892e)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🇽🇰</div>
           <div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: G.text }}>Business <span style={{ color: G.gold }}>Bridge</span></div>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: G.text }}>Kosova <span style={{ color: G.gold }}>Business Hub</span></div>
             <div style={{ fontSize: 9, color: G.muted, letterSpacing: '0.7px', textTransform: 'uppercase' }}>{t.tagline}</div>
           </div>
         </button>
@@ -2983,7 +3056,7 @@ export default function App() {
                         {isPr && <div className="pr-bar" />}
                         <div style={{ padding: 16 }}>
                           <div style={{ display: 'flex', gap: 10, marginBottom: 9 }}>
-                            <Logo text={p.logo} color={p.logoColor} size={40} />
+                            <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} size={40} />
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 13 }}>{p.name}</div>
                               <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
