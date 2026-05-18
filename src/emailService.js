@@ -81,7 +81,7 @@ export async function notifyAdminNewProfile({ name, email, cat, city }) {
 // ─────────────────────────────────────────────────────────────────────────────
 export async function sendVerifyCode({ toEmail, code, profileName }) {
   return send(TEMPLATES.verify_code, {
-    to_email:     toEmail,
+    to_email:     emailLabel,
     code,
     profile_name: profileName,
     expires_note: 'This code expires in 15 minutes.',
