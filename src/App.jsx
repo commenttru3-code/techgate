@@ -825,6 +825,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
   }, [allProfiles])
 
   const filtered = ranked.filter(p => {
+    if (p.type === 'partner') return false   // partners show only on Concierge page
     const s = q.toLowerCase()
     const desc = p.desc[lang] || p.desc.en || ''
     const catMatch = cat === 'all' || p.cat === cat
@@ -1627,60 +1628,33 @@ function ConciergePage({ lang, t, content = {} }) {
         </div>
       )}
 
-      {/* ── PARTNER MODAL ── */}
-      {partnerModal && !partnerDone && (() => {
-        const [pForm, setPForm] = React.useState({ name:'', city:'', email:'', phone:'', website:'', type: t.partnerTypes?.[0]||'', desc:'' })
-        const pf = (k,v) => setPForm(p=>({...p,[k]:v}))
-        return (
-          <div className="modal-bg fi" onClick={e => e.target === e.currentTarget && setPartnerModal(false)}>
-            <div className="modal su">
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
-                <div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.partnerRegTitle}</div>
-                  <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>{t.partnerRegSub}</div>
-                </div>
-                <ModalClose onClose={() => setPartnerModal(false)} />
+      {/* ── PARTNER MODAL — uses same full SmartRegForm as "List Profile → Partner" ── */}
+      {partnerModal && !partnerDone && (
+        <div className="modal-bg fi" onClick={e => e.target === e.currentTarget && setPartnerModal(false)}>
+          <div className="modal su" style={{ maxWidth: 560 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
+              <div>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.partnerRegTitle}</div>
+                <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>{t.partnerRegSub}</div>
               </div>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
-                <div><label className="flabel">{t.partnerOrg}</label><input className="inp" value={pForm.name} onChange={e=>pf('name',e.target.value)} /></div>
-                <div><label className="flabel">{lang==='sq'?'Qyteti':'City'}</label><input className="inp" value={pForm.city} onChange={e=>pf('city',e.target.value)} placeholder="Pristina, Berlin…" /></div>
-              </div>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
-                <div><label className="flabel">{t.partnerEmail}</label><input className="inp" type="email" value={pForm.email} onChange={e=>pf('email',e.target.value)} /></div>
-                <div><label className="flabel">{lang==='sq'?'Website':'Website'}</label><input className="inp" value={pForm.website} onChange={e=>pf('website',e.target.value)} placeholder="yourorg.com" /></div>
-              </div>
-              <div style={{ marginBottom:11 }}>
-                <label className="flabel">{t.partnerType}</label>
-                <select className="inp" value={pForm.type} onChange={e=>pf('type',e.target.value)}>
-                  {t.partnerTypes.map(pt => <option key={pt}>{pt}</option>)}
-                </select>
-              </div>
-              <div style={{ marginBottom:18 }}><label className="flabel">{t.partnerDesc}</label><textarea className="inp" rows={3} style={{ resize: 'vertical' }} value={pForm.desc} onChange={e=>pf('desc',e.target.value)} placeholder={t.partnerDescPH} /></div>
-              <div style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.muted }}>
-                {lang==='sq'?'💬 Aplikimi juaj do të shqyrtohet. Do të njoftoheni brenda 48 orësh.':'💬 Your application will be reviewed. We\'ll contact you within 48 hours.'}
-              </div>
-              <button className="btn gbtn" style={{ width:'100%' }} disabled={!pForm.name||!pForm.email} onClick={async () => {
-                await insertProfile({
-                  name: pForm.name, city: pForm.city||'', email: pForm.email.toLowerCase(),
-                  website: pForm.website||null,
-                  type: 'partner', cat: 'consulting', tier: 'free', verified: false,
-                  tags: [pForm.type].filter(Boolean),
-                  desc_en: pForm.desc||null, desc_sq: pForm.desc||null,
-                  submitted_by: pForm.email.toLowerCase(),
-                }).catch(console.error)
-                notifyAdminNewProfile({ name: pForm.name, email: pForm.email, cat: 'partner (concierge)', city: pForm.city }).catch(()=>{})
-                setPartnerDone(true)
-              }}>{t.partnerSend}</button>
+              <ModalClose onClose={() => setPartnerModal(false)} />
             </div>
+            <SmartRegForm
+              lang={lang} t={t} regType={t.regSP}
+              onDone={() => setPartnerDone(true)}
+            />
           </div>
-        )
-      })()}
+        </div>
+      )}
       {partnerDone && (
         <div className="modal-bg fi" onClick={() => { setPartnerDone(false); setPartnerModal(false) }}>
           <div className="modal su" style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>🎉</div>
             <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.partnerDoneTitle}</div>
             <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 18 }}>{t.partnerDoneSub}</p>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 13, marginBottom: 18 }}>
+              {lang==='sq' ? '⏳ Profili juaj shfaqet pas miratimit nga admin.' : '⏳ Your profile will appear here after admin approval.'}
+            </p>
             <button className="btn gbtn" style={{ width: '100%' }} onClick={() => { setPartnerDone(false); setPartnerModal(false) }}>{t.close}</button>
           </div>
         </div>
@@ -3138,8 +3112,8 @@ export default function App() {
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 100, padding: '5px 16px', marginBottom: 22 }}>
                 <span style={{ width: 7, height: 7, background: G.green, borderRadius: '50%', display: 'inline-block', boxShadow: `0 0 8px ${G.green}` }} />
                 <span style={{ fontSize: 12, color: G.gold, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>
-                  {(window.__techgateProfiles||[]).filter(p => p.verified !== false).length > 0
-                    ? `${(window.__techgateProfiles||[]).filter(p => p.verified !== false).length} ${lang==='sq' ? 'Regjistrimet e Verifikuara · Live' : 'Verified Listings · Live'}`
+                  {(window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type !== 'partner').length > 0
+                    ? `${(window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type !== 'partner').length} ${lang==='sq' ? 'Regjistrimet e Verifikuara · Live' : 'Verified Listings · Live'}`
                     : (lang==='sq' ? 'Platforma e Biznesit Kosova · Live' : 'Business Bridge Platform · Live')
                   }
                 </span>
@@ -3186,7 +3160,7 @@ export default function App() {
                 <div key={c.id} className="card fu" style={{ padding: '14px 13px', cursor: 'pointer', animationDelay: `${i * 0.04}s` }} onClick={() => setPage('directory')}>
                   <div style={{ fontSize: 21, marginBottom: 6 }}>{c.icon}</div>
                   <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 2 }}>{c.labels[lang]}</div>
-                  <div style={{ fontSize: 11, color: c.color }}>{(window.__techgateProfiles||[]).filter(p=>p.cat===c.id&&p.verified!==false).length || ''}</div>
+                  <div style={{ fontSize: 11, color: c.color }}>{(window.__techgateProfiles||[]).filter(p=>p.cat===c.id&&p.verified!==false&&p.type!=='partner').length || ''}</div>
                 </div>
               ))}
             </div>
@@ -3204,7 +3178,7 @@ export default function App() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 12 }}>
                 {(window.__techgateProfiles||[])
-                  .filter(p => p.verified !== false)
+                  .filter(p => p.verified !== false && p.type !== 'partner')
                   .sort((a,b) => (b.tier==='sponsored'?2:b.tier==='premium'?1:0)-(a.tier==='sponsored'?2:a.tier==='premium'?1:0))
                   .slice(0, 6)
                   .map(p => {
