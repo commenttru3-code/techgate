@@ -103,6 +103,12 @@ export async function insertBooking(fields) {
 }
 
 // ─── MAPPER: DB row → app profile object ─────────────────────────────────────
+// NOTE: ensure your Supabase `profiles` table has these columns:
+//   logo_color  text  default '#58a6ff'
+//   logo_data   text  (stores compressed WebP data-URL, ~5–15 KB per image)
+// Run in Supabase SQL editor:
+//   alter table profiles add column if not exists logo_color text default '#58a6ff';
+//   alter table profiles add column if not exists logo_data  text;
 function dbToProfile(row) {
   return {
     id:         row.id,
@@ -119,16 +125,15 @@ function dbToProfile(row) {
     founded:    row.founded || null,
     logo:       row.logo_text || row.name?.slice(0,2).toUpperCase() || '??',
     logoColor:  row.logo_color || '#58a6ff',
+    logoUrl:    row.logo_data || null,   // data-URL uploaded by user
     contact:    row.email,
     phone:      row.phone || '',
     website:    row.website || '',
     languages:  row.languages || '',
     experience: row.experience || '',
     desc: {
-      de: row.desc_de || row.desc_en || '',
       en: row.desc_en || '',
       sq: row.desc_sq || row.desc_en || '',
-      sv: row.desc_sv || row.desc_en || '',
     },
   }
 }
@@ -147,10 +152,10 @@ export function formToDb(form, catChoice, selectedTags, regType, tObj) {
     type:         isFL ? 'freelancer' : 'company',
     cat:          catChoice,
     tags:         selectedTags,
-    desc_de:      form.desc || null,
+    logo_color:   form.logoColor || '#58a6ff',
+    logo_data:    form.logo_data || null,   // compressed data-URL from canvas
     desc_en:      form.desc || null,
     desc_sq:      form.desc || null,
-    desc_sv:      form.desc || null,
     verified:     false,
     submitted_by: form.email,
   }
