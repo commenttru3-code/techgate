@@ -22,7 +22,7 @@ const TEMPLATES = {
 }
 
 // ── Admin email (receives new profile + change notifications) ─────────────────
-export const ADMIN_EMAIL = 'admin@bbplatform.com'   // ← change this
+export const ADMIN_EMAIL = 'comment.tru3@gmail.com'   // ← change this
 
 // ─────────────────────────────────────────────────────────────────────────────
 
