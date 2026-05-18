@@ -45,7 +45,6 @@ const T = {
     upgradeNoteSp: 'Only 1 sponsor per category.',
     upgradeNotePr: 'Maximum 3 premium profiles per category.',
     upgradeContact: 'Contact for upgrade:', upgradeMail: 'upgrade@bbplatform.com',
-    waitTitle: 'Join waitlist', waitSub: 'We\'ll notify you when a slot opens.',
     waitName: 'Your name *', waitEmail: 'Your e-mail *', waitSend: 'Join waitlist ✓',
     waitDoneTitle: 'You\'re on the list!', waitDoneSub: 'We\'ll contact you when a slot opens.',
     reqTitle: 'Enquiry to', reqName: 'Your name *', reqEmail: 'Your e-mail *', reqMsg: 'Message',
@@ -443,6 +442,9 @@ body{background:#080c14;margin:0;}
   .conc-content{padding:24px 16px 40px !important;}
   .conc-partners-grid{grid-template-columns:1fr !important;}
   .conc-pkg-grid{grid-template-columns:1fr !important;}
+  .conc-partner-card{padding:14px 13px !important;}
+  .conc-partner-card .partner-feat-grid{grid-template-columns:1fr 1fr !important;gap:6px !important;}
+  .conc-partner-card h-name{font-size:16px !important;}
   /* Match filter bar */
   .match-filter-bar{padding:10px 13px !important;}
 }
@@ -509,9 +511,10 @@ function UpgradeModal({ catId, t, lang, onClose }) {
   const [form, setForm] = useState({ name: '', email: '' })
 
   const used = useMemo(() => {
-    const src = window.__techgateProfiles?.length > 0 ? window.__techgateProfiles : PROFILES
-    const sp = src.filter(p => p.cat === catId && p.tier === 'sponsored').length
-    const pr = src.filter(p => p.cat === catId && p.tier === 'premium').length
+    // Always use live DB profiles for accurate slot count
+    const src = window.__techgateProfiles || []
+    const sp = src.filter(p => p.cat === catId && p.tier === 'sponsored' && p.verified).length
+    const pr = src.filter(p => p.cat === catId && p.tier === 'premium' && p.verified).length
     return { sp, pr }
   }, [catId])
 
@@ -542,7 +545,7 @@ function UpgradeModal({ catId, t, lang, onClose }) {
                     const taken = i < used.sp
                     return (
                       <div key={i} style={{ flex: 1, height: 32, borderRadius: 8, background: taken ? 'rgba(251,146,60,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${taken ? 'rgba(251,146,60,0.4)' : 'rgba(255,255,255,0.08)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: taken ? G.orange : G.green, fontFamily: "'DM Sans',sans-serif", fontWeight: 600 }}>
-                        {taken ? '🔒 Belegt' : '✓ Frei'}
+                        {taken ? (lang==='sq'?'🔒 Zënë':'🔒 Taken') : (lang==='sq'?'✓ Lirë':'✓ Available')}
                       </div>
                     )
                   })}
@@ -556,7 +559,7 @@ function UpgradeModal({ catId, t, lang, onClose }) {
                     const taken = i < used.pr
                     return (
                       <div key={i} style={{ flex: 1, height: 32, borderRadius: 8, background: taken ? G.goldDim : 'rgba(255,255,255,0.04)', border: `1px solid ${taken ? G.goldBorder : 'rgba(255,255,255,0.08)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: taken ? G.gold : G.green, fontFamily: "'DM Sans',sans-serif", fontWeight: 600 }}>
-                        {taken ? '🔒 Belegt' : '✓ Frei'}
+                        {taken ? (lang==='sq'?'🔒 Zënë':'🔒 Taken') : (lang==='sq'?'✓ Lirë':'✓ Available')}
                       </div>
                     )
                   })}
@@ -1432,7 +1435,7 @@ function ConciergePage({ lang, t, content = {} }) {
           <div className="conc-partners-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
             {/* rootsGTM */}
-            <div style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: '28px 26px' }}>
+            <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: '22px 20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
                 <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: '1px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>🚀</div>
                 <div>
@@ -1446,7 +1449,7 @@ function ConciergePage({ lang, t, content = {} }) {
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
                 {P.rootsgtm_desc || 'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 18, className: "partner-feat-grid" }}>
                 {(lang === 'sq' ? ['🤝 Kontakt direkt', '📅 Organizim takimesh', '🎤 Evente & Rrjet', '📄 Vijim & Kontrata'] : ['🤝 Direct client contact', '📅 Meeting organisation', '🎤 Events & networking', '📄 Follow-up & contracts']).map(f => (
                   <div key={f} style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
                 ))}
@@ -1457,7 +1460,7 @@ function ConciergePage({ lang, t, content = {} }) {
             </div>
 
             {/* Regierung Kosovo */}
-            <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: '28px 26px' }}>
+            <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: '22px 20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
                 <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: `1px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>🏛️</div>
                 <div>
@@ -1473,7 +1476,7 @@ function ConciergePage({ lang, t, content = {} }) {
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
                 {lang === 'sq' ? 'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë. Qëllimi: takime qeveritare, këshillim themelimi dhe mbështetje investimesh direkt nëpërmjet platformës.' : 'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy. Goal: government appointments, company formation advice and investment support directly through the platform.'}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
+              <div className="partner-feat-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
                 {(lang === 'sq' ? ['🏛️ Takime InvestKosova', '📋 Këshillim themelimi', '🤝 Takime ministrie', '📊 Mbështetje investimesh'] : ['🏛️ InvestKosova meetings', '📋 Company formation advice', '🤝 Ministry appointments', '📊 Investment support']).map(f => (
                   <div key={f} style={{ background: 'rgba(212,168,67,0.07)', border: `1px solid ${G.goldBorder}`, borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
                 ))}
@@ -1625,26 +1628,53 @@ function ConciergePage({ lang, t, content = {} }) {
       )}
 
       {/* ── PARTNER MODAL ── */}
-      {partnerModal && !partnerDone && (
-        <div className="modal-bg fi" onClick={e => e.target === e.currentTarget && setPartnerModal(false)}>
-          <div className="modal su">
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
-              <div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.partnerRegTitle}</div>
-                <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>{t.partnerRegSub}</div>
+      {partnerModal && !partnerDone && (() => {
+        const [pForm, setPForm] = React.useState({ name:'', city:'', email:'', phone:'', website:'', type: t.partnerTypes?.[0]||'', desc:'' })
+        const pf = (k,v) => setPForm(p=>({...p,[k]:v}))
+        return (
+          <div className="modal-bg fi" onClick={e => e.target === e.currentTarget && setPartnerModal(false)}>
+            <div className="modal su">
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
+                <div>
+                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.partnerRegTitle}</div>
+                  <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>{t.partnerRegSub}</div>
+                </div>
+                <ModalClose onClose={() => setPartnerModal(false)} />
               </div>
-              <ModalClose onClose={() => setPartnerModal(false)} />
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
+                <div><label className="flabel">{t.partnerOrg}</label><input className="inp" value={pForm.name} onChange={e=>pf('name',e.target.value)} /></div>
+                <div><label className="flabel">{lang==='sq'?'Qyteti':'City'}</label><input className="inp" value={pForm.city} onChange={e=>pf('city',e.target.value)} placeholder="Pristina, Berlin…" /></div>
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
+                <div><label className="flabel">{t.partnerEmail}</label><input className="inp" type="email" value={pForm.email} onChange={e=>pf('email',e.target.value)} /></div>
+                <div><label className="flabel">{lang==='sq'?'Website':'Website'}</label><input className="inp" value={pForm.website} onChange={e=>pf('website',e.target.value)} placeholder="yourorg.com" /></div>
+              </div>
+              <div style={{ marginBottom:11 }}>
+                <label className="flabel">{t.partnerType}</label>
+                <select className="inp" value={pForm.type} onChange={e=>pf('type',e.target.value)}>
+                  {t.partnerTypes.map(pt => <option key={pt}>{pt}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom:18 }}><label className="flabel">{t.partnerDesc}</label><textarea className="inp" rows={3} style={{ resize: 'vertical' }} value={pForm.desc} onChange={e=>pf('desc',e.target.value)} placeholder={t.partnerDescPH} /></div>
+              <div style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.muted }}>
+                {lang==='sq'?'💬 Aplikimi juaj do të shqyrtohet. Do të njoftoheni brenda 48 orësh.':'💬 Your application will be reviewed. We\'ll contact you within 48 hours.'}
+              </div>
+              <button className="btn gbtn" style={{ width:'100%' }} disabled={!pForm.name||!pForm.email} onClick={async () => {
+                await insertProfile({
+                  name: pForm.name, city: pForm.city||'', email: pForm.email.toLowerCase(),
+                  website: pForm.website||null,
+                  type: 'partner', cat: 'consulting', tier: 'free', verified: false,
+                  tags: [pForm.type].filter(Boolean),
+                  desc_en: pForm.desc||null, desc_sq: pForm.desc||null,
+                  submitted_by: pForm.email.toLowerCase(),
+                }).catch(console.error)
+                notifyAdminNewProfile({ name: pForm.name, email: pForm.email, cat: 'partner (concierge)', city: pForm.city }).catch(()=>{})
+                setPartnerDone(true)
+              }}>{t.partnerSend}</button>
             </div>
-            <div style={{ marginBottom: 12 }}><label className="flabel">{t.partnerOrg}</label><input className="inp" placeholder="" /></div>
-            <div style={{ marginBottom: 12 }}><label className="flabel">{t.partnerType}</label>
-              <select className="inp">{t.partnerTypes.map(pt => <option key={pt}>{pt}</option>)}</select>
-            </div>
-            <div style={{ marginBottom: 12 }}><label className="flabel">{t.partnerEmail}</label><input className="inp" /></div>
-            <div style={{ marginBottom: 18 }}><label className="flabel">{t.partnerDesc}</label><textarea className="inp" rows={3} style={{ resize: 'vertical' }} placeholder={t.partnerDescPH} /></div>
-            <button className="btn gbtn" style={{ width: '100%' }} onClick={() => setPartnerDone(true)}>{t.partnerSend}</button>
           </div>
-        </div>
-      )}
+        )
+      })()}
       {partnerDone && (
         <div className="modal-bg fi" onClick={() => { setPartnerDone(false); setPartnerModal(false) }}>
           <div className="modal su" style={{ textAlign: 'center' }}>
@@ -1772,6 +1802,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
   const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#58a6ff' })
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
+  const [partnerLogoFile, setPartnerLogoFile] = React.useState(null)
   const f = (k, v) => setForm(p => ({ ...p, [k]: v }))
 
   const toggleTag = tag => setSelectedTags(p => p.includes(tag) ? p.filter(x => x !== tag) : [...p, tag])
@@ -1828,27 +1859,56 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         <div style={{ marginBottom:11 }}><label className="flabel">{Lp.focusL}</label><input className="inp" value={form.focus} onChange={e=>setForm(f=>({...f,focus:e.target.value}))} placeholder={Lp.focusPH} /></div>
         <div style={{ marginBottom:11 }}><label className="flabel">{Lp.marketsL}</label><input className="inp" value={form.markets} onChange={e=>setForm(f=>({...f,markets:e.target.value}))} placeholder={Lp.marketsPH} /></div>
         <div style={{ marginBottom:16 }}><label className="flabel">{Lp.descL}</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={form.desc} onChange={e=>setForm(f=>({...f,desc:e.target.value}))} placeholder={Lp.descPH} /></div>
-        {/* Logo color */}
+
+        {/* Logo upload — same as company/freelancer form */}
         <div style={{ marginBottom:14 }}>
-          <label className="flabel">{lang==='sq'?'Ngjyra e profilit':'Profile color'}</label>
-          <div style={{ display:'flex', gap:7, flexWrap:'wrap', marginTop:6 }}>
-            {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>(
-              <button key={col} onClick={()=>setForm(f=>({...f,logoColor:col}))} style={{ width:28, height:28, borderRadius:'50%', background:col, border:'2px solid '+((form.logoColor||'#58a6ff')===col?'#fff':'transparent'), cursor:'pointer' }} />
-            ))}
+          <label className="flabel">{lang==='sq'?'Logo e organizatës (opsionale)':'Organisation logo (optional)'}</label>
+          <div style={{ display:'flex', gap:10, alignItems:'flex-start', marginTop:7 }}>
+            <div style={{ width:46, height:46, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${form.logoColor||'#2dd4bf'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${form.logoColor||'#2dd4bf'}20,${form.logoColor||'#2dd4bf'}46)` }}>
+              {partnerLogoFile
+                ? <img src={partnerLogoFile} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:15, color:form.logoColor||'#2dd4bf' }}>{form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}</span>
+              }
+            </div>
+            <div style={{ flex:1 }}>
+              <label style={{ display:'flex', alignItems:'center', gap:7, padding:'7px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:7, width:'fit-content' }}>
+                📷 {lang==='sq'?'Ngarko logo':'Upload logo'}
+                <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => {
+                  const file = e.target.files?.[0]; if (!file) return
+                  const img = new Image(); const url = URL.createObjectURL(file)
+                  img.onload = () => { const S=88; const c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setPartnerLogoFile(c.toDataURL('image/webp',0.82)) }
+                  img.src = url
+                }} />
+              </label>
+              {partnerLogoFile && <button onClick={() => setPartnerLogoFile(null)} className="btn ghost" style={{ fontSize:11, padding:'3px 9px', marginBottom:7 }}>✕ {lang==='sq'?'Hiq':'Remove'}</button>}
+              <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                {['#2dd4bf','#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#d4a843'].map(col => (
+                  <button key={col} onClick={() => { setForm(f=>({...f,logoColor:col})); setPartnerLogoFile(null) }}
+                    style={{ width:24, height:24, borderRadius:'50%', background:col, border:(form.logoColor||'#2dd4bf')===col?'3px solid #fff':'2px solid transparent', cursor:'pointer', boxShadow:(form.logoColor||'#2dd4bf')===col?`0 0 0 2px ${col}`:'none' }} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
+
         <div style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.muted }}>{Lp.note}</div>
         <button className="btn gbtn" style={{width:'100%'}} disabled={!form.name||!form.email} onClick={async () => {
-          await insertProfile({
+          const fields = {
             name: form.name, city: form.city, email: form.email.toLowerCase(),
             phone: form.phone||null, website: form.website||null,
             languages: form.eu_langs||null,
             type: 'partner', cat: 'consulting', tier: 'free', verified: false,
+            logo_color: form.logoColor || '#2dd4bf',
             tags: form.focus ? form.focus.split(',').map(s=>s.trim()).filter(Boolean) : [],
-            desc_de: form.desc||null, desc_en: form.desc||null, desc_sq: form.desc||null, desc_sv: form.desc||null,
+            desc_en: form.desc||null, desc_sq: form.desc||null,
             employees: form.markets||null,
             submitted_by: form.email.toLowerCase(),
-          }).catch(console.error)
+          }
+          if (partnerLogoFile) fields.logo_data = partnerLogoFile
+          const err = await insertProfile(fields).catch(e => e)
+          if (!err) {
+            notifyAdminNewProfile({ name: form.name, email: form.email, cat: 'partner', city: form.city }).catch(()=>{})
+          }
           onDone()
         }}>{Lp.send}</button>
       </div>
