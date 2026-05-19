@@ -378,6 +378,7 @@ body{background:#080c14;margin:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes glow{0%,100%{box-shadow:0 0 0 rgba(212,168,67,0);}50%{box-shadow:0 0 20px rgba(212,168,67,0.22);}}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .fu{animation:fadeUp 0.4s ease both;}
 .fi{animation:fadeIn 0.28s ease both;}
 .su{animation:slideUp 0.32s ease both;}
@@ -458,6 +459,10 @@ body{background:#080c14;margin:0;}
   .home-features{grid-template-columns:1fr 1fr !important;}
   .admin-stats{grid-template-columns:repeat(2,1fr) !important;}
 }
+.page-with-sidebars{display:grid;grid-template-columns:160px 1fr 160px;align-items:start;}
+.sidebar-ad{padding:14px 10px;display:flex;flex-direction:column;gap:12px;position:sticky;top:72px;}
+@media(max-width:1200px){.page-with-sidebars{grid-template-columns:120px 1fr 120px;}}
+@media(max-width:900px){.page-with-sidebars{grid-template-columns:1fr;}.sidebar-ad{display:none !important;}}
 `
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 const catLabel = (id, lang) => CATS.find(c => c.id === id)?.labels[lang] || id
@@ -1329,46 +1334,98 @@ function MatchPage({ lang, t }) {
 }
 
 function PartnerCards({ lang, profiles, G, t, onBook }) {
+  const [enquiryPartner, setEnquiryPartner] = React.useState(null)
+  const [enquirySent, setEnquirySent] = React.useState(false)
+  const [eForm, setEForm] = React.useState({ name:'', email:'', msg:'' })
   if (!profiles || profiles.length === 0) return null
   const dividerLabel = lang === 'sq' ? 'Partnerë' : 'Partners'
   return (
     <div style={{ marginBottom: 48 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(212,168,67,0.22))' }} />
-        <span style={{ fontSize: 11, color: '#d4a843', fontFamily: "'Syne',sans-serif", fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(212,168,67,0.10)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: 20, padding: '4px 16px' }}>
-          {dividerLabel}
-        </span>
+        <span style={{ fontSize: 11, color: '#d4a843', fontFamily: "'Syne',sans-serif", fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(212,168,67,0.10)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: 20, padding: '4px 16px' }}>{dividerLabel}</span>
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,168,67,0.22),transparent)' }} />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 13 }}>
-        {profiles.map(function(sp, i) {
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 16 }}>
+        {profiles.map((sp, i) => {
+          const desc = (sp.desc && (sp.desc[lang] || sp.desc.en)) || ''
+          const website = sp.website ? sp.website.replace(/^https?:\/\//, '') : null
           return (
-            <div key={sp.id} className="card fu" style={{ padding: 20, animationDelay: (i * 0.05) + 's' }}>
-              <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
-                <Logo text={sp.logo} color={sp.logoColor} url={sp.logoUrl} />
-                <div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{sp.name}</div>
-                  <div style={{ fontSize: 11, color: '#2dd4bf' }}>Partner</div>
-                  <div style={{ fontSize: 11, color: 'rgba(232,228,217,0.45)', marginTop: 1 }}>
-                    {sp.city}{sp.languages ? (' · ' + sp.languages) : ''}
+            <div key={sp.id} style={{ background: 'linear-gradient(145deg,rgba(45,212,191,0.06),rgba(45,212,191,0.02))', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', transition: 'transform 0.2s,box-shadow 0.2s' }}
+              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='0 8px 32px rgba(45,212,191,0.15)'}}
+              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 24px rgba(0,0,0,0.25)'}}>
+              <div style={{ height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,transparent)' }} />
+              <div style={{ padding:'22px 22px 18px' }}>
+                <div style={{ display:'flex', gap:14, alignItems:'flex-start', marginBottom:14 }}>
+                  <Logo text={sp.logo} color={sp.logoColor||'#2dd4bf'} url={sp.logoUrl} size={52} />
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, marginBottom:3 }}>{sp.name}</div>
+                    <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
+                      <span style={{ fontSize:10, background:'rgba(45,212,191,0.12)', color:G.teal, border:'1px solid rgba(45,212,191,0.3)', borderRadius:5, padding:'2px 8px', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.5px' }}>✓ Partner</span>
+                      {sp.city && <span style={{ fontSize:11, color:G.muted }}>📍 {sp.city}</span>}
+                    </div>
                   </div>
                 </div>
+                {desc && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.7)', lineHeight:1.7, marginBottom:14 }}>{desc}</p>}
+                {(sp.tags||[]).length > 0 && (
+                  <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:14 }}>
+                    {sp.tags.map(s=><span key={s} style={{ background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.18)', borderRadius:5, padding:'2px 8px', fontSize:11 }}>{s}</span>)}
+                  </div>
+                )}
+                <div style={{ background:'rgba(0,0,0,0.2)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:10, padding:'11px 14px', marginBottom:14, display:'flex', flexDirection:'column', gap:6 }}>
+                  {sp.contact && <div style={{ fontSize:12, color:G.muted, display:'flex', gap:8, alignItems:'center' }}><span style={{ color:G.teal, flexShrink:0 }}>📧</span><a href={`mailto:${sp.contact}`} style={{ color:G.blue, textDecoration:'none', wordBreak:'break-all' }}>{sp.contact}</a></div>}
+                  {sp.phone && <div style={{ fontSize:12, color:G.muted, display:'flex', gap:8, alignItems:'center' }}><span style={{ color:G.teal, flexShrink:0 }}>📞</span><a href={`tel:${sp.phone}`} style={{ color:G.blue, textDecoration:'none' }}>{sp.phone}</a></div>}
+                  {website && <div style={{ fontSize:12, color:G.muted, display:'flex', gap:8, alignItems:'center' }}><span style={{ color:G.teal, flexShrink:0 }}>🌐</span><a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ color:G.teal, textDecoration:'none', fontWeight:600 }}>{website} ↗</a></div>}
+                  {sp.languages && <div style={{ fontSize:12, color:G.muted, display:'flex', gap:8, alignItems:'center' }}><span style={{ flexShrink:0 }}>🗣️</span>{sp.languages}</div>}
+                </div>
+                <div style={{ display:'flex', gap:8 }}>
+                  <button className="btn teal-btn" style={{ flex:1, padding:'9px', fontSize:12, fontWeight:700 }}
+                    onClick={()=>{ setEnquiryPartner(sp); setEnquirySent(false); setEForm({name:'',email:'',msg:''}) }}>
+                    ✉️ {lang==='sq'?'Dërgoni kërkesë':'Send enquiry'}
+                  </button>
+                  {website && <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'9px 13px', background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.25)', borderRadius:8, color:G.teal, textDecoration:'none', fontSize:12, fontWeight:600, whiteSpace:'nowrap' }}>🌐 {lang==='sq'?'Faqja':'Website'}</a>}
+                </div>
               </div>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.45)', lineHeight: 1.62, marginBottom: 10 }}>
-                {(sp.desc && (sp.desc[lang] || sp.desc.en)) || ''}
-              </p>
-              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
-                {(sp.tags || []).map(function(s) {
-                  return (
-                    <span key={s} style={{ background: 'rgba(45,212,191,0.08)', color: '#2dd4bf', border: '1px solid rgba(45,212,191,0.2)', borderRadius: 5, padding: '2px 7px', fontSize: 11 }}>{s}</span>
-                  )
-                })}
-              </div>
-              <button className="btn teal-btn" style={{ width: '100%', padding: '8px', fontSize: 12 }} onClick={onBook}>{t.concReq}</button>
             </div>
           )
         })}
       </div>
+      {enquiryPartner && (
+        <div className="modal-bg fi" onClick={e=>e.target===e.currentTarget&&setEnquiryPartner(null)}>
+          <div className="modal su">
+            {!enquirySent ? (<>
+              <div style={{ display:'flex', justifyContent:'space-between', marginBottom:18 }}>
+                <div>
+                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:19 }}>{lang==='sq'?'Kërkesë për':'Enquiry to'}: {enquiryPartner.name}</div>
+                  {enquiryPartner.website && <a href={`https://${enquiryPartner.website.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ fontSize:12, color:G.teal, textDecoration:'none' }}>{enquiryPartner.website.replace(/^https?:\/\//,'')} ↗</a>}
+                </div>
+                <ModalClose onClose={()=>setEnquiryPartner(null)} />
+              </div>
+              <div style={{ background:'rgba(45,212,191,0.05)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.teal }}>
+                📧 {lang==='sq'?'Mesazhi dërgohet direkt te':'Message sent directly to'}: <strong>{enquiryPartner.contact}</strong>
+              </div>
+              <div style={{ marginBottom:11 }}><label className="flabel">{t.reqName}</label><input className="inp" value={eForm.name} onChange={e=>setEForm(f=>({...f,name:e.target.value}))} /></div>
+              <div style={{ marginBottom:11 }}><label className="flabel">{t.reqEmail}</label><input className="inp" type="email" value={eForm.email} onChange={e=>setEForm(f=>({...f,email:e.target.value}))} /></div>
+              <div style={{ marginBottom:18 }}><label className="flabel">{t.reqMsg}</label><textarea className="inp" rows={4} style={{resize:'vertical'}} value={eForm.msg} onChange={e=>setEForm(f=>({...f,msg:e.target.value}))} placeholder={lang==='sq'?'Përshkruani çfarë po kërkoni…':'Describe what you are looking for…'} /></div>
+              <div style={{ display:'flex', gap:9 }}>
+                <button className="btn teal-btn" style={{ flex:1 }} disabled={!eForm.name||!eForm.email} onClick={async()=>{
+                  if(enquiryPartner.contact) sendEnquiry({toEmail:enquiryPartner.contact,companyName:enquiryPartner.name,fromName:eForm.name,fromEmail:eForm.email,message:eForm.msg}).catch(()=>{})
+                  insertContactLead({profile_id:enquiryPartner.id||null,profile_name:enquiryPartner.name,sender_name:eForm.name,sender_email:eForm.email,message:eForm.msg}).catch(()=>{})
+                  setEnquirySent(true)
+                }}>{t.reqSend}</button>
+                <button className="btn ghost" onClick={()=>setEnquiryPartner(null)}>{t.reqCancel}</button>
+              </div>
+            </>) : (
+              <div style={{ textAlign:'center', padding:'18px 0' }}>
+                <div style={{ fontSize:48, marginBottom:12 }}>✅</div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:21, marginBottom:9 }}>{t.reqDoneTitle}</div>
+                <p style={{ fontFamily:"'DM Sans',sans-serif", color:G.muted, fontSize:14, lineHeight:1.75, marginBottom:18 }}><strong>{enquiryPartner.name}</strong> {t.reqDoneSub}</p>
+                <button className="btn teal-btn" style={{ width:'100%' }} onClick={()=>setEnquiryPartner(null)}>{t.close}</button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -1430,7 +1487,7 @@ function ConciergePage({ lang, t, content = {} }) {
       <div className="conc-content" style={{ padding: '44px 48px 56px', maxWidth: 1200, margin: '0 auto', overflowX: 'hidden' }}>
 
         {/* ── OFFICIAL PARTNERS ── */}
-        <div style={{ marginBottom: 52 }}>
+        <div id="concierge-partners" style={{ marginBottom: 52 }}>
           <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concPartnersTitle}</h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22, lineHeight: 1.7 }}>{t.concPartnersSub}</p>
           <div className="conc-partners-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -1871,7 +1928,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             name: form.name, city: form.city, email: form.email.toLowerCase(),
             phone: form.phone||null, website: form.website||null,
             languages: form.eu_langs||null,
-            type: 'partner', cat: 'consulting', tier: 'free', verified: false,
+            type: 'partner', cat: 'partner', tier: 'free', verified: false,
             logo_color: form.logoColor || '#2dd4bf',
             tags: form.focus ? form.focus.split(',').map(s=>s.trim()).filter(Boolean) : [],
             desc_en: form.desc||null, desc_sq: form.desc||null,
@@ -2447,10 +2504,9 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       cat:       p.cat || 'software',
       tags:      Array.isArray(p.tags) ? p.tags.join(', ') : '',
       logoColor: p.logoColor || '#58a6ff',
-      desc_de:   p.desc?.de || p.desc?.en || '',
-      desc_en:   p.desc?.en || p.desc?.de || '',
+      logoDataPreview: p.logoUrl || null,
+      desc_en:   p.desc?.en || '',
       desc_sq:   p.desc?.sq || p.desc?.en || '',
-      desc_sv:   p.desc?.sv || p.desc?.en || '',
     })
   }
 
@@ -2470,16 +2526,16 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       cat:        editForm.cat,
       tags:       typeof editForm.tags === 'string' ? editForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : (editForm.tags||[]),
       logo_color: editForm.logoColor || '#58a6ff',
-      desc_de:    editForm.desc_de || editForm.desc_en || null,
-      desc_en:    editForm.desc_en || editForm.desc_de || null,
+      ...(editForm.logoDataPreview ? { logo_data: editForm.logoDataPreview } : {}),
+      desc_en:    editForm.desc_en || null,
       desc_sq:    editForm.desc_sq || editForm.desc_en || null,
-      desc_sv:    editForm.desc_sv || editForm.desc_en || null,
     }
     const err = await updateProfile(editProfile.id, updates)
     if (!err) {
       setProfiles(ps => ps.map(x => x.id === editProfile.id ? {
         ...x, ...updates, contact: updates.email,
-        desc: { de: updates.desc_de, en: updates.desc_en, sq: updates.desc_sq, sv: updates.desc_sv }
+        logoUrl: updates.logo_data || x.logoUrl,
+        desc: { en: updates.desc_en, sq: updates.desc_sq }
       } : x))
       setEditProfile(null)
     }
@@ -2923,18 +2979,33 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 <div><label className="flabel">Experience (Freelancer)</label><input className="inp" value={editForm.experience||''} onChange={e=>setEditForm(f=>({...f,experience:e.target.value}))} placeholder="7 Jahre" /></div>
               </div>
 
-              {/* ── Logo color ── */}
+              {/* ── Logo upload + color ── */}
               <div style={{ marginBottom:12 }}>
-                <label className="flabel">Profil-Farbe (Logo-Hintergrund)</label>
-                <div style={{ display:'flex', gap:8, alignItems:'center', marginTop:6 }}>
-                  <div style={{ width:40, height:40, borderRadius:9, background:editForm.logoColor||'#58a6ff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:'#fff', flexShrink:0 }}>
-                    {(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+                <label className="flabel">Logo</label>
+                <div style={{ display:'flex', gap:10, alignItems:'flex-start', marginTop:6 }}>
+                  <div style={{ width:48, height:48, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${editForm.logoColor||'#58a6ff'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${editForm.logoColor||'#58a6ff'}20,${editForm.logoColor||'#58a6ff'}46)` }}>
+                    {editForm.logoDataPreview
+                      ? <img src={editForm.logoDataPreview} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                      : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:14, color:editForm.logoColor||'#58a6ff' }}>{(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
+                    }
                   </div>
-                  <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                    {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col=>{
-                      const isSelected = (editForm.logoColor||'#58a6ff') === col
-                      return <button key={col} onClick={()=>setEditForm(f=>({...f,logoColor:col}))} style={{ width:26, height:26, borderRadius:'50%', background:col, border:'2px solid '+(isSelected?'#fff':'transparent'), cursor:'pointer' }} />
-                    })}
+                  <div style={{ flex:1 }}>
+                    <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:'rgba(232,228,217,0.8)', marginBottom:7 }}>
+                      📷 Upload new logo
+                      <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => {
+                        const file = e.target.files?.[0]; if(!file) return
+                        const img = new Image(); const url = URL.createObjectURL(file)
+                        img.onload = () => { const S=88; const c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setEditForm(f=>({...f,logoDataPreview:c.toDataURL('image/webp',0.82)})) }
+                        img.src = url
+                      }} />
+                    </label>
+                    {editForm.logoDataPreview && <button onClick={()=>setEditForm(f=>({...f,logoDataPreview:null}))} className="btn ghost" style={{ fontSize:10, padding:'3px 8px', marginBottom:7, display:'block' }}>✕ Remove photo</button>}
+                    <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                      {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col => {
+                        const isSel = (editForm.logoColor||'#58a6ff') === col
+                        return <button key={col} onClick={()=>setEditForm(f=>({...f,logoColor:col,logoDataPreview:null}))} style={{ width:22, height:22, borderRadius:'50%', background:col, border:`2px solid ${isSel?'#fff':'transparent'}`, cursor:'pointer', boxShadow: isSel?`0 0 0 2px ${col}`:'none' }} />
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2967,8 +3038,8 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
               {/* ── Description (shared for all languages) ── */}
               <div style={{ marginBottom:12 }}>
-                <label className="flabel">Beschreibung <span style={{fontWeight:400,textTransform:'none',fontSize:10,color:G.muted}}>(gilt für alle Sprachen)</span></label>
-                <textarea className="inp" rows={3} style={{resize:'vertical'}} value={editForm.desc_en||editForm.desc_de||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value,desc_de:e.target.value,desc_sq:e.target.value,desc_sv:e.target.value}))} placeholder="Kurzbeschreibung des Angebots…" />
+                <label className="flabel">Description <span style={{fontWeight:400,textTransform:'none',fontSize:10,color:G.muted}}>(used for all languages)</span></label>
+                <textarea className="inp" rows={3} style={{resize:'vertical'}} value={editForm.desc_en||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value,desc_sq:e.target.value}))} placeholder="Short description of the offer…" />
               </div>
               </div>
 
@@ -3105,7 +3176,14 @@ export default function App() {
 
             {/* ── PAGES ── */}
       {page === 'home' && (
-        <>
+        <div className="page-with-sidebars">
+          {/* Left sidebar ads */}
+          <div className="sidebar-ad">
+            <AdBanner slot="sidebar" lang={lang} />
+            <AdBanner slot="sidebar" lang={lang} />
+            <AdBanner slot="sidebar" lang={lang} />
+          </div>
+          <div> {/* main content column */}
           <section style={{ padding: '80px 48px 56px', textAlign: 'center', position: 'relative', overflow: 'hidden', background: `radial-gradient(ellipse 70% 50% at 50% -5%,rgba(212,168,67,0.12) 0%,transparent 65%),${G.bg}` }}>
             <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle,rgba(255,255,255,0.016) 1px,transparent 1px)', backgroundSize: '44px 44px', pointerEvents: 'none' }} />
             <div className="fu" style={{ maxWidth: 680, margin: '0 auto', position: 'relative' }}>
@@ -3141,8 +3219,18 @@ export default function App() {
           <section style={{ padding: '44px 48px 0', maxWidth: 1200, margin: '0 auto' }}>
             <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 18 }}>{t.howTitle}</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 44 }}>
-              {[[G.blue, '🔍', t.f1t, t.f1d, 'directory'], [G.teal, '🤝', t.f3t, t.f3d, 'concierge']].map(([col, ic, title, desc, pg]) => (
-                <div key={pg} className="card fu" style={{ padding: 24, cursor: 'pointer', background: col === G.teal ? 'rgba(45,212,191,0.04)' : G.card, border: `1px solid ${col === G.teal ? 'rgba(45,212,191,0.2)' : G.border}` }} onClick={() => setPage(pg)}>
+              {[
+                [G.blue,  '🔍', t.f1t, t.f1d, 'directory'],
+                [G.gold,  '🤝', t.f2t, t.f2d, 'concierge#partners'],
+                [G.teal,  '✈️', t.f3t, t.f3d, 'concierge'],
+              ].map(([col, ic, title, desc, pg]) => (
+                <div key={pg} className="card fu" style={{ padding: 24, cursor: 'pointer',
+                  background: col === G.teal ? 'rgba(45,212,191,0.04)' : col === G.gold ? 'rgba(212,168,67,0.04)' : G.card,
+                  border: `1px solid ${col === G.teal ? 'rgba(45,212,191,0.2)' : col === G.gold ? 'rgba(212,168,67,0.2)' : G.border}` }}
+                  onClick={() => {
+                    if (pg === 'concierge#partners') { setPage('concierge'); setTimeout(() => { const el = document.getElementById('concierge-partners'); if(el) el.scrollIntoView({behavior:'smooth'}) }, 120) }
+                    else setPage(pg)
+                  }}>
                   <div style={{ fontSize: 26, marginBottom: 11 }}>{ic}</div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, color: col, marginBottom: 7 }}>{title}</div>
                   <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.7 }}>{desc}</p>
@@ -3166,52 +3254,51 @@ export default function App() {
             </div>
           </section>
 
-          {/* ── TOP VERIFIED LISTINGS ── */}
-          {(window.__techgateProfiles||[]).filter(p => p.verified !== false).length > 0 && (
-            <section style={{ padding: '0 48px 44px', maxWidth: 1200, margin: '0 auto' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                <div>
-                  <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 3 }}>{t.topTitle}</h2>
-                  <div style={{ fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>{t.rankSub}</div>
+          {/* ── PARTNER LOGO TICKER ── */}
+          {(() => {
+            const partners = (window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type === 'partner')
+            if (partners.length === 0) return null
+            // Duplicate for seamless loop
+            const items = [...partners, ...partners]
+            return (
+              <section style={{ padding: '0 0 44px', overflow: 'hidden' }}>
+                <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 48px', marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 3 }}>
+                      {lang==='sq' ? '🤝 Partnerët Tanë' : '🤝 Our Partners'}
+                    </h2>
+                    <div style={{ fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
+                      {lang==='sq' ? 'Organizata të verifikuara — klikoni për të kontaktuar' : 'Verified organisations — click to connect on Concierge'}
+                    </div>
+                  </div>
+                  <button className="btn ghost" style={{ fontSize: 12, flexShrink: 0 }} onClick={() => setPage('concierge')}>{lang==='sq'?'Shiko →':'View all →'}</button>
                 </div>
-                <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 12 }}>
-                {(window.__techgateProfiles||[])
-                  .filter(p => p.verified !== false && p.type !== 'partner')
-                  .sort((a,b) => (b.tier==='sponsored'?2:b.tier==='premium'?1:0)-(a.tier==='sponsored'?2:a.tier==='premium'?1:0))
-                  .slice(0, 6)
-                  .map(p => {
-                    const isSp = p.tier === 'sponsored'
-                    const isPr = p.tier === 'premium'
-                    const desc = p.desc?.[lang] || p.desc?.en || ''
-                    return (
-                      <div key={p.id} className="card fu" style={{ padding: 0, overflow: 'hidden',
-                        borderColor: isSp ? 'rgba(251,146,60,0.4)' : isPr ? 'rgba(212,168,67,0.3)' : G.border,
-                        background: isSp ? 'rgba(251,146,60,0.03)' : isPr ? 'rgba(212,168,67,0.025)' : G.card }}>
-                        {isSp && <div className="sp-bar" />}
-                        {isPr && <div className="pr-bar" />}
-                        <div style={{ padding: 16 }}>
-                          <div style={{ display: 'flex', gap: 10, marginBottom: 9 }}>
-                            <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} size={40} />
-                            <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 13 }}>{p.name}</div>
-                              <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
-                            </div>
-                            {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px', alignSelf: 'flex-start', flexShrink: 0 }}>{t.verified}</span>}
-                          </div>
-                          {desc && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.65)', lineHeight: 1.6, marginBottom: 9 }}>{desc.slice(0, 90)}{desc.length > 90 ? '…' : ''}</p>}
-                          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 11 }}>
-                            {(p.tags||[]).slice(0,4).map(tag => <span key={tag} className="tag">{tag}</span>)}
-                          </div>
-                          <button className="btn gbtn" style={{ width:'100%', padding:'8px', fontSize:12 }} onClick={() => setPage('directory')}>{t.sendReq}</button>
+                <div style={{ position: 'relative' }}>
+                  {/* Fade edges */}
+                  <div style={{ position:'absolute', left:0, top:0, bottom:0, width:80, background:'linear-gradient(90deg,#080c14,transparent)', zIndex:2, pointerEvents:'none' }} />
+                  <div style={{ position:'absolute', right:0, top:0, bottom:0, width:80, background:'linear-gradient(270deg,#080c14,transparent)', zIndex:2, pointerEvents:'none' }} />
+                  <div style={{ display:'flex', gap:14, animation:'ticker-scroll 28s linear infinite', width:'max-content', padding:'6px 0' }}
+                    onMouseEnter={e=>e.currentTarget.style.animationPlayState='paused'}
+                    onMouseLeave={e=>e.currentTarget.style.animationPlayState='running'}>
+                    {items.map((p, idx) => (
+                      <div key={idx} onClick={() => setPage('concierge')}
+                        style={{ display:'flex', alignItems:'center', gap:11, padding:'12px 20px', background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, cursor:'pointer', flexShrink:0, transition:'all 0.2s',
+                          minWidth: 200 }}
+                        onMouseEnter={e=>{e.currentTarget.style.background='rgba(45,212,191,0.06)';e.currentTarget.style.borderColor='rgba(45,212,191,0.25)'}}
+                        onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.03)';e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}}>
+                        <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={40} />
+                        <div>
+                          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13 }}>{p.name}</div>
+                          <div style={{ fontSize:11, color:G.teal }}>✓ Partner · {p.city||''}</div>
                         </div>
                       </div>
-                    )
-                  })}
-              </div>
-            </section>
-          )}
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )
+          })()}
+
           {/* ── AD BANNER STRIP ── */}
           <section style={{ padding: '0 48px 16px', maxWidth: 1200, margin: '0 auto' }}>
             <AdBanner slot="banner" lang={lang} />
@@ -3229,10 +3316,31 @@ export default function App() {
               </div>
             </div>
           </section>
-        </>
+          </div> {/* end main content column */}
+          {/* Right sidebar ads */}
+          <div className="sidebar-ad">
+            <AdBanner slot="sidebar" lang={lang} />
+            <AdBanner slot="sidebar" lang={lang} />
+            <AdBanner slot="sidebar" lang={lang} />
+          </div>
+        </div>
       )}
       {page === 'directory'  && <DirectoryPage lang={lang} t={t} initialQ={searchQ} onQClear={() => setSearchQ('')} />}
-      {page === 'concierge'  && <ConciergePage lang={lang} t={t} content={siteContent} />}
+      {page === 'concierge'  && (
+        <div className="page-with-sidebars">
+          <div className="sidebar-ad">
+            <AdBanner slot="sidebar" lang={lang} />
+            <AdBanner slot="sidebar" lang={lang} />
+            <AdBanner slot="sidebar" lang={lang} />
+          </div>
+          <ConciergePage lang={lang} t={t} content={siteContent} />
+          <div className="sidebar-ad">
+            <AdBanner slot="sidebar" lang={lang} />
+            <AdBanner slot="sidebar" lang={lang} />
+            <AdBanner slot="sidebar" lang={lang} />
+          </div>
+        </div>
+      )}
       {page === 'gov'        && <GovPage lang={lang} t={t} content={siteContent} />}
 
       {/* ── REGISTER ── */}
