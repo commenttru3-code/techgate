@@ -459,10 +459,7 @@ body{background:#080c14;margin:0;}
   .home-features{grid-template-columns:1fr 1fr !important;}
   .admin-stats{grid-template-columns:repeat(2,1fr) !important;}
 }
-.page-with-sidebars{display:grid;grid-template-columns:160px 1fr 160px;align-items:start;}
-.sidebar-ad{padding:14px 10px;display:flex;flex-direction:column;gap:12px;position:sticky;top:72px;}
-@media(max-width:1200px){.page-with-sidebars{grid-template-columns:120px 1fr 120px;}}
-@media(max-width:900px){.page-with-sidebars{grid-template-columns:1fr;}.sidebar-ad{display:none !important;}}
+@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 `
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 const catLabel = (id, lang) => CATS.find(c => c.id === id)?.labels[lang] || id
@@ -633,15 +630,15 @@ function ContactModal({ profile, t, onClose }) {
                   sender_email: form.email,
                   message:      form.msg,
                 }).catch(console.error)
-                // Forward enquiry to the company/freelancer
+                // Forward enquiry — try EmailJS first, fall back to mailto: (always works, no template needed)
                 if (profile.contact) {
-                  sendEnquiry({
-                    toEmail:     profile.contact,
-                    companyName: profile.name,
-                    fromName:    form.name,
-                    fromEmail:   form.email,
-                    message:     form.msg,
-                  }).catch(() => {})
+                  const mailtoFallback = () => {
+                    const subject = encodeURIComponent(`Enquiry via Business Bridge Platform`)
+                    const body = encodeURIComponent(`Hello ${profile.name},\n\nFrom: ${form.name} (${form.email})\n\n${form.msg}\n\n---\nSent via Business Bridge Platform`)
+                    window.open(`mailto:${profile.contact}?subject=${subject}&body=${body}`, '_blank')
+                  }
+                  sendEnquiry({ toEmail: profile.contact, companyName: profile.name, fromName: form.name, fromEmail: form.email, message: form.msg })
+                    .catch(() => mailtoFallback())
                 }
                 setSent(true)
               }}>{t.reqSend}</button>
@@ -884,10 +881,10 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
         <div style={{ fontSize: 10, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
           {lang==='sq' ? '🏭 Sektori' : '🏭 Sector'}
         </div>
-        <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 4, scrollbarWidth: 'none' }}>
-          <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
           {CATS.map(c => (
-            <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', background: cat === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)', color: cat === c.id ? c.color : G.muted, border: `1px solid ${cat === c.id ? `${c.color}40` : 'rgba(255,255,255,0.07)'}` }}>
+            <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, background: cat === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)', color: cat === c.id ? c.color : G.muted, border: `1px solid ${cat === c.id ? `${c.color}40` : 'rgba(255,255,255,0.07)'}` }}>
               {c.icon} {c.labels[lang]}
             </button>
           ))}
@@ -1409,7 +1406,14 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
               <div style={{ marginBottom:18 }}><label className="flabel">{t.reqMsg}</label><textarea className="inp" rows={4} style={{resize:'vertical'}} value={eForm.msg} onChange={e=>setEForm(f=>({...f,msg:e.target.value}))} placeholder={lang==='sq'?'Përshkruani çfarë po kërkoni…':'Describe what you are looking for…'} /></div>
               <div style={{ display:'flex', gap:9 }}>
                 <button className="btn teal-btn" style={{ flex:1 }} disabled={!eForm.name||!eForm.email} onClick={async()=>{
-                  if(enquiryPartner.contact) sendEnquiry({toEmail:enquiryPartner.contact,companyName:enquiryPartner.name,fromName:eForm.name,fromEmail:eForm.email,message:eForm.msg}).catch(()=>{})
+                  if(enquiryPartner.contact) {
+                    const mailtoFallback = () => {
+                      const subj = encodeURIComponent(`Enquiry via Business Bridge Platform`)
+                      const body = encodeURIComponent(`Hello ${enquiryPartner.name},\n\nFrom: ${eForm.name} (${eForm.email})\n\n${eForm.msg}\n\n---\nSent via Business Bridge Platform`)
+                      window.open(`mailto:${enquiryPartner.contact}?subject=${subj}&body=${body}`, '_blank')
+                    }
+                    sendEnquiry({toEmail:enquiryPartner.contact,companyName:enquiryPartner.name,fromName:eForm.name,fromEmail:eForm.email,message:eForm.msg}).catch(()=>mailtoFallback())
+                  }
                   insertContactLead({profile_id:enquiryPartner.id||null,profile_name:enquiryPartner.name,sender_name:eForm.name,sender_email:eForm.email,message:eForm.msg}).catch(()=>{})
                   setEnquirySent(true)
                 }}>{t.reqSend}</button>
@@ -1759,6 +1763,38 @@ function GovPage({ lang, t, content = {} }) {
   )
 }
 
+
+// ─── FLOATING SIDEBAR ADS — fixed position, never affect page layout ─────────
+function FloatingSidebars({ lang }) {
+  const [visible, setVisible] = React.useState(false)
+  React.useEffect(() => {
+    const check = () => setVisible(window.innerWidth >= 1480)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  if (!visible) return null
+  return (
+    <>
+      {/* Left */}
+      <div style={{ position: 'fixed', left: 12, top: 120, width: 148, zIndex: 10, display: 'flex', flexDirection: 'column', gap: 10, pointerEvents: 'none' }}>
+        {[0,1,2].map(i => (
+          <div key={i} style={{ pointerEvents: 'auto', opacity: 0.92 }}>
+            <AdBanner slot="sidebar" lang={lang} index={i} />
+          </div>
+        ))}
+      </div>
+      {/* Right */}
+      <div style={{ position: 'fixed', right: 12, top: 120, width: 148, zIndex: 10, display: 'flex', flexDirection: 'column', gap: 10, pointerEvents: 'none' }}>
+        {[3,4,5].map(i => (
+          <div key={i} style={{ pointerEvents: 'auto', opacity: 0.92 }}>
+            <AdBanner slot="sidebar" lang={lang} index={i} />
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
 
 // ─── AD BANNER COMPONENT ─────────────────────────────────────────────────────
 // Usage: <AdBanner slot="sidebar" lang={lang} />  or  <AdBanner slot="banner" lang={lang} />
@@ -2271,13 +2307,17 @@ function SelfEditModal({ profile, lang, t, onClose }) {
                 onKeyDown={e => e.key==='Enter' && email && setStep('code')} />
             </div>
             <button className="btn gbtn" style={{ width:'100%' }} disabled={!email} onClick={async () => {
-              const demoCode = Math.floor(100000 + Math.random() * 900000).toString()
-              window.__selfEditCode = demoCode
-              // Send real email with code
-              const sent = await sendVerifyCode({ toEmail: email, code: demoCode, profileName: profile.name }).catch(() => null)
+              const code = Math.floor(100000 + Math.random() * 900000).toString()
+              // Store ONLY a hash — never the plain code — so it can't be read from window/DOM
+              const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(code))
+              const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('')
+              sessionStorage.setItem('__vc_hash', hash)
+              sessionStorage.setItem('__vc_exp', String(Date.now() + 15 * 60 * 1000))
+              // Try to send real email
+              const sent = await sendVerifyCode({ toEmail: email, code, profileName: profile.name }).catch(() => null)
               if (!sent) {
-                // Fallback: show code in UI if email fails
-                console.log('Verification code (email failed):', demoCode)
+                // Email service not configured yet — show setup hint in console only
+                console.info('[BBP] EmailJS not configured. Set EMAILJS_PUBLIC_KEY in emailService.js to enable real email codes.')
               }
               setStep('code')
             }}>
@@ -2290,10 +2330,8 @@ function SelfEditModal({ profile, lang, t, onClose }) {
         {step === 'code' && (
           <>
             <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step2h}</div>
-            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:6 }}>{Ls.step2sub}</p>
-            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:11, color:G.gold, marginBottom:18 }}>
-              {Ls.step2demo}
-              {window.__selfEditCode && <strong style={{ marginLeft:6 }}>→ {window.__selfEditCode}</strong>}
+            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:18 }}>
+              {lang==='sq' ? `Kodi u dërgua te ${email}. Kontrolloni emailin tuaj.` : `Code sent to ${email}. Check your inbox.`}
             </p>
             <div style={{ marginBottom:10 }}>
               <label className="flabel">{Ls.codeLabel}</label>
@@ -2303,10 +2341,17 @@ function SelfEditModal({ profile, lang, t, onClose }) {
             </div>
             {codeError && <div style={{ fontSize:12, color:G.red, marginBottom:10, fontFamily:"'DM Sans',sans-serif" }}>⚠️ {Ls.codeErr}</div>}
             <button className="btn gbtn" style={{ width:'100%' }} disabled={code.length < 6}
-              onClick={() => {
-                const expected = window.__selfEditCode || DEMO_CODE
-                if (code === expected) { window.__selfEditCode = null; setStep('form') }
-                else setCodeError(true)
+              onClick={async () => {
+                const storedHash = sessionStorage.getItem('__vc_hash')
+                const exp = parseInt(sessionStorage.getItem('__vc_exp') || '0')
+                if (Date.now() > exp) { setCodeError(true); return }
+                const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(code))
+                const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('')
+                if (hash === storedHash) {
+                  sessionStorage.removeItem('__vc_hash')
+                  sessionStorage.removeItem('__vc_exp')
+                  setStep('form')
+                } else setCodeError(true)
               }}>
               {Ls.verifyCode}
             </button>
@@ -3176,14 +3221,8 @@ export default function App() {
 
             {/* ── PAGES ── */}
       {page === 'home' && (
-        <div className="page-with-sidebars">
-          {/* Left sidebar ads */}
-          <div className="sidebar-ad">
-            <AdBanner slot="sidebar" lang={lang} />
-            <AdBanner slot="sidebar" lang={lang} />
-            <AdBanner slot="sidebar" lang={lang} />
-          </div>
-          <div> {/* main content column */}
+        <>
+          <FloatingSidebars lang={lang} />
           <section style={{ padding: '80px 48px 56px', textAlign: 'center', position: 'relative', overflow: 'hidden', background: `radial-gradient(ellipse 70% 50% at 50% -5%,rgba(212,168,67,0.12) 0%,transparent 65%),${G.bg}` }}>
             <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle,rgba(255,255,255,0.016) 1px,transparent 1px)', backgroundSize: '44px 44px', pointerEvents: 'none' }} />
             <div className="fu" style={{ maxWidth: 680, margin: '0 auto', position: 'relative' }}>
@@ -3316,30 +3355,14 @@ export default function App() {
               </div>
             </div>
           </section>
-          </div> {/* end main content column */}
-          {/* Right sidebar ads */}
-          <div className="sidebar-ad">
-            <AdBanner slot="sidebar" lang={lang} />
-            <AdBanner slot="sidebar" lang={lang} />
-            <AdBanner slot="sidebar" lang={lang} />
-          </div>
-        </div>
+        </>
       )}
       {page === 'directory'  && <DirectoryPage lang={lang} t={t} initialQ={searchQ} onQClear={() => setSearchQ('')} />}
       {page === 'concierge'  && (
-        <div className="page-with-sidebars">
-          <div className="sidebar-ad">
-            <AdBanner slot="sidebar" lang={lang} />
-            <AdBanner slot="sidebar" lang={lang} />
-            <AdBanner slot="sidebar" lang={lang} />
-          </div>
+        <>
+          <FloatingSidebars lang={lang} />
           <ConciergePage lang={lang} t={t} content={siteContent} />
-          <div className="sidebar-ad">
-            <AdBanner slot="sidebar" lang={lang} />
-            <AdBanner slot="sidebar" lang={lang} />
-            <AdBanner slot="sidebar" lang={lang} />
-          </div>
-        </div>
+        </>
       )}
       {page === 'gov'        && <GovPage lang={lang} t={t} content={siteContent} />}
 
