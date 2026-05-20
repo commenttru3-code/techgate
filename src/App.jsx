@@ -17,7 +17,7 @@ const T = {
   en: {
     tagline: 'Business Bridge Platform',
     navHome: 'Home', navDir: 'Companies & Freelancers', navMatch: 'Find Partners',
-    navConcierge: 'Concierge', navGov: 'Government', registerBtn: '+ List Profile',
+    navConcierge: 'Concierge & Partners', navGov: 'Government', registerBtn: '+ List Profile',
     live: 'Verified Listings · Live',
     h1a: 'Your Gateway to the', h1b: 'Kosova Business Hub',
     heroSub: 'Companies, freelancers and consultants from Kosova — for your next outsourcing or cooperation project.',
@@ -28,22 +28,19 @@ const T = {
     f2t: 'Find Partners', f2d: 'Select area and skills — instantly matched against all Kosova listings.',
     f3t: 'Kosova Concierge', f3d: 'rootsGTM organises your complete on-site business visit.',
     catsTitle: 'Sectors', topTitle: '⭐ Top Verified Listings', viewAll: 'View all →',
-    ctaTitle: 'List your profile for free', ctaSub: '3 minutes, free. Visible to EU clients.',
+    ctaTitle: 'List your profile for free', ctaSub: '3 minutes, free. Visible Worldwide.',
     ctaBtn: 'Register →', ctaGov: 'About Kosova',
-    rankSub: 'All contacts publicly visible · Rates by conversation',
+    rankSub: 'All contacts publicly visible · Pricing Upon Consultation',
     allCats: 'All', allTypes: '🌐 All', onlyComp: '🏢 Companies', onlyFL: '👤 Freelancers',
     sortRating: '⭐ Rating', sortReviews: '💬 Reviews', sortAZ: 'A–Z',
     noResults: 'No results', noResultsSub: 'Try different search terms',
-    rateNote: 'Rates by conversation', verified: '✓ Verified',
+    rateNote: 'Pricing Upon Consultation', verified: '✓ Verified',
     sendReq: 'Send enquiry', viewProf: 'Profile',
     upgradeBtn: '⭐',
     upgradeTitle: 'Increase visibility',
-    upgradeSubSp: 'Sponsored · 1 slot per category',
-    upgradeSubPr: 'Premium · max. 3 slots per category',
-    upgradeBenSp: ['🥇 Position 1 in category', 'Sponsored label', 'Featured on homepage', 'Newsletter mention'],
-    upgradeBenPr: ['⭐ Position 2–4 in category', 'Premium badge', 'Higher visibility', 'Profile analytics'],
-    upgradeNoteSp: 'Only 1 sponsor per category.',
-    upgradeNotePr: 'Maximum 3 premium profiles per category.',
+    upgradeSubSp: 'Sponsored · max. 3 slots per category',
+    upgradeBenSp: ['🥇 Top 3 positions', 'Sponsored label', 'Featured on homepage', 'Newsletter mention'],
+    upgradeNoteSp: 'Maximum 3 sponsored per category.',
     upgradeContact: 'Contact for upgrade:', upgradeMail: 'upgrade@bbplatform.com',
     waitName: 'Your name *', waitEmail: 'Your e-mail *', waitSend: 'Join waitlist ✓',
     waitDoneTitle: 'You\'re on the list!', waitDoneSub: 'We\'ll contact you when a slot opens.',
@@ -133,7 +130,7 @@ const T = {
   sq: {
     tagline: 'Platforma Urë Biznesi',
     navHome: 'Kreu', navDir: 'Kompani & Freelancerë', navMatch: 'Gjej Partnerë',
-    navConcierge: 'Concierge', navGov: 'Qeveria', registerBtn: '+ Regjistrohu',
+    navConcierge: 'Concierge & Partnerë', navGov: 'Qeveria', registerBtn: '+ Regjistrohu',
     live: 'Regjistrimet e Verifikuara · Live',
     h1a: 'Porta Juaj drejt', h1b: 'Qendrës së Biznesit në Kosovë',
     heroSub: 'Kompani, freelancerë dhe konsulentë nga Kosova — për projektin tuaj të ardhshëm.',
@@ -144,13 +141,13 @@ const T = {
     f2t: 'Gjej Partnerë', f2d: 'Zgjidhni fushën dhe aftësitë — përputhje e menjëhershme me të gjitha regjistrimet.',
     f3t: 'Concierge Kosova', f3d: 'rootsGTM organizon vizitën tuaj të plotë të biznesit.',
     catsTitle: 'Sektorët', topTitle: '⭐ Regjistrimet e Verifikuara', viewAll: 'Shiko →',
-    ctaTitle: 'Regjistrohu falas tani', ctaSub: '3 minuta, falas. I dukshëm për klientë europianë.',
+    ctaTitle: 'Regjistrohu falas tani', ctaSub: '3 minuta, falas. I dukshëm në mbarë botën.',
     ctaBtn: 'Regjistrohu →', ctaGov: 'Rreth Kosovës',
     rankSub: 'Të gjitha kontaktet publike · Kushtet me bisedë',
     allCats: 'Të gjitha', allTypes: '🌐 Të gjitha', onlyComp: '🏢 Kompani', onlyFL: '👤 Freelancerë',
     sortRating: '⭐ Vlerësim', sortReviews: '💬 Komente', sortAZ: 'A–Z',
     noResults: 'Asnjë rezultat', noResultsSub: 'Provoni terma të tjerë',
-    rateNote: 'Kushtet me marrëveshje', verified: '✓ Verifikuar',
+    rateNote: 'Çmimi me konsultim', verified: '✓ Verifikuar',
     sendReq: 'Dërgo kërkesë', viewProf: 'Profili',
     upgradeBtn: '⭐',
     upgradeTitle: 'Rrit dukshmërinë',
@@ -249,7 +246,7 @@ const T = {
 }
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
-const SLOTS = { sponsored: 1, premium: 3 }
+const SLOTS = { sponsored: 3 }
 
 const CATS = [
   { id: 'software',   icon: '💻', color: '#58a6ff', labels: { en: 'Software & IT',     sq: 'Softuer & IT'      }, count: 0 },
@@ -513,15 +510,12 @@ function UpgradeModal({ catId, t, lang, onClose }) {
   const [form, setForm] = useState({ name: '', email: '' })
 
   const used = useMemo(() => {
-    // Always use live DB profiles for accurate slot count
     const src = window.__techgateProfiles || []
     const sp = src.filter(p => p.cat === catId && p.tier === 'sponsored' && p.verified).length
-    const pr = src.filter(p => p.cat === catId && p.tier === 'premium' && p.verified).length
-    return { sp, pr }
+    return { sp }
   }, [catId])
 
   const spFree = SLOTS.sponsored - used.sp
-  const prFree = SLOTS.premium - used.pr
   const catName = catLabel(catId, lang)
 
   return (
@@ -539,8 +533,7 @@ function UpgradeModal({ catId, t, lang, onClose }) {
 
             {/* Slot visual */}
             <div style={{ marginBottom: 20 }}>
-              {/* Sponsored */}
-              <div style={{ marginBottom: 14 }}>
+              <div>
                 <div style={{ fontSize: 12, fontWeight: 700, color: G.orange, marginBottom: 8, fontFamily: "'Syne',sans-serif" }}>🚀 {t.upgradeSubSp}</div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {Array.from({ length: SLOTS.sponsored }).map((_, i) => {
@@ -553,23 +546,9 @@ function UpgradeModal({ catId, t, lang, onClose }) {
                   })}
                 </div>
               </div>
-              {/* Premium */}
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: G.gold, marginBottom: 8, fontFamily: "'Syne',sans-serif" }}>⭐ {t.upgradeSubPr}</div>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  {Array.from({ length: SLOTS.premium }).map((_, i) => {
-                    const taken = i < used.pr
-                    return (
-                      <div key={i} style={{ flex: 1, height: 32, borderRadius: 8, background: taken ? G.goldDim : 'rgba(255,255,255,0.04)', border: `1px solid ${taken ? G.goldBorder : 'rgba(255,255,255,0.08)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: taken ? G.gold : G.green, fontFamily: "'DM Sans',sans-serif", fontWeight: 600 }}>
-                        {taken ? (lang==='sq'?'🔒 Zënë':'🔒 Taken') : (lang==='sq'?'✓ Lirë':'✓ Available')}
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
             </div>
 
-            {spFree > 0 || prFree > 0 ? (
+            {spFree > 0 ? (
               <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 10, padding: '14px 16px' }}>
                 <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 4 }}>{t.upgradeContact}</div>
                 <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, color: G.gold }}>{t.upgradeMail}</div>
@@ -662,11 +641,9 @@ function ContactModal({ profile, t, onClose }) {
 function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSelfEdit, matchScore, matchHits }) {
   const isFL = p.type === 'freelancer'
   const isSp = p.tier === 'sponsored'
-  const isPr = p.tier === 'premium'
   return (
-    <div className={`card fu${isSp ? ' glow' : ''}`} style={{ padding: 0, overflow: 'hidden', position: 'relative', borderColor: isSp ? 'rgba(251,146,60,0.4)' : isPr ? 'rgba(212,168,67,0.3)' : G.border, background: isSp ? 'rgba(251,146,60,0.03)' : isPr ? 'rgba(212,168,67,0.025)' : G.card }}>
+    <div className={`card fu${isSp ? ' glow' : ''}`} style={{ padding: 0, overflow: 'hidden', position: 'relative', borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border, background: isSp ? 'rgba(251,146,60,0.03)' : G.card }}>
       {isSp && <div className="sp-bar" />}
-      {isPr && <div className="pr-bar" />}
       <div style={{ padding: 20 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 11 }}>
           <div style={{ display: 'flex', gap: 10 }}>
@@ -678,8 +655,6 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end' }}>
             {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
-            {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
-            {!isSp && !isPr && <span style={{ fontSize: 10, background: 'rgba(255,255,255,0.05)', color: G.muted, border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '2px 9px', fontFamily: "'Syne',sans-serif" }}>Free</span>}
               {matchScore !== null && matchScore !== undefined && (
                 <span style={{ display:'inline-flex', flexDirection:'column', gap:3, verticalAlign:'middle', minWidth:52 }}>
                   <span style={{ fontSize:11, fontWeight:800, fontFamily:"'Syne',sans-serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
@@ -692,7 +667,6 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           </div>
         </div>
         <div style={{ display: 'flex', gap: 12, marginBottom: 9, fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
-
           {isFL ? <span>🗣 {p.languages}</span> : <span>👥 {p.employees}</span>}
         </div>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 11 }}>{p.desc[lang] || p.desc.en}</p>
@@ -707,7 +681,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           ))}
         </div>
         <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${G.border}`, borderRadius: 8, padding: '8px 12px', marginBottom: 12 }}>
-          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.teal, fontWeight: 500 }}>💬 {t.rateNote}</div>
+          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.teal, fontWeight: 500 }}>💼 {t.rateNote}</div>
         </div>
         <div style={{ display: 'flex', gap: 7 }}>
           <button className="btn gbtn" style={{ flex: 1, padding: '8px', fontSize: 12 }} onClick={() => onContact(p)}>{t.sendReq}</button>
@@ -814,13 +788,12 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
   const ranked = useMemo(() => {
     const byCat = {}
     allProfiles.forEach(p => {
-      if (!byCat[p.cat]) byCat[p.cat] = { sponsored: [], premium: [], free: [] }
-      byCat[p.cat][p.tier === 'sponsored' ? 'sponsored' : p.tier === 'premium' ? 'premium' : 'free'].push(p)
+      if (!byCat[p.cat]) byCat[p.cat] = { sponsored: [], free: [] }
+      byCat[p.cat][p.tier === 'sponsored' ? 'sponsored' : 'free'].push(p)
     })
     const result = []
     Object.entries(byCat).forEach(([, groups]) => {
       groups.sponsored.forEach(p => result.push({ ...p, _rank: 1 }))
-      groups.premium.forEach((p, i) => result.push({ ...p, _rank: i + 2 }))
       groups.free.forEach(p => result.push({ ...p, _rank: null }))
     })
     return result
@@ -1231,16 +1204,14 @@ function MatchPage({ lang, t }) {
             {results.map((p, i) => {
               const isFL  = p.type === 'freelancer'
               const isSp  = p.tier === 'sponsored'
-              const isPr  = p.tier === 'premium'
               const sc    = scoreLabel(p._score)
 
               return (
                 <div key={p.id} className={`card fu${isSp ? ' glow' : ''}`}
                   style={{ padding: 0, overflow: 'hidden', animationDelay: `${i * 0.04}s`,
-                    borderColor: isSp ? 'rgba(251,146,60,0.4)' : isPr ? 'rgba(212,168,67,0.3)' : G.border,
-                    background: isSp ? 'rgba(251,146,60,0.03)' : isPr ? 'rgba(212,168,67,0.025)' : G.card }}>
+                    borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border,
+                    background: isSp ? 'rgba(251,146,60,0.03)' : G.card }}>
                   {isSp && <div className="sp-bar" />}
-                  {isPr && <div className="pr-bar" />}
                   <div style={{ padding: 20 }}>
 
                     {/* Header row */}
@@ -1294,7 +1265,6 @@ function MatchPage({ lang, t }) {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                       <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
                         {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
-                        {isPr && <span style={{ fontSize: 10, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>⭐ Premium</span>}
                         {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
                       </div>
                       <div style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
@@ -1335,52 +1305,68 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
   const [enquirySent, setEnquirySent] = React.useState(false)
   const [eForm, setEForm] = React.useState({ name:'', email:'', msg:'' })
   if (!profiles || profiles.length === 0) return null
-  const dividerLabel = lang === 'sq' ? 'Partnerë' : 'Partners'
+  const dividerLabel = lang === 'sq' ? 'Concierge & Partnerë' : 'Concierge & Partners'
   return (
     <div style={{ marginBottom: 48 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 32 }}>
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(212,168,67,0.22))' }} />
         <span style={{ fontSize: 11, color: '#d4a843', fontFamily: "'Syne',sans-serif", fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(212,168,67,0.10)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: 20, padding: '4px 16px' }}>{dividerLabel}</span>
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,168,67,0.22),transparent)' }} />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 16 }}>
+      <div className="partner-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 20 }}>
         {profiles.map((sp, i) => {
-          const desc = (sp.desc && (sp.desc[lang] || sp.desc.en)) || ''
           const website = sp.website ? sp.website.replace(/^https?:\/\//, '') : null
           return (
-            <div key={sp.id} style={{ background: 'linear-gradient(145deg,rgba(45,212,191,0.06),rgba(45,212,191,0.02))', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.25)', transition: 'transform 0.2s,box-shadow 0.2s' }}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='0 8px 32px rgba(45,212,191,0.15)'}}
-              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 24px rgba(0,0,0,0.25)'}}>
-              <div style={{ height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,transparent)' }} />
-              <div style={{ padding:'22px 22px 18px' }}>
-                <div style={{ display:'flex', gap:14, alignItems:'flex-start', marginBottom:14 }}>
-                  <Logo text={sp.logo} color={sp.logoColor||'#2dd4bf'} url={sp.logoUrl} size={52} />
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, marginBottom:3 }}>{sp.name}</div>
-                    <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
-                      <span style={{ fontSize:10, background:'rgba(45,212,191,0.12)', color:G.teal, border:'1px solid rgba(45,212,191,0.3)', borderRadius:5, padding:'2px 8px', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.5px' }}>✓ Partner</span>
-                      {sp.city && <span style={{ fontSize:11, color:G.muted }}>📍 {sp.city}</span>}
-                    </div>
+            <div key={sp.id} style={{
+              background: 'linear-gradient(160deg,rgba(45,212,191,0.07),rgba(45,212,191,0.02),rgba(212,168,67,0.03))',
+              border: '1px solid rgba(45,212,191,0.28)',
+              borderRadius: 20, overflow: 'hidden',
+              boxShadow: '0 6px 32px rgba(0,0,0,0.3), 0 0 0 0 rgba(45,212,191,0)',
+              transition: 'transform 0.25s, box-shadow 0.25s',
+              position: 'relative',
+            }}
+              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35), 0 0 32px rgba(45,212,191,0.10)'}}
+              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 6px 32px rgba(0,0,0,0.3)'}}>
+              {/* Top accent */}
+              <div style={{ height: 3, background: 'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
+
+              <div style={{ padding: '28px 24px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                {/* Large logo */}
+                <div style={{ marginBottom: 16, position: 'relative' }}>
+                  <div style={{ width: 72, height: 72, borderRadius: 16, overflow: 'hidden', border: '2px solid rgba(45,212,191,0.35)', boxShadow: '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
+                    {sp.logoUrl
+                      ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                      : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:sp.logoColor||G.teal }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>
+                    }
                   </div>
                 </div>
-                {desc && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.7)', lineHeight:1.7, marginBottom:14 }}>{desc}</p>}
+
+                {/* Name + badge */}
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, marginBottom:6, letterSpacing:'-0.2px' }}>{sp.name}</div>
+                <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom: sp.city ? 4 : 0, flexWrap:'wrap', justifyContent:'center' }}>
+                  <span style={{ fontSize:10, background:'rgba(45,212,191,0.12)', color:G.teal, border:'1px solid rgba(45,212,191,0.3)', borderRadius:20, padding:'3px 10px', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.5px' }}>✓ Official Partner</span>
+                </div>
+                {sp.city && <div style={{ fontSize:12, color:G.muted, marginBottom:12 }}>📍 {sp.city}</div>}
+
+                {/* Tags */}
                 {(sp.tags||[]).length > 0 && (
-                  <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:14 }}>
-                    {sp.tags.map(s=><span key={s} style={{ background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.18)', borderRadius:5, padding:'2px 8px', fontSize:11 }}>{s}</span>)}
+                  <div style={{ display:'flex', gap:5, flexWrap:'wrap', justifyContent:'center', marginBottom:16 }}>
+                    {sp.tags.slice(0,4).map(s=><span key={s} style={{ background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.18)', borderRadius:20, padding:'3px 10px', fontSize:11 }}>{s}</span>)}
                   </div>
                 )}
-                <div style={{ background:'rgba(0,0,0,0.2)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:10, padding:'11px 14px', marginBottom:14, display:'flex', flexDirection:'column', gap:6 }}>
-                  {sp.contact && <div style={{ fontSize:12, color:G.muted, display:'flex', gap:8, alignItems:'center' }}><span style={{ color:G.teal, flexShrink:0 }}>📧</span><a href={`mailto:${sp.contact}`} style={{ color:G.blue, textDecoration:'none', wordBreak:'break-all' }}>{sp.contact}</a></div>}
-                  {sp.phone && <div style={{ fontSize:12, color:G.muted, display:'flex', gap:8, alignItems:'center' }}><span style={{ color:G.teal, flexShrink:0 }}>📞</span><a href={`tel:${sp.phone}`} style={{ color:G.blue, textDecoration:'none' }}>{sp.phone}</a></div>}
-                  {website && <div style={{ fontSize:12, color:G.muted, display:'flex', gap:8, alignItems:'center' }}><span style={{ color:G.teal, flexShrink:0 }}>🌐</span><a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ color:G.teal, textDecoration:'none', fontWeight:600 }}>{website} ↗</a></div>}
-                  {sp.languages && <div style={{ fontSize:12, color:G.muted, display:'flex', gap:8, alignItems:'center' }}><span style={{ flexShrink:0 }}>🗣️</span>{sp.languages}</div>}
-                </div>
-                <div style={{ display:'flex', gap:8 }}>
-                  <button className="btn teal-btn" style={{ flex:1, padding:'9px', fontSize:12, fontWeight:700 }}
+
+                {/* CTA buttons */}
+                <div style={{ display:'flex', gap:9, width:'100%', marginTop: 4 }}>
+                  <button className="btn teal-btn" style={{ flex:1, padding:'11px', fontSize:13, fontWeight:700, borderRadius:10 }}
                     onClick={()=>{ setEnquiryPartner(sp); setEnquirySent(false); setEForm({name:'',email:'',msg:''}) }}>
-                    ✉️ {lang==='sq'?'Dërgoni kërkesë':'Send enquiry'}
+                    ✉️ {lang==='sq'?'Dërgoni kërkesë':'Send Enquiry'}
                   </button>
-                  {website && <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'9px 13px', background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.25)', borderRadius:8, color:G.teal, textDecoration:'none', fontSize:12, fontWeight:600, whiteSpace:'nowrap' }}>🌐 {lang==='sq'?'Faqja':'Website'}</a>}
+                  {website && (
+                    <a href={`https://${website}`} target="_blank" rel="noopener noreferrer"
+                      style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'11px 16px', background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.25)', borderRadius:10, color:G.teal, textDecoration:'none', fontSize:13, fontWeight:600, whiteSpace:'nowrap' }}>
+                      🌐 {lang==='sq'?'Faqja':'Website'}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -1870,7 +1856,24 @@ function SmartRegForm({ lang, t, regType, onDone }) {
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
   const [partnerLogoFile, setPartnerLogoFile] = React.useState(null)
+  const [emailError, setEmailError] = React.useState('')
+  const [emailChecking, setEmailChecking] = React.useState(false)
   const f = (k, v) => setForm(p => ({ ...p, [k]: v }))
+
+  // Real-time duplicate email check
+  const checkEmail = React.useCallback(async (email) => {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setEmailError(''); return }
+    setEmailChecking(true)
+    try {
+      const all = await fetchProfiles()
+      const allAdmin = await fetchAllProfilesAdmin().catch(() => [])
+      const allCombined = [...all, ...allAdmin.filter(p => !p.verified)]
+      const exists = allCombined.some(p => p.contact && p.contact.toLowerCase() === email.toLowerCase())
+      if (exists) setEmailError(lang === 'sq' ? 'Ky email është tashmë i regjistruar në platformë.' : 'This email is already registered in the platform.')
+      else setEmailError('')
+    } catch { setEmailError('') }
+    finally { setEmailChecking(false) }
+  }, [lang])
 
   const toggleTag = tag => setSelectedTags(p => p.includes(tag) ? p.filter(x => x !== tag) : [...p, tag])
 
@@ -1916,7 +1919,14 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           <div><label className="flabel">{Lp.cityL}</label><input className="inp" value={form.city} onChange={e=>setForm(f=>({...f,city:e.target.value}))} placeholder="Berlin, Wien, Stockholm…" /></div>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
-          <div><label className="flabel">{Lp.emailL}</label><input className="inp" type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} /></div>
+          <div>
+            <label className="flabel">{Lp.emailL}</label>
+            <input className="inp" type="email" value={form.email}
+              onChange={e=>{setForm(f=>({...f,email:e.target.value}));checkEmail(e.target.value)}}
+              onBlur={e=>checkEmail(e.target.value)} />
+            {emailChecking && <div style={{fontSize:11,color:G.muted,marginTop:3}}>Checking…</div>}
+            {emailError && <div style={{fontSize:11,color:G.red,marginTop:3}}>⚠️ {emailError}</div>}
+          </div>
           <div><label className="flabel">{Lp.phoneL}</label><input className="inp" value={form.phone} onChange={e=>setForm(f=>({...f,phone:e.target.value}))} /></div>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:11 }}>
@@ -1959,9 +1969,9 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         </div>
 
         <div style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.muted }}>{Lp.note}</div>
-        <button className="btn gbtn" style={{width:'100%'}} disabled={!form.name||!form.email} onClick={async () => {
+        <button className="btn gbtn" style={{width:'100%'}} disabled={!form.name||!form.email||!!emailError} onClick={async () => {
           const fields = {
-            name: form.name, city: form.city, email: form.email.toLowerCase(),
+            name: form.name, city: form.city, contact: form.email.toLowerCase(),
             phone: form.phone||null, website: form.website||null,
             languages: form.eu_langs||null,
             type: 'partner', cat: 'partner', tier: 'free', verified: false,
@@ -2071,7 +2081,14 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         <div><label className="flabel">{Lr.city}</label><input className="inp" value={form.city} onChange={e => f('city', e.target.value)} placeholder="Pristina" /></div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 11 }}>
-        <div><label className="flabel">{Lr.email}</label><input className="inp" value={form.email} onChange={e => f('email', e.target.value)} /></div>
+        <div>
+          <label className="flabel">{Lr.email}</label>
+          <input className="inp" value={form.email}
+            onChange={e => { f('email', e.target.value); checkEmail(e.target.value) }}
+            onBlur={e => checkEmail(e.target.value)} />
+          {emailChecking && <div style={{fontSize:11,color:G.muted,marginTop:3}}>Checking…</div>}
+          {emailError && <div style={{fontSize:11,color:G.red,marginTop:3}}>⚠️ {emailError}</div>}
+        </div>
         <div><label className="flabel">{Lr.website}</label><input className="inp" value={form.website} onChange={e => f('website', e.target.value)} placeholder="techfirma.com" /></div>
       </div>
       {!isFL && (
@@ -2137,7 +2154,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         {Lr.availNote}
       </div>
 
-      <button className="btn gbtn" style={{ width: '100%' }} disabled={!form.name || !form.email} onClick={async () => {
+      <button className="btn gbtn" style={{ width: '100%' }} disabled={!form.name || !form.email || !!emailError} onClick={async () => {
         const dbFields = formToDb(form, catChoice, selectedTags, regType, null)
         if (logoFile) dbFields.logo_data = logoFile
         const err = await insertProfile(dbFields)
@@ -2303,7 +2320,7 @@ function SelfEditModal({ profile, lang, t, onClose }) {
             <div style={{ marginBottom:18 }}>
               <label className="flabel">{Ls.emailLabel}</label>
               <input className="inp" type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder={profile.contact || 'name@firma.com'}
+                placeholder="name@company.com"
                 onKeyDown={e => e.key==='Enter' && email && setStep('code')} />
             </div>
             <button className="btn gbtn" style={{ width:'100%' }} disabled={!email} onClick={async () => {
@@ -2676,7 +2693,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'flex-end', flexShrink: 0 }}>
         {/* Tier badge */}
-        <span style={{ fontSize: 10, background: p.tier==='sponsored'?'rgba(251,146,60,0.1)':p.tier==='premium'?G.goldDim:'rgba(255,255,255,0.04)', color: p.tier==='sponsored'?G.orange:p.tier==='premium'?G.gold:G.muted, border: `1px solid ${p.tier==='sponsored'?'rgba(251,146,60,0.3)':p.tier==='premium'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius: 5, padding: '2px 8px' }}>
+        <span style={{ fontSize: 10, background: p.tier==='sponsored'?'rgba(251,146,60,0.1)':'rgba(255,255,255,0.04)', color: p.tier==='sponsored'?G.orange:G.muted, border: `1px solid ${p.tier==='sponsored'?'rgba(251,146,60,0.3)':'rgba(255,255,255,0.1)'}`, borderRadius: 5, padding: '2px 8px' }}>
           {p.tier}
         </span>
         <div style={{ display: 'flex', gap: 5 }}>
@@ -2868,6 +2885,13 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                   </div>
                   <div style={{ padding: '16px 20px', background: 'rgba(45,212,191,0.03)' }}>
                     <div style={{ fontSize: 11, color: G.teal, fontWeight: 700, marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.5px' }}>✏️ Requested changes</div>
+                    {chg.changes?.email && (
+                      <div style={{ marginBottom: 10, background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 8, padding: '8px 12px' }}>
+                        <div style={{ fontSize: 10, color: G.teal, fontWeight: 700, marginBottom: 3, textTransform:'uppercase', letterSpacing:'0.5px' }}>📧 Email change request</div>
+                        <div style={{ fontSize: 12, color: G.text }}><span style={{ color: G.muted }}>From:</span> {chg.original?.email || chg.original?.contact || '—'}</div>
+                        <div style={{ fontSize: 12, color: G.teal, fontWeight: 600 }}><span style={{ color: G.muted }}>To:</span> {chg.changes.email}</div>
+                      </div>
+                    )}
                     {chg.changes?.tags && (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 8 }}>
                         {chg.changes.tags.map(t2 => {
@@ -2879,6 +2903,13 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                         ))}
                       </div>
                     )}
+                    {chg.changes?.name && chg.changes.name !== chg.original?.name && (
+                      <div style={{ fontSize: 12, color: G.muted, marginBottom: 6 }}><b style={{color:G.text}}>Name:</b> {chg.changes.name}</div>
+                    )}
+                    {chg.changes?.city && chg.changes.city !== chg.original?.city && (
+                      <div style={{ fontSize: 12, color: G.muted, marginBottom: 6 }}><b style={{color:G.text}}>City:</b> {chg.changes.city}</div>
+                    )}
+                    {chg.changes?.website && <div style={{ fontSize: 12, color: G.muted, marginBottom: 6 }}><b style={{color:G.text}}>Website:</b> {chg.changes.website}</div>}
                     {chg.changes?.desc && <p style={{ fontSize: 12, color: 'rgba(232,228,217,0.8)', lineHeight: 1.6 }}>{chg.changes.desc.en || chg.changes.desc.de}</p>}
                   </div>
                 </div>
@@ -2895,43 +2926,196 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       )}
 
       {/* ── TAB: PARTNERS ────────────────────────────────────────────────── */}
-      {tab === 'partners' && (
-        <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
-          <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted }}>
-            Edit the partner details shown on the Concierge page. Changes are saved to the database.
-          </p>
+      {tab === 'partners' && (() => {
+        // General Partner CRUD — manage DB profiles with type === 'partner'
+        const gpList = profiles.filter(p => p.type === 'partner')
+        const [gpEdit, setGpEdit] = React.useState(null)         // null = list, 'new' = new form, obj = editing
+        const [gpForm, setGpForm] = React.useState({})
+        const [gpLogo, setGpLogo] = React.useState(null)
+        const [gpSaving, setGpSaving] = React.useState(false)
+        const [gpMsg, setGpMsg] = React.useState('')
 
-          {/* rootsGTM */}
-          <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:14, padding:'22px 24px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.teal, marginBottom:16 }}>🚀 rootsGTM — Exklusiver Partner</div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
-              <div><label className="flabel">Organisation name</label><input className="inp" value={partners.rootsgtm_name||''} onChange={e=>setPartners(p=>({...p,rootsgtm_name:e.target.value}))} /></div>
-              <div><label className="flabel">Email</label><input className="inp" value={partners.rootsgtm_email||''} onChange={e=>setPartners(p=>({...p,rootsgtm_email:e.target.value}))} /></div>
+        const openNew = () => {
+          setGpForm({ name:'', city:'', email:'', website:'', phone:'', desc:'', tags:'', logoColor:'#2dd4bf', visible:true, featured:false, order:gpList.length+1 })
+          setGpLogo(null); setGpEdit('new')
+        }
+        const openEditGP = (p) => {
+          setGpForm({ name:p.name||'', city:p.city||'', email:p.contact||'', website:p.website||'', phone:p.phone||'', desc:p.desc?.en||'', tags:(p.tags||[]).join(', '), logoColor:p.logoColor||'#2dd4bf', visible:p.verified!==false, featured:p.tier==='sponsored', order:p._order||1 })
+          setGpLogo(p.logoUrl||null); setGpEdit(p)
+        }
+        const saveGP = async () => {
+          setGpSaving(true)
+          const fields = {
+            name: gpForm.name, city: gpForm.city||null, email: gpForm.email||null,
+            phone: gpForm.phone||null, website: gpForm.website||null,
+            type: 'partner', cat: 'partner',
+            tier: gpForm.featured ? 'sponsored' : 'free',
+            verified: gpForm.visible,
+            logo_color: gpForm.logoColor||'#2dd4bf',
+            tags: gpForm.tags ? gpForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : [],
+            desc_en: gpForm.desc||null, desc_sq: gpForm.desc||null,
+          }
+          if (gpLogo && gpLogo.startsWith('data:')) fields.logo_data = gpLogo
+          if (gpEdit === 'new') {
+            await insertProfile(fields)
+          } else {
+            await updateProfile(gpEdit.id, fields)
+          }
+          setGpSaving(false); setGpEdit(null); setGpMsg('✓ Saved')
+          setTimeout(() => setGpMsg(''), 2000)
+          // Reload profiles
+          fetchAllProfilesAdmin().then(d => setProfiles(d)).catch(()=>{})
+        }
+        const deleteGP = async (id) => {
+          if (!window.confirm('Delete this partner? Cannot be undone.')) return
+          await deleteProfile(id)
+          setProfiles(ps => ps.filter(x => x.id !== id))
+        }
+        const toggleVisible = async (p) => {
+          await updateProfile(p.id, { verified: !p.verified })
+          setProfiles(ps => ps.map(x => x.id === p.id ? {...x, verified: !x.verified} : x))
+        }
+        const toggleFeatured = async (p) => {
+          const newTier = p.tier === 'sponsored' ? 'free' : 'sponsored'
+          await updateProfile(p.id, { tier: newTier })
+          setProfiles(ps => ps.map(x => x.id === p.id ? {...x, tier: newTier} : x))
+        }
+
+        const logoColors = ['#2dd4bf','#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#d4a843']
+
+        return (
+          <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
+            {/* Header */}
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+              <div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17 }}>🤝 General Partner Management</div>
+                <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Manage partners shown on the Concierge & Partners page</div>
+              </div>
+              {gpEdit === null && (
+                <button className="btn gbtn" style={{ padding:'9px 18px', fontSize:13 }} onClick={openNew}>+ Add Partner</button>
+              )}
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
-              <div><label className="flabel">Phone</label><input className="inp" value={partners.rootsgtm_phone||''} onChange={e=>setPartners(p=>({...p,rootsgtm_phone:e.target.value}))} /></div>
-              <div><label className="flabel">Website</label><input className="inp" value={partners.rootsgtm_website||''} onChange={e=>setPartners(p=>({...p,rootsgtm_website:e.target.value}))} placeholder="rootsgtm.com" /></div>
-            </div>
-            <div><label className="flabel">Description (shown on Concierge page)</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.rootsgtm_desc||''} onChange={e=>setPartners(p=>({...p,rootsgtm_desc:e.target.value}))} /></div>
+            {gpMsg && <div style={{ fontSize:12, color:G.green }}>{gpMsg}</div>}
+
+            {/* LIST VIEW */}
+            {gpEdit === null && (
+              gpList.length === 0 ? (
+                <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'40px', textAlign:'center', color:G.muted }}>
+                  <div style={{ fontSize:36, marginBottom:12 }}>🤝</div>
+                  <div>No general partners yet. Click "Add Partner" to create the first one.</div>
+                </div>
+              ) : (
+                <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+                  {gpList.map(p => (
+                    <div key={p.id} style={{ background:G.surface, border:`1px solid ${p.verified!==false?'rgba(45,212,191,0.25)':G.border}`, borderRadius:14, padding:'16px 20px', display:'flex', gap:14, alignItems:'center' }}>
+                      <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={44} />
+                      <div style={{ flex:1, minWidth:0 }}>
+                        <div style={{ fontWeight:700, fontSize:14, display:'flex', alignItems:'center', gap:8 }}>
+                          {p.name}
+                          {p.tier==='sponsored' && <span style={{ fontSize:10, background:'rgba(212,168,67,0.12)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5, padding:'1px 7px', fontWeight:700 }}>⭐ Featured</span>}
+                          {p.verified===false && <span style={{ fontSize:10, background:'rgba(255,255,255,0.04)', color:G.muted, border:'1px solid rgba(255,255,255,0.1)', borderRadius:5, padding:'1px 7px' }}>Hidden</span>}
+                        </div>
+                        <div style={{ fontSize:11, color:G.muted, marginTop:2 }}>
+                          {[p.city, p.website].filter(Boolean).join(' · ')}
+                        </div>
+                        {(p.tags||[]).length > 0 && (
+                          <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginTop:5 }}>
+                            {p.tags.slice(0,4).map(t2 => <span key={t2} className="tag" style={{fontSize:10}}>{t2}</span>)}
+                          </div>
+                        )}
+                      </div>
+                      <div style={{ display:'flex', flexDirection:'column', gap:5, alignItems:'flex-end', flexShrink:0 }}>
+                        <div style={{ display:'flex', gap:5 }}>
+                          <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.2)', borderRadius:5 }} onClick={() => openEditGP(p)}>✏️ Edit</button>
+                          <button className="btn" style={{ fontSize:10, padding:'3px 9px', background: p.verified!==false?'rgba(52,199,89,0.08)':'rgba(255,255,255,0.04)', color: p.verified!==false?G.green:G.muted, border:`1px solid ${p.verified!==false?'rgba(52,199,89,0.2)':'rgba(255,255,255,0.1)'}`, borderRadius:5 }} onClick={() => toggleVisible(p)}>{p.verified!==false?'👁 Visible':'👁 Hidden'}</button>
+                          <button className="btn" style={{ fontSize:10, padding:'3px 9px', background: p.tier==='sponsored'?G.goldDim:'rgba(255,255,255,0.04)', color: p.tier==='sponsored'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius:5 }} onClick={() => toggleFeatured(p)}>⭐ Featured</button>
+                          <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:'rgba(255,59,48,0.08)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:5 }} onClick={() => deleteGP(p.id)}>🗑</button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
+            )}
+
+            {/* EDIT / NEW FORM */}
+            {gpEdit !== null && (
+              <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:16, overflow:'hidden' }}>
+                <div style={{ padding:'18px 22px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', background:'rgba(45,212,191,0.04)' }}>
+                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, color:G.teal }}>
+                    {gpEdit === 'new' ? '+ New General Partner' : `✏️ Edit: ${gpEdit.name}`}
+                  </div>
+                  <button className="btn ghost" style={{ fontSize:12, padding:'5px 12px' }} onClick={() => setGpEdit(null)}>✕ Cancel</button>
+                </div>
+                <div style={{ padding:'22px 22px', display:'flex', flexDirection:'column', gap:14 }}>
+                  {/* Logo */}
+                  <div>
+                    <label className="flabel">Logo</label>
+                    <div style={{ display:'flex', gap:12, alignItems:'flex-start', marginTop:8 }}>
+                      <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gpForm.logoColor||'#2dd4bf'}18,${gpForm.logoColor||'#2dd4bf'}38)` }}>
+                        {gpLogo && gpLogo.startsWith('data:') ? <img src={gpLogo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                          : gpLogo ? <img src={gpLogo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                          : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, color:gpForm.logoColor||'#2dd4bf' }}>{(gpForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()||'?'}</span>}
+                      </div>
+                      <div style={{ flex:1 }}>
+                        <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'7px 14px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
+                          📷 Upload logo
+                          <input type="file" accept="image/*" style={{display:'none'}} onChange={e => {
+                            const file = e.target.files?.[0]; if(!file) return
+                            const img = new Image(); const url = URL.createObjectURL(file)
+                            img.onload = () => { const S=88; const c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setGpLogo(c.toDataURL('image/webp',0.82)) }
+                            img.src = url
+                          }} />
+                        </label>
+                        {gpLogo && <button onClick={()=>setGpLogo(null)} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block',marginBottom:8}}>✕ Remove</button>}
+                        <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                          {logoColors.map(col => (
+                            <button key={col} onClick={() => setGpForm(f=>({...f,logoColor:col}))}
+                              style={{ width:24, height:24, borderRadius:'50%', background:col, border:`2px solid ${(gpForm.logoColor||'#2dd4bf')===col?'#fff':'transparent'}`, cursor:'pointer', boxShadow:(gpForm.logoColor||'#2dd4bf')===col?`0 0 0 2px ${col}`:'none' }} />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Fields */}
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+                    <div><label className="flabel">Organisation name *</label><input className="inp" value={gpForm.name||''} onChange={e=>setGpForm(f=>({...f,name:e.target.value}))} /></div>
+                    <div><label className="flabel">City</label><input className="inp" value={gpForm.city||''} onChange={e=>setGpForm(f=>({...f,city:e.target.value}))} placeholder="Pristina, Berlin…" /></div>
+                  </div>
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+                    <div><label className="flabel">Email</label><input className="inp" value={gpForm.email||''} onChange={e=>setGpForm(f=>({...f,email:e.target.value}))} /></div>
+                    <div><label className="flabel">Phone</label><input className="inp" value={gpForm.phone||''} onChange={e=>setGpForm(f=>({...f,phone:e.target.value}))} /></div>
+                  </div>
+                  <div><label className="flabel">Website</label><input className="inp" value={gpForm.website||''} onChange={e=>setGpForm(f=>({...f,website:e.target.value}))} placeholder="partner.com" /></div>
+                  <div><label className="flabel">Tags / Focus areas (comma separated)</label><input className="inp" value={gpForm.tags||''} onChange={e=>setGpForm(f=>({...f,tags:e.target.value}))} placeholder="IT, BPO, Government Relations…" /></div>
+                  <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={gpForm.desc||''} onChange={e=>setGpForm(f=>({...f,desc:e.target.value}))} /></div>
+
+                  {/* Toggles */}
+                  <div style={{ display:'flex', gap:16 }}>
+                    <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
+                      <input type="checkbox" checked={!!gpForm.visible} onChange={e=>setGpForm(f=>({...f,visible:e.target.checked}))} />
+                      Visible (Published)
+                    </label>
+                    <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
+                      <input type="checkbox" checked={!!gpForm.featured} onChange={e=>setGpForm(f=>({...f,featured:e.target.checked}))} />
+                      ⭐ Featured highlight
+                    </label>
+                  </div>
+
+                  {/* Save */}
+                  <div style={{ display:'flex', gap:10, paddingTop:4 }}>
+                    <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveGP} disabled={gpSaving||!gpForm.name}>
+                      {gpSaving ? <><div style={{width:13,height:13,border:'2px solid rgba(0,0,0,0.25)',borderTopColor:G.bg,borderRadius:'50%'}} className="sp" />Saving…</> : '💾 Save Partner'}
+                    </button>
+                    <button className="btn ghost" style={{ padding:'12px 22px' }} onClick={() => setGpEdit(null)} disabled={gpSaving}>Cancel</button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-
-          {/* Kosova Government */}
-          <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, padding:'22px 24px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.gold, marginBottom:16 }}>🏛️ Kosova Government / InvestKosova</div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
-              <div><label className="flabel">Organisation name</label><input className="inp" value={partners.gov_name||''} onChange={e=>setPartners(p=>({...p,gov_name:e.target.value}))} /></div>
-              <div><label className="flabel">Email</label><input className="inp" value={partners.gov_email||''} onChange={e=>setPartners(p=>({...p,gov_email:e.target.value}))} /></div>
-            </div>
-            <div style={{ marginBottom:12 }}><label className="flabel">Website</label><input className="inp" value={partners.gov_website||''} onChange={e=>setPartners(p=>({...p,gov_website:e.target.value}))} placeholder="invest-ks.com" /></div>
-            <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.gov_desc||''} onChange={e=>setPartners(p=>({...p,gov_desc:e.target.value}))} /></div>
-          </div>
-
-          {settingsSaved === 'partners' && <div style={{ fontSize:12, color:G.green }}>✓ Partners saved to database</div>}
-          <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'11px 28px' }} onClick={savePartners} disabled={saving}>
-            {saving ? 'Saving…' : '💾 Save partners'}
-          </button>
-        </div>
-      )}
+        )
+      })()}
 
       {/* ── TAB: CONCIERGE ────────────────────────────────────────────────── */}
       {tab === 'concierge' && (
@@ -3061,7 +3245,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 <div><label className="flabel">Tier</label>
                   <select className="inp" value={editForm.tier||'free'} onChange={e=>setEditForm(f=>({...f,tier:e.target.value}))}>
                     <option value="free">🆓 Free</option>
-                    <option value="premium">⭐ Premium</option>
                     <option value="sponsored">🚀 Sponsored</option>
                   </select>
                 </div>
@@ -3222,35 +3405,40 @@ export default function App() {
             {/* ── PAGES ── */}
       {page === 'home' && (
         <>
-          <FloatingSidebars lang={lang} />
-          <section style={{ padding: '80px 48px 56px', textAlign: 'center', position: 'relative', overflow: 'hidden', background: `radial-gradient(ellipse 70% 50% at 50% -5%,rgba(212,168,67,0.12) 0%,transparent 65%),${G.bg}` }}>
-            <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle,rgba(255,255,255,0.016) 1px,transparent 1px)', backgroundSize: '44px 44px', pointerEvents: 'none' }} />
-            <div className="fu" style={{ maxWidth: 680, margin: '0 auto', position: 'relative' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 100, padding: '5px 16px', marginBottom: 22 }}>
+          <section style={{ padding: '88px 48px 64px', textAlign: 'center', position: 'relative', overflow: 'hidden', background: `radial-gradient(ellipse 80% 55% at 50% -10%,rgba(212,168,67,0.14) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 80% 80%,rgba(45,212,191,0.06) 0%,transparent 60%),${G.bg}` }}>
+            <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle,rgba(255,255,255,0.014) 1px,transparent 1px)', backgroundSize: '44px 44px', pointerEvents: 'none' }} />
+            <div style={{ position:'absolute', top:0, left:'50%', transform:'translateX(-50%)', width:'60%', height:1, background:'linear-gradient(90deg,transparent,rgba(212,168,67,0.35),transparent)' }} />
+            <div className="fu" style={{ maxWidth: 700, margin: '0 auto', position: 'relative' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 100, padding: '6px 18px', marginBottom: 26 }}>
                 <span style={{ width: 7, height: 7, background: G.green, borderRadius: '50%', display: 'inline-block', boxShadow: `0 0 8px ${G.green}` }} />
-                <span style={{ fontSize: 12, color: G.gold, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>
+                <span style={{ fontSize: 12, color: G.gold, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing:'0.3px' }}>
                   {(window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type !== 'partner').length > 0
                     ? `${(window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type !== 'partner').length} ${lang==='sq' ? 'Regjistrimet e Verifikuara · Live' : 'Verified Listings · Live'}`
-                    : (lang==='sq' ? 'Platforma e Biznesit Kosova · Live' : 'Business Bridge Platform · Live')
+                    : (lang==='sq' ? 'Platforma e Biznesit Kosova · Live' : 'Global B2B Network · Live')
                   }
                 </span>
               </div>
-              <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(32px,5vw,56px)', letterSpacing: '-1.5px', lineHeight: 1.08, marginBottom: 16 }}>
+              <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(32px,5.2vw,60px)', letterSpacing: '-1.8px', lineHeight: 1.06, marginBottom: 20 }}>
                 {t.h1a}<br /><span style={{ color: G.gold }}>{t.h1b}</span>
               </h1>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: G.muted, lineHeight: 1.82, fontWeight: 300, maxWidth: 520, margin: '0 auto 32px' }}>{t.heroSub}</p>
-              <div style={{ display: 'flex', gap: 7, maxWidth: 540, margin: '0 auto 32px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${G.goldBorder}`, borderRadius: 12, padding: 5 }}>
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 17, color: G.muted, lineHeight: 1.8, fontWeight: 300, maxWidth: 540, margin: '0 auto 36px' }}>{t.heroSub}</p>
+              <div style={{ display: 'flex', gap: 7, maxWidth: 560, margin: '0 auto 36px', background: 'rgba(255,255,255,0.045)', border: `1px solid ${G.goldBorder}`, borderRadius: 14, padding: 6, boxShadow: '0 4px 24px rgba(0,0,0,0.2)' }}>
                 <input className="inp" style={{ flex: 1, background: 'transparent', border: 'none', fontSize: 15 }} placeholder={t.searchPH}
                   value={searchQ} onChange={e => setSearchQ(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter') { setPage('directory') } }} />
-                <button className="btn gbtn" style={{ flexShrink: 0 }} onClick={() => setPage('directory')}>{t.searchBtn} →</button>
+                <button className="btn gbtn" style={{ flexShrink: 0, borderRadius: 9 }} onClick={() => setPage('directory')}>{t.searchBtn} →</button>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 30, flexWrap: 'wrap' }}>
-                {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], [homeStats.total > 0 ? String(homeStats.total) : (homeStats.companies+homeStats.freelancers+homeStats.partners > 0 ? String(homeStats.companies+homeStats.freelancers+homeStats.partners) : '…'), lang==='sq'?'Gjithsej':'Total listings']].map(([n, l]) => (
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 36, flexWrap: 'wrap', marginBottom: 24 }}>
+                {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], ['10%', t.stat4]].map(([n, l]) => (
                   <div key={l} style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: G.gold }}>{n}</div>
-                    <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>{l}</div>
+                    <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 24, color: G.gold }}>{n}</div>
+                    <div style={{ fontSize: 11, color: G.muted, marginTop: 2, letterSpacing:'0.3px' }}>{l}</div>
                   </div>
+                ))}
+              </div>
+              <div style={{ display:'flex', justifyContent:'center', gap:8, flexWrap:'wrap' }}>
+                {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'✓ Regjistrimet e verifikuara':'✓ Verified Listings', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network'].map(tag => (
+                  <span key={tag} style={{ fontSize:11, color:'rgba(232,228,217,0.4)', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:20, padding:'4px 14px', fontFamily:"'DM Sans',sans-serif" }}>{tag}</span>
                 ))}
               </div>
             </div>
@@ -3338,20 +3526,28 @@ export default function App() {
             )
           })()}
 
-          {/* ── AD BANNER STRIP ── */}
-          <section style={{ padding: '0 48px 16px', maxWidth: 1200, margin: '0 auto' }}>
-            <AdBanner slot="banner" lang={lang} />
-          </section>
-
-          <section style={{ padding: '0 48px 60px' }}>
-            <div style={{ maxWidth: 1100, margin: '0 auto', background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 18, padding: '40px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-              <div>
-                <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, letterSpacing: '-0.3px', marginBottom: 7 }}>{t.ctaTitle}</h2>
-                <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.7, maxWidth: 400 }}>{t.ctaSub}</p>
-              </div>
-              <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
-                <button className="btn gbtn" style={{ fontSize: 14, padding: '12px 24px' }} onClick={() => setShowReg(true)}>{t.ctaBtn}</button>
-                <button className="btn ghost" onClick={() => setPage('gov')}>{t.ctaGov}</button>
+          <section style={{ padding: '0 48px 72px' }}>
+            <div style={{ maxWidth: 1100, margin: '0 auto', position:'relative', overflow:'hidden', background: `linear-gradient(135deg, rgba(212,168,67,0.1) 0%, rgba(212,168,67,0.06) 40%, rgba(45,212,191,0.06) 100%)`, border: `1px solid ${G.goldBorder}`, borderRadius: 22, padding: '52px 52px' }}>
+              {/* bg glow */}
+              <div style={{ position:'absolute', top:'-40%', right:'-5%', width:'40%', paddingBottom:'40%', borderRadius:'50%', background:'radial-gradient(circle,rgba(212,168,67,0.12),transparent 70%)', pointerEvents:'none' }} />
+              <div style={{ position:'absolute', bottom:'-30%', left:'5%', width:'25%', paddingBottom:'25%', borderRadius:'50%', background:'radial-gradient(circle,rgba(45,212,191,0.07),transparent 70%)', pointerEvents:'none' }} />
+              <div style={{ position:'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 32, flexWrap: 'wrap' }}>
+                <div style={{ maxWidth: 520 }}>
+                  <div style={{ fontSize:11, color:G.gold, fontFamily:"'DM Sans',sans-serif", fontWeight:700, letterSpacing:'1.5px', textTransform:'uppercase', marginBottom:10 }}>
+                    🌐 {lang==='sq'?'Rrjet Global B2B · Platforma Premium':'Global B2B Network · Premium Executive Platform'}
+                  </div>
+                  <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 26, letterSpacing: '-0.5px', marginBottom: 10, lineHeight:1.15 }}>{t.ctaTitle}</h2>
+                  <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75 }}>{t.ctaSub}</p>
+                  <div style={{ display:'flex', gap:16, marginTop:18, flexWrap:'wrap' }}>
+                    {[lang==='sq'?'✓ Pa pagesë':'✓ Always free', lang==='sq'?'✓ Verifikim admin':'✓ Admin verified', lang==='sq'?'✓ I dukshëm ndërkombëtarisht':'✓ Worldwide visibility'].map(item => (
+                      <span key={item} style={{ fontSize:12, color:G.teal, fontFamily:"'DM Sans',sans-serif" }}>{item}</span>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexDirection:'column', gap: 10, flexShrink: 0 }}>
+                  <button className="btn gbtn" style={{ fontSize: 15, padding: '14px 28px', fontWeight:700 }} onClick={() => setShowReg(true)}>{t.ctaBtn}</button>
+                  <button className="btn ghost" style={{ fontSize:13, textAlign:'center' }} onClick={() => setPage('gov')}>{t.ctaGov}</button>
+                </div>
               </div>
             </div>
           </section>
@@ -3360,7 +3556,6 @@ export default function App() {
       {page === 'directory'  && <DirectoryPage lang={lang} t={t} initialQ={searchQ} onQClear={() => setSearchQ('')} />}
       {page === 'concierge'  && (
         <>
-          <FloatingSidebars lang={lang} />
           <ConciergePage lang={lang} t={t} content={siteContent} />
         </>
       )}
@@ -3436,14 +3631,26 @@ export default function App() {
       )}
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: `1px solid ${G.border}`, padding: '16px 44px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, flexWrap: 'wrap', gap: 8 }}>
-        <div>{t.footer}</div>
-        <div style={{ display: 'flex', gap: 16 }}>
-          {t.footLinks.map(l => <span key={l} style={{ cursor: 'pointer' }}>{l}</span>)}
-          {/* Admin entry — invisible until hovered */}
-          <span onClick={() => setShowAdmin(true)} style={{ cursor: 'pointer', opacity: 0, transition: 'opacity 0.3s' }}
-            onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-            onMouseLeave={e => e.currentTarget.style.opacity = '0'}>⚙</span>
+      <footer style={{ borderTop: `1px solid ${G.border}`, padding: '22px 44px', fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, marginBottom:14 }}>
+          <div style={{ display:'flex', gap:6, alignItems:'center' }}>
+            <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:G.text }}>TechGate</span>
+            <span style={{ fontSize:10, background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:20, padding:'1px 8px', fontWeight:600 }}>B2B</span>
+          </div>
+          <div style={{ display: 'flex', gap: 16, alignItems:'center' }}>
+            {t.footLinks.map(l => <span key={l} style={{ cursor: 'pointer' }}>{l}</span>)}
+            <span onClick={() => setShowAdmin(true)} style={{ cursor: 'pointer', opacity: 0, transition: 'opacity 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+              onMouseLeave={e => e.currentTarget.style.opacity = '0'}>⚙</span>
+          </div>
+        </div>
+        <div style={{ borderTop:`1px solid ${G.border}`, paddingTop:12, display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
+          <div>{t.footer}</div>
+          <div style={{ display:'flex', gap:18 }}>
+            {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network', lang==='sq'?'🔐 Verifikim admin':'🔐 Admin Verified'].map(tag => (
+              <span key={tag} style={{ fontSize:11, color:'rgba(232,228,217,0.3)' }}>{tag}</span>
+            ))}
+          </div>
         </div>
       </footer>
     </div>
