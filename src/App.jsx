@@ -685,7 +685,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
         </div>
         <div style={{ display: 'flex', gap: 7 }}>
           <button className="btn gbtn" style={{ flex: 1, padding: '8px', fontSize: 12 }} onClick={() => onContact(p)}>{t.sendReq}</button>
-          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 13 }} title="Sichtbarkeit erhöhen" onClick={() => onUpgrade(p.cat)}>⭐</button>
+          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 13 }} title={t.upgradeTitle} onClick={() => onUpgrade(p.cat)}>⭐</button>
           <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 12 }} title={lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={() => onSelfEdit && onSelfEdit(p)}>✏️</button>
         </div>
       </div>
@@ -1313,7 +1313,7 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
         <span style={{ fontSize: 11, color: '#d4a843', fontFamily: "'Syne',sans-serif", fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(212,168,67,0.10)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: 20, padding: '4px 16px' }}>{dividerLabel}</span>
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,168,67,0.22),transparent)' }} />
       </div>
-      <div className="partner-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 20 }}>
+      <div className="partner-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 16 }}>
         {profiles.map((sp, i) => {
           const website = sp.website ? sp.website.replace(/^https?:\/\//, '') : null
           return (
@@ -1599,16 +1599,27 @@ function ConciergePage({ lang, t, content = {} }) {
           <button className="btn teal-btn" style={{ flexShrink: 0, padding: '12px 26px', fontSize: 14 }} onClick={() => setBookModal(true)}>{t.concCtaBtn}</button>
         </div>
 
-        {/* ── BECOME A PARTNER (subtle, at bottom) ── */}
-        <div style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${G.border}`, borderRadius: 12, padding: '22px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-          <div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 15, marginBottom: 6 }}>{t.concBecomeTitle}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.7, maxWidth: 480 }}>{t.concBecomeSub}</p>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 10 }}>
-              {t.concBecomeTypes.map(type => <span key={type} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>{type}</span>)}
+        {/* ── BECOME A PARTNER (premium, matches home CTA style) ── */}
+        <div style={{ position:'relative', overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.09) 0%,rgba(45,212,191,0.04) 40%,rgba(212,168,67,0.05) 100%)', border: '1px solid rgba(45,212,191,0.3)', borderRadius: 16, padding: '32px 36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
+          {/* bg glows */}
+          <div style={{ position:'absolute', top:'-50%', right:'-5%', width:'30%', paddingBottom:'30%', borderRadius:'50%', background:'radial-gradient(circle,rgba(45,212,191,0.1),transparent 70%)', pointerEvents:'none' }} />
+          <div style={{ position:'absolute', bottom:'-50%', left:'5%', width:'20%', paddingBottom:'20%', borderRadius:'50%', background:'radial-gradient(circle,rgba(212,168,67,0.07),transparent 70%)', pointerEvents:'none' }} />
+          <div style={{ position:'relative', maxWidth: 500 }}>
+            <div style={{ fontSize:10, color:G.teal, fontFamily:"'DM Sans',sans-serif", fontWeight:700, letterSpacing:'1.5px', textTransform:'uppercase', marginBottom:8 }}>
+              🤝 {lang==='sq'?'Rrjet Global B2B · Oportunitete Partneriteti':'Global B2B Network · Partnership Opportunity'}
+            </div>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, marginBottom: 8, letterSpacing:'-0.3px' }}>{t.concBecomeTitle}</div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.75, marginBottom: 12 }}>{t.concBecomeSub}</p>
+            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+              {t.concBecomeTypes.map(type => <span key={type} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.teal }}>{type}</span>)}
             </div>
           </div>
-          <button className="btn ghost" style={{ flexShrink: 0, whiteSpace: 'nowrap' }} onClick={() => setPartnerModal(true)}>{t.concBecomeBtn}</button>
+          <div style={{ display:'flex', flexDirection:'column', gap:9, flexShrink:0, position:'relative' }}>
+            <button className="btn teal-btn" style={{ padding:'12px 24px', fontSize:13, fontWeight:700, whiteSpace:'nowrap' }} onClick={() => setPartnerModal(true)}>{t.concBecomeBtn}</button>
+            <div style={{ fontSize:11, color:'rgba(45,212,191,0.5)', textAlign:'center', fontFamily:"'DM Sans',sans-serif" }}>
+              {lang==='sq'?'✓ Pa pagesë · Verifikim brenda 48h':'✓ Free · Verified within 48h'}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1983,9 +1994,13 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           }
           if (partnerLogoFile) fields.logo_data = partnerLogoFile
           const err = await insertProfile(fields).catch(e => e)
-          if (!err) {
-            notifyAdminNewProfile({ name: form.name, email: form.email, cat: 'partner', city: form.city }).catch(()=>{})
+          if (err && err.message) {
+            // Show error but still proceed so user knows something went wrong
+            console.error('[Partner reg error]', err.message)
+            alert('Registration error: ' + err.message + '\n\nPlease try again or contact support.')
+            return
           }
+          notifyAdminNewProfile({ name: form.name, email: form.email, cat: 'partner', city: form.city }).catch(()=>{})
           onDone()
         }}>{Lp.send}</button>
       </div>
@@ -2670,12 +2685,11 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
   )
 
   const TABS = [
-    { id: 'pending_profiles', label: 'Neue Profile',     labelEn: 'New profiles',         icon: '🆕' },
-    { id: 'profiles',         label: 'Alle Profile',     labelEn: 'All profiles',          icon: '📋' },
-    { id: 'pending_changes',  label: 'Änderungen',       labelEn: 'Change requests',       icon: '✏️' },
-    { id: 'partners',         label: 'Partner',          labelEn: 'Partners',              icon: '🤝' },
-    { id: 'concierge',        label: 'Concierge',        labelEn: 'Concierge',             icon: '🗓' },
-    { id: 'settings',         label: 'Einstellungen',    labelEn: 'Settings',              icon: '⚙️' },
+    { id: 'pending_profiles', label: 'New profiles',      labelEn: 'New profiles',         icon: '🆕' },
+    { id: 'profiles',         label: 'All profiles',      labelEn: 'All profiles',          icon: '📋' },
+    { id: 'pending_changes',  label: 'Change requests',   labelEn: 'Change requests',       icon: '✏️' },
+    { id: 'partners',         label: 'General Partners',  labelEn: 'General Partners',      icon: '🤝' },
+    { id: 'settings',         label: 'Settings',          labelEn: 'Settings',              icon: '⚙️' },
   ]
 
   const renderLabel = t2 => t2.labelEn
@@ -2763,6 +2777,14 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
         const pendingPartners = pendingProfiles.filter(p => p.type === 'partner')
         return (
           <div>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
+              <div style={{ fontSize:13, color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>
+                {pendingProfiles.length} pending · Partners: {pendingPartners.length} · Companies/FL: {pendingFirms.length}
+              </div>
+              <button className="btn ghost" style={{ fontSize:12, padding:'6px 14px' }} onClick={() => { setLoadingP(true); fetchAllProfilesAdmin().then(d=>{setProfiles(d);setLoadingP(false)}).catch(()=>setLoadingP(false)) }}>
+                🔄 Refresh
+              </button>
+            </div>
             {loadingP && <div style={{ color: G.muted, padding: 20 }}>Loading…</div>}
 
             {/* ── Pending Partners ── */}
@@ -3117,36 +3139,6 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
         )
       })()}
 
-      {/* ── TAB: CONCIERGE ────────────────────────────────────────────────── */}
-      {tab === 'concierge' && (
-        <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
-          <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted }}>
-            Edit the text content on the Concierge page.
-          </p>
-          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'22px 24px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, marginBottom:16 }}>Hero section</div>
-            <div style={{ marginBottom:12 }}><label className="flabel">Hero title</label><input className="inp" value={concierge.hero_title||''} onChange={e=>setConcierge(cc=>({...cc,hero_title:e.target.value}))} /></div>
-            <div style={{ marginBottom:12 }}><label className="flabel">Hero subtitle</label><textarea className="inp" rows={2} style={{resize:'vertical'}} value={concierge.hero_sub||''} onChange={e=>setConcierge(cc=>({...cc,hero_sub:e.target.value}))} /></div>
-            <div><label className="flabel">Active partners note (e.g. "2 Active partners")</label><input className="inp" value={concierge.avail_note||''} onChange={e=>setConcierge(cc=>({...cc,avail_note:e.target.value}))} /></div>
-          </div>
-          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'22px 24px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, marginBottom:16 }}>Packages + Team</div>
-            <div style={{ marginBottom:12 }}><label className="flabel">Packages subtitle</label><textarea className="inp" rows={2} style={{resize:'vertical'}} value={concierge.pkg_sub||''} onChange={e=>setConcierge(cc=>({...cc,pkg_sub:e.target.value}))} /></div>
-            <div style={{ marginBottom:12 }}><label className="flabel">Sales team title</label><input className="inp" value={concierge.sp_title||''} onChange={e=>setConcierge(cc=>({...cc,sp_title:e.target.value}))} /></div>
-            <div><label className="flabel">Sales team subtitle</label><textarea className="inp" rows={2} style={{resize:'vertical'}} value={concierge.sp_sub||''} onChange={e=>setConcierge(cc=>({...cc,sp_sub:e.target.value}))} /></div>
-          </div>
-          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'22px 24px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, marginBottom:16 }}>CTA Banner</div>
-            <div style={{ marginBottom:12 }}><label className="flabel">CTA title</label><input className="inp" value={concierge.cta_title||''} onChange={e=>setConcierge(cc=>({...cc,cta_title:e.target.value}))} /></div>
-            <div><label className="flabel">Contact email (shown in booking modal)</label><input className="inp" value={concierge.cta_email||''} onChange={e=>setConcierge(cc=>({...cc,cta_email:e.target.value}))} /></div>
-          </div>
-          {settingsSaved === 'concierge' && <div style={{ fontSize:12, color:G.green }}>✓ Concierge content saved to database</div>}
-          <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'11px 28px' }} onClick={saveConcierge} disabled={saving}>
-            {saving ? 'Saving…' : '💾 Save concierge content'}
-          </button>
-        </div>
-      )}
-
       {/* ── TAB: SETTINGS ─────────────────────────────────────────────────── */}
       {tab === 'settings' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
@@ -3444,23 +3436,27 @@ export default function App() {
             </div>
           </section>
           <section style={{ padding: '44px 48px 0', maxWidth: 1200, margin: '0 auto' }}>
-            <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 18 }}>{t.howTitle}</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 44 }}>
+            <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 18, marginBottom: 14 }}>{t.howTitle}</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 40 }}>
               {[
                 [G.blue,  '🔍', t.f1t, t.f1d, 'directory'],
                 [G.gold,  '🤝', t.f2t, t.f2d, 'concierge#partners'],
                 [G.teal,  '✈️', t.f3t, t.f3d, 'concierge'],
               ].map(([col, ic, title, desc, pg]) => (
-                <div key={pg} className="card fu" style={{ padding: 24, cursor: 'pointer',
-                  background: col === G.teal ? 'rgba(45,212,191,0.04)' : col === G.gold ? 'rgba(212,168,67,0.04)' : G.card,
-                  border: `1px solid ${col === G.teal ? 'rgba(45,212,191,0.2)' : col === G.gold ? 'rgba(212,168,67,0.2)' : G.border}` }}
+                <div key={pg} className="fu" style={{ padding: '18px 16px', cursor: 'pointer', borderRadius: 14, position:'relative', overflow:'hidden',
+                  background: col === G.teal ? 'rgba(45,212,191,0.04)' : col === G.gold ? 'rgba(212,168,67,0.04)' : 'rgba(88,166,255,0.04)',
+                  border: `1px solid ${col === G.teal ? 'rgba(45,212,191,0.2)' : col === G.gold ? 'rgba(212,168,67,0.2)' : 'rgba(88,166,255,0.2)'}`,
+                  transition: 'all 0.2s' }}
+                  onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 24px ${col}18`}}
+                  onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow=''}}
                   onClick={() => {
                     if (pg === 'concierge#partners') { setPage('concierge'); setTimeout(() => { const el = document.getElementById('concierge-partners'); if(el) el.scrollIntoView({behavior:'smooth'}) }, 120) }
                     else setPage(pg)
                   }}>
-                  <div style={{ fontSize: 26, marginBottom: 11 }}>{ic}</div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, color: col, marginBottom: 7 }}>{title}</div>
-                  <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.7 }}>{desc}</p>
+                  <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${col}90,transparent)` }} />
+                  <div style={{ fontSize: 22, marginBottom: 9 }}>{ic}</div>
+                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13, color: col, marginBottom: 5, lineHeight:1.3 }}>{title}</div>
+                  <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, lineHeight: 1.65, margin:0 }}>{desc}</p>
                 </div>
               ))}
             </div>
@@ -3470,16 +3466,93 @@ export default function App() {
               <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20 }}>{t.catsTitle}</h2>
               <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(165px,1fr))', gap: 9, marginBottom: 44 }}>
-              {CATS.map((c, i) => (
-                <div key={c.id} className="card fu" style={{ padding: '14px 13px', cursor: 'pointer', animationDelay: `${i * 0.04}s` }} onClick={() => setPage('directory')}>
-                  <div style={{ fontSize: 21, marginBottom: 6 }}>{c.icon}</div>
-                  <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 2 }}>{c.labels[lang]}</div>
-                  <div style={{ fontSize: 11, color: c.color }}>{(window.__techgateProfiles||[]).filter(p=>p.cat===c.id&&p.verified!==false&&p.type!=='partner').length || ''}</div>
-                </div>
-              ))}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(128px,1fr))', gap: 7, marginBottom: 44 }}>
+              {CATS.map((c, i) => {
+                const count = (window.__techgateProfiles||[]).filter(p=>p.cat===c.id&&p.verified!==false&&p.type!=='partner').length
+                return (
+                  <div key={c.id} onClick={() => setPage('directory')}
+                    style={{ padding: '12px 10px', cursor: 'pointer', borderRadius: 12, position:'relative', overflow:'hidden',
+                      background: `linear-gradient(135deg,${c.color}09,${c.color}04)`,
+                      border: `1px solid ${c.color}30`,
+                      transition: 'all 0.2s', animationDelay: `${i * 0.03}s` }}
+                    className="fu"
+                    onMouseEnter={e=>{e.currentTarget.style.background=`linear-gradient(135deg,${c.color}18,${c.color}08)`;e.currentTarget.style.borderColor=`${c.color}60`;e.currentTarget.style.transform='translateY(-2px)'}}
+                    onMouseLeave={e=>{e.currentTarget.style.background=`linear-gradient(135deg,${c.color}09,${c.color}04)`;e.currentTarget.style.borderColor=`${c.color}30`;e.currentTarget.style.transform=''}}>
+                    {/* Top accent line */}
+                    <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${c.color}80,transparent)`, borderRadius:'12px 12px 0 0' }} />
+                    <div style={{ fontSize: 18, marginBottom: 5 }}>{c.icon}</div>
+                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 11, marginBottom: 3, letterSpacing:'-0.1px', color:'rgba(232,228,217,0.9)' }}>{c.labels[lang]}</div>
+                    {count > 0 && <div style={{ fontSize: 10, color: c.color, fontFamily:"'DM Sans',sans-serif", fontWeight:600 }}>{count} {lang==='sq'?'regj.':'listed'}</div>}
+                  </div>
+                )
+              })}
             </div>
           </section>
+
+          {/* ── SPONSORED LISTINGS ── */}
+          {(() => {
+            const sponsored = (window.__techgateProfiles||[]).filter(p => p.tier === 'sponsored' && p.verified !== false && p.type !== 'partner')
+            if (sponsored.length === 0) return null
+            return (
+              <section style={{ padding: '0 48px 44px', maxWidth: 1200, margin: '0 auto' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                    <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 18, margin:0 }}>{t.topTitle}</h2>
+                    <span style={{ fontSize:10, background:'rgba(251,146,60,0.12)', color:G.orange, border:'1px solid rgba(251,146,60,0.28)', borderRadius:20, padding:'2px 9px', fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>🚀 Sponsored</span>
+                  </div>
+                  <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
+                  {sponsored.slice(0,6).map(p => {
+                    const isFL = p.type === 'freelancer'
+                    return (
+                      <div key={p.id} style={{
+                        borderRadius: 16, overflow: 'hidden', position:'relative',
+                        background: 'linear-gradient(145deg,rgba(251,146,60,0.06),rgba(251,146,60,0.02),rgba(212,168,67,0.03))',
+                        border: '1px solid rgba(251,146,60,0.38)',
+                        boxShadow: '0 4px 28px rgba(0,0,0,0.3), 0 0 0 0 rgba(251,146,60,0)',
+                        transition: 'transform 0.22s, box-shadow 0.22s',
+                      }}
+                        onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35),0 0 28px rgba(251,146,60,0.1)'}}
+                        onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 28px rgba(0,0,0,0.3)'}}>
+                        {/* Top sponsor bar */}
+                        <div style={{ height: 3, background: 'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' }} />
+                        <div style={{ padding: '18px 20px 16px' }}>
+                          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:11 }}>
+                            <div style={{ display:'flex', gap:11, alignItems:'center' }}>
+                              {/* Larger logo for sponsored */}
+                              <div style={{ width:54, height:54, borderRadius:12, overflow:'hidden', flexShrink:0, border:'2px solid rgba(251,146,60,0.35)', boxShadow:'0 0 16px rgba(251,146,60,0.12)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}18,${p.logoColor||'#fb923c'}36)` }}>
+                                {p.logoUrl
+                                  ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, color:p.logoColor||G.orange }}>{(p.logo||p.name||'?').slice(0,2)}</span>
+                                }
+                              </div>
+                              <div>
+                                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:2 }}>{p.name}</div>
+                                <div style={{ fontSize:11, color:G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
+                              </div>
+                            </div>
+                            <span style={{ fontSize:10, background:'rgba(251,146,60,0.14)', color:G.orange, border:'1px solid rgba(251,146,60,0.3)', borderRadius:5, padding:'2px 9px', fontWeight:700, fontFamily:"'Syne',sans-serif", flexShrink:0 }}>🚀 Sponsored</span>
+                          </div>
+                          <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:12, color:G.muted, lineHeight:1.65, marginBottom:11 }}>{(p.desc?.[lang] || p.desc?.en || '').slice(0,100)}{(p.desc?.[lang]||p.desc?.en||'').length > 100 ? '…' : ''}</p>
+                          {(p.tags||[]).length > 0 && (
+                            <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginBottom:13 }}>
+                              {p.tags.slice(0,4).map(tg => <span key={tg} style={{ fontSize:10, background:'rgba(251,146,60,0.07)', color:G.orange, border:'1px solid rgba(251,146,60,0.18)', borderRadius:4, padding:'2px 7px' }}>{tg}</span>)}
+                            </div>
+                          )}
+                          <div style={{ display:'flex', gap:8 }}>
+                            <button className="btn" style={{ flex:1, padding:'8px 12px', fontSize:12, fontWeight:700, background:'rgba(251,146,60,0.1)', color:G.orange, border:'1px solid rgba(251,146,60,0.3)', borderRadius:8 }}
+                              onClick={() => setPage('directory')}>View profile →</button>
+                            {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.2)', borderRadius:5, padding:'0 8px', display:'flex', alignItems:'center' }}>✓ Verified</span>}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </section>
+            )
+          })()}
 
           {/* ── PARTNER LOGO TICKER ── */}
           {(() => {
@@ -3634,7 +3707,7 @@ export default function App() {
       <footer style={{ borderTop: `1px solid ${G.border}`, padding: '22px 44px', fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, marginBottom:14 }}>
           <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-            <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:G.text }}>TechGate</span>
+            <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:G.text }}>Kosova Hub</span>
             <span style={{ fontSize:10, background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:20, padding:'1px 8px', fontWeight:600 }}>B2B</span>
           </div>
           <div style={{ display: 'flex', gap: 16, alignItems:'center' }}>
@@ -3688,8 +3761,17 @@ export default function App() {
     .pkg-grid{grid-template-columns:1fr !important;}
     .dir-filters{flex-wrap:wrap !important;}
     .partner-cards-grid{grid-template-columns:1fr !important;}
+    .partner-cards{grid-template-columns:1fr !important;}
     .match-pills{gap:5px !important;}
     .footer-row{flex-direction:column !important;gap:8px !important;}
+    /* Home how-it-works: 1 col on mobile */
+    section [style*="repeat(3,1fr)"]{grid-template-columns:1fr !important;}
+    /* Sector boxes: 3 col on mobile */
+    section [style*="minmax(128px"]{grid-template-columns:repeat(3,1fr) !important;}
+    /* Sponsored section: 1 col on mobile */
+    section [style*="minmax(300px"]{grid-template-columns:1fr !important;}
+    /* Section padding fix */
+    section{padding-left:16px !important;padding-right:16px !important;}
   }
 
   @media(min-width: 641px) and (max-width: 960px){
@@ -3699,5 +3781,8 @@ export default function App() {
     .feat-grid{grid-template-columns:1fr 1fr !important;}
     .pkg-grid{grid-template-columns:1fr 1fr !important;}
     .admin-stats-grid{grid-template-columns:repeat(2,1fr) !important;}
+    /* Tablet: 2-col how it works */
+    section [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr) !important;}
+    .partner-cards{grid-template-columns:1fr 1fr !important;}
   }
 `}</style>
