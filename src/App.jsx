@@ -504,6 +504,112 @@ function ModalClose({ onClose }) {
   return <button onClick={onClose} className="btn ghost" style={{ padding: '5px 10px', fontSize: 15, alignSelf: 'flex-start' }}>✕</button>
 }
 
+// ─── PROFILE DETAIL MODAL ────────────────────────────────────────────────────
+function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
+  if (!p) return null
+  const isFL = p.type === 'freelancer'
+  const isPartner = p.type === 'partner'
+  const isSp = p.tier === 'sponsored'
+  const website = p.website ? p.website.replace(/^https?:\/\//,'') : null
+  const accentColor = isPartner ? '#2dd4bf' : isSp ? '#fb923c' : '#d4a843'
+  return (
+    <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
+      <div className="modal" style={{ maxWidth:580, maxHeight:'90vh', overflowY:'auto', padding:0, borderRadius:20, border:`1px solid ${accentColor}40` }}>
+        {/* Top bar */}
+        <div style={{ height:4, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)`, borderRadius:'20px 20px 0 0' }} />
+        <div style={{ padding:'24px 28px 20px' }}>
+          {/* Header */}
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:20 }}>
+            <div style={{ display:'flex', gap:14, alignItems:'center' }}>
+              <div style={{ width:68, height:68, borderRadius:16, overflow:'hidden', flexShrink:0, border:`2px solid ${accentColor}44`, boxShadow:`0 0 20px ${accentColor}18`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||accentColor}18,${p.logoColor||accentColor}38)` }}>
+                {p.logoUrl
+                  ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:22, color:p.logoColor||accentColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+              </div>
+              <div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, marginBottom:4 }}>{p.name}</div>
+                <div style={{ display:'flex', gap:6, flexWrap:'wrap', alignItems:'center' }}>
+                  {isSp && <span style={{ fontSize:10, background:'rgba(251,146,60,0.14)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.3)', borderRadius:20, padding:'2px 9px', fontWeight:700 }}>🚀 Sponsored</span>}
+                  {isPartner && <span style={{ fontSize:10, background:'rgba(45,212,191,0.12)', color:'#2dd4bf', border:'1px solid rgba(45,212,191,0.3)', borderRadius:20, padding:'2px 9px', fontWeight:700 }}>✓ Official Partner</span>}
+                  {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.2)', borderRadius:20, padding:'2px 9px' }}>✓ Verified</span>}
+                  {p.city && <span style={{ fontSize:11, color:G.muted }}>📍 {p.city}</span>}
+                </div>
+              </div>
+            </div>
+            <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, flexShrink:0 }}>✕</button>
+          </div>
+
+          {/* Description */}
+          {(p.desc?.[lang] || p.desc?.en) && (
+            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:'rgba(232,228,217,0.8)', lineHeight:1.75, marginBottom:18 }}>
+              {p.desc[lang] || p.desc.en}
+            </p>
+          )}
+
+          {/* Details grid */}
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:18 }}>
+            {p.cat && !isPartner && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px' }}>
+              <div style={{ fontSize:10, color:G.muted, marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div>
+              <div style={{ fontSize:13, fontWeight:600 }}>{catLabel(p.cat, lang)}</div>
+            </div>}
+            {isFL && p.languages && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px' }}>
+              <div style={{ fontSize:10, color:G.muted, marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div>
+              <div style={{ fontSize:13, fontWeight:600 }}>🗣 {p.languages}</div>
+            </div>}
+            {!isFL && p.employees && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px' }}>
+              <div style={{ fontSize:10, color:G.muted, marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Team size</div>
+              <div style={{ fontSize:13, fontWeight:600 }}>👥 {p.employees}</div>
+            </div>}
+            {p.markets && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px' }}>
+              <div style={{ fontSize:10, color:G.muted, marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div>
+              <div style={{ fontSize:13, fontWeight:600 }}>🌍 {p.markets}</div>
+            </div>}
+          </div>
+
+          {/* Tags */}
+          {(p.tags||[]).length > 0 && (
+            <div style={{ marginBottom:18 }}>
+              <div style={{ fontSize:11, color:G.muted, marginBottom:8, textTransform:'uppercase', letterSpacing:'0.5px' }}>Expertise & Services</div>
+              <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                {p.tags.map(tg => <span key={tg} style={{ fontSize:12, background:`${accentColor}10`, color:accentColor, border:`1px solid ${accentColor}28`, borderRadius:20, padding:'4px 12px' }}>{tg}</span>)}
+              </div>
+            </div>
+          )}
+
+          {/* Pricing note */}
+          {!isPartner && (
+            <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px', marginBottom:18 }}>
+              <div style={{ fontSize:12, color:accentColor }}>💼 {t.rateNote}</div>
+            </div>
+          )}
+
+          {/* CTA buttons */}
+          <div style={{ display:'flex', gap:9, flexWrap:'wrap' }}>
+            {p.contact && !isPartner && (
+              <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:13, fontWeight:700 }}
+                onClick={() => { onContact(p); onClose() }}>
+                ✉️ {lang==='sq' ? 'Kontakt' : 'Contact'}
+              </button>
+            )}
+            {isPartner && (
+              <button className="btn teal-btn" style={{ flex:1, padding:'12px', fontSize:13, fontWeight:700 }}
+                onClick={onClose}>
+                ✉️ {lang==='sq' ? 'Dërgoni kërkesë' : 'Send Enquiry'}
+              </button>
+            )}
+            {website && (
+              <a href={`https://${website}`} target="_blank" rel="noopener noreferrer"
+                style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'12px 18px', background:`${accentColor}0d`, border:`1px solid ${accentColor}33`, borderRadius:10, color:accentColor, textDecoration:'none', fontSize:13, fontWeight:600 }}>
+                🌐 {website}
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── UPGRADE MODAL ────────────────────────────────────────────────────────────
 function UpgradeModal({ catId, t, lang, onClose }) {
   const [waitDone, setWaitDone] = useState(false)
@@ -753,12 +859,13 @@ function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills
   )
 }
 
-function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear }) {
+function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, initialCat }) {
   const [q, setQ] = useState(initialQ || '')
   // Sync initialQ when coming from home search
   React.useEffect(() => { if (initialQ) { setQ(initialQ) } }, [initialQ])
   const [typeF, setTypeF] = useState('all')
-  const [cat, setCat] = useState('all')
+  const [cat, setCat] = useState(initialCat || 'all')
+  React.useEffect(() => { if (initialCat) setCat(initialCat) }, [initialCat])
   const [sort, setSort] = useState('az')
   const [contact, setContact] = useState(null)
   const [upgrade, setUpgrade] = useState(null)
@@ -854,7 +961,8 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
         <div style={{ fontSize: 10, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
           {lang==='sq' ? '🏭 Sektori' : '🏭 Sector'}
         </div>
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        {/* Desktop: pills row */}
+        <div className="sector-pills-desktop" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
           {CATS.map(c => (
             <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, background: cat === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)', color: cat === c.id ? c.color : G.muted, border: `1px solid ${cat === c.id ? `${c.color}40` : 'rgba(255,255,255,0.07)'}` }}>
@@ -862,6 +970,12 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear })
             </button>
           ))}
         </div>
+        {/* Mobile: dropdown */}
+        <select className="sector-pills-mobile inp" value={cat} onChange={e => setCat(e.target.value)}
+          style={{ display: 'none', width: '100%', fontSize: 13, padding: '9px 12px' }}>
+          <option value="all">{t.allCats}</option>
+          {CATS.map(c => <option key={c.id} value={c.id}>{c.icon} {c.labels[lang]}</option>)}
+        </select>
       </div>
 
       {/* ── DIVIDER ── */}
@@ -1304,8 +1418,9 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
   const [enquiryPartner, setEnquiryPartner] = React.useState(null)
   const [enquirySent, setEnquirySent] = React.useState(false)
   const [eForm, setEForm] = React.useState({ name:'', email:'', msg:'' })
+  const [detailPartner, setDetailPartner] = React.useState(null)
   if (!profiles || profiles.length === 0) return null
-  const dividerLabel = lang === 'sq' ? 'Concierge & Partnerë' : 'Concierge & Partners'
+  const dividerLabel = lang === 'sq' ? 'Partnerë' : 'Partners'
   return (
     <div style={{ marginBottom: 48 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 32 }}>
@@ -1321,10 +1436,11 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
               background: 'linear-gradient(160deg,rgba(45,212,191,0.07),rgba(45,212,191,0.02),rgba(212,168,67,0.03))',
               border: '1px solid rgba(45,212,191,0.28)',
               borderRadius: 20, overflow: 'hidden',
-              boxShadow: '0 6px 32px rgba(0,0,0,0.3), 0 0 0 0 rgba(45,212,191,0)',
+              boxShadow: '0 6px 32px rgba(0,0,0,0.3)',
               transition: 'transform 0.25s, box-shadow 0.25s',
-              position: 'relative',
+              position: 'relative', cursor: 'pointer',
             }}
+              onClick={() => setDetailPartner(sp)}
               onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35), 0 0 32px rgba(45,212,191,0.10)'}}
               onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 6px 32px rgba(0,0,0,0.3)'}}>
               {/* Top accent */}
@@ -1415,6 +1531,14 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
             )}
           </div>
         </div>
+      )}
+      )}
+      {detailPartner && (
+        <ProfileDetailModal
+          p={detailPartner} lang={lang} t={t}
+          onClose={() => setDetailPartner(null)}
+          onContact={() => { setEnquiryPartner(detailPartner); setDetailPartner(null) }}
+        />
       )}
     </div>
   )
@@ -1863,6 +1987,11 @@ const TAG_SUGGESTIONS = {
 // ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
 function SmartRegForm({ lang, t, regType, onDone }) {
   const isSP = regType === t.regSP  // Partner — separate form
+  // Internal company vs freelancer selector when entering via the combined button
+  const [subType, setSubType] = React.useState(
+    regType === t.regFL ? 'freelancer' : regType === t.regComp ? null : null
+  )
+  const resolvedRegType = subType === 'freelancer' ? t.regFL : subType === 'company' ? t.regComp : regType
   const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#58a6ff' })
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
@@ -1912,7 +2041,33 @@ function SmartRegForm({ lang, t, regType, onDone }) {
     sv: { cat: 'Bransch', name: 'Namn / Företag *', city: 'Stad *', email: 'E-post *', website: 'Webbplats', employees: 'Antal anställda', desc: 'Kort beskrivning', descPH: 'Vad erbjuder du? Erfarenhet, projekt, USP…', tagSuggest: 'Föreslagna kompetenser / taggar', tagCustom: 'Lägg till egen tagg', tagCustomPH: 't.ex. Cybersecurity', tagAdd: '+ Lägg till', tagSelected: 'Valda taggar', availNote: '💬 Tillgänglighet kommuniceras direkt på förfrågan.', send: 'Skicka ✓', empOpts: ['1–5','6–10','11–20','21–50','100+'] },
   }
   const Lr = L[lang] || L.en
-  const isFL = regType === t.regFL
+  const isFL = resolvedRegType === t.regFL
+
+  // Show sub-type selector if combined button was used
+  if (!isSP && subType === null) {
+    return (
+      <div>
+        <div style={{ fontSize:12, color:G.muted, marginBottom:14, fontFamily:"'DM Sans',sans-serif" }}>
+          {lang==='sq' ? 'Zgjidhni llojin e profilit:' : 'Choose your profile type:'}
+        </div>
+        <div style={{ display:'flex', gap:10 }}>
+          {[
+            { key:'company', icon:'🏢', label: t.regComp, sub: t.regCompS, col: G.gold, border: G.goldBorder, dim: G.goldDim },
+            { key:'freelancer', icon:'👤', label: t.regFL, sub: t.regFLS, col: G.teal, border:'rgba(45,212,191,0.35)', dim:'rgba(45,212,191,0.08)' },
+          ].map(opt => (
+            <div key={opt.key} onClick={() => setSubType(opt.key)}
+              style={{ flex:1, padding:'18px 12px', border:`1px solid ${opt.border}`, background:opt.dim, borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
+              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-2px)';e.currentTarget.style.boxShadow=`0 4px 16px ${opt.col}22`}}
+              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow=''}}>
+              <div style={{ fontSize:28, marginBottom:8 }}>{opt.icon}</div>
+              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, color:opt.col, marginBottom:4 }}>{opt.label}</div>
+              <div style={{ fontSize:11, color:G.muted }}>{opt.sub}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   // ── PARTNER REGISTRATION FORM ─────────────────────────────────────────────
   if (isSP) {
@@ -1982,7 +2137,8 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         <div style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.muted }}>{Lp.note}</div>
         <button className="btn gbtn" style={{width:'100%'}} disabled={!form.name||!form.email||!!emailError} onClick={async () => {
           const fields = {
-            name: form.name, city: form.city, contact: form.email.toLowerCase(),
+            name: form.name, city: form.city,
+            email: form.email.toLowerCase(),
             phone: form.phone||null, website: form.website||null,
             languages: form.eu_langs||null,
             type: 'partner', cat: 'partner', tier: 'free', verified: false,
@@ -1993,11 +2149,15 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             submitted_by: form.email.toLowerCase(),
           }
           if (partnerLogoFile) fields.logo_data = partnerLogoFile
-          const err = await insertProfile(fields).catch(e => e)
+          let err = await insertProfile(fields).catch(e => e)
           if (err && err.message) {
-            // Show error but still proceed so user knows something went wrong
-            console.error('[Partner reg error]', err.message)
-            alert('Registration error: ' + err.message + '\n\nPlease try again or contact support.')
+            const fallback = { ...fields }
+            delete fallback.logo_color; delete fallback.logo_data
+            err = await insertProfile(fallback).catch(e => e)
+          }
+          if (err && err.message) {
+            console.error('[Partner reg]', err.message)
+            alert('Registration error: ' + err.message)
             return
           }
           notifyAdminNewProfile({ name: form.name, email: form.email, cat: 'partner', city: form.city }).catch(()=>{})
@@ -2467,6 +2627,173 @@ const INITIAL_PENDING = [
     changes:{ tags:['React','Node.js','TypeScript','Cybersecurity','Mobile'], desc:{de:'Full-Stack & Security-Consulting.',en:'Full-stack & security consulting.',sq:'Full-stack dhe konsulencë sigurie.',sv:'Full-stack och säkerhetskonsulting.'} },
     original:{ tags:['React','Node.js','TypeScript','Mobile'], desc:{de:'Full-Stack Entwicklung & Mobile Apps.',en:'Full-stack development & mobile apps.',sq:'Zhvillim full-stack.',sv:'Full-stack och mobilappar.'} } }
 ]
+
+// ─── ADMIN PARTNERS TAB ───────────────────────────────────────────────────────
+function AdminPartnersTab({ profiles, setProfiles, G }) {
+  const gpList = profiles.filter(p => p.type === 'partner')
+  const [gpEdit, setGpEdit] = React.useState(null)
+  const [gpForm, setGpForm] = React.useState({})
+  const [gpLogo, setGpLogo] = React.useState(null)
+  const [gpSaving, setGpSaving] = React.useState(false)
+  const [gpMsg, setGpMsg] = React.useState('')
+  const logoColors = ['#2dd4bf','#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#d4a843']
+
+  const openNew = () => {
+    setGpForm({ name:'', city:'', email:'', website:'', phone:'', desc:'', tags:'', logoColor:'#2dd4bf', visible:true, featured:false })
+    setGpLogo(null); setGpEdit('new')
+  }
+  const openEditGP = (p) => {
+    setGpForm({ name:p.name||'', city:p.city||'', email:p.contact||p.email||'', website:p.website||'', phone:p.phone||'', desc:p.desc?.en||'', tags:(p.tags||[]).join(', '), logoColor:p.logoColor||'#2dd4bf', visible:p.verified!==false, featured:p.tier==='sponsored' })
+    setGpLogo(p.logoUrl||null); setGpEdit(p)
+  }
+  const saveGP = async () => {
+    setGpSaving(true)
+    const fields = {
+      name: gpForm.name, city: gpForm.city||null,
+      email: gpForm.email||null,
+      phone: gpForm.phone||null, website: gpForm.website||null,
+      type: 'partner', cat: 'partner',
+      tier: gpForm.featured ? 'sponsored' : 'free',
+      verified: gpForm.visible,
+      logo_color: gpForm.logoColor||'#2dd4bf',
+      tags: gpForm.tags ? gpForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : [],
+      desc_en: gpForm.desc||null, desc_sq: gpForm.desc||null,
+    }
+    if (gpLogo && gpLogo.startsWith('data:')) fields.logo_data = gpLogo
+    if (gpEdit === 'new') { await insertProfile(fields).catch(e => console.error(e)) }
+    else { await updateProfile(gpEdit.id, fields).catch(e => console.error(e)) }
+    setGpSaving(false); setGpEdit(null); setGpMsg('✓ Saved')
+    setTimeout(() => setGpMsg(''), 3000)
+    fetchAllProfilesAdmin().then(d => setProfiles(d)).catch(()=>{})
+  }
+  const deleteGP = async (id) => {
+    if (!window.confirm('Delete this partner permanently?')) return
+    await deleteProfile(id).catch(()=>{})
+    setProfiles(ps => ps.filter(x => x.id !== id))
+  }
+  const toggleVisible = async (p) => {
+    await updateProfile(p.id, { verified: !p.verified }).catch(()=>{})
+    setProfiles(ps => ps.map(x => x.id===p.id ? {...x, verified:!x.verified} : x))
+  }
+  const toggleFeatured = async (p) => {
+    const t2 = p.tier==='sponsored' ? 'free' : 'sponsored'
+    await updateProfile(p.id, { tier: t2 }).catch(()=>{})
+    setProfiles(ps => ps.map(x => x.id===p.id ? {...x, tier:t2} : x))
+  }
+
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:18 }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17 }}>🤝 General Partner Management</div>
+          <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Partners shown on the Concierge & Partners page ({gpList.length} total)</div>
+        </div>
+        {gpEdit===null && <button className="btn gbtn" style={{ padding:'9px 18px', fontSize:13 }} onClick={openNew}>+ Add Partner</button>}
+      </div>
+      {gpMsg && <div style={{ fontSize:13, color:G.green, background:'rgba(52,199,89,0.08)', border:'1px solid rgba(52,199,89,0.2)', borderRadius:8, padding:'8px 14px' }}>{gpMsg}</div>}
+
+      {gpEdit===null && (
+        gpList.length===0 ? (
+          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'44px', textAlign:'center', color:G.muted }}>
+            <div style={{ fontSize:36, marginBottom:12 }}>🤝</div>
+            <div style={{ fontFamily:"'DM Sans',sans-serif" }}>No partners yet. Click "+ Add Partner" to create the first one.</div>
+          </div>
+        ) : (
+          <div style={{ display:'flex', flexDirection:'column', gap:9 }}>
+            {gpList.map(p => (
+              <div key={p.id} style={{ background:G.surface, border:`1px solid ${p.verified!==false?'rgba(45,212,191,0.25)':G.border}`, borderRadius:14, padding:'14px 18px', display:'flex', gap:14, alignItems:'center', flexWrap:'wrap' }}>
+                <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={46} />
+                <div style={{ flex:1, minWidth:160 }}>
+                  <div style={{ fontWeight:700, fontSize:14, display:'flex', alignItems:'center', gap:7, flexWrap:'wrap' }}>
+                    {p.name}
+                    {p.tier==='sponsored' && <span style={{ fontSize:10, background:'rgba(212,168,67,0.12)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5, padding:'1px 7px', fontWeight:700 }}>⭐ Featured</span>}
+                    {p.verified===false && <span style={{ fontSize:10, background:'rgba(255,255,255,0.04)', color:G.muted, border:'1px solid rgba(255,255,255,0.1)', borderRadius:5, padding:'1px 7px' }}>Hidden</span>}
+                  </div>
+                  <div style={{ fontSize:11, color:G.muted, marginTop:2 }}>{[p.city, p.website].filter(Boolean).join(' · ')}</div>
+                  {(p.tags||[]).length>0 && <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginTop:5 }}>{p.tags.slice(0,4).map(tg=><span key={tg} className="tag" style={{fontSize:10}}>{tg}</span>)}</div>}
+                </div>
+                <div style={{ display:'flex', gap:5, flexWrap:'wrap', justifyContent:'flex-end' }}>
+                  <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.2)', borderRadius:6 }} onClick={()=>openEditGP(p)}>✏️ Edit</button>
+                  <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.verified!==false?'rgba(52,199,89,0.08)':'rgba(255,255,255,0.04)', color:p.verified!==false?G.green:G.muted, border:`1px solid ${p.verified!==false?'rgba(52,199,89,0.2)':'rgba(255,255,255,0.1)'}`, borderRadius:6 }} onClick={()=>toggleVisible(p)}>{p.verified!==false?'👁 Visible':'🚫 Hidden'}</button>
+                  <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.tier==='sponsored'?G.goldDim:'rgba(255,255,255,0.04)', color:p.tier==='sponsored'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius:6 }} onClick={()=>toggleFeatured(p)}>⭐ {p.tier==='sponsored'?'Unfeature':'Feature'}</button>
+                  <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:'rgba(255,59,48,0.08)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:6 }} onClick={()=>deleteGP(p.id)}>🗑 Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      )}
+
+      {gpEdit!==null && (
+        <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:16, overflow:'hidden' }}>
+          <div style={{ padding:'16px 22px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', background:'rgba(45,212,191,0.04)' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, color:G.teal }}>
+              {gpEdit==='new' ? '+ New General Partner' : `✏️ Edit: ${gpEdit.name}`}
+            </div>
+            <button className="btn ghost" style={{ fontSize:12, padding:'4px 12px' }} onClick={()=>setGpEdit(null)}>✕ Cancel</button>
+          </div>
+          <div style={{ padding:'20px 22px', display:'flex', flexDirection:'column', gap:14 }}>
+            <div>
+              <label className="flabel">Logo</label>
+              <div style={{ display:'flex', gap:14, alignItems:'flex-start', marginTop:8 }}>
+                <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}55`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gpForm.logoColor||'#2dd4bf'}18,${gpForm.logoColor||'#2dd4bf'}38)` }}>
+                  {gpLogo
+                    ? <img src={gpLogo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                    : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:gpForm.logoColor||'#2dd4bf' }}>{(gpForm.name||'?').split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?'}</span>}
+                </div>
+                <div style={{ flex:1 }}>
+                  <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
+                    📷 Upload logo
+                    <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                      const file=e.target.files?.[0]; if(!file) return
+                      const img=new Image(), url=URL.createObjectURL(file)
+                      img.onload=()=>{ const S=128, c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setGpLogo(c.toDataURL('image/webp',0.85)) }
+                      img.src=url
+                    }} />
+                  </label>
+                  {gpLogo && <button onClick={()=>setGpLogo(null)} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block',marginBottom:8}}>✕ Remove</button>}
+                  <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                    {logoColors.map(col=>(
+                      <button key={col} onClick={()=>setGpForm(f=>({...f,logoColor:col}))}
+                        style={{ width:22, height:22, borderRadius:'50%', background:col, border:`2px solid ${(gpForm.logoColor||'#2dd4bf')===col?'#fff':'transparent'}`, cursor:'pointer', transition:'transform 0.15s' }}
+                        onMouseEnter={e=>e.currentTarget.style.transform='scale(1.2)'}
+                        onMouseLeave={e=>e.currentTarget.style.transform=''} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+              <div><label className="flabel">Name *</label><input className="inp" value={gpForm.name||''} onChange={e=>setGpForm(f=>({...f,name:e.target.value}))} placeholder="Organisation name" /></div>
+              <div><label className="flabel">City</label><input className="inp" value={gpForm.city||''} onChange={e=>setGpForm(f=>({...f,city:e.target.value}))} placeholder="Pristina, Berlin…" /></div>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+              <div><label className="flabel">Email</label><input className="inp" value={gpForm.email||''} onChange={e=>setGpForm(f=>({...f,email:e.target.value}))} /></div>
+              <div><label className="flabel">Phone</label><input className="inp" value={gpForm.phone||''} onChange={e=>setGpForm(f=>({...f,phone:e.target.value}))} /></div>
+            </div>
+            <div><label className="flabel">Website</label><input className="inp" value={gpForm.website||''} onChange={e=>setGpForm(f=>({...f,website:e.target.value}))} placeholder="partner.com" /></div>
+            <div><label className="flabel">Tags (comma separated)</label><input className="inp" value={gpForm.tags||''} onChange={e=>setGpForm(f=>({...f,tags:e.target.value}))} placeholder="IT, BPO, Gov Relations…" /></div>
+            <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={gpForm.desc||''} onChange={e=>setGpForm(f=>({...f,desc:e.target.value}))} /></div>
+            <div style={{ display:'flex', gap:18 }}>
+              <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
+                <input type="checkbox" checked={!!gpForm.visible} onChange={e=>setGpForm(f=>({...f,visible:e.target.checked}))} /> Visible
+              </label>
+              <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
+                <input type="checkbox" checked={!!gpForm.featured} onChange={e=>setGpForm(f=>({...f,featured:e.target.checked}))} /> ⭐ Featured
+              </label>
+            </div>
+            <div style={{ display:'flex', gap:10 }}>
+              <button className="btn gbtn" style={{ flex:1, padding:'11px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveGP} disabled={gpSaving||!gpForm.name}>
+                {gpSaving ? '⏳ Saving…' : '💾 Save Partner'}
+              </button>
+              <button className="btn ghost" style={{ padding:'11px 20px' }} onClick={()=>setGpEdit(null)} disabled={gpSaving}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 // ─── ADMIN PAGE ──────────────────────────────────────────────────────────────
 let ADMIN_PASSWORD = 'bbplatform2025admin'
@@ -2948,196 +3275,9 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       )}
 
       {/* ── TAB: PARTNERS ────────────────────────────────────────────────── */}
-      {tab === 'partners' && (() => {
-        // General Partner CRUD — manage DB profiles with type === 'partner'
-        const gpList = profiles.filter(p => p.type === 'partner')
-        const [gpEdit, setGpEdit] = React.useState(null)         // null = list, 'new' = new form, obj = editing
-        const [gpForm, setGpForm] = React.useState({})
-        const [gpLogo, setGpLogo] = React.useState(null)
-        const [gpSaving, setGpSaving] = React.useState(false)
-        const [gpMsg, setGpMsg] = React.useState('')
-
-        const openNew = () => {
-          setGpForm({ name:'', city:'', email:'', website:'', phone:'', desc:'', tags:'', logoColor:'#2dd4bf', visible:true, featured:false, order:gpList.length+1 })
-          setGpLogo(null); setGpEdit('new')
-        }
-        const openEditGP = (p) => {
-          setGpForm({ name:p.name||'', city:p.city||'', email:p.contact||'', website:p.website||'', phone:p.phone||'', desc:p.desc?.en||'', tags:(p.tags||[]).join(', '), logoColor:p.logoColor||'#2dd4bf', visible:p.verified!==false, featured:p.tier==='sponsored', order:p._order||1 })
-          setGpLogo(p.logoUrl||null); setGpEdit(p)
-        }
-        const saveGP = async () => {
-          setGpSaving(true)
-          const fields = {
-            name: gpForm.name, city: gpForm.city||null, email: gpForm.email||null,
-            phone: gpForm.phone||null, website: gpForm.website||null,
-            type: 'partner', cat: 'partner',
-            tier: gpForm.featured ? 'sponsored' : 'free',
-            verified: gpForm.visible,
-            logo_color: gpForm.logoColor||'#2dd4bf',
-            tags: gpForm.tags ? gpForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : [],
-            desc_en: gpForm.desc||null, desc_sq: gpForm.desc||null,
-          }
-          if (gpLogo && gpLogo.startsWith('data:')) fields.logo_data = gpLogo
-          if (gpEdit === 'new') {
-            await insertProfile(fields)
-          } else {
-            await updateProfile(gpEdit.id, fields)
-          }
-          setGpSaving(false); setGpEdit(null); setGpMsg('✓ Saved')
-          setTimeout(() => setGpMsg(''), 2000)
-          // Reload profiles
-          fetchAllProfilesAdmin().then(d => setProfiles(d)).catch(()=>{})
-        }
-        const deleteGP = async (id) => {
-          if (!window.confirm('Delete this partner? Cannot be undone.')) return
-          await deleteProfile(id)
-          setProfiles(ps => ps.filter(x => x.id !== id))
-        }
-        const toggleVisible = async (p) => {
-          await updateProfile(p.id, { verified: !p.verified })
-          setProfiles(ps => ps.map(x => x.id === p.id ? {...x, verified: !x.verified} : x))
-        }
-        const toggleFeatured = async (p) => {
-          const newTier = p.tier === 'sponsored' ? 'free' : 'sponsored'
-          await updateProfile(p.id, { tier: newTier })
-          setProfiles(ps => ps.map(x => x.id === p.id ? {...x, tier: newTier} : x))
-        }
-
-        const logoColors = ['#2dd4bf','#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#d4a843']
-
-        return (
-          <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
-            {/* Header */}
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-              <div>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17 }}>🤝 General Partner Management</div>
-                <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Manage partners shown on the Concierge & Partners page</div>
-              </div>
-              {gpEdit === null && (
-                <button className="btn gbtn" style={{ padding:'9px 18px', fontSize:13 }} onClick={openNew}>+ Add Partner</button>
-              )}
-            </div>
-            {gpMsg && <div style={{ fontSize:12, color:G.green }}>{gpMsg}</div>}
-
-            {/* LIST VIEW */}
-            {gpEdit === null && (
-              gpList.length === 0 ? (
-                <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'40px', textAlign:'center', color:G.muted }}>
-                  <div style={{ fontSize:36, marginBottom:12 }}>🤝</div>
-                  <div>No general partners yet. Click "Add Partner" to create the first one.</div>
-                </div>
-              ) : (
-                <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-                  {gpList.map(p => (
-                    <div key={p.id} style={{ background:G.surface, border:`1px solid ${p.verified!==false?'rgba(45,212,191,0.25)':G.border}`, borderRadius:14, padding:'16px 20px', display:'flex', gap:14, alignItems:'center' }}>
-                      <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={44} />
-                      <div style={{ flex:1, minWidth:0 }}>
-                        <div style={{ fontWeight:700, fontSize:14, display:'flex', alignItems:'center', gap:8 }}>
-                          {p.name}
-                          {p.tier==='sponsored' && <span style={{ fontSize:10, background:'rgba(212,168,67,0.12)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5, padding:'1px 7px', fontWeight:700 }}>⭐ Featured</span>}
-                          {p.verified===false && <span style={{ fontSize:10, background:'rgba(255,255,255,0.04)', color:G.muted, border:'1px solid rgba(255,255,255,0.1)', borderRadius:5, padding:'1px 7px' }}>Hidden</span>}
-                        </div>
-                        <div style={{ fontSize:11, color:G.muted, marginTop:2 }}>
-                          {[p.city, p.website].filter(Boolean).join(' · ')}
-                        </div>
-                        {(p.tags||[]).length > 0 && (
-                          <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginTop:5 }}>
-                            {p.tags.slice(0,4).map(t2 => <span key={t2} className="tag" style={{fontSize:10}}>{t2}</span>)}
-                          </div>
-                        )}
-                      </div>
-                      <div style={{ display:'flex', flexDirection:'column', gap:5, alignItems:'flex-end', flexShrink:0 }}>
-                        <div style={{ display:'flex', gap:5 }}>
-                          <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.2)', borderRadius:5 }} onClick={() => openEditGP(p)}>✏️ Edit</button>
-                          <button className="btn" style={{ fontSize:10, padding:'3px 9px', background: p.verified!==false?'rgba(52,199,89,0.08)':'rgba(255,255,255,0.04)', color: p.verified!==false?G.green:G.muted, border:`1px solid ${p.verified!==false?'rgba(52,199,89,0.2)':'rgba(255,255,255,0.1)'}`, borderRadius:5 }} onClick={() => toggleVisible(p)}>{p.verified!==false?'👁 Visible':'👁 Hidden'}</button>
-                          <button className="btn" style={{ fontSize:10, padding:'3px 9px', background: p.tier==='sponsored'?G.goldDim:'rgba(255,255,255,0.04)', color: p.tier==='sponsored'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius:5 }} onClick={() => toggleFeatured(p)}>⭐ Featured</button>
-                          <button className="btn" style={{ fontSize:10, padding:'3px 9px', background:'rgba(255,59,48,0.08)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:5 }} onClick={() => deleteGP(p.id)}>🗑</button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )
-            )}
-
-            {/* EDIT / NEW FORM */}
-            {gpEdit !== null && (
-              <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:16, overflow:'hidden' }}>
-                <div style={{ padding:'18px 22px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', background:'rgba(45,212,191,0.04)' }}>
-                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, color:G.teal }}>
-                    {gpEdit === 'new' ? '+ New General Partner' : `✏️ Edit: ${gpEdit.name}`}
-                  </div>
-                  <button className="btn ghost" style={{ fontSize:12, padding:'5px 12px' }} onClick={() => setGpEdit(null)}>✕ Cancel</button>
-                </div>
-                <div style={{ padding:'22px 22px', display:'flex', flexDirection:'column', gap:14 }}>
-                  {/* Logo */}
-                  <div>
-                    <label className="flabel">Logo</label>
-                    <div style={{ display:'flex', gap:12, alignItems:'flex-start', marginTop:8 }}>
-                      <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gpForm.logoColor||'#2dd4bf'}18,${gpForm.logoColor||'#2dd4bf'}38)` }}>
-                        {gpLogo && gpLogo.startsWith('data:') ? <img src={gpLogo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                          : gpLogo ? <img src={gpLogo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                          : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, color:gpForm.logoColor||'#2dd4bf' }}>{(gpForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()||'?'}</span>}
-                      </div>
-                      <div style={{ flex:1 }}>
-                        <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'7px 14px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
-                          📷 Upload logo
-                          <input type="file" accept="image/*" style={{display:'none'}} onChange={e => {
-                            const file = e.target.files?.[0]; if(!file) return
-                            const img = new Image(); const url = URL.createObjectURL(file)
-                            img.onload = () => { const S=88; const c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setGpLogo(c.toDataURL('image/webp',0.82)) }
-                            img.src = url
-                          }} />
-                        </label>
-                        {gpLogo && <button onClick={()=>setGpLogo(null)} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block',marginBottom:8}}>✕ Remove</button>}
-                        <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                          {logoColors.map(col => (
-                            <button key={col} onClick={() => setGpForm(f=>({...f,logoColor:col}))}
-                              style={{ width:24, height:24, borderRadius:'50%', background:col, border:`2px solid ${(gpForm.logoColor||'#2dd4bf')===col?'#fff':'transparent'}`, cursor:'pointer', boxShadow:(gpForm.logoColor||'#2dd4bf')===col?`0 0 0 2px ${col}`:'none' }} />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Fields */}
-                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
-                    <div><label className="flabel">Organisation name *</label><input className="inp" value={gpForm.name||''} onChange={e=>setGpForm(f=>({...f,name:e.target.value}))} /></div>
-                    <div><label className="flabel">City</label><input className="inp" value={gpForm.city||''} onChange={e=>setGpForm(f=>({...f,city:e.target.value}))} placeholder="Pristina, Berlin…" /></div>
-                  </div>
-                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
-                    <div><label className="flabel">Email</label><input className="inp" value={gpForm.email||''} onChange={e=>setGpForm(f=>({...f,email:e.target.value}))} /></div>
-                    <div><label className="flabel">Phone</label><input className="inp" value={gpForm.phone||''} onChange={e=>setGpForm(f=>({...f,phone:e.target.value}))} /></div>
-                  </div>
-                  <div><label className="flabel">Website</label><input className="inp" value={gpForm.website||''} onChange={e=>setGpForm(f=>({...f,website:e.target.value}))} placeholder="partner.com" /></div>
-                  <div><label className="flabel">Tags / Focus areas (comma separated)</label><input className="inp" value={gpForm.tags||''} onChange={e=>setGpForm(f=>({...f,tags:e.target.value}))} placeholder="IT, BPO, Government Relations…" /></div>
-                  <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={gpForm.desc||''} onChange={e=>setGpForm(f=>({...f,desc:e.target.value}))} /></div>
-
-                  {/* Toggles */}
-                  <div style={{ display:'flex', gap:16 }}>
-                    <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
-                      <input type="checkbox" checked={!!gpForm.visible} onChange={e=>setGpForm(f=>({...f,visible:e.target.checked}))} />
-                      Visible (Published)
-                    </label>
-                    <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
-                      <input type="checkbox" checked={!!gpForm.featured} onChange={e=>setGpForm(f=>({...f,featured:e.target.checked}))} />
-                      ⭐ Featured highlight
-                    </label>
-                  </div>
-
-                  {/* Save */}
-                  <div style={{ display:'flex', gap:10, paddingTop:4 }}>
-                    <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveGP} disabled={gpSaving||!gpForm.name}>
-                      {gpSaving ? <><div style={{width:13,height:13,border:'2px solid rgba(0,0,0,0.25)',borderTopColor:G.bg,borderRadius:'50%'}} className="sp" />Saving…</> : '💾 Save Partner'}
-                    </button>
-                    <button className="btn ghost" style={{ padding:'12px 22px' }} onClick={() => setGpEdit(null)} disabled={gpSaving}>Cancel</button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )
-      })()}
+      {tab === 'partners' && (
+        <AdminPartnersTab profiles={profiles} setProfiles={setProfiles} G={G} />
+      )}
 
       {/* ── TAB: SETTINGS ─────────────────────────────────────────────────── */}
       {tab === 'settings' && (
@@ -3293,6 +3433,8 @@ export default function App() {
   })
   const [page, setPage] = useState('home')
   const [searchQ, setSearchQ] = useState('')
+  const [dirCat, setDirCat] = useState('all')
+  const [profileDetail, setProfileDetail] = useState(null)
   const [mobileNav, setMobileNav] = useState(false)
   const [showReg, setShowReg] = useState(false)
   const [regType, setRegType] = useState(null)
@@ -3470,7 +3612,7 @@ export default function App() {
               {CATS.map((c, i) => {
                 const count = (window.__techgateProfiles||[]).filter(p=>p.cat===c.id&&p.verified!==false&&p.type!=='partner').length
                 return (
-                  <div key={c.id} onClick={() => setPage('directory')}
+                  <div key={c.id} onClick={() => { setDirCat(c.id); setPage('directory') }}
                     style={{ padding: '12px 10px', cursor: 'pointer', borderRadius: 12, position:'relative', overflow:'hidden',
                       background: `linear-gradient(135deg,${c.color}09,${c.color}04)`,
                       border: `1px solid ${c.color}30`,
@@ -3511,8 +3653,9 @@ export default function App() {
                         background: 'linear-gradient(145deg,rgba(251,146,60,0.06),rgba(251,146,60,0.02),rgba(212,168,67,0.03))',
                         border: '1px solid rgba(251,146,60,0.38)',
                         boxShadow: '0 4px 28px rgba(0,0,0,0.3), 0 0 0 0 rgba(251,146,60,0)',
-                        transition: 'transform 0.22s, box-shadow 0.22s',
+                        transition: 'transform 0.22s, box-shadow 0.22s', cursor: 'pointer',
                       }}
+                        onClick={() => setProfileDetail(p)}
                         onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35),0 0 28px rgba(251,146,60,0.1)'}}
                         onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 28px rgba(0,0,0,0.3)'}}>
                         {/* Top sponsor bar */}
@@ -3626,7 +3769,7 @@ export default function App() {
           </section>
         </>
       )}
-      {page === 'directory'  && <DirectoryPage lang={lang} t={t} initialQ={searchQ} onQClear={() => setSearchQ('')} />}
+      {page === 'directory'  && <DirectoryPage lang={lang} t={t} initialQ={searchQ} onQClear={() => setSearchQ('')} initialCat={dirCat} />}
       {page === 'concierge'  && (
         <>
           <ConciergePage lang={lang} t={t} content={siteContent} />
@@ -3644,20 +3787,18 @@ export default function App() {
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.regTitle}</div>
                   <ModalClose onClose={() => setShowReg(false)} />
                 </div>
-                {/* Kosovo-based: Firma & Freelancer */}
+                {/* Kosovo-based: single entry point for Firm & Freelancer */}
                 <div style={{ fontSize:10, color:G.muted, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
                   🇽🇰 {lang==='sq'?'Bazuar në Kosovë':'Kosova-based'}
                 </div>
                 <div style={{ display: 'flex', gap: 9, marginBottom:12 }}>
-                  {[[t.regComp, t.regCompS], [t.regFL, t.regFLS]].map(([l, sub], i) => (
-                    <div key={i} onClick={() => setRegType(l)}
-                      style={{ flex:1, padding:'15px 9px', border:`1px solid ${G.border}`, borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor=G.goldBorder; e.currentTarget.style.background=G.goldDim }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor=G.border; e.currentTarget.style.background='transparent' }}>
-                      <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:4 }}>{l}</div>
-                      <div style={{ fontSize:11, color:G.muted }}>{sub}</div>
-                    </div>
-                  ))}
+                  <div onClick={() => setRegType(t.regComp)}
+                    style={{ flex:1, padding:'15px 9px', border:`1px solid ${G.border}`, borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor=G.goldBorder; e.currentTarget.style.background=G.goldDim }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor=G.border; e.currentTarget.style.background='transparent' }}>
+                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:4 }}>🏢 {lang==='sq'?'Kompani & Freelancerë':'Company & Freelancer'}</div>
+                    <div style={{ fontSize:11, color:G.muted }}>{lang==='sq'?'Regjistro biznesin ose profilin tënd':'Register your business or individual profile'}</div>
+                  </div>
                 </div>
                 {/* Partner */}
                 <div style={{ fontSize:10, color:G.teal, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
@@ -3701,6 +3842,15 @@ export default function App() {
             <button className="btn gbtn" style={{ width: '100%' }} onClick={() => { setRegDone(false); setShowReg(false); setRegType(null) }}>{t.close}</button>
           </div>
         </div>
+      )}
+
+      {/* ── PROFILE DETAIL MODAL ── */}
+      {profileDetail && (
+        <ProfileDetailModal
+          p={profileDetail} lang={lang} t={t}
+          onClose={() => setProfileDetail(null)}
+          onContact={p => { setProfileDetail(null); /* contact handled in dir page */ }}
+        />
       )}
 
       {/* ── FOOTER ── */}
@@ -3760,10 +3910,13 @@ export default function App() {
     .feat-grid{grid-template-columns:1fr !important;}
     .pkg-grid{grid-template-columns:1fr !important;}
     .dir-filters{flex-wrap:wrap !important;}
-    .partner-cards-grid{grid-template-columns:1fr !important;}
-    .partner-cards{grid-template-columns:1fr !important;}
     .match-pills{gap:5px !important;}
     .footer-row{flex-direction:column !important;gap:8px !important;}
+    /* Sector filter: hide pills, show dropdown on mobile */
+    .sector-pills-desktop{display:none !important;}
+    .sector-pills-mobile{display:block !important;}
+    /* Partner cards: 1 col on mobile */
+    .partner-cards{grid-template-columns:1fr !important;}
     /* Home how-it-works: 1 col on mobile */
     section [style*="repeat(3,1fr)"]{grid-template-columns:1fr !important;}
     /* Sector boxes: 3 col on mobile */
@@ -3781,7 +3934,6 @@ export default function App() {
     .feat-grid{grid-template-columns:1fr 1fr !important;}
     .pkg-grid{grid-template-columns:1fr 1fr !important;}
     .admin-stats-grid{grid-template-columns:repeat(2,1fr) !important;}
-    /* Tablet: 2-col how it works */
     section [style*="repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr) !important;}
     .partner-cards{grid-template-columns:1fr 1fr !important;}
   }
