@@ -514,24 +514,114 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
   const isSp = p.tier === 'sponsored'
   const website = p.website ? p.website.replace(/^https?:\/\//,'') : null
   const accentColor = isPartner ? '#2dd4bf' : isSp ? '#fb923c' : '#d4a843'
+
+  if (isSp && !isPartner) {
+    // ── PREMIUM SPONSORED MODAL ──────────────────────────────────────────────
+    return (
+      <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
+        <div style={{ background:'#0e1420', border:'1px solid rgba(251,146,60,0.45)', borderRadius:24, width:'100%', maxWidth:660, maxHeight:'92vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)' }}>
+          {/* Hero header */}
+          <div style={{ position:'relative', minHeight:160, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22 0%,rgba(251,146,60,0.08) 50%,rgba(212,168,67,0.06) 100%)`, borderRadius:'24px 24px 0 0', overflow:'hidden', padding:'28px 28px 20px' }}>
+            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at 80% 30%,rgba(251,146,60,0.15),transparent 55%),radial-gradient(circle at 20% 80%,rgba(212,168,67,0.1),transparent 50%)', pointerEvents:'none' }} />
+            <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.4),transparent)' }} />
+            {/* Close */}
+            <button onClick={onClose} style={{ position:'absolute', top:16, right:16, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, zIndex:2 }}>✕</button>
+            <div style={{ display:'flex', gap:18, alignItems:'flex-end', position:'relative' }}>
+              {/* Large logo */}
+              <div style={{ width:88, height:88, borderRadius:20, overflow:'hidden', flexShrink:0, border:'3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 32px rgba(251,146,60,0.25)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22,${p.logoColor||'#fb923c'}44)` }}>
+                {p.logoUrl ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:28, color:p.logoColor||'#fb923c' }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+              </div>
+              <div style={{ flex:1 }}>
+                <div style={{ display:'flex', gap:7, marginBottom:7, flexWrap:'wrap' }}>
+                  <span style={{ fontSize:10, background:'rgba(251,146,60,0.18)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.4)', borderRadius:20, padding:'3px 11px', fontWeight:800, letterSpacing:'0.3px' }}>🚀 SPONSORED</span>
+                  {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.12)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:20, padding:'3px 11px', fontWeight:700 }}>✓ VERIFIED</span>}
+                </div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:24, letterSpacing:'-0.5px', marginBottom:4 }}>{p.name}</div>
+                <div style={{ fontSize:12, color:'rgba(232,228,217,0.6)', display:'flex', gap:10, flexWrap:'wrap' }}>
+                  {p.city && <span>📍 {p.city}</span>}
+                  {p.cat && <span>· {catLabel(p.cat, lang)}</span>}
+                  {isFL && p.languages && <span>· 🗣 {p.languages}</span>}
+                  {!isFL && p.employees && <span>· 👥 {p.employees}</span>}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ padding:'24px 28px 28px' }}>
+            {/* Description */}
+            {(p.desc?.[lang]||p.desc?.en) && (
+              <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:15, color:'rgba(232,228,217,0.85)', lineHeight:1.8, marginBottom:20 }}>
+                {p.desc[lang]||p.desc.en}
+              </p>
+            )}
+
+            {/* Tags */}
+            {(p.tags||[]).length>0 && (
+              <div style={{ marginBottom:20 }}>
+                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Expertise & Services</div>
+                <div style={{ display:'flex', gap:7, flexWrap:'wrap' }}>
+                  {p.tags.map(tg=><span key={tg} style={{ fontSize:12, background:'rgba(251,146,60,0.1)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.25)', borderRadius:20, padding:'5px 14px', fontWeight:600 }}>{tg}</span>)}
+                </div>
+              </div>
+            )}
+
+            {/* Details */}
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:20 }}>
+              {p.markets && <div style={{ background:'rgba(251,146,60,0.05)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'10px 14px' }}>
+                <div style={{ fontSize:10, color:'rgba(251,146,60,0.6)', marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div>
+                <div style={{ fontSize:13, fontWeight:600 }}>🌍 {p.markets}</div>
+              </div>}
+              <div style={{ background:'rgba(251,146,60,0.05)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'10px 14px' }}>
+                <div style={{ fontSize:10, color:'rgba(251,146,60,0.6)', marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Engagement</div>
+                <div style={{ fontSize:13, fontWeight:600 }}>💼 {t.rateNote}</div>
+              </div>
+            </div>
+
+            {/* Social / website */}
+            {website && (
+              <div style={{ background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:12, padding:'12px 16px', marginBottom:20, display:'flex', alignItems:'center', gap:10 }}>
+                <span style={{ fontSize:18 }}>🌐</span>
+                <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ color:'#fb923c', textDecoration:'none', fontWeight:600, fontSize:14 }}>{website} ↗</a>
+              </div>
+            )}
+
+            {/* CTAs */}
+            <div style={{ display:'flex', gap:10 }}>
+              {p.contact && (
+                <button className="btn" style={{ flex:1, padding:'13px', fontSize:14, fontWeight:700, background:'linear-gradient(135deg,#fb923c,#f59e0b)', color:'#0e1420', border:'none', borderRadius:12, cursor:'pointer' }}
+                  onClick={()=>{ onContact(p); onClose() }}>
+                  ✉️ {lang==='sq'?'Kontakto':'Contact Now'}
+                </button>
+              )}
+              {website && (
+                <a href={`https://${website}`} target="_blank" rel="noopener noreferrer"
+                  style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'13px 20px', background:'rgba(251,146,60,0.1)', border:'1px solid rgba(251,146,60,0.3)', borderRadius:12, color:'#fb923c', textDecoration:'none', fontSize:13, fontWeight:600 }}>
+                  🌐 {lang==='sq'?'Vizito':'Visit'}
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ── STANDARD MODAL (free / partner) ──────────────────────────────────────────
   return (
     <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
-      <div className="modal" style={{ maxWidth:580, maxHeight:'90vh', overflowY:'auto', padding:0, borderRadius:20, border:`1px solid ${accentColor}40` }}>
-        {/* Top bar */}
-        <div style={{ height:4, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)`, borderRadius:'20px 20px 0 0' }} />
-        <div style={{ padding:'24px 28px 20px' }}>
-          {/* Header */}
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:20 }}>
+      <div className="modal" style={{ maxWidth:560, maxHeight:'90vh', overflowY:'auto', padding:0, borderRadius:20, border:`1px solid ${accentColor}40` }}>
+        <div style={{ height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)`, borderRadius:'20px 20px 0 0' }} />
+        <div style={{ padding:'24px 26px 22px' }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:18 }}>
             <div style={{ display:'flex', gap:14, alignItems:'center' }}>
-              <div style={{ width:68, height:68, borderRadius:16, overflow:'hidden', flexShrink:0, border:`2px solid ${accentColor}44`, boxShadow:`0 0 20px ${accentColor}18`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||accentColor}18,${p.logoColor||accentColor}38)` }}>
-                {p.logoUrl
-                  ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:22, color:p.logoColor||accentColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+              <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${accentColor}44`, boxShadow:`0 0 16px ${accentColor}14`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||accentColor}18,${p.logoColor||accentColor}36)` }}>
+                {p.logoUrl ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:p.logoColor||accentColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
               </div>
               <div>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, marginBottom:4 }}>{p.name}</div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, marginBottom:4 }}>{p.name}</div>
                 <div style={{ display:'flex', gap:6, flexWrap:'wrap', alignItems:'center' }}>
-                  {isSp && <span style={{ fontSize:10, background:'rgba(251,146,60,0.14)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.3)', borderRadius:20, padding:'2px 9px', fontWeight:700 }}>🚀 Sponsored</span>}
                   {isPartner && <span style={{ fontSize:10, background:'rgba(45,212,191,0.12)', color:'#2dd4bf', border:'1px solid rgba(45,212,191,0.3)', borderRadius:20, padding:'2px 9px', fontWeight:700 }}>✓ Official Partner</span>}
                   {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.2)', borderRadius:20, padding:'2px 9px' }}>✓ Verified</span>}
                   {p.city && <span style={{ fontSize:11, color:G.muted }}>📍 {p.city}</span>}
@@ -540,71 +630,19 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
             </div>
             <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, flexShrink:0 }}>✕</button>
           </div>
-
-          {/* Description */}
-          {(p.desc?.[lang] || p.desc?.en) && (
-            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:'rgba(232,228,217,0.8)', lineHeight:1.75, marginBottom:18 }}>
-              {p.desc[lang] || p.desc.en}
-            </p>
-          )}
-
-          {/* Details grid */}
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:18 }}>
-            {p.cat && !isPartner && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px' }}>
-              <div style={{ fontSize:10, color:G.muted, marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div>
-              <div style={{ fontSize:13, fontWeight:600 }}>{catLabel(p.cat, lang)}</div>
-            </div>}
-            {isFL && p.languages && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px' }}>
-              <div style={{ fontSize:10, color:G.muted, marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div>
-              <div style={{ fontSize:13, fontWeight:600 }}>🗣 {p.languages}</div>
-            </div>}
-            {!isFL && p.employees && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px' }}>
-              <div style={{ fontSize:10, color:G.muted, marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Team size</div>
-              <div style={{ fontSize:13, fontWeight:600 }}>👥 {p.employees}</div>
-            </div>}
-            {p.markets && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px' }}>
-              <div style={{ fontSize:10, color:G.muted, marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div>
-              <div style={{ fontSize:13, fontWeight:600 }}>🌍 {p.markets}</div>
-            </div>}
+          {(p.desc?.[lang]||p.desc?.en) && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.78)', lineHeight:1.75, marginBottom:16 }}>{p.desc[lang]||p.desc.en}</p>}
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:9, marginBottom:16 }}>
+            {p.cat && !isPartner && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div><div style={{ fontSize:12, fontWeight:600 }}>{catLabel(p.cat,lang)}</div></div>}
+            {isFL && p.languages && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div><div style={{ fontSize:12, fontWeight:600 }}>🗣 {p.languages}</div></div>}
+            {!isFL && p.employees && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Team</div><div style={{ fontSize:12, fontWeight:600 }}>👥 {p.employees}</div></div>}
+            {p.markets && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div><div style={{ fontSize:12, fontWeight:600 }}>🌍 {p.markets}</div></div>}
           </div>
-
-          {/* Tags */}
-          {(p.tags||[]).length > 0 && (
-            <div style={{ marginBottom:18 }}>
-              <div style={{ fontSize:11, color:G.muted, marginBottom:8, textTransform:'uppercase', letterSpacing:'0.5px' }}>Expertise & Services</div>
-              <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                {p.tags.map(tg => <span key={tg} style={{ fontSize:12, background:`${accentColor}10`, color:accentColor, border:`1px solid ${accentColor}28`, borderRadius:20, padding:'4px 12px' }}>{tg}</span>)}
-              </div>
-            </div>
-          )}
-
-          {/* Pricing note */}
-          {!isPartner && (
-            <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:10, padding:'10px 14px', marginBottom:18 }}>
-              <div style={{ fontSize:12, color:accentColor }}>💼 {t.rateNote}</div>
-            </div>
-          )}
-
-          {/* CTA buttons */}
+          {(p.tags||[]).length>0 && <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:16 }}>{p.tags.map(tg=><span key={tg} style={{ fontSize:11, background:`${accentColor}10`, color:accentColor, border:`1px solid ${accentColor}28`, borderRadius:20, padding:'3px 11px' }}>{tg}</span>)}</div>}
+          {!isPartner && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px', marginBottom:16 }}><div style={{ fontSize:12, color:accentColor }}>💼 {t.rateNote}</div></div>}
           <div style={{ display:'flex', gap:9, flexWrap:'wrap' }}>
-            {p.contact && !isPartner && (
-              <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:13, fontWeight:700 }}
-                onClick={() => { onContact(p); onClose() }}>
-                ✉️ {lang==='sq' ? 'Kontakt' : 'Contact'}
-              </button>
-            )}
-            {isPartner && (
-              <button className="btn teal-btn" style={{ flex:1, padding:'12px', fontSize:13, fontWeight:700 }}
-                onClick={onClose}>
-                ✉️ {lang==='sq' ? 'Dërgoni kërkesë' : 'Send Enquiry'}
-              </button>
-            )}
-            {website && (
-              <a href={`https://${website}`} target="_blank" rel="noopener noreferrer"
-                style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'12px 18px', background:`${accentColor}0d`, border:`1px solid ${accentColor}33`, borderRadius:10, color:accentColor, textDecoration:'none', fontSize:13, fontWeight:600 }}>
-                🌐 {website}
-              </a>
-            )}
+            {p.contact && !isPartner && <button className="btn gbtn" style={{ flex:1, padding:'11px', fontSize:13, fontWeight:700 }} onClick={()=>{ onContact(p); onClose() }}>✉️ {lang==='sq'?'Kontakt':'Contact'}</button>}
+            {isPartner && <button className="btn teal-btn" style={{ flex:1, padding:'11px', fontSize:13, fontWeight:700 }} onClick={onClose}>✉️ {lang==='sq'?'Dërgoni kërkesë':'Send Enquiry'}</button>}
+            {website && <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'11px 16px', background:`${accentColor}0d`, border:`1px solid ${accentColor}33`, borderRadius:10, color:accentColor, textDecoration:'none', fontSize:13, fontWeight:600 }}>🌐 {website}</a>}
           </div>
         </div>
       </div>
@@ -1609,14 +1647,18 @@ function ConciergePage({ lang, t, content = {} }) {
           <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22, lineHeight: 1.7 }}>{t.concPartnersSub}</p>
           <div className="conc-partners-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
-            {/* rootsGTM */}
+            {/* rootsGTM — General Partner */}
             <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: '22px 20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: '1px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>🚀</div>
+                <div style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
+                  {P.rootsgtm_logo
+                    ? <img src={P.rootsgtm_logo} alt={P.rootsgtm_name||'rootsGTM'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                    : <span style={{ fontSize:28 }}>🚀</span>}
+                </div>
                 <div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.teal }}>{P.rootsgtm_name || 'rootsGTM'}</div>
                   <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
-                    {lang === 'sq' ? 'Partner Ekskluziv · Aktiv' : 'Exclusive Partner · Active'}
+                    {lang === 'sq' ? 'Partner i Përgjithshëm · Aktiv' : 'General Partner · Active'}
                   </div>
                 </div>
                 <span style={{ marginLeft: 'auto', fontSize: 11, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.25)', borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>✓ Live</span>
@@ -1624,7 +1666,7 @@ function ConciergePage({ lang, t, content = {} }) {
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
                 {P.rootsgtm_desc || 'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 18, className: "partner-feat-grid" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 18 }}>
                 {(lang === 'sq' ? ['🤝 Kontakt direkt', '📅 Organizim takimesh', '🎤 Evente & Rrjet', '📄 Vijim & Kontrata'] : ['🤝 Direct client contact', '📅 Meeting organisation', '🎤 Events & networking', '📄 Follow-up & contracts']).map(f => (
                   <div key={f} style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
                 ))}
@@ -1634,13 +1676,17 @@ function ConciergePage({ lang, t, content = {} }) {
               </button>
             </div>
 
-            {/* Regierung Kosovo */}
+            {/* Government — General Partner */}
             <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: '22px 20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: `1px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>🏛️</div>
+                <div style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
+                  {P.gov_logo
+                    ? <img src={P.gov_logo} alt={P.gov_name||'Kosova Gov'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                    : <span style={{ fontSize:28 }}>🏛️</span>}
+                </div>
                 <div>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.gold }}>
-                    {lang === 'sq' ? 'Qeveria e Kosovës' : 'Kosova Government'}
+                    {P.gov_name || (lang === 'sq' ? 'Qeveria e Kosovës' : 'Kosova Government')}
                   </div>
                   <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>InvestKosova · {lang === 'sq' ? 'Partner Zyrtar' : 'Official Partner'}</div>
                 </div>
@@ -1649,9 +1695,9 @@ function ConciergePage({ lang, t, content = {} }) {
                 </span>
               </div>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
-                {lang === 'sq' ? 'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë. Qëllimi: takime qeveritare, këshillim themelimi dhe mbështetje investimesh direkt nëpërmjet platformës.' : 'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy. Goal: government appointments, company formation advice and investment support directly through the platform.'}
+                {P.gov_desc || (lang === 'sq' ? 'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë.' : 'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy.')}
               </p>
-              <div className="partner-feat-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
                 {(lang === 'sq' ? ['🏛️ Takime InvestKosova', '📋 Këshillim themelimi', '🤝 Takime ministrie', '📊 Mbështetje investimesh'] : ['🏛️ InvestKosova meetings', '📋 Company formation advice', '🤝 Ministry appointments', '📊 Investment support']).map(f => (
                   <div key={f} style={{ background: 'rgba(212,168,67,0.07)', border: `1px solid ${G.goldBorder}`, borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
                 ))}
@@ -1850,27 +1896,38 @@ function ConciergePage({ lang, t, content = {} }) {
 
 // ─── GOV PAGE ─────────────────────────────────────────────────────────────────
 function GovPage({ lang, t, content = {} }) {
-  const gc = (window.__siteContent?.gov_content) || {}
+  const gc = content.gov || {}
+  // Defaults fallback to translated strings if no admin content set
+  const heroTitle    = gc.heroTitle    || t.govH1
+  const heroTitle2   = gc.heroTitle2   || t.govH2
+  const heroSub      = gc.heroSub      || t.govSub
+  const factsHeading = gc.factsHeading || t.govFactsH
+  const badge        = gc.badge        || t.govBadge
+  const btns = gc.buttons || [
+    { label: 'InvestKosova →', url: 'https://www.investkosova.com', style: 'primary' },
+    { label: 'ARBK →',         url: 'https://arbk.rks-gov.net',     style: 'ghost' },
+    { label: 'ATK →',          url: 'https://www.atk-ks.org',        style: 'ghost' },
+  ]
   return (
     <div style={{ padding: '44px', maxWidth: 980, margin: '0 auto' }}>
-      <div style={{ display: 'inline-block', background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 6, padding: '4px 12px', fontSize: 11, color: G.gold, marginBottom: 12, letterSpacing: '1px', textTransform: 'uppercase' }}>{t.govBadge}</div>
-      <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3.5vw,36px)', letterSpacing: '-0.7px', marginBottom: 10 }}>{t.govH1}<br /><span style={{ color: G.gold }}>{t.govH2}</span></h2>
-      <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.8, maxWidth: 560, marginBottom: 36 }}>{t.govSub}</p>
+      <div style={{ display: 'inline-block', background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 6, padding: '4px 12px', fontSize: 11, color: G.gold, marginBottom: 12, letterSpacing: '1px', textTransform: 'uppercase' }}>{badge}</div>
+      <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3.5vw,36px)', letterSpacing: '-0.7px', marginBottom: 10 }}>{heroTitle}<br /><span style={{ color: G.gold }}>{heroTitle2}</span></h2>
+      <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.8, maxWidth: 560, marginBottom: 36 }}>{heroSub}</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 32 }}>
-        {t.govSteps.map((s, i) => (
+        {(gc.steps || t.govSteps).map((s, i) => (
           <div key={i} className="card fu" style={{ padding: 18, animationDelay: `${i * 0.06}s` }}>
-            <div style={{ fontSize: 22, marginBottom: 8 }}>{s.ic}</div>
+            <div style={{ fontSize: 22, marginBottom: 8 }}>{s.ic || s.icon || '📋'}</div>
             <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 10, fontWeight: 700, color: G.gold, marginBottom: 4, letterSpacing: '0.5px' }}>{String(i + 1).padStart(2, '0')}</div>
-            <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 4 }}>{s.t}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, lineHeight: 1.6, marginBottom: 7 }}>{s.d}</p>
+            <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 4 }}>{s.t || s.title}</div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, lineHeight: 1.6, marginBottom: 7 }}>{s.d || s.desc}</p>
             <div style={{ fontSize: 11, background: 'rgba(52,199,89,0.08)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px', display: 'inline-block' }}>⏱ {s.time}</div>
           </div>
         ))}
       </div>
       <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 14, padding: '24px 28px' }}>
-        <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 18 }}>{t.govFactsH}</h3>
+        <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 18 }}>{factsHeading}</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(130px,1fr))', gap: 16, marginBottom: 20 }}>
-          {t.govFacts.map(([v, l]) => (
+          {(gc.facts || t.govFacts).map(([v, l]) => (
             <div key={l}>
               <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: G.gold }}>{v}</div>
               <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: G.muted, marginTop: 2 }}>{l}</div>
@@ -1878,9 +1935,10 @@ function GovPage({ lang, t, content = {} }) {
           ))}
         </div>
         <div style={{ borderTop: `1px solid ${G.goldBorder}`, paddingTop: 16, display: 'flex', gap: 9, flexWrap: 'wrap' }}>
-          <button className="btn gbtn" style={{ padding: '8px 16px', fontSize: 12 }} onClick={() => window.open('https://www.investkosova.com','_blank')}>InvestKosova →</button>
-          <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => window.open('https://arbk.rks-gov.net','_blank')}>ARBK →</button>
-          <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => window.open('https://www.atk-ks.org','_blank')}>ATK →</button>
+          {btns.map((btn, i) => btn.style === 'primary'
+            ? <button key={i} className="btn gbtn" style={{ padding: '8px 16px', fontSize: 12 }} onClick={() => window.open(btn.url, '_blank')}>{btn.label}</button>
+            : <button key={i} className="btn ghost" style={{ fontSize: 12 }} onClick={() => window.open(btn.url, '_blank')}>{btn.label}</button>
+          )}
         </div>
       </div>
     </div>
@@ -2297,12 +2355,44 @@ function SmartRegForm({ lang, t, regType, onDone }) {
       )}
 
       {/* Availability note */}
-      <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 9, padding: '10px 14px', marginBottom: 18, fontSize: 13, fontFamily: "'DM Sans',sans-serif", color: G.muted }}>
+      <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 9, padding: '10px 14px', marginBottom: 14, fontSize: 13, fontFamily: "'DM Sans',sans-serif", color: G.muted }}>
         {Lr.availNote}
+      </div>
+
+      {/* Tier selector — Free vs Sponsored */}
+      <div style={{ marginBottom: 18 }}>
+        <div style={{ fontSize: 11, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 9 }}>
+          {lang === 'sq' ? 'Zgjidhni planin:' : 'Choose your plan:'}
+        </div>
+        <div style={{ display: 'flex', gap: 9 }}>
+          {[
+            { val: 'free', icon: '🆓', label: lang==='sq'?'Pa pagesë':'Free', sub: lang==='sq'?'Listim bazë, i dukshëm në drejtori':'Basic listing, visible in directory', col: G.muted, border: G.border, bg: 'rgba(255,255,255,0.03)' },
+            { val: 'sponsored', icon: '🚀', label: lang==='sq'?'Sponsorizuar':'Sponsored', sub: lang==='sq'?'Top 3 · Kryefaqe · Dukshmëri premium':'Top 3 positions · Homepage · Premium visibility', col: G.orange, border: 'rgba(251,146,60,0.4)', bg: 'rgba(251,146,60,0.06)' },
+          ].map(opt => {
+            const sel = (form.tier || 'free') === opt.val
+            return (
+              <div key={opt.val} onClick={() => f('tier', opt.val)}
+                style={{ flex: 1, padding: '13px 10px', border: `1px solid ${sel ? opt.border : G.border}`, background: sel ? opt.bg : 'rgba(255,255,255,0.02)', borderRadius: 12, cursor: 'pointer', textAlign: 'center', transition: 'all 0.18s', position: 'relative' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = opt.border; e.currentTarget.style.background = opt.bg }}
+                onMouseLeave={e => { if (!sel) { e.currentTarget.style.borderColor = G.border; e.currentTarget.style.background = 'rgba(255,255,255,0.02)' } }}>
+                {sel && <div style={{ position: 'absolute', top: -1, left: -1, right: -1, height: 2, background: `linear-gradient(90deg,${opt.col},transparent)`, borderRadius: '12px 12px 0 0' }} />}
+                <div style={{ fontSize: 20, marginBottom: 5 }}>{opt.icon}</div>
+                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 12, color: sel ? opt.col : G.muted, marginBottom: 3 }}>{opt.label}</div>
+                <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.45)', lineHeight: 1.4 }}>{opt.sub}</div>
+                {opt.val === 'sponsored' && <div style={{ fontSize: 9, color: G.orange, marginTop: 5, fontWeight: 700 }}>→ {lang==='sq'?'Admin do ju kontaktojë':'Admin will contact you'}</div>}
+              </div>
+            )
+          })}
+        </div>
       </div>
 
       <button className="btn gbtn" style={{ width: '100%' }} disabled={!form.name || !form.email || !!emailError} onClick={async () => {
         const dbFields = formToDb(form, catChoice, selectedTags, regType, null)
+        // Ensure type is set correctly regardless of formToDb's string parsing
+        if (regType === t.regFL) dbFields.type = 'freelancer'
+        else if (regType === t.regComp) dbFields.type = 'company'
+        // Apply selected tier
+        if (form.tier === 'sponsored') dbFields.tier = 'sponsored'
         if (logoFile) dbFields.logo_data = logoFile
         const err = await insertProfile(dbFields)
         if (err) {
@@ -2311,7 +2401,6 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           const err2 = await insertProfile(fallback)
           if (err2) { alert('Submission failed: ' + (err2.message || JSON.stringify(err2))); return }
         }
-        // Email admin about new pending profile
         notifyAdminNewProfile({ name: form.name, email: form.email, cat: catChoice, city: form.city }).catch(() => {})
         onDone()
       }}>
@@ -2674,7 +2763,28 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
           {/* rootsGTM */}
           <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:14, padding:'20px 22px' }}>
             <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.teal, marginBottom:14, display:'flex', alignItems:'center', gap:8 }}>
-              <span style={{ fontSize:20 }}>🚀</span> rootsGTM — Exclusive Partner
+              <span style={{ fontSize:20 }}>🚀</span> rootsGTM — General Partner
+            </div>
+            {/* Logo row */}
+            <div style={{ display:'flex', gap:12, alignItems:'center', marginBottom:14, padding:'12px 14px', background:'rgba(45,212,191,0.04)', border:'1px solid rgba(45,212,191,0.15)', borderRadius:10 }}>
+              <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:'2px solid rgba(45,212,191,0.35)', display:'flex', alignItems:'center', justifyContent:'center', background:'linear-gradient(135deg,rgba(45,212,191,0.2),rgba(45,212,191,0.05))' }}>
+                {partners.rootsgtm_logo
+                  ? <img src={partners.rootsgtm_logo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                  : <span style={{ fontSize:28 }}>🚀</span>}
+              </div>
+              <div>
+                <div style={{ fontSize:12, color:G.muted, marginBottom:6 }}>General Partner logo (displayed larger on Concierge page)</div>
+                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
+                  📷 Upload logo
+                  <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                    const file=e.target.files?.[0]; if(!file) return
+                    const img=new Image(), url=URL.createObjectURL(file)
+                    img.onload=()=>{ const S=128,c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setPartners(p=>({...p,rootsgtm_logo:c.toDataURL('image/webp',0.85)})) }
+                    img.src=url
+                  }} />
+                </label>
+                {partners.rootsgtm_logo && <button onClick={()=>setPartners(p=>({...p,rootsgtm_logo:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px',marginLeft:6}}>✕ Remove</button>}
+              </div>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
               <div><label className="flabel">Organisation name</label><input className="inp" value={partners.rootsgtm_name||''} onChange={e=>setPartners(p=>({...p,rootsgtm_name:e.target.value}))} /></div>
@@ -2686,10 +2796,32 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
             </div>
             <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.rootsgtm_desc||''} onChange={e=>setPartners(p=>({...p,rootsgtm_desc:e.target.value}))} /></div>
           </div>
+
           {/* Government */}
           <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, padding:'20px 22px' }}>
             <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.gold, marginBottom:14, display:'flex', alignItems:'center', gap:8 }}>
-              <span style={{ fontSize:20 }}>🏛️</span> Kosova Government / InvestKosova
+              <span style={{ fontSize:20 }}>🏛️</span> Kosova Government / InvestKosova — General Partner
+            </div>
+            {/* Logo row */}
+            <div style={{ display:'flex', gap:12, alignItems:'center', marginBottom:14, padding:'12px 14px', background:G.goldDim, border:`1px solid ${G.goldBorder}`, borderRadius:10 }}>
+              <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${G.goldBorder}`, display:'flex', alignItems:'center', justifyContent:'center', background:'linear-gradient(135deg,rgba(212,168,67,0.2),rgba(212,168,67,0.05))' }}>
+                {partners.gov_logo
+                  ? <img src={partners.gov_logo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                  : <span style={{ fontSize:28 }}>🏛️</span>}
+              </div>
+              <div>
+                <div style={{ fontSize:12, color:G.muted, marginBottom:6 }}>General Partner logo (displayed larger on Concierge page)</div>
+                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
+                  📷 Upload logo
+                  <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                    const file=e.target.files?.[0]; if(!file) return
+                    const img=new Image(), url=URL.createObjectURL(file)
+                    img.onload=()=>{ const S=128,c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setPartners(p=>({...p,gov_logo:c.toDataURL('image/webp',0.85)})) }
+                    img.src=url
+                  }} />
+                </label>
+                {partners.gov_logo && <button onClick={()=>setPartners(p=>({...p,gov_logo:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px',marginLeft:6}}>✕ Remove</button>}
+              </div>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
               <div><label className="flabel">Organisation name</label><input className="inp" value={partners.gov_name||''} onChange={e=>setPartners(p=>({...p,gov_name:e.target.value}))} /></div>
@@ -2698,9 +2830,10 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
             <div style={{ marginBottom:10 }}><label className="flabel">Website</label><input className="inp" value={partners.gov_website||''} onChange={e=>setPartners(p=>({...p,gov_website:e.target.value}))} /></div>
             <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.gov_desc||''} onChange={e=>setPartners(p=>({...p,gov_desc:e.target.value}))} /></div>
           </div>
+
           {settingsSaved==='partners' && <div style={{ fontSize:12, color:G.green }}>✓ Saved to database</div>}
           <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'10px 24px' }} onClick={savePartners} disabled={saving}>
-            {saving ? 'Saving…' : '💾 Save Partner Details'}
+            {saving ? 'Saving…' : '💾 Save General Partner Details'}
           </button>
         </div>
       )}
@@ -2852,6 +2985,14 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     cta_email: 'concierge@bbplatform.com',
   })
   const [settingsSaved, setSettingsSaved] = React.useState('')
+  const [govContent, setGovContent] = React.useState({
+    badge: '', heroTitle: '', heroTitle2: '', heroSub: '', factsHeading: '',
+    buttons: [
+      { label: 'InvestKosova →', url: 'https://www.investkosova.com', style: 'primary' },
+      { label: 'ARBK →',         url: 'https://arbk.rks-gov.net',     style: 'ghost'   },
+      { label: 'ATK →',          url: 'https://www.atk-ks.org',        style: 'ghost'   },
+    ]
+  })
   const [editForm, setEditForm] = React.useState({})
   const [newPw, setNewPw] = React.useState('')
   const [newPwConfirm, setNewPwConfirm] = React.useState('')
@@ -2868,6 +3009,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       fetchSiteContent().then(content => {
         if (content.partners)  setPartners(prev => ({ ...prev, ...content.partners }))
         if (content.concierge) setConcierge(prev => ({ ...prev, ...content.concierge }))
+        if (content.gov)       setGovContent(prev => ({ ...prev, ...content.gov }))
       }).catch(() => {})
       // Auto-refresh pending every 30s
       const interval = setInterval(() => {
@@ -2899,6 +3041,17 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     await upsertSetting('concierge', concierge)
     setSaving(false)
     setSettingsSaved('concierge')
+    setTimeout(() => setSettingsSaved(''), 2500)
+  }
+
+  const saveGov = async () => {
+    setSaving(true)
+    await upsertSetting('gov', govContent)
+    // Also push to live window cache
+    window.__siteContent = { ...(window.__siteContent||{}), gov: govContent }
+    onContentSave && onContentSave('gov', govContent)
+    setSaving(false)
+    setSettingsSaved('gov')
     setTimeout(() => setSettingsSaved(''), 2500)
   }
 
@@ -3037,6 +3190,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     { id: 'profiles',         label: 'All profiles',      labelEn: 'All profiles',          icon: '📋' },
     { id: 'pending_changes',  label: 'Change requests',   labelEn: 'Change requests',       icon: '✏️' },
     { id: 'partners',         label: 'Partners',          labelEn: 'Partners',              icon: '🤝' },
+    { id: 'government',       label: 'Government Page',   labelEn: 'Government Page',       icon: '🏛️' },
     { id: 'settings',         label: 'Settings',          labelEn: 'Settings',              icon: '⚙️' },
   ]
 
@@ -3302,6 +3456,56 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
           saving={saving} settingsSaved={settingsSaved} />
       )}
 
+      {/* ── TAB: GOVERNMENT PAGE ──────────────────────────────────────────── */}
+      {tab === 'government' && (
+        <div style={{ display:'flex', flexDirection:'column', gap:18 }}>
+          <div>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17 }}>🏛️ Government Page Editor</div>
+            <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Edit all text and links on the Government page. Blank fields use the default translated text.</div>
+          </div>
+
+          {/* Hero section */}
+          <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, padding:'20px 22px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, color:G.gold, marginBottom:14 }}>Hero Section</div>
+            <div style={{ marginBottom:10 }}><label className="flabel">Badge text (e.g. "🏛️ For Investors & Governments")</label><input className="inp" value={govContent.badge||''} onChange={e=>setGovContent(g=>({...g,badge:e.target.value}))} placeholder="Leave blank for default" /></div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">Headline line 1</label><input className="inp" value={govContent.heroTitle||''} onChange={e=>setGovContent(g=>({...g,heroTitle:e.target.value}))} placeholder="Leave blank for default" /></div>
+              <div><label className="flabel">Headline line 2 (gold)</label><input className="inp" value={govContent.heroTitle2||''} onChange={e=>setGovContent(g=>({...g,heroTitle2:e.target.value}))} placeholder="Leave blank for default" /></div>
+            </div>
+            <div><label className="flabel">Subtitle / description</label><textarea className="inp" rows={2} style={{resize:'vertical'}} value={govContent.heroSub||''} onChange={e=>setGovContent(g=>({...g,heroSub:e.target.value}))} placeholder="Leave blank for default" /></div>
+          </div>
+
+          {/* Facts section */}
+          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'20px 22px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:14 }}>Facts Box Heading</div>
+            <div><label className="flabel">Section heading</label><input className="inp" value={govContent.factsHeading||''} onChange={e=>setGovContent(g=>({...g,factsHeading:e.target.value}))} placeholder="Leave blank for default" /></div>
+          </div>
+
+          {/* Buttons */}
+          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'20px 22px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:4 }}>Action Buttons</div>
+            <div style={{ fontSize:12, color:G.muted, marginBottom:14 }}>Edit the links and labels shown at the bottom of the Government page.</div>
+            {(govContent.buttons||[]).map((btn, i) => (
+              <div key={i} style={{ display:'grid', gridTemplateColumns:'1fr 2fr auto auto', gap:8, marginBottom:9, alignItems:'center' }}>
+                <select className="inp" style={{fontSize:11}} value={btn.style||'ghost'} onChange={e=>{ const b=[...govContent.buttons]; b[i]={...b[i],style:e.target.value}; setGovContent(g=>({...g,buttons:b})) }}>
+                  <option value="primary">Primary (gold)</option>
+                  <option value="ghost">Ghost</option>
+                </select>
+                <input className="inp" style={{fontSize:12}} placeholder="Label text" value={btn.label||''} onChange={e=>{ const b=[...govContent.buttons]; b[i]={...b[i],label:e.target.value}; setGovContent(g=>({...g,buttons:b})) }} />
+                <input className="inp" style={{fontSize:12,flex:1}} placeholder="https://..." value={btn.url||''} onChange={e=>{ const b=[...govContent.buttons]; b[i]={...b[i],url:e.target.value}; setGovContent(g=>({...g,buttons:b})) }} />
+                <button className="btn" style={{fontSize:11,padding:'6px 10px',background:'rgba(255,59,48,0.08)',color:G.red,border:'1px solid rgba(255,59,48,0.2)',borderRadius:6}} onClick={()=>{ const b=govContent.buttons.filter((_,j)=>j!==i); setGovContent(g=>({...g,buttons:b})) }}>✕</button>
+              </div>
+            ))}
+            <button className="btn ghost" style={{fontSize:12,padding:'6px 14px',marginTop:4}} onClick={()=>setGovContent(g=>({...g,buttons:[...(g.buttons||[]),{label:'',url:'',style:'ghost'}]}))}>+ Add button</button>
+          </div>
+
+          {settingsSaved==='gov' && <div style={{ fontSize:12, color:G.green, background:'rgba(52,199,89,0.08)', border:'1px solid rgba(52,199,89,0.2)', borderRadius:8, padding:'8px 14px' }}>✓ Government page saved</div>}
+          <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'10px 24px' }} onClick={saveGov} disabled={saving}>
+            {saving ? 'Saving…' : '💾 Save Government Page'}
+          </button>
+        </div>
+      )}
+
       {/* ── TAB: SETTINGS ─────────────────────────────────────────────────── */}
       {tab === 'settings' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
@@ -3355,12 +3559,12 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 <div><label className="flabel">Phone</label><input className="inp" value={editForm.phone||''} onChange={e=>setEditForm(f=>({...f,phone:e.target.value}))} /></div>
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
-                <div><label className="flabel">Website</label><input className="inp" value={editForm.website||''} onChange={e=>setEditForm(f=>({...f,website:e.target.value}))} placeholder="firma.com" /></div>
+                <div><label className="flabel">Website</label><input className="inp" value={editForm.website||''} onChange={e=>setEditForm(f=>({...f,website:e.target.value}))} placeholder="company.com" /></div>
                 <div><label className="flabel">Employees</label><input className="inp" value={editForm.employees||''} onChange={e=>setEditForm(f=>({...f,employees:e.target.value}))} placeholder="15–30" /></div>
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
                 <div><label className="flabel">Languages</label><input className="inp" value={editForm.languages||''} onChange={e=>setEditForm(f=>({...f,languages:e.target.value}))} placeholder="DE, EN, SQ" /></div>
-                <div><label className="flabel">Experience (Freelancer)</label><input className="inp" value={editForm.experience||''} onChange={e=>setEditForm(f=>({...f,experience:e.target.value}))} placeholder="7 Jahre" /></div>
+                <div><label className="flabel">Experience (years)</label><input className="inp" value={editForm.experience||''} onChange={e=>setEditForm(f=>({...f,experience:e.target.value}))} placeholder="e.g. 7 years" /></div>
               </div>
 
               {/* ── Logo upload + color ── */}
@@ -3396,7 +3600,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
               {/* ── Tags + Tier + Type + Cat ── */}
               <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:12, marginBottom:12 }}>
-                <div><label className="flabel">Tags / Skills (Komma-getrennt)</label><input className="inp" value={editForm.tags||''} onChange={e=>setEditForm(f=>({...f,tags:e.target.value}))} placeholder="React, Node.js, TypeScript…" /></div>
+                <div><label className="flabel">Tags / Skills (comma separated)</label><input className="inp" value={editForm.tags||''} onChange={e=>setEditForm(f=>({...f,tags:e.target.value}))} placeholder="React, Node.js, TypeScript…" /></div>
                 <div><label className="flabel">Tier</label>
                   <select className="inp" value={editForm.tier||'free'} onChange={e=>setEditForm(f=>({...f,tier:e.target.value}))}>
                     <option value="free">🆓 Free</option>
@@ -3405,14 +3609,14 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 </div>
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:12 }}>
-                <div><label className="flabel">Typ</label>
+                <div><label className="flabel">Type</label>
                   <select className="inp" value={editForm.type||'company'} onChange={e=>setEditForm(f=>({...f,type:e.target.value}))}>
-                    <option value="company">🏢 Firma</option>
+                    <option value="company">🏢 Company</option>
                     <option value="freelancer">👤 Freelancer</option>
                     <option value="partner">🤝 Partner</option>
                   </select>
                 </div>
-                <div><label className="flabel">Kategorie</label>
+                <div><label className="flabel">Category</label>
                   <select className="inp" value={editForm.cat||'software'} onChange={e=>setEditForm(f=>({...f,cat:e.target.value}))}>
                     {CATS.map(cat=><option key={cat.id} value={cat.id}>{cat.icon} {cat.labels.en}</option>)}
                   </select>
