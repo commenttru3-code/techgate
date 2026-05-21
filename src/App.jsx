@@ -404,6 +404,8 @@ body{background:#080c14;margin:0;}
 .flabel{display:block;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;color:rgba(232,228,217,0.46);margin-bottom:5px;letter-spacing:0.8px;text-transform:uppercase;}
 .sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#fb923c,#fdba74);}
 .pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#d4a843,#fde68a);}
+.sector-pills-mobile{display:none;}
+.sector-pills-desktop{display:flex;}
 .rank-badge{position:absolute;top:10px;right:10px;}
 
 @media(max-width:640px){
@@ -744,7 +746,7 @@ function ContactModal({ profile, t, onClose }) {
 }
 
 // ─── PROFILE CARD ─────────────────────────────────────────────────────────────
-function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSelfEdit, matchScore, matchHits }) {
+function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSelfEdit, matchScore, matchHits, onCardClick }) {
   const isFL = p.type === 'freelancer'
   const isSp = p.tier === 'sponsored'
   return (
@@ -752,10 +754,10 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
       {isSp && <div className="sp-bar" />}
       <div style={{ padding: 20 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 11 }}>
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10, cursor: onCardClick ? 'pointer' : 'default' }} onClick={onCardClick ? () => onCardClick(p) : undefined}>
             <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
             <div>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{p.name}</div>
+              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, marginBottom: 2, color: onCardClick ? G.teal : G.text }}>{p.name}</div>
               <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
             </div>
           </div>
@@ -871,6 +873,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
   const [upgrade, setUpgrade] = useState(null)
   const [tagFilter, setTagFilter] = useState(externalTag || null)
   const [selfEdit, setSelfEdit] = useState(null)
+  const [dirDetail, setDirDetail] = useState(null)
   const [dbProfiles, setDbProfiles] = useState([])
   const [dbLoading, setDbLoading] = useState(true)
   // Skill matching integrated into directory
@@ -970,9 +973,9 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             </button>
           ))}
         </div>
-        {/* Mobile: dropdown */}
+        {/* Mobile: dropdown — hidden by default, shown via CSS media query */}
         <select className="sector-pills-mobile inp" value={cat} onChange={e => setCat(e.target.value)}
-          style={{ display: 'none', width: '100%', fontSize: 13, padding: '9px 12px' }}>
+          style={{ width: '100%', fontSize: 13, padding: '9px 12px' }}>
           <option value="all">{t.allCats}</option>
           {CATS.map(c => <option key={c.id} value={c.id}>{c.icon} {c.labels[lang]}</option>)}
         </select>
@@ -1047,7 +1050,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
               {catProfiles.map(p => (
-                <ProfileCard key={p.id} p={p} lang={lang} t={t} rank={p._rank} onContact={setContact} onUpgrade={setUpgrade} onTagClick={tag => setTagFilter(tag)} onSelfEdit={setSelfEdit} matchScore={p._matchScore} matchHits={p._matchHits} />
+                <ProfileCard key={p.id} p={p} lang={lang} t={t} rank={p._rank} onContact={setContact} onUpgrade={setUpgrade} onTagClick={tag => setTagFilter(tag)} onSelfEdit={setSelfEdit} matchScore={p._matchScore} matchHits={p._matchHits} onCardClick={setDirDetail} />
               ))}
             </div>
           </div>
@@ -1065,6 +1068,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {contact && <ContactModal profile={contact} t={t} onClose={() => setContact(null)} />}
       {upgrade && <UpgradeModal catId={upgrade} t={t} lang={lang} onClose={() => setUpgrade(null)} />}
       {selfEdit && <SelfEditModal profile={selfEdit} lang={lang} t={t} onClose={() => setSelfEdit(null)} />}
+      {dirDetail && <ProfileDetailModal p={dirDetail} lang={lang} t={t} onClose={() => setDirDetail(null)} onContact={p2 => { setDirDetail(null); setContact(p2) }} />}
     </div>
   )
 }
@@ -1532,7 +1536,6 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
           </div>
         </div>
       )}
-      )}
       {detailPartner && (
         <ProfileDetailModal
           p={detailPartner} lang={lang} t={t}
@@ -1987,11 +1990,6 @@ const TAG_SUGGESTIONS = {
 // ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
 function SmartRegForm({ lang, t, regType, onDone }) {
   const isSP = regType === t.regSP  // Partner — separate form
-  // Internal company vs freelancer selector when entering via the combined button
-  const [subType, setSubType] = React.useState(
-    regType === t.regFL ? 'freelancer' : regType === t.regComp ? null : null
-  )
-  const resolvedRegType = subType === 'freelancer' ? t.regFL : subType === 'company' ? t.regComp : regType
   const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#58a6ff' })
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
@@ -2041,33 +2039,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
     sv: { cat: 'Bransch', name: 'Namn / Företag *', city: 'Stad *', email: 'E-post *', website: 'Webbplats', employees: 'Antal anställda', desc: 'Kort beskrivning', descPH: 'Vad erbjuder du? Erfarenhet, projekt, USP…', tagSuggest: 'Föreslagna kompetenser / taggar', tagCustom: 'Lägg till egen tagg', tagCustomPH: 't.ex. Cybersecurity', tagAdd: '+ Lägg till', tagSelected: 'Valda taggar', availNote: '💬 Tillgänglighet kommuniceras direkt på förfrågan.', send: 'Skicka ✓', empOpts: ['1–5','6–10','11–20','21–50','100+'] },
   }
   const Lr = L[lang] || L.en
-  const isFL = resolvedRegType === t.regFL
-
-  // Show sub-type selector if combined button was used
-  if (!isSP && subType === null) {
-    return (
-      <div>
-        <div style={{ fontSize:12, color:G.muted, marginBottom:14, fontFamily:"'DM Sans',sans-serif" }}>
-          {lang==='sq' ? 'Zgjidhni llojin e profilit:' : 'Choose your profile type:'}
-        </div>
-        <div style={{ display:'flex', gap:10 }}>
-          {[
-            { key:'company', icon:'🏢', label: t.regComp, sub: t.regCompS, col: G.gold, border: G.goldBorder, dim: G.goldDim },
-            { key:'freelancer', icon:'👤', label: t.regFL, sub: t.regFLS, col: G.teal, border:'rgba(45,212,191,0.35)', dim:'rgba(45,212,191,0.08)' },
-          ].map(opt => (
-            <div key={opt.key} onClick={() => setSubType(opt.key)}
-              style={{ flex:1, padding:'18px 12px', border:`1px solid ${opt.border}`, background:opt.dim, borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-2px)';e.currentTarget.style.boxShadow=`0 4px 16px ${opt.col}22`}}
-              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow=''}}>
-              <div style={{ fontSize:28, marginBottom:8 }}>{opt.icon}</div>
-              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, color:opt.col, marginBottom:4 }}>{opt.label}</div>
-              <div style={{ fontSize:11, color:G.muted }}>{opt.sub}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
+  const isFL = regType === t.regFL
 
   // ── PARTNER REGISTRATION FORM ─────────────────────────────────────────────
   if (isSP) {
@@ -2629,13 +2601,14 @@ const INITIAL_PENDING = [
 ]
 
 // ─── ADMIN PARTNERS TAB ───────────────────────────────────────────────────────
-function AdminPartnersTab({ profiles, setProfiles, G }) {
+function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, savePartners, saving, settingsSaved }) {
   const gpList = profiles.filter(p => p.type === 'partner')
   const [gpEdit, setGpEdit] = React.useState(null)
   const [gpForm, setGpForm] = React.useState({})
   const [gpLogo, setGpLogo] = React.useState(null)
   const [gpSaving, setGpSaving] = React.useState(false)
   const [gpMsg, setGpMsg] = React.useState('')
+  const [section, setSection] = React.useState('fixed') // 'fixed' | 'db'
   const logoColors = ['#2dd4bf','#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#d4a843']
 
   const openNew = () => {
@@ -2685,111 +2658,159 @@ function AdminPartnersTab({ profiles, setProfiles, G }) {
     <div style={{ display:'flex', flexDirection:'column', gap:18 }}>
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
         <div>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17 }}>🤝 General Partner Management</div>
-          <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Partners shown on the Concierge & Partners page ({gpList.length} total)</div>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17 }}>🤝 Partners</div>
+          <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Manage all partner types shown on the platform</div>
         </div>
-        {gpEdit===null && <button className="btn gbtn" style={{ padding:'9px 18px', fontSize:13 }} onClick={openNew}>+ Add Partner</button>}
+        <div style={{ display:'flex', gap:6 }}>
+          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='fixed'?G.goldDim:'rgba(255,255,255,0.04)', color:section==='fixed'?G.gold:G.muted, border:`1px solid ${section==='fixed'?G.goldBorder:'rgba(255,255,255,0.1)'}` }} onClick={()=>{setGpEdit(null);setSection('fixed')}}>rootsGTM & Gov</button>
+          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='db'?'rgba(45,212,191,0.1)':'rgba(255,255,255,0.04)', color:section==='db'?G.teal:G.muted, border:`1px solid ${section==='db'?'rgba(45,212,191,0.3)':'rgba(255,255,255,0.1)'}` }} onClick={()=>{setGpEdit(null);setSection('db')}}>General Partners ({gpList.length})</button>
+        </div>
       </div>
       {gpMsg && <div style={{ fontSize:13, color:G.green, background:'rgba(52,199,89,0.08)', border:'1px solid rgba(52,199,89,0.2)', borderRadius:8, padding:'8px 14px' }}>{gpMsg}</div>}
 
-      {gpEdit===null && (
-        gpList.length===0 ? (
-          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'44px', textAlign:'center', color:G.muted }}>
-            <div style={{ fontSize:36, marginBottom:12 }}>🤝</div>
-            <div style={{ fontFamily:"'DM Sans',sans-serif" }}>No partners yet. Click "+ Add Partner" to create the first one.</div>
+      {/* ── SECTION: rootsGTM + Government (editable boxes) ── */}
+      {section==='fixed' && (
+        <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
+          {/* rootsGTM */}
+          <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:14, padding:'20px 22px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.teal, marginBottom:14, display:'flex', alignItems:'center', gap:8 }}>
+              <span style={{ fontSize:20 }}>🚀</span> rootsGTM — Exclusive Partner
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">Organisation name</label><input className="inp" value={partners.rootsgtm_name||''} onChange={e=>setPartners(p=>({...p,rootsgtm_name:e.target.value}))} /></div>
+              <div><label className="flabel">Email</label><input className="inp" value={partners.rootsgtm_email||''} onChange={e=>setPartners(p=>({...p,rootsgtm_email:e.target.value}))} /></div>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">Phone</label><input className="inp" value={partners.rootsgtm_phone||''} onChange={e=>setPartners(p=>({...p,rootsgtm_phone:e.target.value}))} /></div>
+              <div><label className="flabel">Website</label><input className="inp" value={partners.rootsgtm_website||''} onChange={e=>setPartners(p=>({...p,rootsgtm_website:e.target.value}))} /></div>
+            </div>
+            <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.rootsgtm_desc||''} onChange={e=>setPartners(p=>({...p,rootsgtm_desc:e.target.value}))} /></div>
           </div>
-        ) : (
-          <div style={{ display:'flex', flexDirection:'column', gap:9 }}>
-            {gpList.map(p => (
-              <div key={p.id} style={{ background:G.surface, border:`1px solid ${p.verified!==false?'rgba(45,212,191,0.25)':G.border}`, borderRadius:14, padding:'14px 18px', display:'flex', gap:14, alignItems:'center', flexWrap:'wrap' }}>
-                <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={46} />
-                <div style={{ flex:1, minWidth:160 }}>
-                  <div style={{ fontWeight:700, fontSize:14, display:'flex', alignItems:'center', gap:7, flexWrap:'wrap' }}>
-                    {p.name}
-                    {p.tier==='sponsored' && <span style={{ fontSize:10, background:'rgba(212,168,67,0.12)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5, padding:'1px 7px', fontWeight:700 }}>⭐ Featured</span>}
-                    {p.verified===false && <span style={{ fontSize:10, background:'rgba(255,255,255,0.04)', color:G.muted, border:'1px solid rgba(255,255,255,0.1)', borderRadius:5, padding:'1px 7px' }}>Hidden</span>}
-                  </div>
-                  <div style={{ fontSize:11, color:G.muted, marginTop:2 }}>{[p.city, p.website].filter(Boolean).join(' · ')}</div>
-                  {(p.tags||[]).length>0 && <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginTop:5 }}>{p.tags.slice(0,4).map(tg=><span key={tg} className="tag" style={{fontSize:10}}>{tg}</span>)}</div>}
-                </div>
-                <div style={{ display:'flex', gap:5, flexWrap:'wrap', justifyContent:'flex-end' }}>
-                  <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.2)', borderRadius:6 }} onClick={()=>openEditGP(p)}>✏️ Edit</button>
-                  <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.verified!==false?'rgba(52,199,89,0.08)':'rgba(255,255,255,0.04)', color:p.verified!==false?G.green:G.muted, border:`1px solid ${p.verified!==false?'rgba(52,199,89,0.2)':'rgba(255,255,255,0.1)'}`, borderRadius:6 }} onClick={()=>toggleVisible(p)}>{p.verified!==false?'👁 Visible':'🚫 Hidden'}</button>
-                  <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.tier==='sponsored'?G.goldDim:'rgba(255,255,255,0.04)', color:p.tier==='sponsored'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius:6 }} onClick={()=>toggleFeatured(p)}>⭐ {p.tier==='sponsored'?'Unfeature':'Feature'}</button>
-                  <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:'rgba(255,59,48,0.08)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:6 }} onClick={()=>deleteGP(p.id)}>🗑 Delete</button>
-                </div>
-              </div>
-            ))}
+          {/* Government */}
+          <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, padding:'20px 22px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.gold, marginBottom:14, display:'flex', alignItems:'center', gap:8 }}>
+              <span style={{ fontSize:20 }}>🏛️</span> Kosova Government / InvestKosova
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">Organisation name</label><input className="inp" value={partners.gov_name||''} onChange={e=>setPartners(p=>({...p,gov_name:e.target.value}))} /></div>
+              <div><label className="flabel">Email</label><input className="inp" value={partners.gov_email||''} onChange={e=>setPartners(p=>({...p,gov_email:e.target.value}))} /></div>
+            </div>
+            <div style={{ marginBottom:10 }}><label className="flabel">Website</label><input className="inp" value={partners.gov_website||''} onChange={e=>setPartners(p=>({...p,gov_website:e.target.value}))} /></div>
+            <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.gov_desc||''} onChange={e=>setPartners(p=>({...p,gov_desc:e.target.value}))} /></div>
           </div>
-        )
+          {settingsSaved==='partners' && <div style={{ fontSize:12, color:G.green }}>✓ Saved to database</div>}
+          <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'10px 24px' }} onClick={savePartners} disabled={saving}>
+            {saving ? 'Saving…' : '💾 Save Partner Details'}
+          </button>
+        </div>
       )}
 
-      {gpEdit!==null && (
-        <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:16, overflow:'hidden' }}>
-          <div style={{ padding:'16px 22px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', background:'rgba(45,212,191,0.04)' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, color:G.teal }}>
-              {gpEdit==='new' ? '+ New General Partner' : `✏️ Edit: ${gpEdit.name}`}
-            </div>
-            <button className="btn ghost" style={{ fontSize:12, padding:'4px 12px' }} onClick={()=>setGpEdit(null)}>✕ Cancel</button>
+      {/* ── SECTION: General DB Partners (CRUD) ── */}
+      {section==='db' && (
+        <>
+          <div style={{ display:'flex', justifyContent:'flex-end' }}>
+            {gpEdit===null && <button className="btn gbtn" style={{ padding:'9px 18px', fontSize:13 }} onClick={openNew}>+ Add Partner</button>}
           </div>
-          <div style={{ padding:'20px 22px', display:'flex', flexDirection:'column', gap:14 }}>
-            <div>
-              <label className="flabel">Logo</label>
-              <div style={{ display:'flex', gap:14, alignItems:'flex-start', marginTop:8 }}>
-                <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}55`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gpForm.logoColor||'#2dd4bf'}18,${gpForm.logoColor||'#2dd4bf'}38)` }}>
-                  {gpLogo
-                    ? <img src={gpLogo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                    : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:gpForm.logoColor||'#2dd4bf' }}>{(gpForm.name||'?').split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?'}</span>}
-                </div>
-                <div style={{ flex:1 }}>
-                  <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
-                    📷 Upload logo
-                    <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
-                      const file=e.target.files?.[0]; if(!file) return
-                      const img=new Image(), url=URL.createObjectURL(file)
-                      img.onload=()=>{ const S=128, c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setGpLogo(c.toDataURL('image/webp',0.85)) }
-                      img.src=url
-                    }} />
-                  </label>
-                  {gpLogo && <button onClick={()=>setGpLogo(null)} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block',marginBottom:8}}>✕ Remove</button>}
-                  <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                    {logoColors.map(col=>(
-                      <button key={col} onClick={()=>setGpForm(f=>({...f,logoColor:col}))}
-                        style={{ width:22, height:22, borderRadius:'50%', background:col, border:`2px solid ${(gpForm.logoColor||'#2dd4bf')===col?'#fff':'transparent'}`, cursor:'pointer', transition:'transform 0.15s' }}
-                        onMouseEnter={e=>e.currentTarget.style.transform='scale(1.2)'}
-                        onMouseLeave={e=>e.currentTarget.style.transform=''} />
-                    ))}
+          {gpEdit===null && (
+            gpList.length===0 ? (
+              <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'44px', textAlign:'center', color:G.muted }}>
+                <div style={{ fontSize:36, marginBottom:12 }}>🤝</div>
+                <div style={{ fontFamily:"'DM Sans',sans-serif" }}>No general partners yet. Click "+ Add Partner" to create the first one.</div>
+              </div>
+            ) : (
+              <div style={{ display:'flex', flexDirection:'column', gap:9 }}>
+                {gpList.map(p => (
+                  <div key={p.id} style={{ background:G.surface, border:`1px solid ${p.verified!==false?'rgba(45,212,191,0.25)':G.border}`, borderRadius:14, padding:'14px 18px', display:'flex', gap:14, alignItems:'center', flexWrap:'wrap' }}>
+                    <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={46} />
+                    <div style={{ flex:1, minWidth:160 }}>
+                      <div style={{ fontWeight:700, fontSize:14, display:'flex', alignItems:'center', gap:7, flexWrap:'wrap' }}>
+                        {p.name}
+                        {p.tier==='sponsored' && <span style={{ fontSize:10, background:'rgba(212,168,67,0.12)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5, padding:'1px 7px', fontWeight:700 }}>⭐ Featured</span>}
+                        {p.verified===false && <span style={{ fontSize:10, background:'rgba(255,255,255,0.04)', color:G.muted, border:'1px solid rgba(255,255,255,0.1)', borderRadius:5, padding:'1px 7px' }}>Hidden</span>}
+                      </div>
+                      <div style={{ fontSize:11, color:G.muted, marginTop:2 }}>{[p.city, p.website].filter(Boolean).join(' · ')}</div>
+                      {(p.tags||[]).length>0 && <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginTop:5 }}>{p.tags.slice(0,4).map(tg=><span key={tg} className="tag" style={{fontSize:10}}>{tg}</span>)}</div>}
+                    </div>
+                    <div style={{ display:'flex', gap:5, flexWrap:'wrap', justifyContent:'flex-end' }}>
+                      <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.2)', borderRadius:6 }} onClick={()=>openEditGP(p)}>✏️ Edit</button>
+                      <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.verified!==false?'rgba(52,199,89,0.08)':'rgba(255,255,255,0.04)', color:p.verified!==false?G.green:G.muted, border:`1px solid ${p.verified!==false?'rgba(52,199,89,0.2)':'rgba(255,255,255,0.1)'}`, borderRadius:6 }} onClick={()=>toggleVisible(p)}>{p.verified!==false?'👁 Visible':'🚫 Hidden'}</button>
+                      <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.tier==='sponsored'?G.goldDim:'rgba(255,255,255,0.04)', color:p.tier==='sponsored'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius:6 }} onClick={()=>toggleFeatured(p)}>⭐ {p.tier==='sponsored'?'Unfeature':'Feature'}</button>
+                      <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:'rgba(255,59,48,0.08)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:6 }} onClick={()=>deleteGP(p.id)}>🗑 Delete</button>
+                    </div>
                   </div>
+                ))}
+              </div>
+            )
+          )}
+
+          {gpEdit!==null && (
+            <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:16, overflow:'hidden' }}>
+              <div style={{ padding:'16px 22px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', background:'rgba(45,212,191,0.04)' }}>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, color:G.teal }}>
+                  {gpEdit==='new' ? '+ New General Partner' : `✏️ Edit: ${gpEdit.name}`}
+                </div>
+                <button className="btn ghost" style={{ fontSize:12, padding:'4px 12px' }} onClick={()=>setGpEdit(null)}>✕ Cancel</button>
+              </div>
+              <div style={{ padding:'20px 22px', display:'flex', flexDirection:'column', gap:14 }}>
+                <div>
+                  <label className="flabel">Logo</label>
+                  <div style={{ display:'flex', gap:14, alignItems:'flex-start', marginTop:8 }}>
+                    <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}55`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gpForm.logoColor||'#2dd4bf'}18,${gpForm.logoColor||'#2dd4bf'}38)` }}>
+                      {gpLogo
+                        ? <img src={gpLogo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                        : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:gpForm.logoColor||'#2dd4bf' }}>{(gpForm.name||'?').split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?'}</span>}
+                    </div>
+                    <div style={{ flex:1 }}>
+                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
+                        📷 Upload logo
+                        <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                          const file=e.target.files?.[0]; if(!file) return
+                          const img=new Image(), url=URL.createObjectURL(file)
+                          img.onload=()=>{ const S=128, c=document.createElement('canvas'); c.width=S; c.height=S; const ctx=c.getContext('2d'); const side=Math.min(img.width,img.height); ctx.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,S,S); URL.revokeObjectURL(url); setGpLogo(c.toDataURL('image/webp',0.85)) }
+                          img.src=url
+                        }} />
+                      </label>
+                      {gpLogo && <button onClick={()=>setGpLogo(null)} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block',marginBottom:8}}>✕ Remove</button>}
+                      <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                        {logoColors.map(col=>(
+                          <button key={col} onClick={()=>setGpForm(f=>({...f,logoColor:col}))}
+                            style={{ width:22, height:22, borderRadius:'50%', background:col, border:`2px solid ${(gpForm.logoColor||'#2dd4bf')===col?'#fff':'transparent'}`, cursor:'pointer', transition:'transform 0.15s' }}
+                            onMouseEnter={e=>e.currentTarget.style.transform='scale(1.2)'}
+                            onMouseLeave={e=>e.currentTarget.style.transform=''} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+                  <div><label className="flabel">Name *</label><input className="inp" value={gpForm.name||''} onChange={e=>setGpForm(f=>({...f,name:e.target.value}))} placeholder="Organisation name" /></div>
+                  <div><label className="flabel">City</label><input className="inp" value={gpForm.city||''} onChange={e=>setGpForm(f=>({...f,city:e.target.value}))} placeholder="Pristina, Berlin…" /></div>
+                </div>
+                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+                  <div><label className="flabel">Email</label><input className="inp" value={gpForm.email||''} onChange={e=>setGpForm(f=>({...f,email:e.target.value}))} /></div>
+                  <div><label className="flabel">Phone</label><input className="inp" value={gpForm.phone||''} onChange={e=>setGpForm(f=>({...f,phone:e.target.value}))} /></div>
+                </div>
+                <div><label className="flabel">Website</label><input className="inp" value={gpForm.website||''} onChange={e=>setGpForm(f=>({...f,website:e.target.value}))} placeholder="partner.com" /></div>
+                <div><label className="flabel">Tags (comma separated)</label><input className="inp" value={gpForm.tags||''} onChange={e=>setGpForm(f=>({...f,tags:e.target.value}))} placeholder="IT, BPO, Gov Relations…" /></div>
+                <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={gpForm.desc||''} onChange={e=>setGpForm(f=>({...f,desc:e.target.value}))} /></div>
+                <div style={{ display:'flex', gap:18 }}>
+                  <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
+                    <input type="checkbox" checked={!!gpForm.visible} onChange={e=>setGpForm(f=>({...f,visible:e.target.checked}))} /> Visible
+                  </label>
+                  <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
+                    <input type="checkbox" checked={!!gpForm.featured} onChange={e=>setGpForm(f=>({...f,featured:e.target.checked}))} /> ⭐ Featured
+                  </label>
+                </div>
+                <div style={{ display:'flex', gap:10 }}>
+                  <button className="btn gbtn" style={{ flex:1, padding:'11px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveGP} disabled={gpSaving||!gpForm.name}>
+                    {gpSaving ? '⏳ Saving…' : '💾 Save Partner'}
+                  </button>
+                  <button className="btn ghost" style={{ padding:'11px 20px' }} onClick={()=>setGpEdit(null)} disabled={gpSaving}>Cancel</button>
                 </div>
               </div>
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-              <div><label className="flabel">Name *</label><input className="inp" value={gpForm.name||''} onChange={e=>setGpForm(f=>({...f,name:e.target.value}))} placeholder="Organisation name" /></div>
-              <div><label className="flabel">City</label><input className="inp" value={gpForm.city||''} onChange={e=>setGpForm(f=>({...f,city:e.target.value}))} placeholder="Pristina, Berlin…" /></div>
-            </div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-              <div><label className="flabel">Email</label><input className="inp" value={gpForm.email||''} onChange={e=>setGpForm(f=>({...f,email:e.target.value}))} /></div>
-              <div><label className="flabel">Phone</label><input className="inp" value={gpForm.phone||''} onChange={e=>setGpForm(f=>({...f,phone:e.target.value}))} /></div>
-            </div>
-            <div><label className="flabel">Website</label><input className="inp" value={gpForm.website||''} onChange={e=>setGpForm(f=>({...f,website:e.target.value}))} placeholder="partner.com" /></div>
-            <div><label className="flabel">Tags (comma separated)</label><input className="inp" value={gpForm.tags||''} onChange={e=>setGpForm(f=>({...f,tags:e.target.value}))} placeholder="IT, BPO, Gov Relations…" /></div>
-            <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={gpForm.desc||''} onChange={e=>setGpForm(f=>({...f,desc:e.target.value}))} /></div>
-            <div style={{ display:'flex', gap:18 }}>
-              <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
-                <input type="checkbox" checked={!!gpForm.visible} onChange={e=>setGpForm(f=>({...f,visible:e.target.checked}))} /> Visible
-              </label>
-              <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:13, color:G.text }}>
-                <input type="checkbox" checked={!!gpForm.featured} onChange={e=>setGpForm(f=>({...f,featured:e.target.checked}))} /> ⭐ Featured
-              </label>
-            </div>
-            <div style={{ display:'flex', gap:10 }}>
-              <button className="btn gbtn" style={{ flex:1, padding:'11px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveGP} disabled={gpSaving||!gpForm.name}>
-                {gpSaving ? '⏳ Saving…' : '💾 Save Partner'}
-              </button>
-              <button className="btn ghost" style={{ padding:'11px 20px' }} onClick={()=>setGpEdit(null)} disabled={gpSaving}>Cancel</button>
-            </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </div>
   )
@@ -3015,7 +3036,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     { id: 'pending_profiles', label: 'New profiles',      labelEn: 'New profiles',         icon: '🆕' },
     { id: 'profiles',         label: 'All profiles',      labelEn: 'All profiles',          icon: '📋' },
     { id: 'pending_changes',  label: 'Change requests',   labelEn: 'Change requests',       icon: '✏️' },
-    { id: 'partners',         label: 'General Partners',  labelEn: 'General Partners',      icon: '🤝' },
+    { id: 'partners',         label: 'Partners',          labelEn: 'Partners',              icon: '🤝' },
     { id: 'settings',         label: 'Settings',          labelEn: 'Settings',              icon: '⚙️' },
   ]
 
@@ -3276,7 +3297,9 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
       {/* ── TAB: PARTNERS ────────────────────────────────────────────────── */}
       {tab === 'partners' && (
-        <AdminPartnersTab profiles={profiles} setProfiles={setProfiles} G={G} />
+        <AdminPartnersTab profiles={profiles} setProfiles={setProfiles} G={G}
+          partners={partners} setPartners={setPartners} savePartners={savePartners}
+          saving={saving} settingsSaved={settingsSaved} />
       )}
 
       {/* ── TAB: SETTINGS ─────────────────────────────────────────────────── */}
@@ -3777,45 +3800,44 @@ export default function App() {
       )}
       {page === 'gov'        && <GovPage lang={lang} t={t} content={siteContent} />}
 
-      {/* ── REGISTER ── */}
       {showReg && !regDone && (
         <div className="modal-bg fi" onClick={e => e.target === e.currentTarget && (setShowReg(false), setRegType(null))}>
           <div className="modal su">
             {!regType ? (
               <>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
                   <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.regTitle}</div>
                   <ModalClose onClose={() => setShowReg(false)} />
                 </div>
-                {/* Kosovo-based: single entry point for Firm & Freelancer */}
-                <div style={{ fontSize:10, color:G.muted, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
+                {/* Kosova-based */}
+                <div style={{ fontSize:10, color:G.muted, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:8 }}>
                   🇽🇰 {lang==='sq'?'Bazuar në Kosovë':'Kosova-based'}
                 </div>
-                <div style={{ display: 'flex', gap: 9, marginBottom:12 }}>
-                  <div onClick={() => setRegType(t.regComp)}
-                    style={{ flex:1, padding:'15px 9px', border:`1px solid ${G.border}`, borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor=G.goldBorder; e.currentTarget.style.background=G.goldDim }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor=G.border; e.currentTarget.style.background='transparent' }}>
-                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:4 }}>🏢 {lang==='sq'?'Kompani & Freelancerë':'Company & Freelancer'}</div>
-                    <div style={{ fontSize:11, color:G.muted }}>{lang==='sq'?'Regjistro biznesin ose profilin tënd':'Register your business or individual profile'}</div>
-                  </div>
-                </div>
-                {/* Partner */}
-                <div style={{ fontSize:10, color:G.teal, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:7 }}>
-                  🤝 {lang==='sq'?'Bëhu partner':'Become a partner'}
-                </div>
-                <div style={{ display: 'flex', gap: 9 }}>
-                  {[[t.regSP, t.regSPS, true]].map(([l, sub, isPartner], i) => (                    <div key={i} onClick={() => setRegType(l)}
-                      style={{ flex:1, padding:'15px 9px',
-                        border:`1px solid rgba(45,212,191,0.35)`,
-                        background:'rgba(45,212,191,0.05)',
-                        borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor='rgba(45,212,191,0.7)'; e.currentTarget.style.background='rgba(45,212,191,0.12)' }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(45,212,191,0.35)'; e.currentTarget.style.background='rgba(45,212,191,0.05)' }}>
-                      <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:4, color:G.teal }}>{l}</div>
-                      <div style={{ fontSize:11, color:'rgba(45,212,191,0.6)' }}>{sub}</div>
+                <div style={{ display:'flex', gap:9, marginBottom:14 }}>
+                  {[
+                    { regT: t.regComp, icon:'🏢', sub: t.regCompS, col: G.gold, border: G.goldBorder, bg: G.goldDim },
+                    { regT: t.regFL,   icon:'👤', sub: t.regFLS,   col: G.teal, border:'rgba(45,212,191,0.35)', bg:'rgba(45,212,191,0.06)' },
+                  ].map(opt => (
+                    <div key={opt.regT} onClick={() => setRegType(opt.regT)}
+                      style={{ flex:1, padding:'16px 10px', border:`1px solid ${opt.border}`, background:opt.bg, borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
+                      onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-2px)';e.currentTarget.style.boxShadow=`0 4px 16px ${opt.col}22`}}
+                      onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow=''}}>
+                      <div style={{ fontSize:26, marginBottom:7 }}>{opt.icon}</div>
+                      <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:opt.col, marginBottom:3 }}>{opt.regT}</div>
+                      <div style={{ fontSize:11, color:G.muted }}>{opt.sub}</div>
                     </div>
                   ))}
+                </div>
+                {/* Partner */}
+                <div style={{ fontSize:10, color:G.teal, textTransform:'uppercase', letterSpacing:'0.8px', fontWeight:700, marginBottom:8 }}>
+                  🤝 {lang==='sq'?'Bëhu partner':'Become a partner'}
+                </div>
+                <div onClick={() => setRegType(t.regSP)}
+                  style={{ padding:'14px 12px', border:'1px solid rgba(45,212,191,0.35)', background:'rgba(45,212,191,0.05)', borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor='rgba(45,212,191,0.7)';e.currentTarget.style.background='rgba(45,212,191,0.12)'}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(45,212,191,0.35)';e.currentTarget.style.background='rgba(45,212,191,0.05)'}}>
+                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:G.teal, marginBottom:3 }}>{t.regSP}</div>
+                  <div style={{ fontSize:11, color:'rgba(45,212,191,0.6)' }}>{t.regSPS}</div>
                 </div>
               </>
             ) : (
