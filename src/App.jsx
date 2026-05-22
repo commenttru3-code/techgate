@@ -367,42 +367,47 @@ const G = {
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#080c14;margin:0;}
+body{background:#080c14;margin:0;-webkit-font-smoothing:antialiased;}
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:#2a3040;border-radius:2px;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
-@keyframes glow{0%,100%{box-shadow:0 0 0 rgba(212,168,67,0);}50%{box-shadow:0 0 20px rgba(212,168,67,0.22);}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 rgba(212,168,67,0);}50%{box-shadow:0 0 24px rgba(212,168,67,0.24);}}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
 @keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.fu{animation:fadeUp 0.4s ease both;}
-.fi{animation:fadeIn 0.28s ease both;}
-.su{animation:slideUp 0.32s ease both;}
+@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+.fu{animation:fadeUp 0.38s cubic-bezier(0.4,0,0.2,1) both;}
+.fi{animation:fadeIn 0.26s ease both;}
+.su{animation:slideUp 0.3s cubic-bezier(0.4,0,0.2,1) both;}
 .sp{animation:spin 0.7s linear infinite;}
 .glow{animation:glow 3s ease infinite;}
 .pg{animation:pulse 2s ease infinite;}
-.btn{border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.17s;border-radius:8px;}
+.btn{border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.18s cubic-bezier(0.4,0,0.2,1);border-radius:8px;-webkit-tap-highlight-color:transparent;}
+.btn:active{transform:scale(0.97) !important;}
 .gbtn{background:#d4a843;color:#080c14;padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.3px;}
-.gbtn:hover{background:#e5ba55;transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.3);}
-.gbtn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
-.ghost{background:transparent;color:rgba(232,228,217,0.5);padding:9px 16px;font-size:13px;border:1px solid rgba(255,255,255,0.08);font-weight:500;}
-.ghost:hover{color:#e8e4d9;border-color:rgba(212,168,67,0.3);}
+.gbtn:hover{background:#e5ba55;transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,168,67,0.32);}
+.gbtn:disabled{opacity:0.38;cursor:not-allowed;transform:none !important;box-shadow:none;}
+.ghost{background:transparent;color:rgba(232,228,217,0.5);padding:9px 16px;font-size:13px;border:1px solid rgba(255,255,255,0.09);font-weight:500;}
+.ghost:hover{color:#e8e4d9;border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04);}
 .teal-btn{background:linear-gradient(135deg,#2dd4bf,#0d9488);color:white;padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;}
-.teal-btn:hover{opacity:0.88;transform:translateY(-1px);}
-.card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:14px;transition:all 0.24s;}
-.card:hover{background:rgba(255,255,255,0.04);border-color:rgba(212,168,67,0.18);transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,0.3);}
-.inp{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px 13px;color:#e8e4d9;font-size:14px;outline:none;width:100%;font-family:'DM Sans',sans-serif;transition:border-color 0.18s;}
-.inp:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,0.07);}
-.inp::placeholder{color:rgba(232,228,217,0.28);}
+.teal-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,212,191,0.28);}
+.card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:14px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
+.card:hover{background:rgba(255,255,255,0.04);border-color:rgba(212,168,67,0.22);transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,0.32);}
+.inp{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px 13px;color:#e8e4d9;font-size:14px;outline:none;width:100%;font-family:'DM Sans',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
+.inp:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,0.09);background:rgba(255,255,255,0.07);}
+.inp::placeholder{color:rgba(232,228,217,0.26);}
+.inp:hover:not(:focus){border-color:rgba(255,255,255,0.18);}
+select.inp{cursor:pointer;}
+textarea.inp{line-height:1.6;}
 .navl{background:transparent;color:rgba(232,228,217,0.5);padding:7px 11px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;border:none;cursor:pointer;border-radius:7px;transition:all 0.16s;}
-.navl:hover{color:#e8e4d9;background:rgba(255,255,255,0.04);}
-.navl.on{color:#d4a843;background:rgba(212,168,67,0.09);}
-.tag{display:inline-block;background:rgba(88,166,255,0.08);color:#8eb4d4;border:1px solid rgba(88,166,255,0.15);border-radius:5px;padding:2px 7px;font-size:11px;}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.84);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px);}
+.navl:hover{color:#e8e4d9;background:rgba(255,255,255,0.05);}
+.navl.on{color:#d4a843;background:rgba(212,168,67,0.1);}
+.tag{display:inline-block;background:rgba(88,166,255,0.08);color:#8eb4d4;border:1px solid rgba(88,166,255,0.15);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
+.modal-bg{position:fixed;inset:0;background:rgba(4,8,20,0.88);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
 .modal{background:#0e1420;border:1px solid rgba(212,168,67,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
-.flabel{display:block;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;color:rgba(232,228,217,0.46);margin-bottom:5px;letter-spacing:0.8px;text-transform:uppercase;}
-.sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#fb923c,#fdba74);}
+.flabel{display:block;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;color:rgba(232,228,217,0.42);margin-bottom:5px;letter-spacing:0.8px;text-transform:uppercase;}
+.sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#fb923c,#fdba74,rgba(251,146,60,0.3));}
 .pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#d4a843,#fde68a);}
 .sector-pills-mobile{display:none;}
 .sector-pills-desktop{display:flex;}
@@ -556,6 +561,18 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
               </p>
             )}
 
+            {/* Availability badge */}
+            {p.availability && (
+              <div style={{ marginBottom:18 }}>
+                <span style={{ fontSize:12, fontWeight:700, padding:'5px 14px', borderRadius:20, fontFamily:"'DM Sans',sans-serif",
+                  background: p.availability==='available'?'rgba(52,199,89,0.12)':p.availability==='limited'?'rgba(251,146,60,0.12)':'rgba(255,255,255,0.06)',
+                  color: p.availability==='available'?G.green:p.availability==='limited'?G.orange:G.muted,
+                  border: `1px solid ${p.availability==='available'?'rgba(52,199,89,0.3)':p.availability==='limited'?'rgba(251,146,60,0.3)':'rgba(255,255,255,0.1)'}` }}>
+                  {p.availability==='available'?'🟢 Available now':p.availability==='limited'?'🟡 Limited capacity':'🔴 Currently booked'}
+                </span>
+              </div>
+            )}
+
             {/* Tags */}
             {(p.tags||[]).length>0 && (
               <div style={{ marginBottom:20 }}>
@@ -566,7 +583,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
               </div>
             )}
 
-            {/* Details */}
+            {/* Details grid */}
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:20 }}>
               {p.markets && <div style={{ background:'rgba(251,146,60,0.05)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'10px 14px' }}>
                 <div style={{ fontSize:10, color:'rgba(251,146,60,0.6)', marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div>
@@ -577,6 +594,54 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
                 <div style={{ fontSize:13, fontWeight:600 }}>💼 {t.rateNote}</div>
               </div>
             </div>
+
+            {/* Premium sections */}
+            {p.prevCompanies && (
+              <div style={{ marginBottom:18 }}>
+                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Previous clients & companies</div>
+                <div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'12px 14px', fontSize:13, color:'rgba(232,228,217,0.8)' }}>🏢 {p.prevCompanies}</div>
+              </div>
+            )}
+
+            {p.featuredProject && (
+              <div style={{ marginBottom:18 }}>
+                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Featured project</div>
+                <div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'12px 14px', fontSize:13, color:'rgba(232,228,217,0.8)' }}>🎯 {p.featuredProject}</div>
+              </div>
+            )}
+
+            {p.certifications && (
+              <div style={{ marginBottom:18 }}>
+                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Certifications & Awards</div>
+                <div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'12px 14px', fontSize:13, color:'rgba(232,228,217,0.8)' }}>🏅 {p.certifications}</div>
+              </div>
+            )}
+
+            {p.testimonial && (
+              <div style={{ marginBottom:18 }}>
+                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Client testimonial</div>
+                <blockquote style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.2)', borderLeft:'3px solid rgba(251,146,60,0.5)', borderRadius:'0 10px 10px 0', padding:'12px 16px', fontSize:13, color:'rgba(232,228,217,0.85)', fontStyle:'italic', lineHeight:1.7, margin:0 }}>💬 {p.testimonial}</blockquote>
+              </div>
+            )}
+
+            {/* Social links */}
+            {(p.linkedin || p.github) && (
+              <div style={{ display:'flex', gap:9, marginBottom:18, flexWrap:'wrap' }}>
+                {p.linkedin && <a href={`https://${p.linkedin.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:9, color:'#fb923c', textDecoration:'none', fontSize:12, fontWeight:600 }}>in LinkedIn ↗</a>}
+                {p.github && <a href={`https://${p.github.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:9, color:'#fb923c', textDecoration:'none', fontSize:12, fontWeight:600 }}>⬡ Portfolio ↗</a>}
+              </div>
+            )}
+
+            {/* Video intro */}
+            {p.videoUrl && (
+              <div style={{ marginBottom:18 }}>
+                <a href={p.videoUrl.startsWith('http')?p.videoUrl:`https://${p.videoUrl}`} target="_blank" rel="noopener noreferrer"
+                  style={{ display:'flex', alignItems:'center', gap:10, padding:'12px 16px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:12, textDecoration:'none' }}>
+                  <span style={{ width:36, height:36, borderRadius:8, background:'rgba(251,146,60,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, flexShrink:0 }}>▶</span>
+                  <div><div style={{ fontSize:13, fontWeight:700, color:'#fb923c' }}>Watch intro video</div><div style={{ fontSize:11, color:'rgba(251,146,60,0.6)', marginTop:1 }}>{p.videoUrl.replace(/^https?:\/\//,'').slice(0,40)}</div></div>
+                </a>
+              </div>
+            )}
 
             {/* Social / website */}
             {website && (
@@ -787,37 +852,52 @@ function ContactModal({ profile, t, onClose }) {
 function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSelfEdit, matchScore, matchHits, onCardClick }) {
   const isFL = p.type === 'freelancer'
   const isSp = p.tier === 'sponsored'
+  const [hov, setHov] = React.useState(false)
   return (
-    <div className={`card fu${isSp ? ' glow' : ''}`} style={{ padding: 0, overflow: 'hidden', position: 'relative', borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border, background: isSp ? 'rgba(251,146,60,0.03)' : G.card }}>
+    <div
+      className={`card fu${isSp ? ' glow' : ''}`}
+      style={{
+        padding: 0, overflow: 'hidden', position: 'relative',
+        borderColor: isSp ? (hov ? 'rgba(251,146,60,0.7)' : 'rgba(251,146,60,0.4)') : hov ? 'rgba(212,168,67,0.28)' : G.border,
+        background: isSp ? (hov ? 'rgba(251,146,60,0.05)' : 'rgba(251,146,60,0.03)') : G.card,
+        cursor: onCardClick ? 'pointer' : 'default',
+        transform: hov && onCardClick ? 'translateY(-3px)' : 'none',
+        boxShadow: hov && onCardClick ? (isSp ? '0 16px 40px rgba(0,0,0,0.35),0 0 24px rgba(251,146,60,0.08)' : '0 16px 40px rgba(0,0,0,0.3),0 0 20px rgba(212,168,67,0.06)') : '0 4px 12px rgba(0,0,0,0.15)',
+        transition: 'all 0.22s cubic-bezier(0.4,0,0.2,1)',
+      }}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      onClick={onCardClick ? (e) => { if (!e.target.closest('button,a')) onCardClick(p) } : undefined}
+    >
       {isSp && <div className="sp-bar" />}
       <div style={{ padding: 20 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 11 }}>
-          <div style={{ display: 'flex', gap: 10, cursor: onCardClick ? 'pointer' : 'default' }} onClick={onCardClick ? () => onCardClick(p) : undefined}>
+          <div style={{ display: 'flex', gap: 10, minWidth: 0, flex: 1 }}>
             <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
-            <div>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, marginBottom: 2, color: onCardClick ? G.teal : G.text }}>{p.name}</div>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, marginBottom: 2, color: isSp ? G.orange : hov ? G.gold : G.text, transition: 'color 0.18s', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
               <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
             </div>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end' }}>
-            {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
-              {matchScore !== null && matchScore !== undefined && (
-                <span style={{ display:'inline-flex', flexDirection:'column', gap:3, verticalAlign:'middle', minWidth:52 }}>
-                  <span style={{ fontSize:11, fontWeight:800, fontFamily:"'Syne',sans-serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
-                  <span style={{ display:'block', width:52, height:4, background:'rgba(255,255,255,0.08)', borderRadius:3, overflow:'hidden' }}>
-                    <span style={{ display:'block', height:'100%', width:`${matchScore}%`, background: matchScore>=80?`linear-gradient(90deg,${G.green},#4ade80)`:matchScore>=50?`linear-gradient(90deg,${G.gold},#fde68a)`:`linear-gradient(90deg,${G.muted},rgba(255,255,255,0.2))`, borderRadius:3, transition:'width 0.5s ease' }} />
-                  </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', flexShrink: 0, marginLeft: 8 }}>
+            {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif", whiteSpace: 'nowrap' }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
+            {matchScore !== null && matchScore !== undefined && (
+              <span style={{ display:'inline-flex', flexDirection:'column', gap:3, verticalAlign:'middle', minWidth:52 }}>
+                <span style={{ fontSize:11, fontWeight:800, fontFamily:"'Syne',sans-serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
+                <span style={{ display:'block', width:52, height:4, background:'rgba(255,255,255,0.08)', borderRadius:3, overflow:'hidden' }}>
+                  <span style={{ display:'block', height:'100%', width:`${matchScore}%`, background: matchScore>=80?`linear-gradient(90deg,${G.green},#4ade80)`:matchScore>=50?`linear-gradient(90deg,${G.gold},#fde68a)`:`linear-gradient(90deg,${G.muted},rgba(255,255,255,0.2))`, borderRadius:3, transition:'width 0.5s ease' }} />
                 </span>
-              )}
+              </span>
+            )}
             {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
           </div>
         </div>
         <div style={{ display: 'flex', gap: 12, marginBottom: 9, fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
           {isFL ? <span>🗣 {p.languages}</span> : <span>👥 {p.employees}</span>}
         </div>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 11 }}>{p.desc[lang] || p.desc.en}</p>
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 11 }}>{(p.desc?.[lang] || p.desc?.en || '').slice(0,120)}{((p.desc?.[lang]||p.desc?.en||'').length>120)?'…':''}</p>
         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
-          {p.tags.map(tag => (
+          {p.tags.slice(0,5).map(tag => (
             <span key={tag} className="tag" onClick={e => { e.stopPropagation(); onTagClick && onTagClick(tag) }}
               style={{ cursor: onTagClick ? 'pointer' : 'default', transition: 'all 0.15s' }}
               onMouseEnter={e => { if (onTagClick) { e.currentTarget.style.background='rgba(45,212,191,0.15)'; e.currentTarget.style.color=G.teal; e.currentTarget.style.borderColor='rgba(45,212,191,0.3)' }}}
@@ -830,9 +910,9 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.teal, fontWeight: 500 }}>💼 {t.rateNote}</div>
         </div>
         <div style={{ display: 'flex', gap: 7 }}>
-          <button className="btn gbtn" style={{ flex: 1, padding: '8px', fontSize: 12 }} onClick={() => onContact(p)}>{t.sendReq}</button>
-          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 13 }} title={t.upgradeTitle} onClick={() => onUpgrade(p.cat)}>⭐</button>
-          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 12 }} title={lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={() => onSelfEdit && onSelfEdit(p)}>✏️</button>
+          <button className="btn gbtn" style={{ flex: 1, padding: '8px', fontSize: 12 }} onClick={e => { e.stopPropagation(); onContact(p) }}>{t.sendReq}</button>
+          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 13 }} title={t.upgradeTitle} onClick={e => { e.stopPropagation(); onUpgrade(p.cat) }}>⭐</button>
+          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 12 }} title={lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={e => { e.stopPropagation(); onSelfEdit && onSelfEdit(p) }}>✏️</button>
         </div>
       </div>
     </div>
@@ -2118,10 +2198,11 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           <div>
             <label className="flabel">{Lp.emailL}</label>
             <input className="inp" type="email" value={form.email}
+              style={{ borderColor: emailError ? G.red : undefined, boxShadow: emailError ? `0 0 0 3px rgba(255,59,48,0.1)` : undefined }}
               onChange={e=>{setForm(f=>({...f,email:e.target.value}));checkEmail(e.target.value)}}
               onBlur={e=>checkEmail(e.target.value)} />
-            {emailChecking && <div style={{fontSize:11,color:G.muted,marginTop:3}}>Checking…</div>}
-            {emailError && <div style={{fontSize:11,color:G.red,marginTop:3}}>⚠️ {emailError}</div>}
+            {emailChecking && <div style={{fontSize:11,color:G.muted,marginTop:4,display:'flex',alignItems:'center',gap:5}}><div style={{width:8,height:8,borderRadius:'50%',border:'1.5px solid rgba(255,255,255,0.2)',borderTopColor:G.muted,animation:'spin 0.7s linear infinite'}} />Checking…</div>}
+            {emailError && <div style={{fontSize:11,color:G.red,marginTop:4,display:'flex',alignItems:'center',gap:5}}>⚠ {emailError}</div>}
           </div>
           <div><label className="flabel">{Lp.phoneL}</label><input className="inp" value={form.phone} onChange={e=>setForm(f=>({...f,phone:e.target.value}))} /></div>
         </div>
@@ -2181,13 +2262,22 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           if (partnerLogoFile) fields.logo_data = partnerLogoFile
           let err = await insertProfile(fields).catch(e => e)
           if (err && err.message) {
+            const m = err.message.toLowerCase()
+            if (m.includes('duplicate') || m.includes('unique') || m.includes('email')) {
+              setEmailError(lang === 'sq' ? 'Ky email është tashmë i regjistruar.' : 'This email is already registered.')
+              return
+            }
             const fallback = { ...fields }
             delete fallback.logo_color; delete fallback.logo_data
             err = await insertProfile(fallback).catch(e => e)
           }
           if (err && err.message) {
-            console.error('[Partner reg]', err.message)
-            alert('Registration error: ' + err.message)
+            const m = err.message.toLowerCase()
+            if (m.includes('duplicate') || m.includes('unique') || m.includes('email')) {
+              setEmailError(lang === 'sq' ? 'Ky email është tashmë i regjistruar.' : 'This email is already registered.')
+            } else {
+              setEmailError(lang === 'sq' ? 'Gabim gjatë regjistrimit. Provoni sërish.' : 'Submission failed. Please try again.')
+            }
             return
           }
           notifyAdminNewProfile({ name: form.name, email: form.email, cat: 'partner', city: form.city }).catch(()=>{})
@@ -2289,10 +2379,11 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         <div>
           <label className="flabel">{Lr.email}</label>
           <input className="inp" value={form.email}
+            style={{ borderColor: emailError ? G.red : undefined, boxShadow: emailError ? `0 0 0 3px rgba(255,59,48,0.1)` : undefined, transition: 'border-color 0.18s, box-shadow 0.18s' }}
             onChange={e => { f('email', e.target.value); checkEmail(e.target.value) }}
             onBlur={e => checkEmail(e.target.value)} />
-          {emailChecking && <div style={{fontSize:11,color:G.muted,marginTop:3}}>Checking…</div>}
-          {emailError && <div style={{fontSize:11,color:G.red,marginTop:3}}>⚠️ {emailError}</div>}
+          {emailChecking && <div style={{fontSize:11,color:G.muted,marginTop:4,display:'flex',alignItems:'center',gap:5}}><div style={{width:8,height:8,borderRadius:'50%',border:'1.5px solid rgba(255,255,255,0.2)',borderTopColor:G.muted,animation:'spin 0.7s linear infinite'}} />Checking…</div>}
+          {emailError && <div style={{fontSize:11,color:G.red,marginTop:4,display:'flex',alignItems:'center',gap:5,fontFamily:"'DM Sans',sans-serif",fontWeight:500}}>⚠ {emailError}</div>}
         </div>
         <div><label className="flabel">{Lr.website}</label><input className="inp" value={form.website} onChange={e => f('website', e.target.value)} placeholder="techfirma.com" /></div>
       </div>
@@ -2360,7 +2451,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
       </div>
 
       {/* Tier selector — Free vs Sponsored */}
-      <div style={{ marginBottom: 18 }}>
+      <div style={{ marginBottom: form.tier === 'sponsored' ? 14 : 18 }}>
         <div style={{ fontSize: 11, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 9 }}>
           {lang === 'sq' ? 'Zgjidhni planin:' : 'Choose your plan:'}
         </div>
@@ -2386,20 +2477,95 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         </div>
       </div>
 
+      {/* ── PREMIUM SPONSORED FIELDS (shown only when sponsored is selected) ── */}
+      {form.tier === 'sponsored' && (
+        <div style={{ background: 'linear-gradient(135deg,rgba(251,146,60,0.06),rgba(251,146,60,0.02))', border: '1px solid rgba(251,146,60,0.25)', borderRadius: 14, padding: '18px 18px 14px', marginBottom: 18 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+            <span style={{ fontSize: 14 }}>🚀</span>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13, color: G.orange }}>Premium Profile Fields</div>
+            <span style={{ fontSize: 10, color: 'rgba(251,146,60,0.6)', fontFamily: "'DM Sans',sans-serif" }}>· {lang==='sq'?'Shfaqen në profilin tuaj premium':'Displayed in your premium profile popup'}</span>
+          </div>
+
+          {/* Previous companies */}
+          <div style={{ marginBottom: 12 }}>
+            <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Kompanitë ku keni punuar':'Previous companies worked with'}</label>
+            <input className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.prevCompanies||''} onChange={e=>f('prevCompanies',e.target.value)} placeholder="BMW, Deloitte, SAP…" />
+          </div>
+
+          {/* Featured project */}
+          <div style={{ marginBottom: 12 }}>
+            <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Projekti i fundit / Portfolio':'Featured project / Portfolio'}</label>
+            <input className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.featuredProject||''} onChange={e=>f('featuredProject',e.target.value)} placeholder={lang==='sq'?'Titulli dhe përshkrimi i shkurtër':'Project title and short description'} />
+          </div>
+
+          {/* Social links row */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
+            <div>
+              <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>LinkedIn</label>
+              <input className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.linkedin||''} onChange={e=>f('linkedin',e.target.value)} placeholder="linkedin.com/in/…" />
+            </div>
+            <div>
+              <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>GitHub / Portfolio</label>
+              <input className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.github||''} onChange={e=>f('github',e.target.value)} placeholder="github.com/… or portfolio.com" />
+            </div>
+          </div>
+
+          {/* Certifications */}
+          <div style={{ marginBottom: 12 }}>
+            <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Çertifikata / Çmime':'Certifications / Awards'}</label>
+            <input className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.certifications||''} onChange={e=>f('certifications',e.target.value)} placeholder="AWS Certified, ISO 9001, etc." />
+          </div>
+
+          {/* Availability */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
+            <div>
+              <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Statusi i disponibilitetit':'Availability status'}</label>
+              <select className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.availability||''} onChange={e=>f('availability',e.target.value)}>
+                <option value="">{lang==='sq'?'Zgjidhni…':'Select…'}</option>
+                <option value="available">{lang==='sq'?'I disponueshëm tani':'Available now'}</option>
+                <option value="limited">{lang==='sq'?'Kapacitet i kufizuar':'Limited capacity'}</option>
+                <option value="booked">{lang==='sq'?'I zënë, 1–2 muaj':'Booked, 1–2 months'}</option>
+              </select>
+            </div>
+            <div>
+              <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Video intro (URL)':'Video intro (URL)'}</label>
+              <input className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.videoUrl||''} onChange={e=>f('videoUrl',e.target.value)} placeholder="youtube.com/…" />
+            </div>
+          </div>
+
+          {/* Testimonial */}
+          <div style={{ marginBottom: 4 }}>
+            <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Referencë / Dëshmi klienti':'Client testimonial / Reference'}</label>
+            <textarea className="inp" rows={2} style={{ resize: 'vertical', borderColor: 'rgba(251,146,60,0.2)' }} value={form.testimonial||''} onChange={e=>f('testimonial',e.target.value)} placeholder={lang==='sq'?'"Bashkëpunimi ishte shumë profesional…" – Emri, Kompania':'\"Working with them was exceptional…\" – Name, Company'} />
+          </div>
+        </div>
+      )}
+
       <button className="btn gbtn" style={{ width: '100%' }} disabled={!form.name || !form.email || !!emailError} onClick={async () => {
         const dbFields = formToDb(form, catChoice, selectedTags, regType, null)
-        // Ensure type is set correctly regardless of formToDb's string parsing
         if (regType === t.regFL) dbFields.type = 'freelancer'
         else if (regType === t.regComp) dbFields.type = 'company'
-        // Apply selected tier
         if (form.tier === 'sponsored') dbFields.tier = 'sponsored'
         if (logoFile) dbFields.logo_data = logoFile
         const err = await insertProfile(dbFields)
         if (err) {
+          const msg = (err.message || '').toLowerCase()
+          if (msg.includes('duplicate') || msg.includes('unique') || msg.includes('email')) {
+            setEmailError(lang === 'sq' ? 'Ky email është tashmë i regjistruar.' : 'This email is already registered.')
+            return
+          }
           const fallback = { ...dbFields }
           delete fallback.logo_color; delete fallback.logo_data
           const err2 = await insertProfile(fallback)
-          if (err2) { alert('Submission failed: ' + (err2.message || JSON.stringify(err2))); return }
+          if (err2) {
+            const msg2 = (err2.message || '').toLowerCase()
+            if (msg2.includes('duplicate') || msg2.includes('unique') || msg2.includes('email')) {
+              setEmailError(lang === 'sq' ? 'Ky email është tashmë i regjistruar.' : 'This email is already registered.')
+            } else {
+              setEmailError(lang === 'sq' ? 'Gabim gjatë regjistrimit. Provoni sërish.' : 'Submission failed. Please try again.')
+            }
+            return
+          }
         }
         notifyAdminNewProfile({ name: form.name, email: form.email, cat: catChoice, city: form.city }).catch(() => {})
         onDone()
