@@ -1103,32 +1103,45 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
   const catList = cat === 'all' ? CATS : CATS.filter(c => c.id === cat)
   const activeCat = CATS.find(c => c.id === cat)
   const bgColor = activeCat ? activeCat.color : '#58a6ff'
+  const isSectorSelected = cat !== 'all'
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      {/* Fixed background — does NOT scroll with content */}
+      {/* Fixed background — sector color tint, brighter when a sector is selected */}
       <div style={{
         position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
-        background: `
-          radial-gradient(ellipse 55% 38% at 15% 18%, ${bgColor}14 0%, transparent 65%),
-          radial-gradient(ellipse 45% 32% at 85% 82%, ${bgColor}0c 0%, transparent 60%),
-          radial-gradient(ellipse 30% 22% at 70% 20%, ${bgColor}07 0%, transparent 55%)
-        `,
-        transition: 'background 0.7s cubic-bezier(0.4,0,0.2,1)',
+        transition: 'all 0.7s cubic-bezier(0.4,0,0.2,1)',
+        background: isSectorSelected
+          ? `radial-gradient(ellipse 65% 45% at 15% 15%, ${bgColor}22 0%, transparent 60%),
+             radial-gradient(ellipse 50% 38% at 85% 80%, ${bgColor}18 0%, transparent 58%),
+             radial-gradient(ellipse 35% 28% at 65% 18%, ${bgColor}12 0%, transparent 52%)`
+          : `radial-gradient(ellipse 55% 38% at 15% 18%, #58a6ff0a 0%, transparent 65%),
+             radial-gradient(ellipse 45% 32% at 85% 82%, #58a6ff07 0%, transparent 60%)`,
       }}>
-        {/* Large soft glow orbs — fixed, no animation */}
+        {/* Left glow orb */}
         <div style={{
-          position: 'absolute', width: 500, height: 500, borderRadius: '50%',
-          background: `radial-gradient(circle, ${bgColor}09 0%, transparent 68%)`,
-          top: '5%', left: '0%', filter: 'blur(48px)',
-          transition: 'background 0.7s ease',
+          position: 'absolute', width: isSectorSelected ? 600 : 450, height: isSectorSelected ? 600 : 450,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${bgColor}${isSectorSelected ? '16' : '08'} 0%, transparent 68%)`,
+          top: '-5%', left: '-5%', filter: `blur(${isSectorSelected ? 56 : 48}px)`,
+          transition: 'all 0.7s ease',
         }} />
+        {/* Right glow orb */}
         <div style={{
-          position: 'absolute', width: 360, height: 360, borderRadius: '50%',
-          background: `radial-gradient(circle, ${bgColor}07 0%, transparent 68%)`,
-          bottom: '10%', right: '5%', filter: 'blur(36px)',
-          transition: 'background 0.7s ease',
+          position: 'absolute', width: isSectorSelected ? 420 : 320, height: isSectorSelected ? 420 : 320,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${bgColor}${isSectorSelected ? '12' : '06'} 0%, transparent 68%)`,
+          bottom: '5%', right: '0%', filter: `blur(${isSectorSelected ? 44 : 36}px)`,
+          transition: 'all 0.7s ease',
         }} />
+        {/* Top edge glow — only when sector selected */}
+        {isSectorSelected && (
+          <div style={{
+            position: 'absolute', top: 0, left: '10%', right: '10%', height: 2,
+            background: `linear-gradient(90deg, transparent, ${bgColor}50, ${bgColor}70, ${bgColor}50, transparent)`,
+            filter: 'blur(1px)',
+          }} />
+        )}
       </div>
       <div style={{ padding: '28px 44px', maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
       <div style={{ marginBottom: 16, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>{t.rankSub}</div>
@@ -4107,21 +4120,22 @@ export default function App() {
       {/* ── NAV ── */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: `${G.bg}f2`, backdropFilter: 'blur(18px)', borderBottom: `1px solid ${G.border}`, padding: '0 28px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setPage('home')} className="btn" style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: 0 }}>
-          <div style={{ width: 36, height: 24, borderRadius: 4, overflow: 'hidden', flexShrink: 0, boxShadow: '0 1px 6px rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg" style={{ display:'block', width:'100%', height:'100%' }}>
-              {/* Blue background */}
-              <rect width="36" height="24" fill="#244AA5"/>
-              {/* 6 gold stars in arc */}
-              <g fill="#D4AF2C">
-                <polygon points="7,5 7.5,6.5 9,6.5 7.8,7.4 8.3,9 7,8.1 5.7,9 6.2,7.4 5,6.5 6.5,6.5" transform="scale(0.55) translate(-1,0)"/>
-                <polygon points="11.5,3 12,4.5 13.5,4.5 12.3,5.4 12.8,7 11.5,6.1 10.2,7 10.7,5.4 9.5,4.5 11,4.5" transform="scale(0.55) translate(6,-2)"/>
-                <polygon points="17,2 17.5,3.5 19,3.5 17.8,4.4 18.3,6 17,5.1 15.7,6 16.2,4.4 15,3.5 16.5,3.5" transform="scale(0.55) translate(14,-3)"/>
-                <polygon points="22.5,3 23,4.5 24.5,4.5 23.3,5.4 23.8,7 22.5,6.1 21.2,7 21.7,5.4 20.5,4.5 22,4.5" transform="scale(0.55) translate(22,-2)"/>
-                <polygon points="27,5 27.5,6.5 29,6.5 27.8,7.4 28.3,9 27,8.1 25.7,9 26.2,7.4 25,6.5 26.5,6.5" transform="scale(0.55) translate(30,0)"/>
-                <polygon points="29,9 29.5,10.5 31,10.5 29.8,11.4 30.3,13 29,12.1 27.7,13 28.2,11.4 27,10.5 28.5,10.5" transform="scale(0.55) translate(32,4)"/>
+          <div style={{ width: 40, height: 27, borderRadius: 4, overflow: 'hidden', flexShrink: 0, boxShadow: '0 1px 8px rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            {/* Official Kosovo flag: blue #244AA5, gold stars #D4AF00, gold map #D4AF00 */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 560" style={{ display:'block', width:'100%', height:'100%' }}>
+              <rect width="840" height="560" fill="#244AA5"/>
+              {/* 6 five-pointed gold stars across the top arc — official positions */}
+              <g fill="#D4AF00">
+                <polygon points="123,90 131,114 157,114 136,129 144,153 123,138 102,153 110,129 89,114 115,114"/>
+                <polygon points="200,52 208,76 234,76 213,91 221,115 200,100 179,115 187,91 166,76 192,76"/>
+                <polygon points="290,34 298,58 324,58 303,73 311,97 290,82 269,97 277,73 256,58 282,58"/>
+                <polygon points="390,28 398,52 424,52 403,67 411,91 390,76 369,91 377,67 356,52 382,52"/>
+                <polygon points="490,34 498,58 524,58 503,73 511,97 490,82 469,97 477,73 456,58 482,58"/>
+                <polygon points="580,52 588,76 614,76 593,91 601,115 580,100 559,115 567,91 546,76 572,76"/>
+                <polygon points="657,90 665,114 691,114 670,129 678,153 657,138 636,153 644,129 623,114 649,114"/>
               </g>
-              {/* Kosovo map shape - simplified solid gold */}
-              <path d="M13.5 9.5 L14.2 8.8 L15.5 8.5 L17 8.2 L19 8.2 L20.5 8.5 L21.8 8.8 L22.5 9.5 L22.8 10.8 L22.5 11.5 L22 12.5 L21 13.8 L19.5 15 L18 15.5 L16.5 15 L15 13.8 L14 12.5 L13.5 11.5 L13.2 10.8 Z" fill="#D4AF2C"/>
+              {/* Kosovo map — accurate simplified outline, centered */}
+              <path fill="#D4AF00" d="M282,174 L296,166 L314,162 L330,158 L348,154 L368,152 L388,150 L408,150 L428,150 L448,152 L464,156 L478,160 L492,166 L504,172 L514,182 L520,194 L524,208 L522,222 L516,234 L506,244 L492,254 L492,266 L496,278 L498,292 L494,304 L484,312 L470,316 L456,318 L448,330 L444,344 L438,356 L428,364 L414,366 L400,364 L388,356 L380,344 L374,332 L366,322 L352,318 L338,316 L324,310 L312,300 L304,288 L298,276 L296,264 L296,252 L290,242 L280,232 L272,220 L268,208 L270,196 Z"/>
             </svg>
           </div>
           <div>
