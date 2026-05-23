@@ -1051,9 +1051,31 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
   })
 
   const catList = cat === 'all' ? CATS : CATS.filter(c => c.id === cat)
+  const activeCat = CATS.find(c => c.id === cat)
+  const bgColor = activeCat ? activeCat.color : G.gold
 
   return (
-    <div style={{ padding: '28px 44px', maxWidth: 1200, margin: '0 auto' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+      {/* Animated sector-color background */}
+      <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0,
+        background: `radial-gradient(ellipse 60% 40% at 20% 20%,${bgColor}08 0%,transparent 60%),radial-gradient(ellipse 50% 35% at 80% 80%,${bgColor}05 0%,transparent 55%)`,
+        transition: 'background 0.8s cubic-bezier(0.4,0,0.2,1)' }}>
+        {/* Slow drifting orb 1 */}
+        <div style={{ position:'absolute', width:400, height:400, borderRadius:'50%',
+          background:`radial-gradient(circle,${bgColor}06 0%,transparent 70%)`,
+          top:'10%', left:'5%', filter:'blur(40px)',
+          animation:'orb1 18s ease-in-out infinite alternate' }} />
+        {/* Slow drifting orb 2 */}
+        <div style={{ position:'absolute', width:300, height:300, borderRadius:'50%',
+          background:`radial-gradient(circle,${bgColor}04 0%,transparent 70%)`,
+          bottom:'15%', right:'8%', filter:'blur(32px)',
+          animation:'orb2 22s ease-in-out infinite alternate' }} />
+      </div>
+      <style>{`
+        @keyframes orb1{0%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,20px) scale(1.08);}100%{transform:translate(-20px,40px) scale(0.96);}}
+        @keyframes orb2{0%{transform:translate(0,0) scale(1);}50%{transform:translate(-30px,-20px) scale(1.05);}100%{transform:translate(20px,-40px) scale(1.1);}}
+      `}</style>
+      <div style={{ padding: '28px 44px', maxWidth: 1200, margin: '0 auto', position:'relative', zIndex:1 }}>
       <div style={{ marginBottom: 16, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>{t.rankSub}</div>
       <div style={{ display: 'flex', gap: 9, marginBottom: 16 }}>
         <input className="inp" style={{ flex: 1, fontSize: 15 }} placeholder={t.searchPH} value={q} onChange={e => setQ(e.target.value)} />
@@ -1187,6 +1209,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {upgrade && <UpgradeModal catId={upgrade} t={t} lang={lang} onClose={() => setUpgrade(null)} />}
       {selfEdit && <SelfEditModal profile={selfEdit} lang={lang} t={t} onClose={() => setSelfEdit(null)} />}
       {dirDetail && <ProfileDetailModal p={dirDetail} lang={lang} t={t} onClose={() => setDirDetail(null)} onContact={p2 => { setDirDetail(null); setContact(p2) }} />}
+      </div>
     </div>
   )
 }
@@ -2960,7 +2983,24 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
               <div><label className="flabel">Phone</label><input className="inp" value={partners.rootsgtm_phone||''} onChange={e=>setPartners(p=>({...p,rootsgtm_phone:e.target.value}))} /></div>
               <div><label className="flabel">Website</label><input className="inp" value={partners.rootsgtm_website||''} onChange={e=>setPartners(p=>({...p,rootsgtm_website:e.target.value}))} /></div>
             </div>
-            <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.rootsgtm_desc||''} onChange={e=>setPartners(p=>({...p,rootsgtm_desc:e.target.value}))} /></div>
+            <div style={{ marginBottom:10 }}><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.rootsgtm_desc||''} onChange={e=>setPartners(p=>({...p,rootsgtm_desc:e.target.value}))} /></div>
+            {/* Cover image */}
+            <div>
+              <label className="flabel">Cover / Banner image</label>
+              <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
+                {partners.rootsgtm_cover && <div style={{ width:100, height:44, borderRadius:7, overflow:'hidden', border:'1px solid rgba(45,212,191,0.3)' }}><img src={partners.rootsgtm_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /></div>}
+                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
+                  🖼 Upload cover
+                  <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                    const file=e.target.files?.[0]; if(!file) return
+                    const img=new Image(),url=URL.createObjectURL(file)
+                    img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setPartners(p=>({...p,rootsgtm_cover:c.toDataURL('image/webp',0.88)})) }
+                    img.src=url
+                  }} />
+                </label>
+                {partners.rootsgtm_cover && <button onClick={()=>setPartners(p=>({...p,rootsgtm_cover:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
+              </div>
+            </div>
           </div>
 
           {/* Government */}
@@ -2994,7 +3034,23 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
               <div><label className="flabel">Email</label><input className="inp" value={partners.gov_email||''} onChange={e=>setPartners(p=>({...p,gov_email:e.target.value}))} /></div>
             </div>
             <div style={{ marginBottom:10 }}><label className="flabel">Website</label><input className="inp" value={partners.gov_website||''} onChange={e=>setPartners(p=>({...p,gov_website:e.target.value}))} /></div>
-            <div><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.gov_desc||''} onChange={e=>setPartners(p=>({...p,gov_desc:e.target.value}))} /></div>
+            <div style={{ marginBottom:10 }}><label className="flabel">Description</label><textarea className="inp" rows={3} style={{resize:'vertical'}} value={partners.gov_desc||''} onChange={e=>setPartners(p=>({...p,gov_desc:e.target.value}))} /></div>
+            <div>
+              <label className="flabel">Cover / Banner image</label>
+              <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
+                {partners.gov_cover && <div style={{ width:100, height:44, borderRadius:7, overflow:'hidden', border:`1px solid ${G.goldBorder}` }}><img src={partners.gov_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /></div>}
+                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
+                  🖼 Upload cover
+                  <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                    const file=e.target.files?.[0]; if(!file) return
+                    const img=new Image(),url=URL.createObjectURL(file)
+                    img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setPartners(p=>({...p,gov_cover:c.toDataURL('image/webp',0.88)})) }
+                    img.src=url
+                  }} />
+                </label>
+                {partners.gov_cover && <button onClick={()=>setPartners(p=>({...p,gov_cover:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
+              </div>
+            </div>
           </div>
 
           {settingsSaved==='partners' && <div style={{ fontSize:12, color:G.green }}>✓ Saved to database</div>}
@@ -3235,50 +3291,79 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
   const openEdit = p => {
     setEditProfile(p)
     setEditForm({
-      name:      p.name || '',
-      city:      p.city || '',
-      contact:   p.contact || '',
-      phone:     p.phone || '',
-      website:   p.website || '',
-      employees: p.employees || '',
-      languages: p.languages || '',
-      experience:p.experience || '',
-      tier:      p.tier || 'free',
-      type:      p.type || 'company',
-      cat:       p.cat || 'software',
-      tags:      Array.isArray(p.tags) ? p.tags.join(', ') : '',
-      logoColor: p.logoColor || '#58a6ff',
-      logoDataPreview: p.logoUrl || null,
-      desc_en:   p.desc?.en || '',
-      desc_sq:   p.desc?.sq || p.desc?.en || '',
+      name:           p.name || '',
+      city:           p.city || '',
+      contact:        p.contact || '',
+      phone:          p.phone || '',
+      website:        p.website || '',
+      employees:      p.employees || '',
+      languages:      p.languages || '',
+      experience:     p.experience || '',
+      tier:           p.tier || 'free',
+      type:           p.type || 'company',
+      cat:            p.cat || 'software',
+      tags:           Array.isArray(p.tags) ? p.tags.join(', ') : '',
+      logoColor:      p.logoColor || '#58a6ff',
+      logoDataPreview:p.logoUrl || null,
+      desc_en:        p.desc?.en || '',
+      desc_sq:        p.desc?.sq || p.desc?.en || '',
+      // Sponsored premium fields
+      prevCompanies:  p.prevCompanies || '',
+      featuredProject:p.featuredProject || '',
+      linkedin:       p.linkedin || '',
+      github:         p.github || '',
+      certifications: p.certifications || '',
+      availability:   p.availability || '',
+      videoUrl:       p.videoUrl || '',
+      testimonial:    p.testimonial || '',
+      coverImage:     p.coverImage || null,
     })
   }
 
   const saveEdit = async () => {
     setSaving(true)
     const updates = {
-      name:       editForm.name,
-      city:       editForm.city,
-      email:      editForm.contact,
-      phone:      editForm.phone || null,
-      website:    editForm.website || null,
-      employees:  editForm.employees || null,
-      languages:  editForm.languages || null,
-      experience: editForm.experience || null,
-      tier:       editForm.tier,
-      type:       editForm.type,
-      cat:        editForm.cat,
-      tags:       typeof editForm.tags === 'string' ? editForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : (editForm.tags||[]),
-      logo_color: editForm.logoColor || '#58a6ff',
-      ...(editForm.logoDataPreview ? { logo_data: editForm.logoDataPreview } : {}),
-      desc_en:    editForm.desc_en || null,
-      desc_sq:    editForm.desc_sq || editForm.desc_en || null,
+      name:            editForm.name,
+      city:            editForm.city,
+      email:           editForm.contact,
+      phone:           editForm.phone || null,
+      website:         editForm.website || null,
+      employees:       editForm.employees || null,
+      languages:       editForm.languages || null,
+      experience:      editForm.experience || null,
+      tier:            editForm.tier,
+      type:            editForm.type,
+      cat:             editForm.cat,
+      tags:            typeof editForm.tags === 'string' ? editForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : (editForm.tags||[]),
+      logo_color:      editForm.logoColor || '#58a6ff',
+      ...(editForm.logoDataPreview && !editForm.logoDataPreview.startsWith('http') ? { logo_data: editForm.logoDataPreview } : {}),
+      desc_en:         editForm.desc_en || null,
+      desc_sq:         editForm.desc_sq || editForm.desc_en || null,
+      // Sponsored premium fields
+      prev_companies:  editForm.prevCompanies || null,
+      featured_project:editForm.featuredProject || null,
+      linkedin:        editForm.linkedin || null,
+      github:          editForm.github || null,
+      certifications:  editForm.certifications || null,
+      availability:    editForm.availability || null,
+      video_url:       editForm.videoUrl || null,
+      testimonial:     editForm.testimonial || null,
+      ...(editForm.coverImage && !editForm.coverImage.startsWith('http') ? { cover_image: editForm.coverImage } : {}),
     }
     const err = await updateProfile(editProfile.id, updates)
     if (!err) {
       setProfiles(ps => ps.map(x => x.id === editProfile.id ? {
         ...x, ...updates, contact: updates.email,
-        logoUrl: updates.logo_data || x.logoUrl,
+        logoUrl: (updates.logo_data || x.logoUrl),
+        coverImage: (updates.cover_image || x.coverImage),
+        prevCompanies: updates.prev_companies,
+        featuredProject: updates.featured_project,
+        linkedin: updates.linkedin,
+        github: updates.github,
+        certifications: updates.certifications,
+        availability: updates.availability,
+        videoUrl: updates.video_url,
+        testimonial: updates.testimonial,
         desc: { en: updates.desc_en, sq: updates.desc_sq }
       } : x))
       setEditProfile(null)
@@ -3794,6 +3879,82 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                 <label className="flabel">Description <span style={{fontWeight:400,textTransform:'none',fontSize:10,color:G.muted}}>(used for all languages)</span></label>
                 <textarea className="inp" rows={3} style={{resize:'vertical'}} value={editForm.desc_en||''} onChange={e=>setEditForm(f=>({...f,desc_en:e.target.value,desc_sq:e.target.value}))} placeholder="Short description of the offer…" />
               </div>
+
+              {/* ── Cover image (for sponsored, partner, general partner) ── */}
+              {(editForm.tier === 'sponsored' || editForm.type === 'partner') && (
+                <div style={{ marginBottom:12, padding:'14px', background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.18)', borderRadius:10 }}>
+                  <label className="flabel" style={{color:'rgba(251,146,60,0.6)'}}>Cover / Banner Image</label>
+                  <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:8 }}>
+                    {editForm.coverImage && (
+                      <div style={{ width:120, height:56, borderRadius:8, overflow:'hidden', flexShrink:0, border:'1px solid rgba(251,146,60,0.3)' }}>
+                        <img src={editForm.coverImage} alt="cover" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                      </div>
+                    )}
+                    <div style={{ flex:1 }}>
+                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text, marginBottom:6 }}>
+                        🖼 Upload cover image
+                        <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                          const file=e.target.files?.[0]; if(!file) return
+                          const img=new Image(), url=URL.createObjectURL(file)
+                          img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setEditForm(f=>({...f,coverImage:c.toDataURL('image/webp',0.88)})) }
+                          img.src=url
+                        }} />
+                      </label>
+                      {editForm.coverImage && <button onClick={()=>setEditForm(f=>({...f,coverImage:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px',display:'block'}}>✕ Remove</button>}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ── Sponsored premium fields (only when tier = sponsored) ── */}
+              {editForm.tier === 'sponsored' && (
+                <div style={{ background:'linear-gradient(135deg,rgba(251,146,60,0.06),rgba(251,146,60,0.02))', border:'1px solid rgba(251,146,60,0.22)', borderRadius:12, padding:'16px', marginBottom:12 }}>
+                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:G.orange, marginBottom:14, display:'flex', alignItems:'center', gap:7 }}>
+                    🚀 Sponsored Premium Fields
+                  </div>
+                  <div style={{ marginBottom:10 }}>
+                    <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>Previous companies / clients</label>
+                    <input className="inp" style={{borderColor:'rgba(251,146,60,0.2)'}} value={editForm.prevCompanies||''} onChange={e=>setEditForm(f=>({...f,prevCompanies:e.target.value}))} placeholder="BMW, Deloitte, SAP…" />
+                  </div>
+                  <div style={{ marginBottom:10 }}>
+                    <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>Featured project / portfolio</label>
+                    <input className="inp" style={{borderColor:'rgba(251,146,60,0.2)'}} value={editForm.featuredProject||''} onChange={e=>setEditForm(f=>({...f,featuredProject:e.target.value}))} placeholder="Project title and short description" />
+                  </div>
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+                    <div>
+                      <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>LinkedIn URL</label>
+                      <input className="inp" style={{borderColor:'rgba(251,146,60,0.2)'}} value={editForm.linkedin||''} onChange={e=>setEditForm(f=>({...f,linkedin:e.target.value}))} placeholder="linkedin.com/in/…" />
+                    </div>
+                    <div>
+                      <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>GitHub / Portfolio URL</label>
+                      <input className="inp" style={{borderColor:'rgba(251,146,60,0.2)'}} value={editForm.github||''} onChange={e=>setEditForm(f=>({...f,github:e.target.value}))} placeholder="github.com/…" />
+                    </div>
+                  </div>
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+                    <div>
+                      <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>Certifications / Awards</label>
+                      <input className="inp" style={{borderColor:'rgba(251,146,60,0.2)'}} value={editForm.certifications||''} onChange={e=>setEditForm(f=>({...f,certifications:e.target.value}))} placeholder="AWS Certified, ISO 9001…" />
+                    </div>
+                    <div>
+                      <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>Availability</label>
+                      <select className="inp" style={{borderColor:'rgba(251,146,60,0.2)'}} value={editForm.availability||''} onChange={e=>setEditForm(f=>({...f,availability:e.target.value}))}>
+                        <option value="">Select…</option>
+                        <option value="available">🟢 Available now</option>
+                        <option value="limited">🟡 Limited capacity</option>
+                        <option value="booked">🔴 Currently booked</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style={{ marginBottom:10 }}>
+                    <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>Video intro URL</label>
+                    <input className="inp" style={{borderColor:'rgba(251,146,60,0.2)'}} value={editForm.videoUrl||''} onChange={e=>setEditForm(f=>({...f,videoUrl:e.target.value}))} placeholder="youtube.com/…" />
+                  </div>
+                  <div>
+                    <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>Client testimonial</label>
+                    <textarea className="inp" rows={2} style={{resize:'vertical',borderColor:'rgba(251,146,60,0.2)'}} value={editForm.testimonial||''} onChange={e=>setEditForm(f=>({...f,testimonial:e.target.value}))} placeholder='"Working with them was exceptional…" – Name, Company' />
+                  </div>
+                </div>
+              )}
               </div>
 
             {/* Sticky footer */}
@@ -3877,7 +4038,39 @@ export default function App() {
       {/* ── NAV ── */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: `${G.bg}f2`, backdropFilter: 'blur(18px)', borderBottom: `1px solid ${G.border}`, padding: '0 28px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setPage('home')} className="btn" style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: 0 }}>
-          <div style={{ width: 32, height: 32, background: 'linear-gradient(135deg,#d4a843,#b8892e)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🇽🇰</div>
+          <div style={{ width: 38, height: 28, borderRadius: 5, overflow: 'hidden', flexShrink: 0, position:'relative', boxShadow:'0 2px 8px rgba(0,0,0,0.4)' }}>
+            <svg viewBox="0 0 38 28" style={{ width:'100%', height:'100%', display:'block' }} xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="ksflag" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#1a5dad" />
+                  <stop offset="100%" stopColor="#1553c7" />
+                </linearGradient>
+                <filter id="waveshadow">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity="0.3" />
+                </filter>
+              </defs>
+              {/* Flag body with wave animation */}
+              <rect width="38" height="28" fill="url(#ksflag)" />
+              {/* Subtle shimmer overlay */}
+              <rect width="38" height="28" fill="url(#ksshimmer)" opacity="0.15">
+                <animate attributeName="x" from="-38" to="38" dur="3s" repeatCount="indefinite" />
+              </rect>
+              {/* Kosovo gold stars (simplified 6-star arc) */}
+              <g fill="#d4a843" transform="translate(19,7)">
+                {[-10,-6,-2,2,6,10].map((x,i) => (
+                  <circle key={i} cx={x} cy="0" r="1.3">
+                    <animate attributeName="opacity" values="0.8;1;0.8" dur={`${2+i*0.15}s`} repeatCount="indefinite" />
+                  </circle>
+                ))}
+              </g>
+              {/* Kosovo map silhouette (simplified path) */}
+              <path d="M16,12 L17,11 L18,11.5 L19,11 L20,11 L21,11.5 L22,11 L22.5,12 L22,13 L21.5,14 L21,15 L20,15.5 L19,16 L18,15.5 L17,15 L16.5,14 L16,13 Z" fill="#d4a843" opacity="0.95" />
+              {/* Wave effect - subtle vertical undulation */}
+              <rect width="38" height="28" fill="rgba(255,255,255,0)" rx="0">
+                <animate attributeName="fill" values="rgba(255,255,255,0);rgba(255,255,255,0.04);rgba(255,255,255,0)" dur="2.5s" repeatCount="indefinite" />
+              </rect>
+            </svg>
+          </div>
           <div>
             <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: G.text }}>Kosova <span style={{ color: G.gold }}>Business Hub</span></div>
             <div style={{ fontSize: 9, color: G.muted, letterSpacing: '0.7px', textTransform: 'uppercase' }}>{t.tagline}</div>
@@ -3970,6 +4163,7 @@ export default function App() {
               </div>
             </div>
           </section>
+          {/* ── HOW IT WORKS ── */}
           <section style={{ padding: '44px 48px 0', maxWidth: 1200, margin: '0 auto' }}>
             <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 18, marginBottom: 14 }}>{t.howTitle}</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 40 }}>
@@ -3996,6 +4190,188 @@ export default function App() {
               ))}
             </div>
           </section>
+
+          {/* ── 1. SPONSORED LISTINGS — premium cards with cover image ── */}
+          {(() => {
+            const sponsored = (window.__techgateProfiles||[]).filter(p => p.tier === 'sponsored' && p.verified !== false && p.type !== 'partner')
+            if (sponsored.length === 0) return null
+            return (
+              <section style={{ padding: '0 48px 52px', maxWidth: 1200, margin: '0 auto' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+                    <h2 style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, margin:0 }}>{t.topTitle}</h2>
+                    <span style={{ fontSize:10, background:'rgba(251,146,60,0.14)', color:G.orange, border:'1px solid rgba(251,146,60,0.35)', borderRadius:20, padding:'3px 11px', fontWeight:800, letterSpacing:'0.3px' }}>🚀 SPONSORED</span>
+                  </div>
+                  <button className="btn ghost" style={{ fontSize:12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
+                </div>
+                <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))', gap:18 }}>
+                  {sponsored.slice(0,6).map(p => (
+                    <div key={p.id} style={{
+                      borderRadius:20, overflow:'hidden', position:'relative', cursor:'pointer',
+                      background:'linear-gradient(160deg,rgba(251,146,60,0.09) 0%,rgba(14,20,32,0.98) 60%)',
+                      border:'1px solid rgba(251,146,60,0.42)',
+                      boxShadow:'0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04)',
+                      transition:'all 0.28s cubic-bezier(0.4,0,0.2,1)',
+                    }}
+                      onClick={() => setProfileDetail(p)}
+                      onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-6px) scale(1.01)';e.currentTarget.style.boxShadow='0 24px 64px rgba(0,0,0,0.5),0 0 40px rgba(251,146,60,0.14),inset 0 1px 0 rgba(255,255,255,0.06)'}}
+                      onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.04)'}}>
+                      {/* Cover image / hero band */}
+                      <div style={{ position:'relative', height:p.coverImage ? 110 : 52, overflow:'hidden' }}>
+                        {p.coverImage
+                          ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                          : null}
+                        {/* Gradient overlay always */}
+                        <div style={{ position:'absolute', inset:0, background: p.coverImage
+                          ? 'linear-gradient(0deg,rgba(14,20,32,0.96) 0%,rgba(14,20,32,0.3) 60%,transparent 100%)'
+                          : `linear-gradient(135deg,${p.logoColor||'#fb923c'}18 0%,rgba(251,146,60,0.06) 50%,rgba(14,20,32,0.95) 100%)` }} />
+                        {/* Top shimmer bar */}
+                        <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' }} />
+                        {/* Sponsored badge top-right */}
+                        <span style={{ position:'absolute', top:10, right:12, fontSize:9, background:'rgba(251,146,60,0.85)', color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>
+                      </div>
+                      <div style={{ padding:'0 20px 20px', marginTop: p.coverImage ? -22 : 0, position:'relative' }}>
+                        {/* Logo — bigger for sponsored */}
+                        <div style={{ display:'flex', alignItems:'flex-end', gap:14, marginBottom:14 }}>
+                          <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:'3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}25,${p.logoColor||'#fb923c'}48)` }}>
+                            {p.logoUrl
+                              ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                              : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:900, fontSize:20, color:p.logoColor||G.orange }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+                          </div>
+                          <div style={{ paddingBottom:4 }}>
+                            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, marginBottom:3, letterSpacing:'-0.3px' }}>{p.name}</div>
+                            <div style={{ fontSize:11, color:'rgba(232,228,217,0.5)', display:'flex', gap:8 }}>
+                              {p.city && <span>📍 {p.city}</span>}
+                              <span>· {catLabel(p.cat, lang)}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.68)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
+                        {(p.tags||[]).length>0 && (
+                          <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:16 }}>
+                            {p.tags.slice(0,4).map(tg=><span key={tg} style={{ fontSize:10, background:'rgba(251,146,60,0.1)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.22)', borderRadius:20, padding:'3px 9px', fontWeight:600 }}>{tg}</span>)}
+                          </div>
+                        )}
+                        <div style={{ display:'flex', gap:9, alignItems:'center' }}>
+                          <button className="btn" style={{ flex:1, padding:'10px', fontSize:12, fontWeight:700, background:'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))', color:G.orange, border:'1px solid rgba(251,146,60,0.38)', borderRadius:10, transition:'all 0.18s' }}
+                            onMouseEnter={e=>{e.currentTarget.style.background='linear-gradient(135deg,rgba(251,146,60,0.28),rgba(251,146,60,0.18))'}}
+                            onMouseLeave={e=>{e.currentTarget.style.background='linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))'}}
+                            onClick={e=>{e.stopPropagation();setProfileDetail(p)}}>
+                            View profile →
+                          </button>
+                          {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:20, padding:'4px 10px', fontWeight:700, whiteSpace:'nowrap' }}>✓ Verified</span>}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )
+          })()}
+
+          {/* ── 2. PARTNER LOGO TICKER ── */}
+          {(() => {
+            const partners = (window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type === 'partner')
+            if (partners.length === 0) return null
+            const items = [...partners, ...partners]
+            return (
+              <section style={{ padding: '0 0 52px', overflow: 'hidden' }}>
+                <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 48px', marginBottom: 18, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 3 }}>
+                      {lang==='sq' ? '🤝 Partnerët Tanë' : '🤝 Our Partners'}
+                    </h2>
+                    <div style={{ fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
+                      {lang==='sq' ? 'Organizata të verifikuara — klikoni për të kontaktuar' : 'Verified organisations — click to connect on Concierge'}
+                    </div>
+                  </div>
+                  <button className="btn ghost" style={{ fontSize: 12, flexShrink: 0 }} onClick={() => setPage('concierge')}>{lang==='sq'?'Shiko →':'View all →'}</button>
+                </div>
+                <div style={{ position: 'relative' }}>
+                  <div style={{ position:'absolute', left:0, top:0, bottom:0, width:80, background:'linear-gradient(90deg,#080c14,transparent)', zIndex:2, pointerEvents:'none' }} />
+                  <div style={{ position:'absolute', right:0, top:0, bottom:0, width:80, background:'linear-gradient(270deg,#080c14,transparent)', zIndex:2, pointerEvents:'none' }} />
+                  <div style={{ display:'flex', gap:14, animation:'ticker-scroll 28s linear infinite', width:'max-content', padding:'6px 0' }}
+                    onMouseEnter={e=>e.currentTarget.style.animationPlayState='paused'}
+                    onMouseLeave={e=>e.currentTarget.style.animationPlayState='running'}>
+                    {items.map((p, idx) => (
+                      <div key={idx} onClick={() => setProfileDetail(p)}
+                        style={{ display:'flex', alignItems:'center', gap:11, padding:'12px 20px', background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, cursor:'pointer', flexShrink:0, transition:'all 0.2s', minWidth:200 }}
+                        onMouseEnter={e=>{e.currentTarget.style.background='rgba(45,212,191,0.06)';e.currentTarget.style.borderColor='rgba(45,212,191,0.25)'}}
+                        onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.03)';e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}}>
+                        {p.coverImage
+                          ? <div style={{ width:40, height:40, borderRadius:10, overflow:'hidden', flexShrink:0, border:'1.5px solid rgba(45,212,191,0.3)' }}><img src={p.coverImage} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /></div>
+                          : <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={40} />}
+                        <div>
+                          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13 }}>{p.name}</div>
+                          <div style={{ fontSize:11, color:G.teal }}>✓ Partner · {p.city||''}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )
+          })()}
+
+          {/* ── 3. GENERAL PARTNERS (rootsGTM / Gov) — with cover images ── */}
+          {(() => {
+            const sc = window.__siteContent || {}
+            const P = sc.partners || {}
+            const hasGP = P.rootsgtm_name || P.gov_name
+            if (!hasGP) return null
+            return (
+              <section style={{ padding:'0 48px 52px', maxWidth:1200, margin:'0 auto' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
+                  <div>
+                    <h2 style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, marginBottom:2 }}>{lang==='sq'?'Partnerë të Përgjithshëm':'General Partners'}</h2>
+                    <div style={{ fontSize:12, color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>{lang==='sq'?'Organizatat tona kryesore partnere':'Our primary strategic partnerships'}</div>
+                  </div>
+                  <button className="btn ghost" style={{ fontSize:12 }} onClick={() => setPage('concierge')}>{lang==='sq'?'Shiko →':'View all →'}</button>
+                </div>
+                <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))', gap:18 }}>
+                  {[
+                    { name: P.rootsgtm_name||'rootsGTM', logo: P.rootsgtm_logo, cover: P.rootsgtm_cover, desc: P.rootsgtm_desc, col:'#2dd4bf', city:'Kosovo', badge:'✓ Exclusive Partner' },
+                    { name: P.gov_name||(lang==='sq'?'Qeveria e Kosovës':'Kosova Government'), logo: P.gov_logo, cover: P.gov_cover, desc: P.gov_desc, col:G.gold, city:'Pristina', badge:'🏛️ Official Partner' },
+                  ].filter(gp=>gp.name).map((gp,i) => (
+                    <div key={i} style={{ borderRadius:20, overflow:'hidden', position:'relative', cursor:'pointer',
+                      background:`linear-gradient(160deg,${gp.col}10 0%,rgba(14,20,32,0.98) 55%)`,
+                      border:`1px solid ${gp.col}45`,
+                      boxShadow:`0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04)`,
+                      transition:'all 0.28s cubic-bezier(0.4,0,0.2,1)' }}
+                      onClick={() => setPage('concierge')}
+                      onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)';e.currentTarget.style.boxShadow=`0 20px 56px rgba(0,0,0,0.5),0 0 32px ${gp.col}18`}}
+                      onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.45)'}}>
+                      {/* Cover band */}
+                      <div style={{ position:'relative', height: gp.cover ? 100 : 44, overflow:'hidden' }}>
+                        {gp.cover && <img src={gp.cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />}
+                        <div style={{ position:'absolute', inset:0, background: gp.cover ? `linear-gradient(0deg,rgba(14,20,32,0.96) 0%,rgba(14,20,32,0.2) 100%)` : `linear-gradient(135deg,${gp.col}14,transparent)` }} />
+                        <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${gp.col},transparent)` }} />
+                        <span style={{ position:'absolute', top:10, right:12, fontSize:9, background:`${gp.col}dd`, color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, backdropFilter:'blur(8px)' }}>{gp.badge}</span>
+                      </div>
+                      <div style={{ padding:'0 20px 20px', marginTop: gp.cover ? -18 : 0 }}>
+                        <div style={{ display:'flex', alignItems:'flex-end', gap:14, marginBottom:14 }}>
+                          <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border:`3px solid ${gp.col}55`, boxShadow:`0 0 20px ${gp.col}22`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gp.col}22,${gp.col}44)` }}>
+                            {gp.logo ? <img src={gp.logo} alt={gp.name} style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <span style={{ fontSize:24 }}>{i===0?'🚀':'🏛️'}</span>}
+                          </div>
+                          <div style={{ paddingBottom:4 }}>
+                            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, marginBottom:3, color:gp.col }}>{gp.name}</div>
+                            <div style={{ fontSize:11, color:'rgba(232,228,217,0.5)' }}>📍 {gp.city}</div>
+                          </div>
+                        </div>
+                        {gp.desc && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.65)', lineHeight:1.7, marginBottom:16 }}>{gp.desc.slice(0,100)}…</p>}
+                        <button className="btn" style={{ width:'100%', padding:'10px', fontSize:12, fontWeight:700, background:`${gp.col}15`, color:gp.col, border:`1px solid ${gp.col}35`, borderRadius:10 }}
+                          onClick={e=>{e.stopPropagation();setPage('concierge')}}>
+                          {lang==='sq'?'Kërko bashkëpunim →':'Request collaboration →'}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )
+          })()}
+
+          {/* ── 4. SECTORS ── */}
           <section style={{ padding: '0 48px 0', maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
               <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20 }}>{t.catsTitle}</h2>
@@ -4013,7 +4389,6 @@ export default function App() {
                     className="fu"
                     onMouseEnter={e=>{e.currentTarget.style.background=`linear-gradient(135deg,${c.color}18,${c.color}08)`;e.currentTarget.style.borderColor=`${c.color}60`;e.currentTarget.style.transform='translateY(-2px)'}}
                     onMouseLeave={e=>{e.currentTarget.style.background=`linear-gradient(135deg,${c.color}09,${c.color}04)`;e.currentTarget.style.borderColor=`${c.color}30`;e.currentTarget.style.transform=''}}>
-                    {/* Top accent line */}
                     <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${c.color}80,transparent)`, borderRadius:'12px 12px 0 0' }} />
                     <div style={{ fontSize: 18, marginBottom: 5 }}>{c.icon}</div>
                     <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 11, marginBottom: 3, letterSpacing:'-0.1px', color:'rgba(232,228,217,0.9)' }}>{c.labels[lang]}</div>
@@ -4023,117 +4398,6 @@ export default function App() {
               })}
             </div>
           </section>
-
-          {/* ── SPONSORED LISTINGS ── */}
-          {(() => {
-            const sponsored = (window.__techgateProfiles||[]).filter(p => p.tier === 'sponsored' && p.verified !== false && p.type !== 'partner')
-            if (sponsored.length === 0) return null
-            return (
-              <section style={{ padding: '0 48px 44px', maxWidth: 1200, margin: '0 auto' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-                    <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 18, margin:0 }}>{t.topTitle}</h2>
-                    <span style={{ fontSize:10, background:'rgba(251,146,60,0.12)', color:G.orange, border:'1px solid rgba(251,146,60,0.28)', borderRadius:20, padding:'2px 9px', fontWeight:700, fontFamily:"'DM Sans',sans-serif" }}>🚀 Sponsored</span>
-                  </div>
-                  <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
-                  {sponsored.slice(0,6).map(p => {
-                    const isFL = p.type === 'freelancer'
-                    return (
-                      <div key={p.id} style={{
-                        borderRadius: 16, overflow: 'hidden', position:'relative',
-                        background: 'linear-gradient(145deg,rgba(251,146,60,0.06),rgba(251,146,60,0.02),rgba(212,168,67,0.03))',
-                        border: '1px solid rgba(251,146,60,0.38)',
-                        boxShadow: '0 4px 28px rgba(0,0,0,0.3), 0 0 0 0 rgba(251,146,60,0)',
-                        transition: 'transform 0.22s, box-shadow 0.22s', cursor: 'pointer',
-                      }}
-                        onClick={() => setProfileDetail(p)}
-                        onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35),0 0 28px rgba(251,146,60,0.1)'}}
-                        onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 28px rgba(0,0,0,0.3)'}}>
-                        {/* Top sponsor bar */}
-                        <div style={{ height: 3, background: 'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' }} />
-                        <div style={{ padding: '18px 20px 16px' }}>
-                          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:11 }}>
-                            <div style={{ display:'flex', gap:11, alignItems:'center' }}>
-                              {/* Larger logo for sponsored */}
-                              <div style={{ width:54, height:54, borderRadius:12, overflow:'hidden', flexShrink:0, border:'2px solid rgba(251,146,60,0.35)', boxShadow:'0 0 16px rgba(251,146,60,0.12)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}18,${p.logoColor||'#fb923c'}36)` }}>
-                                {p.logoUrl
-                                  ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, color:p.logoColor||G.orange }}>{(p.logo||p.name||'?').slice(0,2)}</span>
-                                }
-                              </div>
-                              <div>
-                                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:2 }}>{p.name}</div>
-                                <div style={{ fontSize:11, color:G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
-                              </div>
-                            </div>
-                            <span style={{ fontSize:10, background:'rgba(251,146,60,0.14)', color:G.orange, border:'1px solid rgba(251,146,60,0.3)', borderRadius:5, padding:'2px 9px', fontWeight:700, fontFamily:"'Syne',sans-serif", flexShrink:0 }}>🚀 Sponsored</span>
-                          </div>
-                          <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:12, color:G.muted, lineHeight:1.65, marginBottom:11 }}>{(p.desc?.[lang] || p.desc?.en || '').slice(0,100)}{(p.desc?.[lang]||p.desc?.en||'').length > 100 ? '…' : ''}</p>
-                          {(p.tags||[]).length > 0 && (
-                            <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginBottom:13 }}>
-                              {p.tags.slice(0,4).map(tg => <span key={tg} style={{ fontSize:10, background:'rgba(251,146,60,0.07)', color:G.orange, border:'1px solid rgba(251,146,60,0.18)', borderRadius:4, padding:'2px 7px' }}>{tg}</span>)}
-                            </div>
-                          )}
-                          <div style={{ display:'flex', gap:8 }}>
-                            <button className="btn" style={{ flex:1, padding:'8px 12px', fontSize:12, fontWeight:700, background:'rgba(251,146,60,0.1)', color:G.orange, border:'1px solid rgba(251,146,60,0.3)', borderRadius:8 }}
-                              onClick={() => setPage('directory')}>View profile →</button>
-                            {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.2)', borderRadius:5, padding:'0 8px', display:'flex', alignItems:'center' }}>✓ Verified</span>}
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </section>
-            )
-          })()}
-
-          {/* ── PARTNER LOGO TICKER ── */}
-          {(() => {
-            const partners = (window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type === 'partner')
-            if (partners.length === 0) return null
-            // Duplicate for seamless loop
-            const items = [...partners, ...partners]
-            return (
-              <section style={{ padding: '0 0 44px', overflow: 'hidden' }}>
-                <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 48px', marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 3 }}>
-                      {lang==='sq' ? '🤝 Partnerët Tanë' : '🤝 Our Partners'}
-                    </h2>
-                    <div style={{ fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
-                      {lang==='sq' ? 'Organizata të verifikuara — klikoni për të kontaktuar' : 'Verified organisations — click to connect on Concierge'}
-                    </div>
-                  </div>
-                  <button className="btn ghost" style={{ fontSize: 12, flexShrink: 0 }} onClick={() => setPage('concierge')}>{lang==='sq'?'Shiko →':'View all →'}</button>
-                </div>
-                <div style={{ position: 'relative' }}>
-                  {/* Fade edges */}
-                  <div style={{ position:'absolute', left:0, top:0, bottom:0, width:80, background:'linear-gradient(90deg,#080c14,transparent)', zIndex:2, pointerEvents:'none' }} />
-                  <div style={{ position:'absolute', right:0, top:0, bottom:0, width:80, background:'linear-gradient(270deg,#080c14,transparent)', zIndex:2, pointerEvents:'none' }} />
-                  <div style={{ display:'flex', gap:14, animation:'ticker-scroll 28s linear infinite', width:'max-content', padding:'6px 0' }}
-                    onMouseEnter={e=>e.currentTarget.style.animationPlayState='paused'}
-                    onMouseLeave={e=>e.currentTarget.style.animationPlayState='running'}>
-                    {items.map((p, idx) => (
-                      <div key={idx} onClick={() => setPage('concierge')}
-                        style={{ display:'flex', alignItems:'center', gap:11, padding:'12px 20px', background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, cursor:'pointer', flexShrink:0, transition:'all 0.2s',
-                          minWidth: 200 }}
-                        onMouseEnter={e=>{e.currentTarget.style.background='rgba(45,212,191,0.06)';e.currentTarget.style.borderColor='rgba(45,212,191,0.25)'}}
-                        onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.03)';e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}}>
-                        <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={40} />
-                        <div>
-                          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13 }}>{p.name}</div>
-                          <div style={{ fontSize:11, color:G.teal }}>✓ Partner · {p.city||''}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
-            )
-          })()}
 
           <section style={{ padding: '0 48px 72px' }}>
             <div style={{ maxWidth: 1100, margin: '0 auto', position:'relative', overflow:'hidden', background: `linear-gradient(135deg, rgba(212,168,67,0.1) 0%, rgba(212,168,67,0.06) 40%, rgba(45,212,191,0.06) 100%)`, border: `1px solid ${G.goldBorder}`, borderRadius: 22, padding: '52px 52px' }}>
