@@ -853,71 +853,121 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
   const isFL = p.type === 'freelancer'
   const isSp = p.tier === 'sponsored'
   const [hov, setHov] = React.useState(false)
+  const accentColor = isSp ? '#fb923c' : (p.logoColor || G.gold)
+
   return (
     <div
-      className={`card fu${isSp ? ' glow' : ''}`}
       style={{
-        padding: 0, overflow: 'hidden', position: 'relative',
-        borderColor: isSp ? (hov ? 'rgba(251,146,60,0.7)' : 'rgba(251,146,60,0.4)') : hov ? 'rgba(212,168,67,0.28)' : G.border,
-        background: isSp ? (hov ? 'rgba(251,146,60,0.05)' : 'rgba(251,146,60,0.03)') : G.card,
+        borderRadius: 20, overflow: 'hidden', position: 'relative',
+        background: isSp
+          ? 'linear-gradient(160deg,rgba(251,146,60,0.09) 0%,rgba(14,20,32,0.98) 60%)'
+          : `linear-gradient(160deg,${accentColor}06 0%,rgba(14,20,32,0.97) 55%)`,
+        border: isSp
+          ? `1px solid ${hov ? 'rgba(251,146,60,0.65)' : 'rgba(251,146,60,0.38)'}`
+          : `1px solid ${hov ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.07)'}`,
+        boxShadow: hov
+          ? isSp
+            ? '0 24px 64px rgba(0,0,0,0.5), 0 0 40px rgba(251,146,60,0.14), inset 0 1px 0 rgba(255,255,255,0.06)'
+            : '0 20px 52px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.05)'
+          : '0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03)',
+        transform: hov && onCardClick ? 'translateY(-5px) scale(1.01)' : 'none',
+        transition: 'all 0.28s cubic-bezier(0.4,0,0.2,1)',
         cursor: onCardClick ? 'pointer' : 'default',
-        transform: hov && onCardClick ? 'translateY(-3px)' : 'none',
-        boxShadow: hov && onCardClick ? (isSp ? '0 16px 40px rgba(0,0,0,0.35),0 0 24px rgba(251,146,60,0.08)' : '0 16px 40px rgba(0,0,0,0.3),0 0 20px rgba(212,168,67,0.06)') : '0 4px 12px rgba(0,0,0,0.15)',
-        transition: 'all 0.22s cubic-bezier(0.4,0,0.2,1)',
       }}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       onClick={onCardClick ? (e) => { if (!e.target.closest('button,a')) onCardClick(p) } : undefined}
     >
-      {isSp && <div className="sp-bar" />}
-      <div style={{ padding: 20 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 11 }}>
-          <div style={{ display: 'flex', gap: 10, minWidth: 0, flex: 1 }}>
-            <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
+      {/* Cover image band — shown if profile has one, or if sponsored */}
+      {(p.coverImage || isSp) && (
+        <div style={{ position: 'relative', height: p.coverImage ? 88 : 36, overflow: 'hidden' }}>
+          {p.coverImage && <img src={p.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+          <div style={{ position: 'absolute', inset: 0, background: p.coverImage
+            ? 'linear-gradient(0deg,rgba(14,20,32,0.96) 0%,rgba(14,20,32,0.15) 100%)'
+            : `linear-gradient(135deg,${accentColor}14,rgba(14,20,32,0.9))` }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+            background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.2),transparent)' : `linear-gradient(90deg,${accentColor}aa,transparent)` }} />
+          {isSp && <span style={{ position: 'absolute', top: 9, right: 11, fontSize: 9, background: 'rgba(251,146,60,0.9)', color: '#080c14', borderRadius: 20, padding: '2px 9px', fontWeight: 800, letterSpacing: '0.3px', backdropFilter: 'blur(8px)' }}>🚀 SPONSORED</span>}
+        </div>
+      )}
+      {/* Non-sponsored, no cover: just accent line */}
+      {!p.coverImage && !isSp && (
+        <div style={{ height: 2, background: `linear-gradient(90deg,${accentColor}55,transparent)` }} />
+      )}
+
+      <div style={{ padding: p.coverImage ? '0 18px 18px' : '15px 18px 16px', marginTop: p.coverImage ? -18 : 0, position: 'relative' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+          <div style={{ display: 'flex', gap: 11, alignItems: 'center', minWidth: 0, flex: 1 }}>
+            <div style={{
+              width: isSp ? 56 : 46, height: isSp ? 56 : 46, borderRadius: 13, overflow: 'hidden', flexShrink: 0,
+              border: isSp ? '3px solid rgba(251,146,60,0.5)' : `2px solid ${accentColor}40`,
+              boxShadow: isSp ? '0 0 18px rgba(251,146,60,0.2)' : `0 0 10px ${accentColor}12`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: `linear-gradient(135deg,${accentColor}20,${accentColor}38)`,
+            }}>
+              {p.logoUrl
+                ? <img src={p.logoUrl} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: isSp ? 17 : 14, color: accentColor }}>{(p.logo || p.name || '?').slice(0, 2)}</span>}
+            </div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14, marginBottom: 2, color: isSp ? G.orange : hov ? G.gold : G.text, transition: 'color 0.18s', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-              <div style={{ fontSize: 11, color: G.muted }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
+              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: isSp ? 15 : 13, marginBottom: 2,
+                color: hov ? (isSp ? '#fb923c' : G.gold) : G.text, transition: 'color 0.18s',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
+              <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.42)' }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', flexShrink: 0, marginLeft: 8 }}>
-            {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 9px', fontWeight: 700, fontFamily: "'Syne',sans-serif", whiteSpace: 'nowrap' }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
             {matchScore !== null && matchScore !== undefined && (
-              <span style={{ display:'inline-flex', flexDirection:'column', gap:3, verticalAlign:'middle', minWidth:52 }}>
-                <span style={{ fontSize:11, fontWeight:800, fontFamily:"'Syne',sans-serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
-                <span style={{ display:'block', width:52, height:4, background:'rgba(255,255,255,0.08)', borderRadius:3, overflow:'hidden' }}>
-                  <span style={{ display:'block', height:'100%', width:`${matchScore}%`, background: matchScore>=80?`linear-gradient(90deg,${G.green},#4ade80)`:matchScore>=50?`linear-gradient(90deg,${G.gold},#fde68a)`:`linear-gradient(90deg,${G.muted},rgba(255,255,255,0.2))`, borderRadius:3, transition:'width 0.5s ease' }} />
-                </span>
-              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'flex-end' }}>
+                <span style={{ fontSize: 10, fontWeight: 800, fontFamily: "'Syne',sans-serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
+                <div style={{ width: 40, height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${matchScore}%`, background: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted, borderRadius: 2, transition: 'width 0.5s ease' }} />
+                </div>
+              </div>
             )}
-            {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
+            {p.verified && <span style={{ fontSize: 9, background: 'rgba(52,199,89,0.12)', color: G.green, border: '1px solid rgba(52,199,89,0.22)', borderRadius: 20, padding: '2px 7px', fontWeight: 700 }}>{t.verified}</span>}
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 12, marginBottom: 9, fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
-          {isFL ? <span>🗣 {p.languages}</span> : <span>👥 {p.employees}</span>}
+
+        <div style={{ fontSize: 11, color: G.muted, marginBottom: 7, fontFamily: "'DM Sans',sans-serif" }}>
+          {isFL ? `🗣 ${p.languages}` : `👥 ${p.employees}`}
         </div>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.62, marginBottom: 11 }}>{(p.desc?.[lang] || p.desc?.en || '').slice(0,120)}{((p.desc?.[lang]||p.desc?.en||'').length>120)?'…':''}</p>
-        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 12 }}>
-          {p.tags.slice(0,5).map(tag => (
-            <span key={tag} className="tag" onClick={e => { e.stopPropagation(); onTagClick && onTagClick(tag) }}
-              style={{ cursor: onTagClick ? 'pointer' : 'default', transition: 'all 0.15s' }}
-              onMouseEnter={e => { if (onTagClick) { e.currentTarget.style.background='rgba(45,212,191,0.15)'; e.currentTarget.style.color=G.teal; e.currentTarget.style.borderColor='rgba(45,212,191,0.3)' }}}
-              onMouseLeave={e => { e.currentTarget.style.background=''; e.currentTarget.style.color=''; e.currentTarget.style.borderColor='' }}>
-              {tag}
-            </span>
-          ))}
+        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.6)', lineHeight: 1.6, marginBottom: 10 }}>
+          {(p.desc?.[lang]||p.desc?.en||'').slice(0, isSp?115:90)}{((p.desc?.[lang]||p.desc?.en||'').length>(isSp?115:90))?'…':''}
+        </p>
+        {(p.tags||[]).length > 0 && (
+          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 10 }}>
+            {p.tags.slice(0, isSp?5:4).map(tag => (
+              <span key={tag} className="tag"
+                style={{ cursor: onTagClick?'pointer':'default', fontSize: 10, transition: 'all 0.15s',
+                  ...(isSp ? { background:'rgba(251,146,60,0.09)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.22)' } : {}) }}
+                onClick={e => { e.stopPropagation(); onTagClick && onTagClick(tag) }}
+                onMouseEnter={e => { if (onTagClick) { e.currentTarget.style.background = isSp?'rgba(251,146,60,0.18)':'rgba(45,212,191,0.15)'; e.currentTarget.style.color = isSp?'#fb923c':G.teal }}}
+                onMouseLeave={e => { e.currentTarget.style.background=''; e.currentTarget.style.color='' }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+        <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${isSp?'rgba(251,146,60,0.15)':G.border}`, borderRadius:7, padding:'6px 11px', marginBottom:11 }}>
+          <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:11, color:isSp?'#fb923c':G.teal, fontWeight:500 }}>💼 {t.rateNote}</div>
         </div>
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${G.border}`, borderRadius: 8, padding: '8px 12px', marginBottom: 12 }}>
-          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.teal, fontWeight: 500 }}>💼 {t.rateNote}</div>
-        </div>
-        <div style={{ display: 'flex', gap: 7 }}>
-          <button className="btn gbtn" style={{ flex: 1, padding: '8px', fontSize: 12 }} onClick={e => { e.stopPropagation(); onContact(p) }}>{t.sendReq}</button>
-          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 13 }} title={t.upgradeTitle} onClick={e => { e.stopPropagation(); onUpgrade(p.cat) }}>⭐</button>
-          <button className="btn ghost" style={{ padding: '8px 12px', fontSize: 12 }} title={lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={e => { e.stopPropagation(); onSelfEdit && onSelfEdit(p) }}>✏️</button>
+        <div style={{ display: 'flex', gap: 6 }}>
+          <button className="btn" style={{ flex:1, padding:'8px', fontSize:11, fontWeight:700, borderRadius:9, transition:'all 0.18s',
+            background: isSp?'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))':'rgba(255,255,255,0.05)',
+            color: isSp?'#fb923c':G.text, border: isSp?'1px solid rgba(251,146,60,0.35)':`1px solid ${G.border}` }}
+            onMouseEnter={e=>{e.currentTarget.style.background=isSp?'rgba(251,146,60,0.26)':'rgba(212,168,67,0.1)';e.currentTarget.style.borderColor=isSp?'rgba(251,146,60,0.55)':G.goldBorder}}
+            onMouseLeave={e=>{e.currentTarget.style.background=isSp?'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))':'rgba(255,255,255,0.05)';e.currentTarget.style.borderColor=isSp?'rgba(251,146,60,0.35)':G.border}}
+            onClick={e=>{e.stopPropagation();onContact(p)}}>{t.sendReq}</button>
+          <button className="btn ghost" style={{padding:'8px 10px',fontSize:12,borderRadius:9}} title={t.upgradeTitle} onClick={e=>{e.stopPropagation();onUpgrade(p.cat)}}>⭐</button>
+          <button className="btn ghost" style={{padding:'8px 10px',fontSize:11,borderRadius:9}} title={lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={e=>{e.stopPropagation();onSelfEdit&&onSelfEdit(p)}}>✏️</button>
         </div>
       </div>
     </div>
   )
 }
+
 
 // ─── DIRECTORY PAGE ───────────────────────────────────────────────────────────
 
@@ -1052,30 +1102,35 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
 
   const catList = cat === 'all' ? CATS : CATS.filter(c => c.id === cat)
   const activeCat = CATS.find(c => c.id === cat)
-  const bgColor = activeCat ? activeCat.color : G.gold
+  const bgColor = activeCat ? activeCat.color : '#58a6ff'
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {/* Animated sector-color background */}
-      <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0,
-        background: `radial-gradient(ellipse 60% 40% at 20% 20%,${bgColor}08 0%,transparent 60%),radial-gradient(ellipse 50% 35% at 80% 80%,${bgColor}05 0%,transparent 55%)`,
-        transition: 'background 0.8s cubic-bezier(0.4,0,0.2,1)' }}>
-        {/* Slow drifting orb 1 */}
-        <div style={{ position:'absolute', width:400, height:400, borderRadius:'50%',
-          background:`radial-gradient(circle,${bgColor}06 0%,transparent 70%)`,
-          top:'10%', left:'5%', filter:'blur(40px)',
-          animation:'orb1 18s ease-in-out infinite alternate' }} />
-        {/* Slow drifting orb 2 */}
-        <div style={{ position:'absolute', width:300, height:300, borderRadius:'50%',
-          background:`radial-gradient(circle,${bgColor}04 0%,transparent 70%)`,
-          bottom:'15%', right:'8%', filter:'blur(32px)',
-          animation:'orb2 22s ease-in-out infinite alternate' }} />
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      {/* Fixed background — does NOT scroll with content */}
+      <div style={{
+        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
+        background: `
+          radial-gradient(ellipse 55% 38% at 15% 18%, ${bgColor}14 0%, transparent 65%),
+          radial-gradient(ellipse 45% 32% at 85% 82%, ${bgColor}0c 0%, transparent 60%),
+          radial-gradient(ellipse 30% 22% at 70% 20%, ${bgColor}07 0%, transparent 55%)
+        `,
+        transition: 'background 0.7s cubic-bezier(0.4,0,0.2,1)',
+      }}>
+        {/* Large soft glow orbs — fixed, no animation */}
+        <div style={{
+          position: 'absolute', width: 500, height: 500, borderRadius: '50%',
+          background: `radial-gradient(circle, ${bgColor}09 0%, transparent 68%)`,
+          top: '5%', left: '0%', filter: 'blur(48px)',
+          transition: 'background 0.7s ease',
+        }} />
+        <div style={{
+          position: 'absolute', width: 360, height: 360, borderRadius: '50%',
+          background: `radial-gradient(circle, ${bgColor}07 0%, transparent 68%)`,
+          bottom: '10%', right: '5%', filter: 'blur(36px)',
+          transition: 'background 0.7s ease',
+        }} />
       </div>
-      <style>{`
-        @keyframes orb1{0%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,20px) scale(1.08);}100%{transform:translate(-20px,40px) scale(0.96);}}
-        @keyframes orb2{0%{transform:translate(0,0) scale(1);}50%{transform:translate(-30px,-20px) scale(1.05);}100%{transform:translate(20px,-40px) scale(1.1);}}
-      `}</style>
-      <div style={{ padding: '28px 44px', maxWidth: 1200, margin: '0 auto', position:'relative', zIndex:1 }}>
+      <div style={{ padding: '28px 44px', maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
       <div style={{ marginBottom: 16, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>{t.rankSub}</div>
       <div style={{ display: 'flex', gap: 9, marginBottom: 16 }}>
         <input className="inp" style={{ flex: 1, fontSize: 15 }} placeholder={t.searchPH} value={q} onChange={e => setQ(e.target.value)} />
@@ -1106,9 +1161,23 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         </div>
         {/* Desktop: pills row */}
         <div className="sector-pills-desktop" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          <button onClick={() => setCat('all')} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, background: cat === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: cat === 'all' ? G.gold : G.muted, border: `1px solid ${cat === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{t.allCats}</button>
+          <button onClick={() => setCat('all')} className="btn" style={{ padding: '7px 14px', fontSize: 12, fontWeight: 700, borderRadius: 20,
+            background: cat === 'all' ? '#d4a843' : 'rgba(255,255,255,0.04)',
+            color: cat === 'all' ? '#080c14' : G.muted,
+            border: `1px solid ${cat === 'all' ? '#d4a843' : 'rgba(255,255,255,0.07)'}`,
+            boxShadow: cat === 'all' ? '0 4px 16px rgba(212,168,67,0.4)' : 'none',
+            transform: cat === 'all' ? 'scale(1.04)' : 'scale(1)',
+            transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
+          }}>{t.allCats}</button>
           {CATS.map(c => (
-            <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: 600, background: cat === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)', color: cat === c.id ? c.color : G.muted, border: `1px solid ${cat === c.id ? `${c.color}40` : 'rgba(255,255,255,0.07)'}` }}>
+            <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '7px 14px', fontSize: 12, fontWeight: 700, borderRadius: 20,
+              background: cat === c.id ? c.color : 'rgba(255,255,255,0.04)',
+              color: cat === c.id ? '#080c14' : G.muted,
+              border: `1px solid ${cat === c.id ? c.color : 'rgba(255,255,255,0.07)'}`,
+              boxShadow: cat === c.id ? `0 4px 20px ${c.color}55` : 'none',
+              transform: cat === c.id ? 'scale(1.06)' : 'scale(1)',
+              transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
+            }}>
               {c.icon} {c.labels[lang]}
             </button>
           ))}
@@ -4038,37 +4107,21 @@ export default function App() {
       {/* ── NAV ── */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: `${G.bg}f2`, backdropFilter: 'blur(18px)', borderBottom: `1px solid ${G.border}`, padding: '0 28px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setPage('home')} className="btn" style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: 0 }}>
-          <div style={{ width: 38, height: 28, borderRadius: 5, overflow: 'hidden', flexShrink: 0, position:'relative', boxShadow:'0 2px 8px rgba(0,0,0,0.4)' }}>
-            <svg viewBox="0 0 38 28" style={{ width:'100%', height:'100%', display:'block' }} xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="ksflag" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#1a5dad" />
-                  <stop offset="100%" stopColor="#1553c7" />
-                </linearGradient>
-                <filter id="waveshadow">
-                  <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity="0.3" />
-                </filter>
-              </defs>
-              {/* Flag body with wave animation */}
-              <rect width="38" height="28" fill="url(#ksflag)" />
-              {/* Subtle shimmer overlay */}
-              <rect width="38" height="28" fill="url(#ksshimmer)" opacity="0.15">
-                <animate attributeName="x" from="-38" to="38" dur="3s" repeatCount="indefinite" />
-              </rect>
-              {/* Kosovo gold stars (simplified 6-star arc) */}
-              <g fill="#d4a843" transform="translate(19,7)">
-                {[-10,-6,-2,2,6,10].map((x,i) => (
-                  <circle key={i} cx={x} cy="0" r="1.3">
-                    <animate attributeName="opacity" values="0.8;1;0.8" dur={`${2+i*0.15}s`} repeatCount="indefinite" />
-                  </circle>
-                ))}
+          <div style={{ width: 36, height: 24, borderRadius: 4, overflow: 'hidden', flexShrink: 0, boxShadow: '0 1px 6px rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg" style={{ display:'block', width:'100%', height:'100%' }}>
+              {/* Blue background */}
+              <rect width="36" height="24" fill="#244AA5"/>
+              {/* 6 gold stars in arc */}
+              <g fill="#D4AF2C">
+                <polygon points="7,5 7.5,6.5 9,6.5 7.8,7.4 8.3,9 7,8.1 5.7,9 6.2,7.4 5,6.5 6.5,6.5" transform="scale(0.55) translate(-1,0)"/>
+                <polygon points="11.5,3 12,4.5 13.5,4.5 12.3,5.4 12.8,7 11.5,6.1 10.2,7 10.7,5.4 9.5,4.5 11,4.5" transform="scale(0.55) translate(6,-2)"/>
+                <polygon points="17,2 17.5,3.5 19,3.5 17.8,4.4 18.3,6 17,5.1 15.7,6 16.2,4.4 15,3.5 16.5,3.5" transform="scale(0.55) translate(14,-3)"/>
+                <polygon points="22.5,3 23,4.5 24.5,4.5 23.3,5.4 23.8,7 22.5,6.1 21.2,7 21.7,5.4 20.5,4.5 22,4.5" transform="scale(0.55) translate(22,-2)"/>
+                <polygon points="27,5 27.5,6.5 29,6.5 27.8,7.4 28.3,9 27,8.1 25.7,9 26.2,7.4 25,6.5 26.5,6.5" transform="scale(0.55) translate(30,0)"/>
+                <polygon points="29,9 29.5,10.5 31,10.5 29.8,11.4 30.3,13 29,12.1 27.7,13 28.2,11.4 27,10.5 28.5,10.5" transform="scale(0.55) translate(32,4)"/>
               </g>
-              {/* Kosovo map silhouette (simplified path) */}
-              <path d="M16,12 L17,11 L18,11.5 L19,11 L20,11 L21,11.5 L22,11 L22.5,12 L22,13 L21.5,14 L21,15 L20,15.5 L19,16 L18,15.5 L17,15 L16.5,14 L16,13 Z" fill="#d4a843" opacity="0.95" />
-              {/* Wave effect - subtle vertical undulation */}
-              <rect width="38" height="28" fill="rgba(255,255,255,0)" rx="0">
-                <animate attributeName="fill" values="rgba(255,255,255,0);rgba(255,255,255,0.04);rgba(255,255,255,0)" dur="2.5s" repeatCount="indefinite" />
-              </rect>
+              {/* Kosovo map shape - simplified solid gold */}
+              <path d="M13.5 9.5 L14.2 8.8 L15.5 8.5 L17 8.2 L19 8.2 L20.5 8.5 L21.8 8.8 L22.5 9.5 L22.8 10.8 L22.5 11.5 L22 12.5 L21 13.8 L19.5 15 L18 15.5 L16.5 15 L15 13.8 L14 12.5 L13.5 11.5 L13.2 10.8 Z" fill="#D4AF2C"/>
             </svg>
           </div>
           <div>
@@ -4313,65 +4366,7 @@ export default function App() {
             )
           })()}
 
-          {/* ── 3. GENERAL PARTNERS (rootsGTM / Gov) — with cover images ── */}
-          {(() => {
-            const sc = window.__siteContent || {}
-            const P = sc.partners || {}
-            const hasGP = P.rootsgtm_name || P.gov_name
-            if (!hasGP) return null
-            return (
-              <section style={{ padding:'0 48px 52px', maxWidth:1200, margin:'0 auto' }}>
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
-                  <div>
-                    <h2 style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, marginBottom:2 }}>{lang==='sq'?'Partnerë të Përgjithshëm':'General Partners'}</h2>
-                    <div style={{ fontSize:12, color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>{lang==='sq'?'Organizatat tona kryesore partnere':'Our primary strategic partnerships'}</div>
-                  </div>
-                  <button className="btn ghost" style={{ fontSize:12 }} onClick={() => setPage('concierge')}>{lang==='sq'?'Shiko →':'View all →'}</button>
-                </div>
-                <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))', gap:18 }}>
-                  {[
-                    { name: P.rootsgtm_name||'rootsGTM', logo: P.rootsgtm_logo, cover: P.rootsgtm_cover, desc: P.rootsgtm_desc, col:'#2dd4bf', city:'Kosovo', badge:'✓ Exclusive Partner' },
-                    { name: P.gov_name||(lang==='sq'?'Qeveria e Kosovës':'Kosova Government'), logo: P.gov_logo, cover: P.gov_cover, desc: P.gov_desc, col:G.gold, city:'Pristina', badge:'🏛️ Official Partner' },
-                  ].filter(gp=>gp.name).map((gp,i) => (
-                    <div key={i} style={{ borderRadius:20, overflow:'hidden', position:'relative', cursor:'pointer',
-                      background:`linear-gradient(160deg,${gp.col}10 0%,rgba(14,20,32,0.98) 55%)`,
-                      border:`1px solid ${gp.col}45`,
-                      boxShadow:`0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04)`,
-                      transition:'all 0.28s cubic-bezier(0.4,0,0.2,1)' }}
-                      onClick={() => setPage('concierge')}
-                      onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)';e.currentTarget.style.boxShadow=`0 20px 56px rgba(0,0,0,0.5),0 0 32px ${gp.col}18`}}
-                      onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.45)'}}>
-                      {/* Cover band */}
-                      <div style={{ position:'relative', height: gp.cover ? 100 : 44, overflow:'hidden' }}>
-                        {gp.cover && <img src={gp.cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />}
-                        <div style={{ position:'absolute', inset:0, background: gp.cover ? `linear-gradient(0deg,rgba(14,20,32,0.96) 0%,rgba(14,20,32,0.2) 100%)` : `linear-gradient(135deg,${gp.col}14,transparent)` }} />
-                        <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${gp.col},transparent)` }} />
-                        <span style={{ position:'absolute', top:10, right:12, fontSize:9, background:`${gp.col}dd`, color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, backdropFilter:'blur(8px)' }}>{gp.badge}</span>
-                      </div>
-                      <div style={{ padding:'0 20px 20px', marginTop: gp.cover ? -18 : 0 }}>
-                        <div style={{ display:'flex', alignItems:'flex-end', gap:14, marginBottom:14 }}>
-                          <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border:`3px solid ${gp.col}55`, boxShadow:`0 0 20px ${gp.col}22`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gp.col}22,${gp.col}44)` }}>
-                            {gp.logo ? <img src={gp.logo} alt={gp.name} style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <span style={{ fontSize:24 }}>{i===0?'🚀':'🏛️'}</span>}
-                          </div>
-                          <div style={{ paddingBottom:4 }}>
-                            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, marginBottom:3, color:gp.col }}>{gp.name}</div>
-                            <div style={{ fontSize:11, color:'rgba(232,228,217,0.5)' }}>📍 {gp.city}</div>
-                          </div>
-                        </div>
-                        {gp.desc && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.65)', lineHeight:1.7, marginBottom:16 }}>{gp.desc.slice(0,100)}…</p>}
-                        <button className="btn" style={{ width:'100%', padding:'10px', fontSize:12, fontWeight:700, background:`${gp.col}15`, color:gp.col, border:`1px solid ${gp.col}35`, borderRadius:10 }}
-                          onClick={e=>{e.stopPropagation();setPage('concierge')}}>
-                          {lang==='sq'?'Kërko bashkëpunim →':'Request collaboration →'}
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )
-          })()}
-
-          {/* ── 4. SECTORS ── */}
+          {/* ── 3. SECTORS ── */}
           <section style={{ padding: '0 48px 0', maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
               <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20 }}>{t.catsTitle}</h2>
