@@ -521,29 +521,28 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
   const accentColor = isPartner ? '#2dd4bf' : isSp ? '#fb923c' : '#d4a843'
 
   if (isSp && !isPartner) {
-    // ── PREMIUM SPONSORED MODAL ──────────────────────────────────────────────
+    // ── PREMIUM SPONSORED MODAL — mobile optimised ────────────────────────────
     return (
       <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
-        <div style={{ background:'#0e1420', border:'1px solid rgba(251,146,60,0.45)', borderRadius:24, width:'100%', maxWidth:660, maxHeight:'92vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)' }}>
+        <div style={{ background:'#0e1420', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
           {/* Hero header */}
-          <div style={{ position:'relative', minHeight:160, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22 0%,rgba(251,146,60,0.08) 50%,rgba(212,168,67,0.06) 100%)`, borderRadius:'24px 24px 0 0', overflow:'hidden', padding:'28px 28px 20px' }}>
-            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at 80% 30%,rgba(251,146,60,0.15),transparent 55%),radial-gradient(circle at 20% 80%,rgba(212,168,67,0.1),transparent 50%)', pointerEvents:'none' }} />
+          <div style={{ position:'relative', minHeight:p.coverImage?120:92, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22 0%,rgba(251,146,60,0.08) 50%,rgba(212,168,67,0.06) 100%)`, borderRadius:'20px 20px 0 0', overflow:'hidden', padding:'18px 18px 14px' }}>
+            {p.coverImage && <img src={p.coverImage} alt="" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', opacity:0.4 }} />}
+            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at 80% 30%,rgba(251,146,60,0.15),transparent 55%)', pointerEvents:'none' }} />
             <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.4),transparent)' }} />
-            {/* Close */}
-            <button onClick={onClose} style={{ position:'absolute', top:16, right:16, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, zIndex:2 }}>✕</button>
-            <div style={{ display:'flex', gap:18, alignItems:'flex-end', position:'relative' }}>
-              {/* Large logo */}
-              <div style={{ width:88, height:88, borderRadius:20, overflow:'hidden', flexShrink:0, border:'3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 32px rgba(251,146,60,0.25)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22,${p.logoColor||'#fb923c'}44)` }}>
+            <button onClick={onClose} style={{ position:'absolute', top:10, right:10, background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:7, width:28, height:28, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:14, zIndex:2, flexShrink:0 }}>✕</button>
+            <div style={{ display:'flex', gap:12, alignItems:'flex-end', position:'relative', paddingRight:36 }}>
+              <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:'3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22,${p.logoColor||'#fb923c'}44)` }}>
                 {p.logoUrl ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:28, color:p.logoColor||'#fb923c' }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:p.logoColor||'#fb923c' }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
               </div>
-              <div style={{ flex:1 }}>
-                <div style={{ display:'flex', gap:7, marginBottom:7, flexWrap:'wrap' }}>
-                  <span style={{ fontSize:10, background:'rgba(251,146,60,0.18)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.4)', borderRadius:20, padding:'3px 11px', fontWeight:800, letterSpacing:'0.3px' }}>🚀 SPONSORED</span>
-                  {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.12)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:20, padding:'3px 11px', fontWeight:700 }}>✓ VERIFIED</span>}
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ display:'flex', gap:5, marginBottom:4, flexWrap:'wrap' }}>
+                  <span style={{ fontSize:9, background:'rgba(251,146,60,0.18)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.4)', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.3px', whiteSpace:'nowrap' }}>🚀 SPONSORED</span>
+                  {p.verified && <span style={{ fontSize:9, background:'rgba(52,199,89,0.12)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:20, padding:'2px 9px', fontWeight:700, whiteSpace:'nowrap' }}>✓ VERIFIED</span>}
                 </div>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:24, letterSpacing:'-0.5px', marginBottom:4 }}>{p.name}</div>
-                <div style={{ fontSize:12, color:'rgba(232,228,217,0.6)', display:'flex', gap:10, flexWrap:'wrap' }}>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:'clamp(15px,3.5vw,21px)', letterSpacing:'-0.3px', lineHeight:1.1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.name}</div>
+                <div style={{ fontSize:10, color:'rgba(232,228,217,0.5)', marginTop:2, display:'flex', gap:7, flexWrap:'wrap' }}>
                   {p.city && <span>📍 {p.city}</span>}
                   {p.cat && <span>· {catLabel(p.cat, lang)}</span>}
                   {isFL && p.languages && <span>· 🗣 {p.languages}</span>}
@@ -553,18 +552,10 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
             </div>
           </div>
 
-          <div style={{ padding:'24px 28px 28px' }}>
-            {/* Description */}
-            {(p.desc?.[lang]||p.desc?.en) && (
-              <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:15, color:'rgba(232,228,217,0.85)', lineHeight:1.8, marginBottom:20 }}>
-                {p.desc[lang]||p.desc.en}
-              </p>
-            )}
-
-            {/* Availability badge */}
+          <div style={{ padding:'14px 16px 20px' }}>
             {p.availability && (
-              <div style={{ marginBottom:18 }}>
-                <span style={{ fontSize:12, fontWeight:700, padding:'5px 14px', borderRadius:20, fontFamily:"'DM Sans',sans-serif",
+              <div style={{ marginBottom:12 }}>
+                <span style={{ fontSize:10, fontWeight:700, padding:'3px 12px', borderRadius:20, fontFamily:"'DM Sans',sans-serif",
                   background: p.availability==='available'?'rgba(52,199,89,0.12)':p.availability==='limited'?'rgba(251,146,60,0.12)':'rgba(255,255,255,0.06)',
                   color: p.availability==='available'?G.green:p.availability==='limited'?G.orange:G.muted,
                   border: `1px solid ${p.availability==='available'?'rgba(52,199,89,0.3)':p.availability==='limited'?'rgba(251,146,60,0.3)':'rgba(255,255,255,0.1)'}` }}>
@@ -572,105 +563,48 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
                 </span>
               </div>
             )}
-
-            {/* Tags */}
+            {(p.desc?.[lang]||p.desc?.en) && (
+              <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.82)', lineHeight:1.7, marginBottom:14 }}>{p.desc[lang]||p.desc.en}</p>
+            )}
             {(p.tags||[]).length>0 && (
-              <div style={{ marginBottom:20 }}>
-                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Expertise & Services</div>
-                <div style={{ display:'flex', gap:7, flexWrap:'wrap' }}>
-                  {p.tags.map(tg=><span key={tg} style={{ fontSize:12, background:'rgba(251,146,60,0.1)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.25)', borderRadius:20, padding:'5px 14px', fontWeight:600 }}>{tg}</span>)}
+              <div style={{ marginBottom:13 }}>
+                <div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:6, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Expertise & Services</div>
+                <div style={{ display:'flex', gap:5, flexWrap:'wrap' }}>
+                  {p.tags.map(tg=><span key={tg} style={{ fontSize:10, background:'rgba(251,146,60,0.1)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.25)', borderRadius:20, padding:'3px 10px', fontWeight:600 }}>{tg}</span>)}
                 </div>
               </div>
             )}
-
-            {/* Details grid */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:20 }}>
-              {p.markets && <div style={{ background:'rgba(251,146,60,0.05)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'10px 14px' }}>
-                <div style={{ fontSize:10, color:'rgba(251,146,60,0.6)', marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div>
-                <div style={{ fontSize:13, fontWeight:600 }}>🌍 {p.markets}</div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:7, marginBottom:13 }}>
+              {p.markets && <div style={{ background:'rgba(251,146,60,0.05)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:8, padding:'8px 11px' }}>
+                <div style={{ fontSize:9, color:'rgba(251,146,60,0.6)', marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div>
+                <div style={{ fontSize:11, fontWeight:600 }}>🌍 {p.markets}</div>
               </div>}
-              <div style={{ background:'rgba(251,146,60,0.05)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'10px 14px' }}>
-                <div style={{ fontSize:10, color:'rgba(251,146,60,0.6)', marginBottom:3, textTransform:'uppercase', letterSpacing:'0.5px' }}>Engagement</div>
-                <div style={{ fontSize:13, fontWeight:600 }}>💼 {t.rateNote}</div>
+              <div style={{ background:'rgba(251,146,60,0.05)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:8, padding:'8px 11px' }}>
+                <div style={{ fontSize:9, color:'rgba(251,146,60,0.6)', marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Engagement</div>
+                <div style={{ fontSize:11, fontWeight:600 }}>💼 {t.rateNote}</div>
               </div>
             </div>
-
-            {/* Premium sections */}
-            {p.prevCompanies && (
-              <div style={{ marginBottom:18 }}>
-                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Previous clients & companies</div>
-                <div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'12px 14px', fontSize:13, color:'rgba(232,228,217,0.8)' }}>🏢 {p.prevCompanies}</div>
+            {p.prevCompanies && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Previous clients</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(232,228,217,0.8)' }}>🏢 {p.prevCompanies}</div></div>}
+            {p.featuredProject && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Featured project</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(232,228,217,0.8)' }}>🎯 {p.featuredProject}</div></div>}
+            {p.certifications && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Certifications & Awards</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(232,228,217,0.8)' }}>🏅 {p.certifications}</div></div>}
+            {(p.linkedin||p.github) && (
+              <div style={{ display:'flex', gap:7, marginBottom:11, flexWrap:'wrap' }}>
+                {p.linkedin && <a href={`https://${p.linkedin.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:5, padding:'6px 12px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:8, color:'#fb923c', textDecoration:'none', fontSize:11, fontWeight:600 }}>in LinkedIn ↗</a>}
+                {p.github && <a href={`https://${p.github.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:5, padding:'6px 12px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:8, color:'#fb923c', textDecoration:'none', fontSize:11, fontWeight:600 }}>⬡ Portfolio ↗</a>}
               </div>
             )}
-
-            {p.featuredProject && (
-              <div style={{ marginBottom:18 }}>
-                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Featured project</div>
-                <div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'12px 14px', fontSize:13, color:'rgba(232,228,217,0.8)' }}>🎯 {p.featuredProject}</div>
-              </div>
-            )}
-
-            {p.certifications && (
-              <div style={{ marginBottom:18 }}>
-                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Certifications & Awards</div>
-                <div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.15)', borderRadius:10, padding:'12px 14px', fontSize:13, color:'rgba(232,228,217,0.8)' }}>🏅 {p.certifications}</div>
-              </div>
-            )}
-
-            {p.testimonial && (
-              <div style={{ marginBottom:18 }}>
-                <div style={{ fontSize:11, color:'rgba(251,146,60,0.7)', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Client testimonial</div>
-                <blockquote style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.2)', borderLeft:'3px solid rgba(251,146,60,0.5)', borderRadius:'0 10px 10px 0', padding:'12px 16px', fontSize:13, color:'rgba(232,228,217,0.85)', fontStyle:'italic', lineHeight:1.7, margin:0 }}>💬 {p.testimonial}</blockquote>
-              </div>
-            )}
-
-            {/* Social links */}
-            {(p.linkedin || p.github) && (
-              <div style={{ display:'flex', gap:9, marginBottom:18, flexWrap:'wrap' }}>
-                {p.linkedin && <a href={`https://${p.linkedin.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:9, color:'#fb923c', textDecoration:'none', fontSize:12, fontWeight:600 }}>in LinkedIn ↗</a>}
-                {p.github && <a href={`https://${p.github.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:9, color:'#fb923c', textDecoration:'none', fontSize:12, fontWeight:600 }}>⬡ Portfolio ↗</a>}
-              </div>
-            )}
-
-            {/* Video intro */}
-            {p.videoUrl && (
-              <div style={{ marginBottom:18 }}>
-                <a href={p.videoUrl.startsWith('http')?p.videoUrl:`https://${p.videoUrl}`} target="_blank" rel="noopener noreferrer"
-                  style={{ display:'flex', alignItems:'center', gap:10, padding:'12px 16px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:12, textDecoration:'none' }}>
-                  <span style={{ width:36, height:36, borderRadius:8, background:'rgba(251,146,60,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, flexShrink:0 }}>▶</span>
-                  <div><div style={{ fontSize:13, fontWeight:700, color:'#fb923c' }}>Watch intro video</div><div style={{ fontSize:11, color:'rgba(251,146,60,0.6)', marginTop:1 }}>{p.videoUrl.replace(/^https?:\/\//,'').slice(0,40)}</div></div>
-                </a>
-              </div>
-            )}
-
-            {/* Social / website */}
-            {website && (
-              <div style={{ background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:12, padding:'12px 16px', marginBottom:20, display:'flex', alignItems:'center', gap:10 }}>
-                <span style={{ fontSize:18 }}>🌐</span>
-                <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ color:'#fb923c', textDecoration:'none', fontWeight:600, fontSize:14 }}>{website} ↗</a>
-              </div>
-            )}
-
-            {/* CTAs */}
-            <div style={{ display:'flex', gap:10 }}>
-              {p.contact && (
-                <button className="btn" style={{ flex:1, padding:'13px', fontSize:14, fontWeight:700, background:'linear-gradient(135deg,#fb923c,#f59e0b)', color:'#0e1420', border:'none', borderRadius:12, cursor:'pointer' }}
-                  onClick={()=>{ onContact(p); onClose() }}>
-                  ✉️ {lang==='sq'?'Kontakto':'Contact Now'}
-                </button>
-              )}
-              {website && (
-                <a href={`https://${website}`} target="_blank" rel="noopener noreferrer"
-                  style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'13px 20px', background:'rgba(251,146,60,0.1)', border:'1px solid rgba(251,146,60,0.3)', borderRadius:12, color:'#fb923c', textDecoration:'none', fontSize:13, fontWeight:600 }}>
-                  🌐 {lang==='sq'?'Vizito':'Visit'}
-                </a>
-              )}
+            {p.videoUrl && <div style={{ marginBottom:11 }}><a href={p.videoUrl.startsWith('http')?p.videoUrl:`https://${p.videoUrl}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:9, padding:'9px 13px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:10, textDecoration:'none' }}><span style={{ width:28, height:28, borderRadius:6, background:'rgba(251,146,60,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, flexShrink:0 }}>▶</span><div><div style={{ fontSize:11, fontWeight:700, color:'#fb923c' }}>Watch intro video</div><div style={{ fontSize:9, color:'rgba(251,146,60,0.55)', marginTop:1 }}>{p.videoUrl.replace(/^https?:\/\//,'').slice(0,36)}</div></div></a></div>}
+            {website && <div style={{ background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:10, padding:'9px 13px', marginBottom:13, display:'flex', alignItems:'center', gap:8 }}><span style={{ fontSize:15 }}>🌐</span><a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ color:'#fb923c', textDecoration:'none', fontWeight:600, fontSize:12, wordBreak:'break-all' }}>{website} ↗</a></div>}
+            <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+              {p.contact && <button className="btn" style={{ flex:1, minWidth:110, padding:'11px', fontSize:13, fontWeight:700, background:'linear-gradient(135deg,#fb923c,#f59e0b)', color:'#0e1420', border:'none', borderRadius:10, cursor:'pointer' }} onClick={()=>{ onContact(p); onClose() }}>✉️ {lang==='sq'?'Kontakto':'Contact Now'}</button>}
+              {website && <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'11px 16px', background:'rgba(251,146,60,0.1)', border:'1px solid rgba(251,146,60,0.3)', borderRadius:10, color:'#fb923c', textDecoration:'none', fontSize:12, fontWeight:600 }}>🌐 {lang==='sq'?'Vizito':'Visit'}</a>}
             </div>
           </div>
         </div>
       </div>
     )
   }
+
 
   // ── STANDARD MODAL (free / partner) ──────────────────────────────────────────
   return (
@@ -1655,7 +1589,7 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
         <span style={{ fontSize: 11, color: '#d4a843', fontFamily: "'Syne',sans-serif", fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(212,168,67,0.10)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: 20, padding: '4px 16px' }}>{dividerLabel}</span>
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,168,67,0.22),transparent)' }} />
       </div>
-      <div className="partner-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(240px,1fr))', gap: 16 }}>
+      <div className="partner-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 14 }}>
         {profiles.map((sp, i) => {
           const website = sp.website ? sp.website.replace(/^https?:\/\//, '') : null
           return (
@@ -1673,10 +1607,10 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
               {/* Top accent */}
               <div style={{ height: 3, background: 'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
 
-              <div style={{ padding: '28px 24px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <div style={{ padding: '20px 18px 18px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                 {/* Large logo */}
-                <div style={{ marginBottom: 16, position: 'relative' }}>
-                  <div style={{ width: 72, height: 72, borderRadius: 16, overflow: 'hidden', border: '2px solid rgba(45,212,191,0.35)', boxShadow: '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
+                <div style={{ marginBottom: 12, position: 'relative' }}>
+                  <div style={{ width: 60, height: 60, borderRadius: 14, overflow: 'hidden', border: '2px solid rgba(45,212,191,0.35)', boxShadow: '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
                     {sp.logoUrl
                       ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
                       : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:sp.logoColor||G.teal }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>
@@ -2622,7 +2556,8 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           </div>
 
           {/* Availability */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
+          {/* Video intro + availability row */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 4 }}>
             <div>
               <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Statusi i disponibilitetit':'Availability status'}</label>
               <select className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.availability||''} onChange={e=>f('availability',e.target.value)}>
@@ -2637,12 +2572,6 @@ function SmartRegForm({ lang, t, regType, onDone }) {
               <input className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.videoUrl||''} onChange={e=>f('videoUrl',e.target.value)} placeholder="youtube.com/…" />
             </div>
           </div>
-
-          {/* Testimonial */}
-          <div style={{ marginBottom: 4 }}>
-            <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Referencë / Dëshmi klienti':'Client testimonial / Reference'}</label>
-            <textarea className="inp" rows={2} style={{ resize: 'vertical', borderColor: 'rgba(251,146,60,0.2)' }} value={form.testimonial||''} onChange={e=>f('testimonial',e.target.value)} placeholder={lang==='sq'?'"Bashkëpunimi ishte shumë profesional…" – Emri, Kompania':'\"Working with them was exceptional…\" – Name, Company'} />
-          </div>
         </div>
       )}
 
@@ -2650,7 +2579,17 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         const dbFields = formToDb(form, catChoice, selectedTags, regType, null)
         if (regType === t.regFL) dbFields.type = 'freelancer'
         else if (regType === t.regComp) dbFields.type = 'company'
-        if (form.tier === 'sponsored') dbFields.tier = 'sponsored'
+        if (form.tier === 'sponsored') {
+          dbFields.tier = 'sponsored'
+          // Inject sponsored premium fields directly — these columns must exist in DB
+          if (form.prevCompanies)   dbFields.prev_companies   = form.prevCompanies
+          if (form.featuredProject) dbFields.featured_project = form.featuredProject
+          if (form.linkedin)        dbFields.linkedin         = form.linkedin
+          if (form.github)          dbFields.github           = form.github
+          if (form.certifications)  dbFields.certifications   = form.certifications
+          if (form.availability)    dbFields.availability     = form.availability
+          if (form.videoUrl)        dbFields.video_url        = form.videoUrl
+        }
         if (logoFile) dbFields.logo_data = logoFile
         const err = await insertProfile(dbFields)
         if (err) {
@@ -2659,8 +2598,12 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             setEmailError(lang === 'sq' ? 'Ky email është tashmë i regjistruar.' : 'This email is already registered.')
             return
           }
+          // Retry without new columns in case migration hasn't run yet
           const fallback = { ...dbFields }
           delete fallback.logo_color; delete fallback.logo_data
+          delete fallback.prev_companies; delete fallback.featured_project
+          delete fallback.linkedin; delete fallback.github
+          delete fallback.certifications; delete fallback.availability; delete fallback.video_url
           const err2 = await insertProfile(fallback)
           if (err2) {
             const msg2 = (err2.message || '').toLowerCase()
@@ -4027,13 +3970,9 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                       </select>
                     </div>
                   </div>
-                  <div style={{ marginBottom:10 }}>
+                  <div style={{ marginBottom:4 }}>
                     <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>Video intro URL</label>
                     <input className="inp" style={{borderColor:'rgba(251,146,60,0.2)'}} value={editForm.videoUrl||''} onChange={e=>setEditForm(f=>({...f,videoUrl:e.target.value}))} placeholder="youtube.com/…" />
-                  </div>
-                  <div>
-                    <label className="flabel" style={{color:'rgba(251,146,60,0.55)'}}>Client testimonial</label>
-                    <textarea className="inp" rows={2} style={{resize:'vertical',borderColor:'rgba(251,146,60,0.2)'}} value={editForm.testimonial||''} onChange={e=>setEditForm(f=>({...f,testimonial:e.target.value}))} placeholder='"Working with them was exceptional…" – Name, Company' />
                   </div>
                 </div>
               )}
@@ -4581,6 +4520,12 @@ export default function App() {
     .sector-pills-mobile{display:block !important;}
     /* Partner cards: 1 col on mobile */
     .partner-cards{grid-template-columns:1fr !important;}
+    /* Partner card inner compact mode */
+    .partner-cards > div { border-radius: 14px !important; }
+    /* Sponsored cards 1 col on mobile */
+    section [style*="minmax(340px"]{grid-template-columns:1fr !important;}
+    /* Modal full width on mobile */
+    .modal-bg > div { border-radius: 14px !important; }
     /* Home how-it-works: 1 col on mobile */
     section [style*="repeat(3,1fr)"]{grid-template-columns:1fr !important;}
     /* Sector boxes: 3 col on mobile */
