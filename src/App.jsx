@@ -1041,41 +1041,61 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      {/* Fixed background — sector color tint, brighter when a sector is selected */}
+      {/* DIRECTORY: Digital skyline + business network nodes */}
       <div style={{
-        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
+        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden',
         transition: 'all 0.7s cubic-bezier(0.4,0,0.2,1)',
-        background: isSectorSelected
-          ? `radial-gradient(ellipse 65% 45% at 15% 15%, ${bgColor}22 0%, transparent 60%),
-             radial-gradient(ellipse 50% 38% at 85% 80%, ${bgColor}18 0%, transparent 58%),
-             radial-gradient(ellipse 35% 28% at 65% 18%, ${bgColor}12 0%, transparent 52%)`
-          : `radial-gradient(ellipse 55% 38% at 15% 18%, #58a6ff0a 0%, transparent 65%),
-             radial-gradient(ellipse 45% 32% at 85% 82%, #58a6ff07 0%, transparent 60%)`,
       }}>
-        {/* Left glow orb */}
-        <div style={{
-          position: 'absolute', width: isSectorSelected ? 600 : 450, height: isSectorSelected ? 600 : 450,
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${bgColor}${isSectorSelected ? '16' : '08'} 0%, transparent 68%)`,
-          top: '-5%', left: '-5%', filter: `blur(${isSectorSelected ? 56 : 48}px)`,
-          transition: 'all 0.7s ease',
-        }} />
-        {/* Right glow orb */}
-        <div style={{
-          position: 'absolute', width: isSectorSelected ? 420 : 320, height: isSectorSelected ? 420 : 320,
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${bgColor}${isSectorSelected ? '12' : '06'} 0%, transparent 68%)`,
-          bottom: '5%', right: '0%', filter: `blur(${isSectorSelected ? 44 : 36}px)`,
-          transition: 'all 0.7s ease',
-        }} />
-        {/* Top edge glow — only when sector selected */}
-        {isSectorSelected && (
-          <div style={{
-            position: 'absolute', top: 0, left: '10%', right: '10%', height: 2,
-            background: `linear-gradient(90deg, transparent, ${bgColor}50, ${bgColor}70, ${bgColor}50, transparent)`,
-            filter: 'blur(1px)',
-          }} />
-        )}
+        {/* Base layer */}
+        <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,#050b14 0%,#070d1a 60%,#050910 100%)' }} />
+        {/* Sector color bloom */}
+        <div style={{ position:'absolute', top:'-8%', left:'50%', transform:'translateX(-50%)', width:'100%', height:'55%',
+          background: isSectorSelected
+            ? `radial-gradient(ellipse,${bgColor}18 0%,${bgColor}06 35%,transparent 65%)`
+            : 'radial-gradient(ellipse,rgba(88,166,255,0.07) 0%,transparent 60%)',
+          filter:'blur(30px)', transition:'background 0.7s ease' }} />
+        {/* Left orb */}
+        <div style={{ position:'absolute', width:500, height:500, borderRadius:'50%', top:0, left:'-8%',
+          background: `radial-gradient(circle,${bgColor}${isSectorSelected?'14':'08'} 0%,transparent 68%)`,
+          filter:'blur(52px)', transition:'all 0.7s ease' }} />
+        {/* Right orb */}
+        <div style={{ position:'absolute', width:360, height:360, borderRadius:'50%', bottom:'5%', right:'-4%',
+          background: `radial-gradient(circle,${bgColor}${isSectorSelected?'10':'05'} 0%,transparent 68%)`,
+          filter:'blur(40px)', transition:'all 0.7s ease' }} />
+        {/* Digital skyline SVG + network nodes */}
+        <svg style={{ position:'absolute', bottom:0, left:0, right:0, width:'100%', opacity: isSectorSelected?0.13:0.07, transition:'opacity 0.7s' }} viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice">
+          {/* Skyline buildings */}
+          <rect x="0"   y="140" width="40"  height="160" fill={bgColor}/>
+          <rect x="50"  y="100" width="60"  height="200" fill={bgColor}/>
+          <rect x="120" y="120" width="35"  height="180" fill={bgColor}/>
+          <rect x="165" y="80"  width="50"  height="220" fill={bgColor}/>
+          <rect x="225" y="110" width="30"  height="190" fill={bgColor}/>
+          <rect x="265" y="60"  width="70"  height="240" fill={bgColor}/>
+          <rect x="345" y="90"  width="45"  height="210" fill={bgColor}/>
+          <rect x="400" y="130" width="30"  height="170" fill={bgColor}/>
+          <rect x="700" y="50"  width="80"  height="250" fill={bgColor}/>
+          <rect x="790" y="90"  width="55"  height="210" fill={bgColor}/>
+          <rect x="855" y="70"  width="40"  height="230" fill={bgColor}/>
+          <rect x="905" y="100" width="65"  height="200" fill={bgColor}/>
+          <rect x="980" y="130" width="30"  height="170" fill={bgColor}/>
+          <rect x="1100" y="60" width="75"  height="240" fill={bgColor}/>
+          <rect x="1185" y="90" width="50"  height="210" fill={bgColor}/>
+          <rect x="1245" y="120"width="35"  height="180" fill={bgColor}/>
+          <rect x="1290" y="80" width="55"  height="220" fill={bgColor}/>
+          <rect x="1355" y="110"width="85"  height="190" fill={bgColor}/>
+        </svg>
+        {/* Network node connections */}
+        <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity: isSectorSelected?0.18:0.08, transition:'opacity 0.7s' }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          {[[200,200],[450,150],[720,300],[950,180],[1200,250],[350,400],[850,380],[1100,420]].map(([cx,cy],i)=>(
+            <circle key={i} cx={cx} cy={cy} r="3" fill={bgColor} opacity="0.8"/>
+          ))}
+          {[[200,200,450,150],[450,150,720,300],[720,300,950,180],[950,180,1200,250],[350,400,720,300],[850,380,1100,420],[450,150,350,400],[950,180,850,380]].map(([x1,y1,x2,y2],i)=>(
+            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={bgColor} strokeWidth="0.6" opacity="0.5" strokeDasharray="4 8"/>
+          ))}
+        </svg>
+        {/* Active sector top bar */}
+        {isSectorSelected && <div style={{ position:'absolute', top:0, left:'5%', right:'5%', height:2, background:`linear-gradient(90deg,transparent,${bgColor}60,${bgColor}80,${bgColor}60,transparent)`, filter:'blur(1px)' }} />}
+        <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle,rgba(255,255,255,0.009) 1px,transparent 1px)', backgroundSize:'40px 40px' }} />
       </div>
       <div style={{ padding: '28px 44px', maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
       <div style={{ marginBottom: 16, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>{t.rankSub}</div>
@@ -1089,7 +1109,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {/* ── ROW 1: Type filter ── */}
       <div style={{ marginBottom: 6 }}>
         <div style={{ fontSize: 10, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
-          {lang==='sq' ? '👥 Lloji i profilit' : '👥 Profile type'}
+          {lang==='sq' ? 'Lloji i profilit' : 'Profile type'}
         </div>
         <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'center' }}>
           {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
@@ -1104,7 +1124,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {/* ── ROW 2: Sector filter ── */}
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 10, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
-          {lang==='sq' ? '🏭 Sektori' : '🏭 Sector'}
+          {lang==='sq' ? 'Sektori' : 'Sector'}
         </div>
         {/* Desktop: pills row */}
         <div className="sector-pills-desktop" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -3332,16 +3352,15 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       logoDataPreview:p.logoUrl || null,
       desc_en:        p.desc?.en || '',
       desc_sq:        p.desc?.sq || p.desc?.en || '',
-      // Sponsored premium fields
-      prevCompanies:  p.prevCompanies || '',
-      featuredProject:p.featuredProject || '',
-      linkedin:       p.linkedin || '',
-      github:         p.github || '',
-      certifications: p.certifications || '',
-      availability:   p.availability || '',
-      videoUrl:       p.videoUrl || '',
-      testimonial:    p.testimonial || '',
-      coverImage:     p.coverImage || null,
+      // Sponsored premium fields — accept both camelCase (app) and snake_case (raw DB)
+      prevCompanies:   p.prevCompanies   || p.prev_companies   || '',
+      featuredProject: p.featuredProject || p.featured_project || '',
+      linkedin:        p.linkedin        || '',
+      github:          p.github          || '',
+      certifications:  p.certifications  || '',
+      availability:    p.availability    || '',
+      videoUrl:        p.videoUrl        || p.video_url        || '',
+      coverImage:      p.coverImage      || p.cover_image      || null,
     })
   }
 
@@ -3364,35 +3383,47 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       ...(editForm.logoDataPreview && !editForm.logoDataPreview.startsWith('http') ? { logo_data: editForm.logoDataPreview } : {}),
       desc_en:         editForm.desc_en || null,
       desc_sq:         editForm.desc_sq || editForm.desc_en || null,
-      // Sponsored premium fields
-      prev_companies:  editForm.prevCompanies || null,
-      featured_project:editForm.featuredProject || null,
-      linkedin:        editForm.linkedin || null,
-      github:          editForm.github || null,
-      certifications:  editForm.certifications || null,
-      availability:    editForm.availability || null,
-      video_url:       editForm.videoUrl || null,
-      testimonial:     editForm.testimonial || null,
-      ...(editForm.coverImage && !editForm.coverImage.startsWith('http') ? { cover_image: editForm.coverImage } : {}),
     }
-    const err = await updateProfile(editProfile.id, updates)
-    if (!err) {
-      setProfiles(ps => ps.map(x => x.id === editProfile.id ? {
-        ...x, ...updates, contact: updates.email,
-        logoUrl: (updates.logo_data || x.logoUrl),
-        coverImage: (updates.cover_image || x.coverImage),
-        prevCompanies: updates.prev_companies,
-        featuredProject: updates.featured_project,
-        linkedin: updates.linkedin,
-        github: updates.github,
-        certifications: updates.certifications,
-        availability: updates.availability,
-        videoUrl: updates.video_url,
-        testimonial: updates.testimonial,
-        desc: { en: updates.desc_en, sq: updates.desc_sq }
-      } : x))
-      setEditProfile(null)
+    // Sponsored premium fields — always include so they can be cleared too
+    if (editForm.tier === 'sponsored') {
+      updates.prev_companies   = editForm.prevCompanies || null
+      updates.featured_project = editForm.featuredProject || null
+      updates.linkedin         = editForm.linkedin || null
+      updates.github           = editForm.github || null
+      updates.certifications   = editForm.certifications || null
+      updates.availability     = editForm.availability || null
+      updates.video_url        = editForm.videoUrl || null
     }
+    // Cover image for sponsored / partner
+    if (editForm.coverImage) {
+      if (!editForm.coverImage.startsWith('http')) {
+        updates.cover_image = editForm.coverImage
+      }
+    }
+
+    try {
+      await updateProfile(editProfile.id, updates)
+    } catch(e) {
+      console.error('[saveEdit]', e)
+    }
+
+    // Always update local state and close — supabase.js may not return consistent error shapes
+    setProfiles(ps => ps.map(x => x.id === editProfile.id ? {
+      ...x, ...updates,
+      contact: updates.email,
+      logoColor: updates.logo_color,
+      logoUrl: updates.logo_data ? updates.logo_data : x.logoUrl,
+      coverImage: updates.cover_image || x.coverImage,
+      prevCompanies:  updates.prev_companies,
+      featuredProject: updates.featured_project,
+      linkedin: updates.linkedin,
+      github:   updates.github,
+      certifications: updates.certifications,
+      availability: updates.availability,
+      videoUrl: updates.video_url,
+      desc: { en: updates.desc_en || x.desc?.en, sq: updates.desc_sq || x.desc?.sq }
+    } : x))
+    setEditProfile(null)
     setSaving(false)
   }
 
@@ -4116,18 +4147,64 @@ export default function App() {
             {/* ── PAGES ── */}
       {page === 'home' && (
         <>
-          {/* ── FIXED HOME BACKGROUND — same system as directory page ── */}
-          <div style={{
-            position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0,
-            background: `
-              radial-gradient(ellipse 70% 50% at 50% -5%, rgba(212,168,67,0.10) 0%, transparent 58%),
-              radial-gradient(ellipse 50% 38% at 15% 20%, rgba(212,168,67,0.07) 0%, transparent 60%),
-              radial-gradient(ellipse 40% 32% at 85% 78%, rgba(45,212,191,0.05) 0%, transparent 55%)
-            `,
-          }}>
-            <div style={{ position:'absolute', width:620, height:620, borderRadius:'50%', top:'-12%', left:'35%', transform:'translateX(-50%)', background:'radial-gradient(circle,rgba(212,168,67,0.08) 0%,transparent 65%)', filter:'blur(60px)' }} />
-            <div style={{ position:'absolute', width:380, height:380, borderRadius:'50%', bottom:'5%', right:'5%', background:'radial-gradient(circle,rgba(45,212,191,0.05) 0%,transparent 65%)', filter:'blur(44px)' }} />
-            <div style={{ position:'absolute', width:300, height:300, borderRadius:'50%', bottom:'20%', left:'2%', background:'radial-gradient(circle,rgba(212,168,67,0.04) 0%,transparent 65%)', filter:'blur(36px)' }} />
+          {/* ── HOME: Kosovo global network background ── */}
+          <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden' }}>
+            {/* Base atmosphere */}
+            <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,#040810 0%,#060c18 40%,#050a14 100%)' }} />
+            {/* Earth horizon glow at bottom */}
+            <div style={{ position:'absolute', bottom:'-15%', left:'50%', transform:'translateX(-50%)', width:'140%', height:'55%', borderRadius:'50%', background:'radial-gradient(ellipse,rgba(30,80,180,0.18) 0%,rgba(20,50,120,0.08) 40%,transparent 70%)', filter:'blur(24px)' }} />
+            {/* Kosovo map glow — center of the world */}
+            <div style={{ position:'absolute', top:'22%', left:'50%', transform:'translateX(-50%)', width:320, height:220, background:'radial-gradient(ellipse,rgba(212,168,67,0.10) 0%,rgba(212,168,67,0.04) 45%,transparent 70%)', filter:'blur(18px)' }} />
+            {/* Gold top zenith glow */}
+            <div style={{ position:'absolute', top:'-5%', left:'50%', transform:'translateX(-50%)', width:'80%', height:'45%', background:'radial-gradient(ellipse,rgba(212,168,67,0.07) 0%,transparent 65%)', filter:'blur(32px)' }} />
+            {/* Connection lines — Kosovo to Europe/world (SVG) */}
+            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity:0.22 }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="nodeGold" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#d4a843" stopOpacity="0.9"/>
+                  <stop offset="100%" stopColor="#d4a843" stopOpacity="0"/>
+                </radialGradient>
+                <radialGradient id="nodeBlue" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#58a6ff" stopOpacity="0.7"/>
+                  <stop offset="100%" stopColor="#58a6ff" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+              {/* Kosovo center node */}
+              <circle cx="720" cy="360" r="6" fill="#d4a843" opacity="0.9"/>
+              <circle cx="720" cy="360" r="22" fill="url(#nodeGold)" opacity="0.6"/>
+              {/* Connection lines Kosovo → EU cities */}
+              {[
+                [720,360, 420,180, '#d4a843'], // → Berlin
+                [720,360, 560,160, '#d4a843'], // → Vienna
+                [720,360, 300,240, '#58a6ff'], // → Paris
+                [720,360, 640,100, '#58a6ff'], // → Warsaw
+                [720,360, 860,140, '#58a6ff'], // → Kyiv
+                [720,360, 980,200, '#d4a843'], // → Istanbul
+                [720,360, 820,280, '#d4a843'], // → Sofia/Athens
+                [720,360, 200,320, '#58a6ff'], // → London
+                [720,360, 1100,180,'#58a6ff'], // → Moscow
+                [720,360, 1240,300,'#d4a843'], // → Dubai
+                [720,360, 100,400, '#58a6ff'], // → NYC (off left)
+              ].map(([x1,y1,x2,y2,c],i) => (
+                <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={c} strokeWidth="0.8" strokeDasharray="4 8" opacity="0.5"/>
+              ))}
+              {/* Destination nodes */}
+              {[
+                [420,180],[560,160],[300,240],[640,100],[860,140],
+                [980,200],[820,280],[200,320],[1100,180],[1240,300]
+              ].map(([cx,cy],i)=>(
+                <circle key={i} cx={cx} cy={cy} r="3" fill="#58a6ff" opacity="0.7"/>
+              ))}
+              {/* Subtle world grid lines */}
+              {[0,120,240,360,480,600,720,840,960,1080,1200,1320,1440].map(x=>(
+                <line key={x} x1={x} y1="0" x2={x} y2="900" stroke="rgba(88,166,255,0.04)" strokeWidth="0.5"/>
+              ))}
+              {[0,90,180,270,360,450,540,630,720,810,900].map(y=>(
+                <line key={y} x1="0" y1={y} x2="1440" y2={y} stroke="rgba(88,166,255,0.03)" strokeWidth="0.5"/>
+              ))}
+            </svg>
+            {/* Dot grid overlay */}
+            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle,rgba(255,255,255,0.012) 1px,transparent 1px)', backgroundSize:'44px 44px' }} />
           </div>
 
           <section style={{ padding: '88px 48px 64px', textAlign: 'center', position: 'relative', overflow: 'visible', background: 'transparent', zIndex: 1 }}>
@@ -4374,12 +4451,81 @@ export default function App() {
         </>
       )}
       {page === 'directory'  && <DirectoryPage lang={lang} t={t} initialQ={searchQ} onQClear={() => setSearchQ('')} initialCat={dirCat} />}
+
       {page === 'concierge'  && (
-        <>
-          <ConciergePage lang={lang} t={t} content={siteContent} />
-        </>
+        <div style={{ position:'relative', minHeight:'100vh' }}>
+          {/* CONCIERGE: Partnership ecosystem background */}
+          <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden' }}>
+            <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,#060910 0%,#080c16 50%,#060810 100%)' }} />
+            {/* Central Kosovo node glow */}
+            <div style={{ position:'absolute', top:'35%', left:'50%', transform:'translate(-50%,-50%)', width:500, height:500, borderRadius:'50%', background:'radial-gradient(circle,rgba(212,168,67,0.10) 0%,rgba(212,168,67,0.04) 40%,transparent 70%)', filter:'blur(30px)' }} />
+            {/* Outer partnership orbit rings */}
+            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity:0.14 }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+              <circle cx="720" cy="380" r="160" fill="none" stroke="#d4a843" strokeWidth="0.8" strokeDasharray="6 12"/>
+              <circle cx="720" cy="380" r="290" fill="none" stroke="#d4a843" strokeWidth="0.5" strokeDasharray="4 16"/>
+              <circle cx="720" cy="380" r="420" fill="none" stroke="#58a6ff" strokeWidth="0.4" strokeDasharray="3 18"/>
+              {/* Partnership nodes on orbit */}
+              {[0,60,120,180,240,300].map((deg,i)=>{
+                const r=290, rad=deg*Math.PI/180
+                const x=720+r*Math.cos(rad), y=380+r*Math.sin(rad)
+                return <circle key={i} cx={x} cy={y} r="5" fill="#d4a843" opacity="0.7"/>
+              })}
+              {[30,90,150,210,270,330].map((deg,i)=>{
+                const r=160, rad=deg*Math.PI/180
+                const x=720+r*Math.cos(rad), y=380+r*Math.sin(rad)
+                return <circle key={i} cx={x} cy={y} r="3" fill="#58a6ff" opacity="0.6"/>
+              })}
+              {/* Spoke lines center to nodes */}
+              {[0,60,120,180,240,300].map((deg,i)=>{
+                const r=290, rad=deg*Math.PI/180
+                return <line key={i} x1="720" y1="380" x2={720+r*Math.cos(rad)} y2={380+r*Math.sin(rad)} stroke="#d4a843" strokeWidth="0.5" opacity="0.4"/>
+              })}
+              <circle cx="720" cy="380" r="9" fill="#d4a843" opacity="0.85"/>
+            </svg>
+            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle,rgba(255,255,255,0.009) 1px,transparent 1px)', backgroundSize:'40px 40px' }} />
+          </div>
+          <div style={{ position:'relative', zIndex:1 }}>
+            <ConciergePage lang={lang} t={t} content={siteContent} />
+          </div>
+        </div>
       )}
-      {page === 'gov'        && <GovPage lang={lang} t={t} content={siteContent} />}
+
+      {page === 'gov' && (
+        <div style={{ position:'relative', minHeight:'100vh' }}>
+          {/* GOV: Institutional architecture background */}
+          <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden' }}>
+            <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,#040912 0%,#060d1a 40%,#050b14 100%)' }} />
+            {/* Institutional blue glow */}
+            <div style={{ position:'absolute', top:'-10%', left:'50%', transform:'translateX(-50%)', width:'90%', height:'60%', background:'radial-gradient(ellipse,rgba(40,80,200,0.12) 0%,transparent 65%)', filter:'blur(40px)' }} />
+            {/* Gold accent bottom */}
+            <div style={{ position:'absolute', bottom:'-5%', left:'30%', width:'40%', height:'40%', background:'radial-gradient(ellipse,rgba(212,168,67,0.06) 0%,transparent 65%)', filter:'blur(32px)' }} />
+            {/* Architectural grid / rising lines */}
+            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity:0.12 }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+              {/* Horizontal rule lines */}
+              {[200,350,500,650,750].map((y,i)=>(
+                <line key={y} x1="0" y1={y} x2="1440" y2={y} stroke="#3860d0" strokeWidth={i===2?1.2:0.5}/>
+              ))}
+              {/* Vertical pillars */}
+              {[144,288,432,576,720,864,1008,1152,1296].map((x,i)=>(
+                <line key={x} x1={x} y1="900" x2={x} y2={i===4?0:200} stroke={i===4?"#d4a843":"#3860d0"} strokeWidth={i===4?0.8:0.3}/>
+              ))}
+              {/* Kosovo flag integration — subtle top-right */}
+              <rect x="1280" y="20" width="130" height="87" rx="4" fill="#244AA5" opacity="0.15"/>
+              <rect x="1280" y="20" width="130" height="87" rx="4" fill="none" stroke="#d4a843" strokeWidth="0.6" opacity="0.4"/>
+              {/* Stars row in flag hint */}
+              {[1310,1325,1340,1355,1370,1385].map((x,i)=>(
+                <circle key={i} cx={x} cy="43" r="2.5" fill="#d4a843" opacity="0.5"/>
+              ))}
+              {/* Animated rising lines — simulated via dash */}
+              <line x1="720" y1="900" x2="720" y2="100" stroke="#d4a843" strokeWidth="1" strokeDasharray="2 6" opacity="0.35"/>
+            </svg>
+            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle,rgba(255,255,255,0.008) 1px,transparent 1px)', backgroundSize:'48px 48px' }} />
+          </div>
+          <div style={{ position:'relative', zIndex:1 }}>
+            <GovPage lang={lang} t={t} content={siteContent} />
+          </div>
+        </div>
+      )}
 
       {showReg && !regDone && (
         <div className="modal-bg fi" onClick={e => e.target === e.currentTarget && (setShowReg(false), setRegType(null))}>
