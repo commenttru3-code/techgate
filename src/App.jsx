@@ -1041,61 +1041,54 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      {/* DIRECTORY: Digital skyline + business network nodes */}
-      <div style={{
-        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden',
-        transition: 'all 0.7s cubic-bezier(0.4,0,0.2,1)',
-      }}>
-        {/* Base layer */}
-        <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,#050b14 0%,#070d1a 60%,#050910 100%)' }} />
-        {/* Sector color bloom */}
-        <div style={{ position:'absolute', top:'-8%', left:'50%', transform:'translateX(-50%)', width:'100%', height:'55%',
-          background: isSectorSelected
-            ? `radial-gradient(ellipse,${bgColor}18 0%,${bgColor}06 35%,transparent 65%)`
-            : 'radial-gradient(ellipse,rgba(88,166,255,0.07) 0%,transparent 60%)',
-          filter:'blur(30px)', transition:'background 0.7s ease' }} />
-        {/* Left orb */}
-        <div style={{ position:'absolute', width:500, height:500, borderRadius:'50%', top:0, left:'-8%',
-          background: `radial-gradient(circle,${bgColor}${isSectorSelected?'14':'08'} 0%,transparent 68%)`,
-          filter:'blur(52px)', transition:'all 0.7s ease' }} />
-        {/* Right orb */}
-        <div style={{ position:'absolute', width:360, height:360, borderRadius:'50%', bottom:'5%', right:'-4%',
-          background: `radial-gradient(circle,${bgColor}${isSectorSelected?'10':'05'} 0%,transparent 68%)`,
-          filter:'blur(40px)', transition:'all 0.7s ease' }} />
-        {/* Digital skyline SVG + network nodes */}
-        <svg style={{ position:'absolute', bottom:0, left:0, right:0, width:'100%', opacity: isSectorSelected?0.13:0.07, transition:'opacity 0.7s' }} viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice">
-          {/* Skyline buildings */}
-          <rect x="0"   y="140" width="40"  height="160" fill={bgColor}/>
-          <rect x="50"  y="100" width="60"  height="200" fill={bgColor}/>
-          <rect x="120" y="120" width="35"  height="180" fill={bgColor}/>
-          <rect x="165" y="80"  width="50"  height="220" fill={bgColor}/>
-          <rect x="225" y="110" width="30"  height="190" fill={bgColor}/>
-          <rect x="265" y="60"  width="70"  height="240" fill={bgColor}/>
-          <rect x="345" y="90"  width="45"  height="210" fill={bgColor}/>
-          <rect x="400" y="130" width="30"  height="170" fill={bgColor}/>
-          <rect x="700" y="50"  width="80"  height="250" fill={bgColor}/>
-          <rect x="790" y="90"  width="55"  height="210" fill={bgColor}/>
-          <rect x="855" y="70"  width="40"  height="230" fill={bgColor}/>
-          <rect x="905" y="100" width="65"  height="200" fill={bgColor}/>
-          <rect x="980" y="130" width="30"  height="170" fill={bgColor}/>
-          <rect x="1100" y="60" width="75"  height="240" fill={bgColor}/>
-          <rect x="1185" y="90" width="50"  height="210" fill={bgColor}/>
-          <rect x="1245" y="120"width="35"  height="180" fill={bgColor}/>
-          <rect x="1290" y="80" width="55"  height="220" fill={bgColor}/>
-          <rect x="1355" y="110"width="85"  height="190" fill={bgColor}/>
-        </svg>
-        {/* Network node connections */}
-        <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity: isSectorSelected?0.18:0.08, transition:'opacity 0.7s' }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-          {[[200,200],[450,150],[720,300],[950,180],[1200,250],[350,400],[850,380],[1100,420]].map(([cx,cy],i)=>(
-            <circle key={i} cx={cx} cy={cy} r="3" fill={bgColor} opacity="0.8"/>
+      {/* DIRECTORY: Cinematic dot-globe · Digital city · Business network */}
+      <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden', transition:'all 0.7s ease' }}>
+        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 130% 90% at 75% 55%, #0b1928 0%, #060e1a 50%, #030810 100%)' }} />
+        <div style={{ position:'absolute', top:'5%', right:'-5%', width:580, height:580, borderRadius:'50%', background:'radial-gradient(circle, rgba(20,80,200,0.22) 0%, rgba(10,40,120,0.12) 40%, transparent 70%)', filter:'blur(20px)' }} />
+        {isSectorSelected && <div style={{ position:'absolute', inset:0, background:`radial-gradient(ellipse 60% 50% at 20% 30%, ${bgColor}14 0%, transparent 60%)`, transition:'background 0.7s ease' }} />}
+        <div style={{ position:'absolute', top:'18%', right:'14%', width:200, height:140, background:'radial-gradient(ellipse, rgba(180,220,255,0.15) 0%, transparent 70%)', filter:'blur(10px)' }} />
+        <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="dGlobeGrad" cx="72%" cy="42%" r="28%">
+              <stop offset="0%" stopColor="#1a4aa0" stopOpacity="0.32"/>
+              <stop offset="60%" stopColor="#0a2060" stopOpacity="0.14"/>
+              <stop offset="100%" stopColor="#0a2060" stopOpacity="0"/>
+            </radialGradient>
+            <filter id="dBlur3"><feGaussianBlur stdDeviation="3"/></filter>
+            <filter id="dBlur6"><feGaussianBlur stdDeviation="6"/></filter>
+          </defs>
+          <circle cx="1050" cy="440" r="290" fill="url(#dGlobeGrad)"/>
+          {[-70,-35,0,35,70].map((offset,i) => (
+            <ellipse key={i} cx={1050+offset*1.5} cy="440" rx={Math.max(1,Math.sqrt(Math.max(0,290*290-offset*offset*2.25)))} ry="290" fill="none" stroke="rgba(80,140,255,0.11)" strokeWidth="0.7"/>
           ))}
-          {[[200,200,450,150],[450,150,720,300],[720,300,950,180],[950,180,1200,250],[350,400,720,300],[850,380,1100,420],[450,150,350,400],[950,180,850,380]].map(([x1,y1,x2,y2],i)=>(
-            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={bgColor} strokeWidth="0.6" opacity="0.5" strokeDasharray="4 8"/>
+          {[-180,-110,-50,0,50,110,180].map((yOff,i) => {
+            const rx = Math.sqrt(Math.max(0, 290*290-yOff*yOff))
+            return rx>5 ? <ellipse key={i} cx="1050" cy={440+yOff} rx={rx} ry={Math.abs(yOff)*0.28+8} fill="none" stroke="rgba(80,140,255,0.09)" strokeWidth="0.6"/> : null
+          })}
+          <circle cx="1088" cy="330" r="14" fill="rgba(180,220,255,0.10)" filter="url(#dBlur6)"/>
+          <circle cx="1088" cy="330" r="6" fill="rgba(200,230,255,0.22)" filter="url(#dBlur3)"/>
+          <circle cx="1088" cy="330" r="2.5" fill="#c8e0ff" opacity="0.92"/>
+          <g transform="translate(1055,302) scale(1.7)" opacity="0.5">
+            <path d="M15,12 L18,9 L22,8 L26,9 L30,9 L33,11 L34,15 L33,19 L30,23 L26,27 L22,28 L18,27 L14,23 L12,19 L12,15 Z" fill="none" stroke="rgba(180,220,255,0.75)" strokeWidth="0.7"/>
+          </g>
+          {[[200,180,5],[350,120,4],[480,250,6],[620,180,4],[150,400,4],[320,480,5],[550,380,4],[680,450,5],[120,260,3],[240,350,4]].map(([cx,cy,r],i) => (
+            <g key={i}>
+              <circle cx={cx} cy={cy} r={r*2.5} fill={isSectorSelected?bgColor:'#4a8fff'} opacity="0.06" filter="url(#dBlur3)"/>
+              <circle cx={cx} cy={cy} r={r*0.55} fill={isSectorSelected?bgColor:'#4a8fff'} opacity="0.72"/>
+            </g>
           ))}
+          {[[200,180,350,120],[350,120,480,250],[480,250,620,180],[200,180,150,400],[350,120,320,480],[480,250,550,380],[620,180,680,450],[550,380,680,450]].map(([x1,y1,x2,y2],i) => (
+            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={isSectorSelected?bgColor:'rgba(74,143,255,0.32)'} strokeWidth="0.8" strokeDasharray="5 9"/>
+          ))}
+          {[[480,250,1088,330],[680,450,1088,330],[620,180,1088,330]].map(([x1,y1,x2,y2],i) => (
+            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(180,220,255,0.13)" strokeWidth="0.6" strokeDasharray="8 14"/>
+          ))}
+          {Array.from({length:55}).map((_,i) => (
+            <circle key={i} cx={(i*197+60)%1440} cy={(i*113+90)%900} r="0.75" fill="rgba(255,255,255,0.035)"/>
+          ))}
+          {isSectorSelected && <line x1="0" y1="1" x2="1440" y2="1" stroke={bgColor} strokeWidth="2" opacity="0.28" filter="url(#dBlur3)"/>}
         </svg>
-        {/* Active sector top bar */}
-        {isSectorSelected && <div style={{ position:'absolute', top:0, left:'5%', right:'5%', height:2, background:`linear-gradient(90deg,transparent,${bgColor}60,${bgColor}80,${bgColor}60,transparent)`, filter:'blur(1px)' }} />}
-        <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle,rgba(255,255,255,0.009) 1px,transparent 1px)', backgroundSize:'40px 40px' }} />
+        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 85% 85% at 50% 50%, transparent 55%, rgba(3,6,12,0.6) 100%)' }} />
       </div>
       <div style={{ padding: '28px 44px', maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
       <div style={{ marginBottom: 16, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>{t.rankSub}</div>
@@ -4147,64 +4140,106 @@ export default function App() {
             {/* ── PAGES ── */}
       {page === 'home' && (
         <>
-          {/* ── HOME: Kosovo global network background ── */}
+          {/* ── HOME: Cinematic Kosovo · Earth horizon · Global connections ── */}
           <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden' }}>
-            {/* Base atmosphere */}
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,#040810 0%,#060c18 40%,#050a14 100%)' }} />
-            {/* Earth horizon glow at bottom */}
-            <div style={{ position:'absolute', bottom:'-15%', left:'50%', transform:'translateX(-50%)', width:'140%', height:'55%', borderRadius:'50%', background:'radial-gradient(ellipse,rgba(30,80,180,0.18) 0%,rgba(20,50,120,0.08) 40%,transparent 70%)', filter:'blur(24px)' }} />
-            {/* Kosovo map glow — center of the world */}
-            <div style={{ position:'absolute', top:'22%', left:'50%', transform:'translateX(-50%)', width:320, height:220, background:'radial-gradient(ellipse,rgba(212,168,67,0.10) 0%,rgba(212,168,67,0.04) 45%,transparent 70%)', filter:'blur(18px)' }} />
-            {/* Gold top zenith glow */}
-            <div style={{ position:'absolute', top:'-5%', left:'50%', transform:'translateX(-50%)', width:'80%', height:'45%', background:'radial-gradient(ellipse,rgba(212,168,67,0.07) 0%,transparent 65%)', filter:'blur(32px)' }} />
-            {/* Connection lines — Kosovo to Europe/world (SVG) */}
-            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity:0.22 }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+            {/* Deep space base */}
+            <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 120% 80% at 65% 40%, #0a1628 0%, #060d1a 45%, #030609 100%)' }} />
+            {/* Earth horizon glow — bottom right, massive warm blue arc */}
+            <div style={{ position:'absolute', bottom:'-30%', right:'-10%', width:'85%', height:'90%', borderRadius:'50%', background:'radial-gradient(ellipse at center, rgba(20,60,180,0.28) 0%, rgba(10,30,100,0.18) 30%, rgba(5,15,50,0.08) 55%, transparent 75%)', filter:'blur(2px)' }} />
+            <div style={{ position:'absolute', bottom:'-38%', right:'-15%', width:'100%', height:'100%', borderRadius:'50%', background:'radial-gradient(ellipse at center, transparent 55%, rgba(255,140,20,0.07) 65%, rgba(255,100,0,0.04) 75%, transparent 85%)', filter:'blur(4px)' }} />
+            {/* Kosovo map glow — upper center-right, luminous */}
+            <div style={{ position:'absolute', top:'8%', right:'12%', width:340, height:260, background:'radial-gradient(ellipse, rgba(180,210,255,0.20) 0%, rgba(100,160,255,0.10) 40%, transparent 70%)', filter:'blur(14px)' }} />
+            {/* Gold atmospheric rim at top */}
+            <div style={{ position:'absolute', top:0, left:0, right:0, height:'35%', background:'linear-gradient(180deg, rgba(212,168,67,0.04) 0%, transparent 100%)' }} />
+            {/* Main cinematic SVG layer */}
+            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
               <defs>
-                <radialGradient id="nodeGold" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#d4a843" stopOpacity="0.9"/>
-                  <stop offset="100%" stopColor="#d4a843" stopOpacity="0"/>
+                <radialGradient id="hKosovoGlow" cx="75%" cy="35%" r="18%">
+                  <stop offset="0%" stopColor="#c8deff" stopOpacity="0.35"/>
+                  <stop offset="50%" stopColor="#4a8fff" stopOpacity="0.12"/>
+                  <stop offset="100%" stopColor="#4a8fff" stopOpacity="0"/>
                 </radialGradient>
-                <radialGradient id="nodeBlue" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#58a6ff" stopOpacity="0.7"/>
-                  <stop offset="100%" stopColor="#58a6ff" stopOpacity="0"/>
+                <radialGradient id="hEarthGlow" cx="80%" cy="90%" r="50%">
+                  <stop offset="0%" stopColor="#1a3d8f" stopOpacity="0.4"/>
+                  <stop offset="40%" stopColor="#0f2255" stopOpacity="0.2"/>
+                  <stop offset="100%" stopColor="#0f2255" stopOpacity="0"/>
                 </radialGradient>
+                <radialGradient id="hCityGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#ffa040" stopOpacity="0.9"/>
+                  <stop offset="100%" stopColor="#ffa040" stopOpacity="0"/>
+                </radialGradient>
+                <filter id="hBlur4"><feGaussianBlur stdDeviation="4"/></filter>
+                <filter id="hBlur2"><feGaussianBlur stdDeviation="2"/></filter>
+                <filter id="hBlur8"><feGaussianBlur stdDeviation="8"/></filter>
               </defs>
-              {/* Kosovo center node */}
-              <circle cx="720" cy="360" r="6" fill="#d4a843" opacity="0.9"/>
-              <circle cx="720" cy="360" r="22" fill="url(#nodeGold)" opacity="0.6"/>
-              {/* Connection lines Kosovo → EU cities */}
+
+              {/* Earth glow */}
+              <ellipse cx="1150" cy="820" rx="620" ry="380" fill="url(#hEarthGlow)" filter="url(#hBlur8)"/>
+              {/* Earth arc edge — warm atmosphere rim */}
+              <path d="M 480,900 Q 900,520 1440,680" fill="none" stroke="rgba(255,140,30,0.18)" strokeWidth="1.5" filter="url(#hBlur2)"/>
+              <path d="M 500,900 Q 900,530 1440,700" fill="none" stroke="rgba(255,160,50,0.08)" strokeWidth="4" filter="url(#hBlur4)"/>
+
+              {/* Kosovo territory — luminous white outline, upper-right */}
+              <g transform="translate(980,60) scale(2.8)" filter="url(#hBlur2)" opacity="0.7">
+                <path d="M40,30 L44,26 L50,24 L56,22 L62,23 L68,22 L74,25 L78,28 L80,34 L79,40 L77,46 L73,52 L68,58 L62,64 L56,68 L50,68 L44,64 L38,58 L34,52 L32,46 L33,38 Z"
+                  fill="rgba(180,210,255,0.08)" stroke="rgba(200,225,255,0.55)" strokeWidth="0.8"/>
+              </g>
+              {/* Kosovo glow halo */}
+              <rect x="940" y="30" width="360" height="240" fill="url(#hKosovoGlow)" filter="url(#hBlur8)"/>
+
+              {/* Arc connection lines — Kosovo to world cities */}
               {[
-                [720,360, 420,180, '#d4a843'], // → Berlin
-                [720,360, 560,160, '#d4a843'], // → Vienna
-                [720,360, 300,240, '#58a6ff'], // → Paris
-                [720,360, 640,100, '#58a6ff'], // → Warsaw
-                [720,360, 860,140, '#58a6ff'], // → Kyiv
-                [720,360, 980,200, '#d4a843'], // → Istanbul
-                [720,360, 820,280, '#d4a843'], // → Sofia/Athens
-                [720,360, 200,320, '#58a6ff'], // → London
-                [720,360, 1100,180,'#58a6ff'], // → Moscow
-                [720,360, 1240,300,'#d4a843'], // → Dubai
-                [720,360, 100,400, '#58a6ff'], // → NYC (off left)
-              ].map(([x1,y1,x2,y2,c],i) => (
-                <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={c} strokeWidth="0.8" strokeDasharray="4 8" opacity="0.5"/>
+                ['M 1100,150 Q 900,180 420,220','rgba(180,200,255,0.22)'],
+                ['M 1100,150 Q 950,100 580,80','rgba(180,200,255,0.18)'],
+                ['M 1100,150 Q 850,200 260,340','rgba(180,200,255,0.14)'],
+                ['M 1100,150 Q 1050,60 820,30','rgba(180,200,255,0.16)'],
+                ['M 1100,150 Q 1150,80 1280,60','rgba(180,200,255,0.15)'],
+                ['M 1100,150 Q 1200,200 1380,280','rgba(212,168,67,0.18)'],
+                ['M 1100,150 Q 1050,260 980,400','rgba(212,168,67,0.14)'],
+                ['M 1100,150 Q 750,300 500,520','rgba(180,200,255,0.10)'],
+              ].map(([d,stroke],i) => (
+                <path key={i} d={d} fill="none" stroke={stroke} strokeWidth="1.2" strokeDasharray="6 10"/>
               ))}
-              {/* Destination nodes */}
+
+              {/* City light nodes — glowing dots */}
               {[
-                [420,180],[560,160],[300,240],[640,100],[860,140],
-                [980,200],[820,280],[200,320],[1100,180],[1240,300]
-              ].map(([cx,cy],i)=>(
-                <circle key={i} cx={cx} cy={cy} r="3" fill="#58a6ff" opacity="0.7"/>
+                [420,220,'#ffa040',5],[580,80,'#ffa040',4],[260,340,'#6090ff',4],
+                [820,30,'#ffa040',4],[1280,60,'#6090ff',4],[1380,280,'#ffa040',5],
+                [980,400,'#6090ff',3],[500,520,'#ffa040',4],[140,460,'#ffa040',6],
+                [350,150,'#6090ff',3],[680,200,'#ffa040',4],
+              ].map(([cx,cy,fill,r],i) => (
+                <g key={i}>
+                  <circle cx={cx} cy={cy} r={r*3} fill={fill} opacity="0.08" filter="url(#hBlur4)"/>
+                  <circle cx={cx} cy={cy} r={r*1.5} fill={fill} opacity="0.15" filter="url(#hBlur2)"/>
+                  <circle cx={cx} cy={cy} r={r*0.6} fill={fill} opacity="0.9"/>
+                </g>
               ))}
-              {/* Subtle world grid lines */}
-              {[0,120,240,360,480,600,720,840,960,1080,1200,1320,1440].map(x=>(
-                <line key={x} x1={x} y1="0" x2={x} y2="900" stroke="rgba(88,166,255,0.04)" strokeWidth="0.5"/>
-              ))}
-              {[0,90,180,270,360,450,540,630,720,810,900].map(y=>(
-                <line key={y} x1="0" y1={y} x2="1440" y2={y} stroke="rgba(88,166,255,0.03)" strokeWidth="0.5"/>
-              ))}
+
+              {/* Kosovo node — brightest point */}
+              <circle cx="1100" cy="150" r="18" fill="rgba(180,220,255,0.1)" filter="url(#hBlur8)"/>
+              <circle cx="1100" cy="150" r="8" fill="rgba(200,230,255,0.2)" filter="url(#hBlur4)"/>
+              <circle cx="1100" cy="150" r="3.5" fill="#c8e0ff" opacity="0.95"/>
+
+              {/* City lights scattered on "earth" surface — lower section */}
+              {Array.from({length:80}).map((_,i) => {
+                const x = 300 + (i*173)%1000, y = 600 + (i*97)%260
+                const bright = i%7===0
+                return <circle key={i} cx={x} cy={y} r={bright?1.8:0.8} fill="#ffa040" opacity={bright?0.7:0.3}/>
+              })}
+
+              {/* Fine latitude-style arc curves on earth */}
+              <ellipse cx="1100" cy="900" rx="700" ry="200" fill="none" stroke="rgba(30,70,180,0.12)" strokeWidth="0.8"/>
+              <ellipse cx="1100" cy="900" rx="900" ry="320" fill="none" stroke="rgba(30,70,180,0.08)" strokeWidth="0.6"/>
+
+              {/* Subtle dot grid — sparse, upper area */}
+              {Array.from({length:20}).map((_,row) =>
+                Array.from({length:30}).map((_,col) => (
+                  <circle key={`${row}-${col}`} cx={col*52+26} cy={row*44+22} r="0.7" fill="rgba(255,255,255,0.04)"/>
+                ))
+              )}
             </svg>
-            {/* Dot grid overlay */}
-            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle,rgba(255,255,255,0.012) 1px,transparent 1px)', backgroundSize:'44px 44px' }} />
+            {/* Vignette — darken edges */}
+            <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 50%, rgba(3,6,12,0.7) 100%)' }} />
           </div>
 
           <section style={{ padding: '88px 48px 64px', textAlign: 'center', position: 'relative', overflow: 'visible', background: 'transparent', zIndex: 1 }}>
@@ -4454,35 +4489,72 @@ export default function App() {
 
       {page === 'concierge'  && (
         <div style={{ position:'relative', minHeight:'100vh' }}>
-          {/* CONCIERGE: Partnership ecosystem background */}
+          {/* CONCIERGE: Cinematic partnership ecosystem · Kosovo center · Gold orbits */}
           <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden' }}>
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,#060910 0%,#080c16 50%,#060810 100%)' }} />
-            {/* Central Kosovo node glow */}
-            <div style={{ position:'absolute', top:'35%', left:'50%', transform:'translate(-50%,-50%)', width:500, height:500, borderRadius:'50%', background:'radial-gradient(circle,rgba(212,168,67,0.10) 0%,rgba(212,168,67,0.04) 40%,transparent 70%)', filter:'blur(30px)' }} />
-            {/* Outer partnership orbit rings */}
-            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity:0.14 }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-              <circle cx="720" cy="380" r="160" fill="none" stroke="#d4a843" strokeWidth="0.8" strokeDasharray="6 12"/>
-              <circle cx="720" cy="380" r="290" fill="none" stroke="#d4a843" strokeWidth="0.5" strokeDasharray="4 16"/>
-              <circle cx="720" cy="380" r="420" fill="none" stroke="#58a6ff" strokeWidth="0.4" strokeDasharray="3 18"/>
-              {/* Partnership nodes on orbit */}
-              {[0,60,120,180,240,300].map((deg,i)=>{
-                const r=290, rad=deg*Math.PI/180
-                const x=720+r*Math.cos(rad), y=380+r*Math.sin(rad)
-                return <circle key={i} cx={x} cy={y} r="5" fill="#d4a843" opacity="0.7"/>
+            {/* Deep dark base */}
+            <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 120% 100% at 60% 50%, #090d18 0%, #060910 40%, #030608 100%)' }} />
+            {/* Central gold glow — Kosovo as hub */}
+            <div style={{ position:'absolute', top:'42%', left:'55%', transform:'translate(-50%,-50%)', width:480, height:480, borderRadius:'50%', background:'radial-gradient(circle, rgba(212,168,67,0.14) 0%, rgba(212,168,67,0.06) 35%, transparent 65%)', filter:'blur(24px)' }} />
+            {/* Outer deep blue atmosphere */}
+            <div style={{ position:'absolute', top:'-20%', right:'-10%', width:700, height:700, borderRadius:'50%', background:'radial-gradient(circle, rgba(20,50,140,0.14) 0%, transparent 65%)', filter:'blur(40px)' }} />
+            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="cCenter" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#d4a843" stopOpacity="0.5"/>
+                  <stop offset="100%" stopColor="#d4a843" stopOpacity="0"/>
+                </radialGradient>
+                <filter id="cBlur4"><feGaussianBlur stdDeviation="4"/></filter>
+                <filter id="cBlur8"><feGaussianBlur stdDeviation="8"/></filter>
+                <filter id="cBlur2"><feGaussianBlur stdDeviation="2"/></filter>
+              </defs>
+              {/* Central hub glow */}
+              <circle cx="720" cy="420" r="80" fill="url(#cCenter)" filter="url(#cBlur8)"/>
+              {/* Kosovo map shape at center */}
+              <g transform="translate(674,385) scale(3.2)" opacity="0.55">
+                <path d="M15,12 L18,9 L22,8 L26,9 L30,9 L33,11 L34,15 L33,19 L30,23 L26,27 L22,28 L18,27 L14,23 L12,19 L12,15 Z"
+                  fill="rgba(212,168,67,0.08)" stroke="rgba(212,168,67,0.6)" strokeWidth="0.6"/>
+              </g>
+              {/* Center node */}
+              <circle cx="720" cy="420" r="20" fill="rgba(212,168,67,0.08)" filter="url(#cBlur4)"/>
+              <circle cx="720" cy="420" r="8" fill="rgba(212,168,67,0.18)" filter="url(#cBlur2)"/>
+              <circle cx="720" cy="420" r="3.5" fill="#d4a843" opacity="0.92"/>
+              {/* Orbit ring 1 — inner gold */}
+              <circle cx="720" cy="420" r="150" fill="none" stroke="rgba(212,168,67,0.18)" strokeWidth="0.8" strokeDasharray="6 10"/>
+              {/* Orbit ring 2 — mid gold */}
+              <circle cx="720" cy="420" r="270" fill="none" stroke="rgba(212,168,67,0.10)" strokeWidth="0.6" strokeDasharray="4 14"/>
+              {/* Orbit ring 3 — outer blue */}
+              <circle cx="720" cy="420" r="400" fill="none" stroke="rgba(80,130,255,0.08)" strokeWidth="0.5" strokeDasharray="3 18"/>
+              {/* Partner nodes on inner orbit — partner icons circles */}
+              {[0,52,104,156,208,260,312].map((deg,i) => {
+                const rad = (deg-90)*Math.PI/180
+                const x = 720+150*Math.cos(rad), y = 420+150*Math.sin(rad)
+                return (
+                  <g key={i}>
+                    <circle cx={x} cy={y} r="14" fill="rgba(212,168,67,0.06)" filter="url(#cBlur2)"/>
+                    <circle cx={x} cy={y} r="6" fill="rgba(212,168,67,0.12)"/>
+                    <circle cx={x} cy={y} r="2.5" fill="#d4a843" opacity="0.85"/>
+                    <line x1="720" y1="420" x2={x} y2={y} stroke="rgba(212,168,67,0.18)" strokeWidth="0.5"/>
+                  </g>
+                )
               })}
-              {[30,90,150,210,270,330].map((deg,i)=>{
-                const r=160, rad=deg*Math.PI/180
-                const x=720+r*Math.cos(rad), y=380+r*Math.sin(rad)
-                return <circle key={i} cx={x} cy={y} r="3" fill="#58a6ff" opacity="0.6"/>
+              {/* Partner nodes on outer orbit */}
+              {[0,45,90,135,180,225,270,315].map((deg,i) => {
+                const rad = (deg-70)*Math.PI/180
+                const x = 720+270*Math.cos(rad), y = 420+270*Math.sin(rad)
+                return (
+                  <g key={i}>
+                    <circle cx={x} cy={y} r="10" fill="rgba(80,130,255,0.06)" filter="url(#cBlur2)"/>
+                    <circle cx={x} cy={y} r="2" fill="#5882ff" opacity="0.7"/>
+                    <line x1="720" y1="420" x2={x} y2={y} stroke="rgba(80,130,255,0.10)" strokeWidth="0.4" strokeDasharray="4 8"/>
+                  </g>
+                )
               })}
-              {/* Spoke lines center to nodes */}
-              {[0,60,120,180,240,300].map((deg,i)=>{
-                const r=290, rad=deg*Math.PI/180
-                return <line key={i} x1="720" y1="380" x2={720+r*Math.cos(rad)} y2={380+r*Math.sin(rad)} stroke="#d4a843" strokeWidth="0.5" opacity="0.4"/>
-              })}
-              <circle cx="720" cy="380" r="9" fill="#d4a843" opacity="0.85"/>
+              {/* Scattered ambient stars */}
+              {Array.from({length:70}).map((_,i) => (
+                <circle key={i} cx={(i*211+40)%1440} cy={(i*137+60)%900} r={(i%5===0)?1.2:0.6} fill="rgba(255,255,255,0.06)"/>
+              ))}
             </svg>
-            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle,rgba(255,255,255,0.009) 1px,transparent 1px)', backgroundSize:'40px 40px' }} />
+            <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 80% 80% at 55% 45%, transparent 45%, rgba(3,5,10,0.65) 100%)' }} />
           </div>
           <div style={{ position:'relative', zIndex:1 }}>
             <ConciergePage lang={lang} t={t} content={siteContent} />
@@ -4492,34 +4564,79 @@ export default function App() {
 
       {page === 'gov' && (
         <div style={{ position:'relative', minHeight:'100vh' }}>
-          {/* GOV: Institutional architecture background */}
+          {/* GOV: Cinematic government architecture · Kosovo flag · National growth */}
           <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden' }}>
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,#040912 0%,#060d1a 40%,#050b14 100%)' }} />
-            {/* Institutional blue glow */}
-            <div style={{ position:'absolute', top:'-10%', left:'50%', transform:'translateX(-50%)', width:'90%', height:'60%', background:'radial-gradient(ellipse,rgba(40,80,200,0.12) 0%,transparent 65%)', filter:'blur(40px)' }} />
-            {/* Gold accent bottom */}
-            <div style={{ position:'absolute', bottom:'-5%', left:'30%', width:'40%', height:'40%', background:'radial-gradient(ellipse,rgba(212,168,67,0.06) 0%,transparent 65%)', filter:'blur(32px)' }} />
-            {/* Architectural grid / rising lines */}
-            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity:0.12 }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-              {/* Horizontal rule lines */}
-              {[200,350,500,650,750].map((y,i)=>(
-                <line key={y} x1="0" y1={y} x2="1440" y2={y} stroke="#3860d0" strokeWidth={i===2?1.2:0.5}/>
+            {/* Institutional dark blue base */}
+            <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 140% 90% at 60% 20%, #0a1428 0%, #060d1a 45%, #040810 100%)' }} />
+            {/* Institutional blue crown glow — top */}
+            <div style={{ position:'absolute', top:'-15%', left:'50%', transform:'translateX(-50%)', width:'100%', height:'65%', background:'radial-gradient(ellipse, rgba(30,70,200,0.18) 0%, rgba(15,40,130,0.10) 40%, transparent 70%)', filter:'blur(30px)' }} />
+            {/* Gold accent — base growth indicator */}
+            <div style={{ position:'absolute', bottom:'-10%', left:'20%', width:'60%', height:'50%', background:'radial-gradient(ellipse, rgba(212,168,67,0.08) 0%, transparent 65%)', filter:'blur(36px)' }} />
+            {/* Kosovo flag glow top-right */}
+            <div style={{ position:'absolute', top:'6%', right:'8%', width:180, height:130, background:'radial-gradient(ellipse, rgba(36,74,165,0.35) 0%, transparent 70%)', filter:'blur(14px)' }} />
+            <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <filter id="gBlur3"><feGaussianBlur stdDeviation="3"/></filter>
+                <filter id="gBlur6"><feGaussianBlur stdDeviation="6"/></filter>
+                <filter id="gBlur10"><feGaussianBlur stdDeviation="10"/></filter>
+                <linearGradient id="gBuildingGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#1a3a8f" stopOpacity="0.5"/>
+                  <stop offset="100%" stopColor="#1a3a8f" stopOpacity="0.08"/>
+                </linearGradient>
+              </defs>
+
+              {/* Government building silhouette — center bottom */}
+              <rect x="540" y="580" width="360" height="320" fill="url(#gBuildingGrad)" opacity="0.5"/>
+              {/* Columns */}
+              {[560,600,640,680,720,760,800,840,880].map((x,i) => (
+                <rect key={i} x={x} y="580" width="14" height="320" fill="rgba(30,70,200,0.22)" rx="2"/>
               ))}
-              {/* Vertical pillars */}
-              {[144,288,432,576,720,864,1008,1152,1296].map((x,i)=>(
-                <line key={x} x1={x} y1="900" x2={x} y2={i===4?0:200} stroke={i===4?"#d4a843":"#3860d0"} strokeWidth={i===4?0.8:0.3}/>
+              {/* Roof / pediment */}
+              <polygon points="510,580 720,480 930,580" fill="rgba(30,70,200,0.18)"/>
+              <polygon points="510,580 720,480 930,580" fill="none" stroke="rgba(80,140,255,0.22)" strokeWidth="1"/>
+              {/* Dome */}
+              <ellipse cx="720" cy="475" rx="60" ry="40" fill="rgba(30,70,200,0.15)" stroke="rgba(80,140,255,0.2)" strokeWidth="0.8" filter="url(#gBlur3)"/>
+              {/* Building glow reflection */}
+              <ellipse cx="720" cy="900" rx="350" ry="60" fill="rgba(30,70,200,0.15)" filter="url(#gBlur10)"/>
+
+              {/* Kosovo flag — refined, top right */}
+              <g transform="translate(1190,30)">
+                <rect width="165" height="110" rx="4" fill="#244AA5" opacity="0.75"/>
+                <rect width="165" height="110" rx="4" fill="none" stroke="rgba(212,168,67,0.45)" strokeWidth="0.8"/>
+                {/* 6 white stars arc */}
+                {[[-48,-28],[-28,-38],[-6,-44],[16,-44],[38,-38],[58,-28]].map(([dx,dy],i) => (
+                  <polygon key={i} points={`${82+dx},${34+dy} ${84+dx},${40+dy} ${90+dx},${40+dy} ${85+dx},${44+dy} ${87+dx},${50+dy} ${82+dx},${46+dy} ${77+dx},${50+dy} ${79+dx},${44+dy} ${74+dx},${40+dy} ${80+dx},${40+dy}`}
+                    fill="white" opacity="0.7" transform={`scale(0.55) translate(${(82+dx)*(-0.45)},${(34+dy)*(-0.45)})`}/>
+                ))}
+                {/* Kosovo map on flag */}
+                <path d="M64,52 L67,49 L71,48 L75,49 L79,49 L82,51 L83,55 L82,59 L79,63 L75,67 L71,67 L67,63 L63,59 L62,55 Z" fill="rgba(212,168,67,0.8)"/>
+              </g>
+
+              {/* Growth arc lines — rising from center */}
+              {[[-200,0],[-130,30],[-60,50],[0,55],[60,50],[130,30],[200,0]].map(([dx,dy],i) => {
+                const x = 720+dx, y = 800+dy
+                return <line key={i} x1={x} y1={y} x2={x} y2={y-80-i*12} stroke="rgba(212,168,67,0.15)" strokeWidth="0.8" strokeDasharray="3 6"/>
+              })}
+
+              {/* Subtle grid / institutional lines */}
+              {[150,300,450,600,700,780].map((y,i) => (
+                <line key={y} x1="0" y1={y} x2="1440" y2={y} stroke={i===4?"rgba(212,168,67,0.10)":"rgba(30,70,200,0.06)"} strokeWidth={i===4?0.8:0.4}/>
               ))}
-              {/* Kosovo flag integration — subtle top-right */}
-              <rect x="1280" y="20" width="130" height="87" rx="4" fill="#244AA5" opacity="0.15"/>
-              <rect x="1280" y="20" width="130" height="87" rx="4" fill="none" stroke="#d4a843" strokeWidth="0.6" opacity="0.4"/>
-              {/* Stars row in flag hint */}
-              {[1310,1325,1340,1355,1370,1385].map((x,i)=>(
-                <circle key={i} cx={x} cy="43" r="2.5" fill="#d4a843" opacity="0.5"/>
+              {[180,360,540,720,900,1080,1260].map((x,i) => (
+                <line key={x} x1={x} y1="900" x2={x} y2={i===3?0:280} stroke={i===3?"rgba(212,168,67,0.12)":"rgba(30,70,200,0.05)"} strokeWidth={i===3?0.7:0.3}/>
               ))}
-              {/* Animated rising lines — simulated via dash */}
-              <line x1="720" y1="900" x2="720" y2="100" stroke="#d4a843" strokeWidth="1" strokeDasharray="2 6" opacity="0.35"/>
+
+              {/* Connection arcs — diplomatic lines */}
+              {['M 200,400 Q 460,250 720,480','M 1240,350 Q 980,230 720,480','M 400,150 Q 560,200 720,480'].map((d,i) => (
+                <path key={i} d={d} fill="none" stroke={i===0?"rgba(80,130,255,0.14)":i===1?"rgba(80,130,255,0.12)":"rgba(212,168,67,0.12)"} strokeWidth="1" strokeDasharray="6 12"/>
+              ))}
+
+              {/* Dot field — sparse institutional */}
+              {Array.from({length:50}).map((_,i) => (
+                <circle key={i} cx={(i*229+80)%1440} cy={(i*151+40)%900} r="0.7" fill="rgba(255,255,255,0.03)"/>
+              ))}
             </svg>
-            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle,rgba(255,255,255,0.008) 1px,transparent 1px)', backgroundSize:'48px 48px' }} />
+            <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 50%, rgba(3,6,12,0.65) 100%)' }} />
           </div>
           <div style={{ position:'relative', zIndex:1 }}>
             <GovPage lang={lang} t={t} content={siteContent} />
