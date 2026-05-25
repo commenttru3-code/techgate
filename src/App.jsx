@@ -1,4 +1,4 @@
-´// Business Bridge Platform v2.4 — build: 2025-05-01
+// Business Bridge Platform v2.4 — build: 2025-05-01
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import {
   fetchProfiles, fetchAllProfilesAdmin,
