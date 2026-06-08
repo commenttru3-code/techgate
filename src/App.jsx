@@ -1239,7 +1239,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {selfEdit && <SelfEditModal profile={selfEdit} lang={lang} t={t} onClose={() => setSelfEdit(null)} />}
       {dirDetail && <ProfileDetailModal p={dirDetail} lang={lang} t={t} onClose={() => setDirDetail(null)} onContact={p2 => { setDirDetail(null); setContact(p2) }} />}
       </div>
-    </div>
+    
   )
 }
 
