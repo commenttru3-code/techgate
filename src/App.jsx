@@ -1074,41 +1074,56 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'18%', background:'linear-gradient(180deg, rgba(4,10,22,0.50) 0%, transparent 100%)' }} />
       </div>
 
+      {/* ── FILTERS PANEL — glass card so it's visible over the background image ── */}
+      <div style={{
+        background: 'rgba(8,13,24,0.62)',
+        backdropFilter: 'blur(18px)',
+        WebkitBackdropFilter: 'blur(18px)',
+        border: '1px solid rgba(255,255,255,0.09)',
+        borderRadius: 16,
+        padding: '16px 18px',
+        marginBottom: 18,
+        boxShadow: '0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)',
+      }}>
       {/* ── ROW 1: Type filter ── */}
       <div style={{ marginBottom: 6 }}>
-        <div style={{ fontSize: 10, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
+        <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
           {lang==='sq' ? 'Lloji i profilit' : 'Profile type'}
         </div>
         <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'center' }}>
           {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
-            <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.04)', color: typeF === v ? G.gold : G.muted, border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>{l}</button>
+            <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, borderRadius: 9,
+              background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.07)',
+              color: typeF === v ? G.gold : 'rgba(232,228,217,0.75)',
+              border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.13)'}`,
+            }}>{l}</button>
           ))}
         </div>
       </div>
 
       {/* ── DIVIDER ── */}
-      <div style={{ height: 1, background: G.border, margin: '12px 0' }} />
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
 
       {/* ── ROW 2: Sector filter ── */}
       <div style={{ marginBottom: 12 }}>
-        <div style={{ fontSize: 10, color: G.muted, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
+        <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
           {lang==='sq' ? 'Sektori' : 'Sector'}
         </div>
         {/* Desktop: pills row */}
         <div className="sector-pills-desktop" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           <button onClick={() => setCat('all')} className="btn" style={{ padding: '7px 14px', fontSize: 12, fontWeight: 700, borderRadius: 20,
-            background: cat === 'all' ? '#d4a843' : 'rgba(255,255,255,0.04)',
-            color: cat === 'all' ? '#080c14' : G.muted,
-            border: `1px solid ${cat === 'all' ? '#d4a843' : 'rgba(255,255,255,0.07)'}`,
+            background: cat === 'all' ? '#d4a843' : 'rgba(255,255,255,0.07)',
+            color: cat === 'all' ? '#080c14' : 'rgba(232,228,217,0.75)',
+            border: `1px solid ${cat === 'all' ? '#d4a843' : 'rgba(255,255,255,0.13)'}`,
             boxShadow: cat === 'all' ? '0 4px 16px rgba(212,168,67,0.4)' : 'none',
             transform: cat === 'all' ? 'scale(1.04)' : 'scale(1)',
             transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
           }}>{t.allCats}</button>
           {CATS.map(c => (
             <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '7px 14px', fontSize: 12, fontWeight: 700, borderRadius: 20,
-              background: cat === c.id ? c.color : 'rgba(255,255,255,0.04)',
-              color: cat === c.id ? '#080c14' : G.muted,
-              border: `1px solid ${cat === c.id ? c.color : 'rgba(255,255,255,0.07)'}`,
+              background: cat === c.id ? c.color : 'rgba(255,255,255,0.07)',
+              color: cat === c.id ? '#080c14' : 'rgba(232,228,217,0.75)',
+              border: `1px solid ${cat === c.id ? c.color : 'rgba(255,255,255,0.13)'}`,
               boxShadow: cat === c.id ? `0 4px 20px ${c.color}55` : 'none',
               transform: cat === c.id ? 'scale(1.06)' : 'scale(1)',
               transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
@@ -1126,29 +1141,29 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       </div>
 
       {/* ── DIVIDER ── */}
-      <div style={{ height: 1, background: G.border, marginBottom: 12 }} />
+      <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 12 }} />
 
       {/* ── ROW 3: MATCH FILTER FULL-WIDTH BAR (last) ── */}
       <div onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
         className="match-filter-bar"
         style={{
           display: 'flex', alignItems: 'center', gap: 12, padding: '13px 18px',
-          background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.14),rgba(45,212,191,0.06))' : 'rgba(45,212,191,0.04)',
-          border: `1px solid ${matchMode ? 'rgba(45,212,191,0.5)' : 'rgba(45,212,191,0.2)'}`,
-          borderRadius: 12, cursor: 'pointer', marginBottom: 4,
+          background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.22),rgba(45,212,191,0.10))' : 'rgba(45,212,191,0.09)',
+          border: `1px solid ${matchMode ? 'rgba(45,212,191,0.55)' : 'rgba(45,212,191,0.3)'}`,
+          borderRadius: 12, cursor: 'pointer', marginBottom: 0,
           boxShadow: matchMode ? '0 0 0 2px rgba(45,212,191,0.15), 0 4px 20px rgba(45,212,191,0.1)' : 'none',
           transition: 'all 0.22s',
         }}>
         <div style={{ width: 32, height: 32, borderRadius: 8,
-          background: matchMode ? 'linear-gradient(135deg,#2dd4bf,#0d9488)' : 'rgba(45,212,191,0.12)',
+          background: matchMode ? 'linear-gradient(135deg,#2dd4bf,#0d9488)' : 'rgba(45,212,191,0.18)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
           {matchMode ? '✓' : '🔎'}
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: matchMode ? G.teal : G.text, letterSpacing: '0.2px' }}>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: matchMode ? G.teal : 'rgba(232,228,217,0.85)', letterSpacing: '0.2px' }}>
             {lang==='sq' ? 'Filtri i Përputhjes — Kërko sipas aftësive' : 'Match Filter — Search by skills & expertise'}
           </div>
-          <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>
+          <div style={{ fontSize: 11, color: 'rgba(232,228,217,0.55)', marginTop: 2 }}>
             {matchMode
               ? (matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length > 1 ? 's' : ''} selected · ${lang==='sq'?'Kliko për të hequr':'Click to clear'}` : (lang==='sq'?'Zgjidhni aftësi më poshtë':'Select skills below to filter results'))
               : (lang==='sq' ? 'Aktivizo për të filtruar sipas aftësive specifike' : 'Activate to filter listings by specific skills')
@@ -1160,8 +1175,10 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             {matchSkills.length} {lang==='sq'?'aftësi':'skills'}
           </div>
         )}
-        <div style={{ color: matchMode ? G.teal : G.muted, fontSize: 18, fontWeight: 300, flexShrink: 0 }}>{matchMode ? '▲' : '▼'}</div>
+        <div style={{ color: matchMode ? G.teal : 'rgba(232,228,217,0.6)', fontSize: 18, fontWeight: 300, flexShrink: 0 }}>{matchMode ? '▲' : '▼'}</div>
       </div>
+      </div>
+      {/* ── END FILTERS PANEL ── */}
 
       {/* ── SKILL MATCH PANEL ── */}
       {matchMode && <SkillMatchPanel
