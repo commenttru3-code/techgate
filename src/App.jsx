@@ -2197,17 +2197,18 @@ function SmartRegForm({ lang, t, regType, onDone }) {
   const suggestions = [...(TAG_SUGGESTIONS[catChoice] || []), ...dbTags]
 
   const L = {
-    en: { cat: 'Sector', name: 'Name / Company *', city: 'City *', email: 'E-mail *', website: 'Website', employees: 'Number of employees', desc: 'Short description', descPH: 'What do you offer? Special experience, client projects, USP…', tagSuggest: 'Suggested skills / tags', tagCustom: 'Add custom tag', tagCustomPH: 'e.g. Cybersecurity', tagAdd: '+ Add', tagSelected: 'Selected tags', availNote: '💬 Availability & capacity communicated directly on request.', send: 'Submit listing ✓', empOpts: ['1–5','6–10','11–20','21–50','51–100','100+'] }
+    en: { cat: 'Sector', name: 'Name / Company *', city: 'City *', email: 'E-mail *', website: 'Website', employees: 'Number of employees', desc: 'Short description', descPH: 'What do you offer? Special experience, client projects, USP…', tagSuggest: 'Suggested skills / tags', tagCustom: 'Add custom tag', tagCustomPH: 'e.g. Cybersecurity', tagAdd: '+ Add', tagSelected: 'Selected tags', availNote: '💬 Availability & capacity communicated directly on request.', send: 'Submit listing ✓', empOpts: ['1–5','6–10','11–20','21–50','51–100','100+'] },
     sq: { cat: 'Sektori', name: 'Emri / Kompania *', city: 'Qyteti *', email: 'E-mail *', website: 'Faqja web', employees: 'Numri i punonjësve', desc: 'Përshkrim i shkurtër', descPH: 'Çfarë ofroni? Eksperiencë, projekte, avantazhet tuaja…', tagSuggest: 'Aftësi / Tags të sugjeruara', tagCustom: 'Shto tag të personalizuar', tagCustomPH: 'p.sh. Cybersecurity', tagAdd: '+ Shto', tagSelected: 'Tags të zgjedhura', availNote: '💬 Disponueshmëria komunikohet drejtpërdrejt me kërkesë.', send: 'Dërgo ✓', empOpts: ['1–5','6–10','11–20','21–50','51–100','100+'] }
-  }  const Lr = L[lang] || L.en
+  }
+  const Lr = L[lang] || L.en
   const isFL = regType === t.regFL
 
   // ── PARTNER REGISTRATION FORM ─────────────────────────────────────────────
   if (isSP) {
     const PL = {
-      en: { nameL:'Name / Organisation *', cityL:'City *', emailL:'E-mail *', phoneL:'Phone', websiteL:'Website', focusL:'Industry focus', focusPH:'e.g. IT, Software, BPO, Production…', langsL:'EU languages', langsPH:'e.g. DE, EN, SV, FR', marketsL:'EU markets', marketsPH:'e.g. Germany, Austria, Switzerland, Sweden…', descL:'About you / your organisation', descPH:'Describe your sales experience, network and why you want to represent Kosova companies.', send:'Apply as partner ✓', note:'💬 Your application will be reviewed. We will contact you within 48h if there is a match.' }
+      en: { nameL:'Name / Organisation *', cityL:'City *', emailL:'E-mail *', phoneL:'Phone', websiteL:'Website', focusL:'Industry focus', focusPH:'e.g. IT, Software, BPO, Production…', langsL:'EU languages', langsPH:'e.g. DE, EN, SV, FR', marketsL:'EU markets', marketsPH:'e.g. Germany, Austria, Switzerland, Sweden…', descL:'About you / your organisation', descPH:'Describe your sales experience, network and why you want to represent Kosova companies.', send:'Apply as partner ✓', note:'💬 Your application will be reviewed. We will contact you within 48h if there is a match.' },
       sq: { nameL:'Emri / Organizata *', cityL:'Qyteti *', emailL:'E-mail *', phoneL:'Telefon', websiteL:'Faqja web', focusL:'Fokusi i industrisë', focusPH:'p.sh. IT, Software, BPO…', langsL:'Gjuhët e BE-së', langsPH:'p.sh. DE, EN, SV', marketsL:'Tregjet e BE-së', marketsPH:'p.sh. Gjermani, Austri, Zvicër…', descL:'Rreth jush / organizatës', descPH:'Përshkruani eksperiencën tuaj të shitjeve dhe rrjetin.', send:'Apliko si partner ✓', note:"💬 Aplikimi juaj do të shqyrtohet. Do t'ju kontaktojmë brenda 48h." }
-    }}
+    }
     const Lp = PL[lang] || PL.en
     return (
       <div>
