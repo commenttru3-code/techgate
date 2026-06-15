@@ -1211,17 +1211,16 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         if (catProfiles.length === 0) return null
         return (
           <div key={catObj.id} style={{ marginBottom: 36 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
               <div style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                background: `${catObj.color}1c`,
-                border: `1px solid ${catObj.color}45`,
-                borderRadius: 10, padding: '7px 16px',
-                boxShadow: `0 2px 12px ${catObj.color}15`,
+                display: 'flex', alignItems: 'center', gap: 7,
+                background: `${catObj.color}38`,
+                border: `1px solid ${catObj.color}65`,
+                borderRadius: 8, padding: '5px 11px',
               }}>
-                <span style={{ fontSize: 18 }}>{catObj.icon}</span>
-                <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 15, color: catObj.color, letterSpacing: '-0.1px' }}>{catObj.labels[lang]}</span>
-                <span style={{ fontSize: 13, color: catObj.color, opacity: 0.65, fontWeight: 600 }}>{catProfiles.length}</span>
+                <span style={{ fontSize: 13 }}>{catObj.icon}</span>
+                <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 12, color: '#f4f1ea', letterSpacing: '0.1px' }}>{catObj.labels[lang]}</span>
+                <span style={{ background: catObj.color, color: '#080c14', borderRadius: 8, padding: '0px 6px', fontSize: 10, fontWeight: 800, lineHeight: '15px' }}>{catProfiles.length}</span>
               </div>
               <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}30, transparent)` }} />
             </div>
