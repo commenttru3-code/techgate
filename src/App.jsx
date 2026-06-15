@@ -1211,11 +1211,20 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         if (catProfiles.length === 0) return null
         return (
           <div key={catObj.id} style={{ marginBottom: 36 }}>
-            <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-              <span style={{ fontSize: 20 }}>{catObj.icon}</span>
-              <span style={{ color: catObj.color }}>{catObj.labels[lang]}</span>
-              <span style={{ fontSize: 13, color: 'rgba(232,228,217,0.55)', fontWeight: 400 }}>({catProfiles.length})</span>
-            </h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                background: `${catObj.color}1c`,
+                border: `1px solid ${catObj.color}45`,
+                borderRadius: 10, padding: '7px 16px',
+                boxShadow: `0 2px 12px ${catObj.color}15`,
+              }}>
+                <span style={{ fontSize: 18 }}>{catObj.icon}</span>
+                <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 15, color: catObj.color, letterSpacing: '-0.1px' }}>{catObj.labels[lang]}</span>
+                <span style={{ fontSize: 13, color: catObj.color, opacity: 0.65, fontWeight: 600 }}>{catProfiles.length}</span>
+              </div>
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}30, transparent)` }} />
+            </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
               {catProfiles.map(p => (
                 <ProfileCard key={p.id} p={p} lang={lang} t={t} rank={p._rank} onContact={setContact} onUpgrade={setUpgrade} onTagClick={tag => setTagFilter(tag)} onSelfEdit={setSelfEdit} matchScore={p._matchScore} matchHits={p._matchHits} onCardClick={setDirDetail} />
