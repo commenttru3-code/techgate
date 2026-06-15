@@ -868,7 +868,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
               <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: isSp ? 15 : 13, marginBottom: 2,
                 color: hov ? (isSp ? '#fb923c' : G.gold) : G.text, transition: 'color 0.18s',
                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-              <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.42)' }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
+              <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.6)' }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', flexShrink: 0, marginLeft: 8 }}>
@@ -957,18 +957,25 @@ function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills
   const skillList = [...base].sort()
   const toggleSkill = s => setMatchSkills(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])
   return (
-    <div style={{ background:'rgba(45,212,191,0.05)', border:'1px solid rgba(45,212,191,0.2)', borderRadius:12, padding:'14px 16px', marginBottom:18 }}>
+    <div style={{
+      background: 'rgba(8,13,24,0.62)',
+      backdropFilter: 'blur(18px)',
+      WebkitBackdropFilter: 'blur(18px)',
+      border: '1px solid rgba(45,212,191,0.3)',
+      borderRadius: 12, padding: '14px 16px', marginBottom: 18,
+      boxShadow: '0 8px 28px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)',
+    }}>
       <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:10 }}>
         {lang==='sq'?'Zgjidh aftësitë':'Select skills'}
-        {cat !== 'all' && <span style={{ color:G.muted, fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
+        {cat !== 'all' && <span style={{ color:'rgba(232,228,217,0.6)', fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
       </div>
       <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:120, overflowY:'auto' }}>
         {skillList.map(s => (
           <button key={s} onClick={() => toggleSkill(s)} className="btn"
             style={{ padding:'5px 12px', fontSize:11, fontWeight:matchSkills.includes(s)?700:500, borderRadius:14,
-              background:matchSkills.includes(s)?'rgba(45,212,191,0.15)':'rgba(255,255,255,0.04)',
-              color:matchSkills.includes(s)?G.teal:G.muted,
-              border:'1px solid '+(matchSkills.includes(s)?'rgba(45,212,191,0.4)':'rgba(255,255,255,0.07)') }}>
+              background:matchSkills.includes(s)?'rgba(45,212,191,0.18)':'rgba(255,255,255,0.08)',
+              color:matchSkills.includes(s)?G.teal:'rgba(232,228,217,0.78)',
+              border:'1px solid '+(matchSkills.includes(s)?'rgba(45,212,191,0.45)':'rgba(255,255,255,0.14)') }}>
             {matchSkills.includes(s)?'✓ ':''}{s}
           </button>
         ))}
@@ -1207,7 +1214,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
               <span style={{ fontSize: 20 }}>{catObj.icon}</span>
               <span style={{ color: catObj.color }}>{catObj.labels[lang]}</span>
-              <span style={{ fontSize: 13, color: G.muted, fontWeight: 400 }}>({catProfiles.length})</span>
+              <span style={{ fontSize: 13, color: 'rgba(232,228,217,0.55)', fontWeight: 400 }}>({catProfiles.length})</span>
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
               {catProfiles.map(p => (
