@@ -432,6 +432,8 @@ textarea.inp{line-height:1.6;}
 .sector-pills-mobile{display:none;}
 .sector-pills-desktop{display:flex;}
 .rank-badge{position:absolute;top:10px;right:10px;}
+.filters-sticky-panel{top:64px !important;}
+@media(max-width:640px){.filters-sticky-panel{top:56px !important;}}
 
 @media(max-width:640px){
   .nav-links{display:none !important;}
@@ -1081,16 +1083,17 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'18%', background:'linear-gradient(180deg, rgba(4,10,22,0.50) 0%, transparent 100%)' }} />
       </div>
 
-      {/* ── FILTERS PANEL — glass card so it's visible over the background image ── */}
-      <div style={{
-        background: 'rgba(8,13,24,0.62)',
-        backdropFilter: 'blur(18px)',
-        WebkitBackdropFilter: 'blur(18px)',
-        border: '1px solid rgba(255,255,255,0.09)',
-        borderRadius: 16,
-        padding: '16px 18px',
+      {/* ── FILTERS PANEL — sticky glass card ── */}
+      <div className="filters-sticky-panel" style={{
+        position: 'sticky', top: 64, zIndex: 50,
+        background: 'rgba(6,11,22,0.82)',
+        backdropFilter: 'blur(22px)',
+        WebkitBackdropFilter: 'blur(22px)',
+        border: '1px solid rgba(255,255,255,0.11)',
+        borderRadius: 14,
+        padding: '14px 16px',
         marginBottom: 18,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
       }}>
       {/* ── ROW 1: Type filter ── */}
       <div style={{ marginBottom: 6 }}>
@@ -1214,16 +1217,18 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: 'rgba(16,22,36,0.88)',
-                border: `1px solid ${catObj.color}`,
-                borderRadius: 8, padding: '4px 10px',
-                boxShadow: `0 0 10px ${catObj.color}30`,
+                background: 'rgba(230,225,215,0.10)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                border: `1.5px solid ${catObj.color}`,
+                borderLeft: `3px solid ${catObj.color}`,
+                borderRadius: 8, padding: '4px 12px',
               }}>
                 <span style={{ fontSize: 12 }}>{catObj.icon}</span>
-                <span style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 12, color: '#f0ece3' }}>{catObj.labels[lang]}</span>
-                <span style={{ background: catObj.color, color: '#08111e', borderRadius: 5, padding: '1px 6px', fontSize: 10, fontWeight: 800 }}>{catProfiles.length}</span>
+                <span style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 12, color: '#ffffff', letterSpacing: '0.1px', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{catObj.labels[lang]}</span>
+                <span style={{ background: catObj.color, color: '#08111e', borderRadius: 5, padding: '1px 6px', fontSize: 10, fontWeight: 800, marginLeft: 2 }}>{catProfiles.length}</span>
               </div>
-              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}50, transparent)` }} />
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}60, transparent)` }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
               {catProfiles.map(p => (
