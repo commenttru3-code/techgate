@@ -966,14 +966,7 @@ function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills
   const skillList = [...base].sort()
   const toggleSkill = s => setMatchSkills(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])
   return (
-    <div style={{
-      background: 'rgba(8,13,24,0.62)',
-      backdropFilter: 'blur(18px)',
-      WebkitBackdropFilter: 'blur(18px)',
-      border: '1px solid rgba(45,212,191,0.3)',
-      borderRadius: 12, padding: '14px 16px', marginBottom: 18,
-      boxShadow: '0 8px 28px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04)',
-    }}>
+    <div>
       <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:10 }}>
         {lang==='sq'?'Zgjidh aftësitë':'Select skills'}
         {cat !== 'all' && <span style={{ color:'rgba(232,228,217,0.6)', fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
@@ -1090,17 +1083,20 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'18%', background:'linear-gradient(180deg, rgba(4,10,22,0.50) 0%, transparent 100%)' }} />
       </div>
 
-      {/* ── FILTERS PANEL — sticky glass card ── */}
+      {/* ── STICKY CONTAINER: Filter panel + Skill panel ── */}
+      <div style={{ position: 'sticky', top: 64, zIndex: 50, marginBottom: 18 }}>
+
+      {/* ── FILTERS PANEL — glass card ── */}
       <div className="filters-sticky-panel" style={{
-        position: 'sticky', top: 64, zIndex: 50,
+        position: 'relative', top: 'unset', zIndex: 'unset',
         background: 'rgba(6,11,22,0.82)',
         backdropFilter: 'blur(22px)',
         WebkitBackdropFilter: 'blur(22px)',
         border: '1px solid rgba(255,255,255,0.11)',
-        borderRadius: 14,
+        borderRadius: matchMode ? '14px 14px 0 0' : 14,
         padding: '14px 16px',
-        marginBottom: 18,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
+        marginBottom: 0,
+        boxShadow: matchMode ? 'none' : '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
       }}>
       {/* ── ROW 1: Type filter ── */}
       <div style={{ marginBottom: 12 }}>
@@ -1206,14 +1202,30 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       </div>
       {/* ── END FILTERS PANEL ── */}
 
-      {/* ── SKILL MATCH PANEL ── */}
-      {matchMode && <SkillMatchPanel
-        lang={lang} cat={cat} G={G}
-        dbProfiles={dbProfiles}
-        matchSkills={matchSkills}
-        setMatchSkills={setMatchSkills}
-        resultCount={filtered.length}
-      />}
+      {/* ── SKILL MATCH PANEL — sticky, seamlessly attached below filter panel ── */}
+      {matchMode && (
+        <div style={{
+          background: 'rgba(6,11,22,0.88)',
+          backdropFilter: 'blur(22px)',
+          WebkitBackdropFilter: 'blur(22px)',
+          border: '1px solid rgba(255,255,255,0.11)',
+          borderTop: '1px solid rgba(45,212,191,0.25)',
+          borderRadius: '0 0 14px 14px',
+          padding: '12px 16px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(45,212,191,0.06)',
+        }}>
+          <SkillMatchPanel
+            lang={lang} cat={cat} G={G}
+            dbProfiles={dbProfiles}
+            matchSkills={matchSkills}
+            setMatchSkills={setMatchSkills}
+            resultCount={filtered.length}
+          />
+        </div>
+      )}
+
+      </div>
+      {/* ── END STICKY CONTAINER ── */}
 
       {/* Active tag filter banner */}
       {tagFilter && (
