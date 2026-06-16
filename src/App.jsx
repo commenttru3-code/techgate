@@ -1096,7 +1096,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         boxShadow: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
       }}>
       {/* ── ROW 1: Type filter ── */}
-      <div style={{ marginBottom: 6 }}>
+      <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
           {lang==='sq' ? 'Lloji i profilit' : 'Profile type'}
         </div>
@@ -1110,9 +1110,6 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           ))}
         </div>
       </div>
-
-      {/* ── DIVIDER ── */}
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
 
       {/* ── ROW 2: Sector filter ── */}
       <div style={{ marginBottom: 12 }}>
@@ -1149,9 +1146,6 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {CATS.map(c => <option key={c.id} value={c.id}>{c.icon} {c.labels[lang]}</option>)}
         </select>
       </div>
-
-      {/* ── DIVIDER ── */}
-      <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 12 }} />
 
       {/* ── ROW 3: MATCH FILTER FULL-WIDTH BAR (last) ── */}
       <div onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
@@ -4524,24 +4518,29 @@ export default function App() {
       )}
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: `1px solid ${G.border}`, padding: '22px 44px', fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted }}>
+      <footer style={{ 
+        background: 'rgba(6,11,22,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+        borderTop: '1px solid rgba(255,255,255,0.12)', padding: '22px 44px',
+        fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.75)'
+      }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, marginBottom:14 }}>
           <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-            <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:G.text }}>Kosova Hub</span>
-            <span style={{ fontSize:10, background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:20, padding:'1px 8px', fontWeight:600 }}>B2B</span>
+            <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:'#ffffff' }}>Kosova Hub</span>
+            <span style={{ fontSize:10, background:'rgba(212,168,67,0.18)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:20, padding:'1px 8px', fontWeight:600 }}>B2B</span>
           </div>
-          <div style={{ display: 'flex', gap: 16, alignItems:'center' }}>
-            {t.footLinks.map(l => <span key={l} style={{ cursor: 'pointer' }}>{l}</span>)}
+          <div style={{ display: 'flex', gap: 16, alignItems:'center', color:'rgba(232,228,217,0.72)' }}>
+            {t.footLinks.map(l => <span key={l} style={{ cursor: 'pointer', transition:'color 0.15s' }}
+              onMouseEnter={e=>e.currentTarget.style.color='#fff'} onMouseLeave={e=>e.currentTarget.style.color='rgba(232,228,217,0.72)'}>{l}</span>)}
             <span onClick={() => setShowAdmin(true)} style={{ cursor: 'pointer', opacity: 0, transition: 'opacity 0.3s' }}
               onMouseEnter={e => e.currentTarget.style.opacity = '1'}
               onMouseLeave={e => e.currentTarget.style.opacity = '0'}>⚙</span>
           </div>
         </div>
-        <div style={{ borderTop:`1px solid ${G.border}`, paddingTop:12, display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
-          <div>{t.footer}</div>
+        <div style={{ borderTop:'1px solid rgba(255,255,255,0.10)', paddingTop:12, display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
+          <div style={{ color:'rgba(232,228,217,0.65)' }}>{t.footer}</div>
           <div style={{ display:'flex', gap:18 }}>
             {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network', lang==='sq'?'🔐 Verifikim admin':'🔐 Admin Verified'].map(tag => (
-              <span key={tag} style={{ fontSize:11, color:'rgba(232,228,217,0.3)' }}>{tag}</span>
+              <span key={tag} style={{ fontSize:11, color:'rgba(232,228,217,0.55)' }}>{tag}</span>
             ))}
           </div>
         </div>
