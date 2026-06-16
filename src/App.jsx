@@ -472,8 +472,15 @@ textarea.inp{line-height:1.6;}
   .conc-partner-card{padding:14px 13px !important;}
   .conc-partner-card .partner-feat-grid{grid-template-columns:1fr 1fr !important;gap:6px !important;}
   .conc-partner-card h-name{font-size:16px !important;}
-  /* Match filter bar */
-  .match-filter-bar{padding:10px 13px !important;}
+  /* Sector pills → dropdown on mobile */
+  .sector-pills-desktop{display:none !important;}
+  .sector-pills-mobile{display:block !important;}
+  /* Match filter bar compact on mobile */
+  .match-filter-bar{padding:10px 12px !important;}
+  .match-filter-label{font-size:13px !important;}
+  .match-filter-sub{display:none !important;}
+  /* Filters panel compact on mobile */
+  .filters-sticky-panel{padding:10px 12px !important;border-radius:10px !important;}
 }
 @media(min-width:641px) and (max-width:900px){
   .hero-pad{padding:40px 24px 32px !important;}
@@ -1100,7 +1107,8 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
           {lang==='sq' ? 'Lloji i profilit' : 'Profile type'}
         </div>
-        <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'center' }}>
+        {/* Desktop: button pills */}
+        <div className="sector-pills-desktop" style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'center' }}>
           {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
             <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, borderRadius: 9,
               background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.07)',
@@ -1109,6 +1117,14 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             }}>{l}</button>
           ))}
         </div>
+        {/* Mobile: dropdown */}
+        <select className="sector-pills-mobile inp" value={typeF} onChange={e => setTypeF(e.target.value)}
+          style={{ width:'100%', fontSize:13, padding:'9px 12px', fontFamily:"'DM Sans',sans-serif", fontWeight:600,
+            background:'rgba(212,168,67,0.08)', border:'1px solid rgba(212,168,67,0.3)', color:'#f0ece3', borderRadius:10 }}>
+          <option value="all">{t.allTypes}</option>
+          <option value="company">{t.onlyComp}</option>
+          <option value="freelancer">{t.onlyFL}</option>
+        </select>
       </div>
 
       {/* ── ROW 2: Sector filter ── */}
@@ -1139,9 +1155,14 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             </button>
           ))}
         </div>
-        {/* Mobile: dropdown — hidden by default, shown via CSS media query */}
+        {/* Mobile: dropdown — shown on mobile via CSS */}
         <select className="sector-pills-mobile inp" value={cat} onChange={e => setCat(e.target.value)}
-          style={{ width: '100%', fontSize: 13, padding: '9px 12px' }}>
+          style={{
+            width: '100%', fontSize: 13, padding: '9px 12px', fontFamily: "'DM Sans',sans-serif", fontWeight: 600,
+            background: cat === 'all' ? 'rgba(212,168,67,0.12)' : `${CATS.find(c=>c.id===cat)?.color||'#58a6ff'}18`,
+            border: `1px solid ${cat === 'all' ? 'rgba(212,168,67,0.4)' : `${CATS.find(c=>c.id===cat)?.color||'#58a6ff'}50`}`,
+            color: '#f0ece3', borderRadius: 10,
+          }}>
           <option value="all">{t.allCats}</option>
           {CATS.map(c => <option key={c.id} value={c.id}>{c.icon} {c.labels[lang]}</option>)}
         </select>
@@ -1164,10 +1185,11 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {matchMode ? '✓' : '🔎'}
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: matchMode ? G.teal : 'rgba(232,228,217,0.85)', letterSpacing: '0.2px' }}>
+          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: matchMode ? G.teal : 'rgba(232,228,217,0.85)', letterSpacing: '0.2px' }}
+            className="match-filter-label">
             {lang==='sq' ? 'Filtri i Përputhjes — Kërko sipas aftësive' : 'Match Filter — Search by skills & expertise'}
           </div>
-          <div style={{ fontSize: 11, color: 'rgba(232,228,217,0.55)', marginTop: 2 }}>
+          <div style={{ fontSize: 11, color: 'rgba(232,228,217,0.55)', marginTop: 2 }} className="match-filter-sub">
             {matchMode
               ? (matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length > 1 ? 's' : ''} selected · ${lang==='sq'?'Kliko për të hequr':'Click to clear'}` : (lang==='sq'?'Zgjidhni aftësi më poshtë':'Select skills below to filter results'))
               : (lang==='sq' ? 'Aktivizo për të filtruar sipas aftësive specifike' : 'Activate to filter listings by specific skills')
