@@ -1213,16 +1213,17 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           <div key={catObj.id} style={{ marginBottom: 36 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
               <div style={{
-                display: 'flex', alignItems: 'center', gap: 7,
-                background: `${catObj.color}38`,
-                border: `1px solid ${catObj.color}65`,
-                borderRadius: 8, padding: '5px 11px',
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                background: 'rgba(16,22,36,0.88)',
+                border: `1px solid ${catObj.color}`,
+                borderRadius: 8, padding: '4px 10px',
+                boxShadow: `0 0 10px ${catObj.color}30`,
               }}>
-                <span style={{ fontSize: 13 }}>{catObj.icon}</span>
-                <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 12, color: '#f4f1ea', letterSpacing: '0.1px' }}>{catObj.labels[lang]}</span>
-                <span style={{ background: catObj.color, color: '#080c14', borderRadius: 8, padding: '0px 6px', fontSize: 10, fontWeight: 800, lineHeight: '15px' }}>{catProfiles.length}</span>
+                <span style={{ fontSize: 12 }}>{catObj.icon}</span>
+                <span style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 12, color: '#f0ece3' }}>{catObj.labels[lang]}</span>
+                <span style={{ background: catObj.color, color: '#08111e', borderRadius: 5, padding: '1px 6px', fontSize: 10, fontWeight: 800 }}>{catProfiles.length}</span>
               </div>
-              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}30, transparent)` }} />
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}50, transparent)` }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 14 }}>
               {catProfiles.map(p => (
