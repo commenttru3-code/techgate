@@ -1083,22 +1083,21 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'18%', background:'linear-gradient(180deg, rgba(4,10,22,0.50) 0%, transparent 100%)' }} />
       </div>
 
-      {/* ── STICKY CONTAINER: Filter panel + Skill panel ── */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 50, marginBottom: 18 }}>
-
-      {/* ── FILTERS PANEL — glass card ── */}
-      <div className="filters-sticky-panel" style={{
-        position: 'relative', top: 'unset', zIndex: 'unset',
-        background: 'rgba(6,11,22,0.82)',
-        backdropFilter: 'blur(22px)',
-        WebkitBackdropFilter: 'blur(22px)',
+      {/* ── STICKY PANEL: Filters + Skills — sticks right below nav ── */}
+      <div style={{
+        position: 'sticky', top: 64, zIndex: 50,
+        background: 'rgba(6,11,22,0.90)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
         border: '1px solid rgba(255,255,255,0.11)',
         borderRadius: 14,
-        padding: '14px 16px',
-        marginBottom: 0,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
+        marginBottom: 18,
+        boxShadow: '0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+        overflow: 'hidden',
       }}>
-      {/* ── ROW 1: Type filter ── */}
+        {/* ── Filters: type + sector + match bar ── */}
+        <div className="filters-sticky-panel" style={{ padding: '14px 16px' }}>
+        {/* ── ROW 1: Type filter ── */}
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
           {lang==='sq' ? 'Lloji i profilit' : 'Profile type'}
@@ -1123,7 +1122,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         </select>
       </div>
 
-      {/* ── ROW 2: Sector filter ── */}
+        {/* ── ROW 2: Sector filter ── */}
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
           {lang==='sq' ? 'Sektori' : 'Sector'}
@@ -1164,7 +1163,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         </select>
       </div>
 
-      {/* ── ROW 3: MATCH FILTER FULL-WIDTH BAR (last) ── */}
+        {/* ── ROW 3: MATCH FILTER FULL-WIDTH BAR (last) ── */}
       <div onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
         className="match-filter-bar"
         style={{
@@ -1199,31 +1198,26 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         )}
         <div style={{ color: matchMode ? G.teal : 'rgba(232,228,217,0.6)', fontSize: 18, fontWeight: 300, flexShrink: 0 }}>{matchMode ? '▲' : '▼'}</div>
       </div>
-      </div>
-      </div>
-      {/* ── END STICKY CONTAINER ── */}
-
-      {/* ── SKILL MATCH PANEL — outside sticky so match bar stays visible ── */}
-      {matchMode && (
-        <div style={{
-          background: 'rgba(6,11,22,0.88)',
-          backdropFilter: 'blur(22px)',
-          WebkitBackdropFilter: 'blur(22px)',
-          border: '1px solid rgba(45,212,191,0.28)',
-          borderRadius: 12,
-          padding: '12px 16px',
-          marginBottom: 18,
-          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-        }}>
-          <SkillMatchPanel
-            lang={lang} cat={cat} G={G}
-            dbProfiles={dbProfiles}
-            matchSkills={matchSkills}
-            setMatchSkills={setMatchSkills}
-            resultCount={filtered.length}
-          />
         </div>
-      )}
+
+        {/* ── Skills panel: appears seamlessly below match bar when open ── */}
+        {matchMode && (
+          <div style={{
+            borderTop: '1px solid rgba(45,212,191,0.22)',
+            background: 'rgba(4,8,18,0.6)',
+            padding: '12px 16px',
+          }}>
+            <SkillMatchPanel
+              lang={lang} cat={cat} G={G}
+              dbProfiles={dbProfiles}
+              matchSkills={matchSkills}
+              setMatchSkills={setMatchSkills}
+              resultCount={filtered.length}
+            />
+          </div>
+        )}
+      </div>
+      {/* ── END STICKY PANEL ── */}
 
       {/* Active tag filter banner */}
       {tagFilter && (
