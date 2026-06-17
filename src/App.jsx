@@ -432,8 +432,8 @@ textarea.inp{line-height:1.6;}
 .sector-pills-mobile{display:none;}
 .sector-pills-desktop{display:flex;}
 .rank-badge{position:absolute;top:10px;right:10px;}
-.filters-sticky-panel{top:64px !important;}
-@media(max-width:640px){.filters-sticky-panel{top:56px !important;}}
+.filters-sticky-panel{top:0px !important;}
+@media(max-width:640px){.filters-sticky-panel{top:0px !important;}}
 
 @media(max-width:640px){
   .nav-links{display:none !important;}
@@ -1084,7 +1084,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       </div>
 
       {/* ── STICKY CONTAINER: Filter panel + Skill panel ── */}
-      <div style={{ position: 'sticky', top: 64, zIndex: 50, marginBottom: 18 }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 50, marginBottom: 18 }}>
 
       {/* ── FILTERS PANEL — glass card ── */}
       <div className="filters-sticky-panel" style={{
@@ -1093,10 +1093,10 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         backdropFilter: 'blur(22px)',
         WebkitBackdropFilter: 'blur(22px)',
         border: '1px solid rgba(255,255,255,0.11)',
-        borderRadius: matchMode ? '14px 14px 0 0' : 14,
+        borderRadius: 14,
         padding: '14px 16px',
         marginBottom: 0,
-        boxShadow: matchMode ? 'none' : '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
       }}>
       {/* ── ROW 1: Type filter ── */}
       <div style={{ marginBottom: 12 }}>
@@ -1200,19 +1200,20 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         <div style={{ color: matchMode ? G.teal : 'rgba(232,228,217,0.6)', fontSize: 18, fontWeight: 300, flexShrink: 0 }}>{matchMode ? '▲' : '▼'}</div>
       </div>
       </div>
-      {/* ── END FILTERS PANEL ── */}
+      </div>
+      {/* ── END STICKY CONTAINER ── */}
 
-      {/* ── SKILL MATCH PANEL — sticky, seamlessly attached below filter panel ── */}
+      {/* ── SKILL MATCH PANEL — outside sticky so match bar stays visible ── */}
       {matchMode && (
         <div style={{
           background: 'rgba(6,11,22,0.88)',
           backdropFilter: 'blur(22px)',
           WebkitBackdropFilter: 'blur(22px)',
-          border: '1px solid rgba(255,255,255,0.11)',
-          borderTop: '1px solid rgba(45,212,191,0.25)',
-          borderRadius: '0 0 14px 14px',
+          border: '1px solid rgba(45,212,191,0.28)',
+          borderRadius: 12,
           padding: '12px 16px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(45,212,191,0.06)',
+          marginBottom: 18,
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
         }}>
           <SkillMatchPanel
             lang={lang} cat={cat} G={G}
@@ -1223,9 +1224,6 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           />
         </div>
       )}
-
-      </div>
-      {/* ── END STICKY CONTAINER ── */}
 
       {/* Active tag filter banner */}
       {tagFilter && (
