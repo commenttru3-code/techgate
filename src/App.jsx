@@ -1010,6 +1010,8 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
   // Skill matching integrated into directory
   const [matchSkills, setMatchSkills] = useState([])
   const [matchMode, setMatchMode] = useState(false) // toggle match panel
+  const [typeOpen, setTypeOpen] = useState(false)   // toggle type panel
+  const [sectorOpen, setSectorOpen] = useState(false) // toggle sector panel
 
   // Load verified profiles from Supabase
   useEffect(() => {
@@ -1095,109 +1097,109 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         boxShadow: '0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
         overflow: 'hidden',
       }}>
-        {/* ── Filters: type + sector + match bar ── */}
-        <div className="filters-sticky-panel" style={{ padding: '14px 16px' }}>
-        {/* ── ROW 1: Type filter ── */}
-      <div style={{ marginBottom: 12 }}>
-        <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
-          {lang==='sq' ? 'Lloji i profilit' : 'Profile type'}
-        </div>
-        {/* Desktop: button pills */}
-        <div className="sector-pills-desktop" style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'center' }}>
-          {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
-            <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding: '6px 14px', fontSize: 12, fontWeight: 600, borderRadius: 9,
-              background: typeF === v ? G.goldDim : 'rgba(255,255,255,0.07)',
-              color: typeF === v ? G.gold : 'rgba(232,228,217,0.75)',
-              border: `1px solid ${typeF === v ? G.goldBorder : 'rgba(255,255,255,0.13)'}`,
-            }}>{l}</button>
-          ))}
-        </div>
-        {/* Mobile: dropdown */}
-        <select className="sector-pills-mobile inp" value={typeF} onChange={e => setTypeF(e.target.value)}
-          style={{ width:'100%', fontSize:13, padding:'9px 12px', fontFamily:"'DM Sans',sans-serif", fontWeight:600,
-            background:'rgba(212,168,67,0.08)', border:'1px solid rgba(212,168,67,0.3)', color:'#f0ece3', borderRadius:10 }}>
-          <option value="all">{t.allTypes}</option>
-          <option value="company">{t.onlyComp}</option>
-          <option value="freelancer">{t.onlyFL}</option>
-        </select>
-      </div>
+        {/* ── Filters: type + sector + match — all expandable bars ── */}
+        <div className="filters-sticky-panel" style={{ padding: '10px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
 
-        {/* ── ROW 2: Sector filter ── */}
-      <div style={{ marginBottom: 12 }}>
-        <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6, fontFamily:"'Syne',sans-serif" }}>
-          {lang==='sq' ? 'Sektori' : 'Sector'}
-        </div>
-        {/* Desktop: pills row */}
-        <div className="sector-pills-desktop" style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          <button onClick={() => setCat('all')} className="btn" style={{ padding: '7px 14px', fontSize: 12, fontWeight: 700, borderRadius: 20,
-            background: cat === 'all' ? '#d4a843' : 'rgba(255,255,255,0.07)',
-            color: cat === 'all' ? '#080c14' : 'rgba(232,228,217,0.75)',
-            border: `1px solid ${cat === 'all' ? '#d4a843' : 'rgba(255,255,255,0.13)'}`,
-            boxShadow: cat === 'all' ? '0 4px 16px rgba(212,168,67,0.4)' : 'none',
-            transform: cat === 'all' ? 'scale(1.04)' : 'scale(1)',
-            transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
-          }}>{t.allCats}</button>
-          {CATS.map(c => (
-            <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding: '7px 14px', fontSize: 12, fontWeight: 700, borderRadius: 20,
-              background: cat === c.id ? c.color : 'rgba(255,255,255,0.07)',
-              color: cat === c.id ? '#080c14' : 'rgba(232,228,217,0.75)',
-              border: `1px solid ${cat === c.id ? c.color : 'rgba(255,255,255,0.13)'}`,
-              boxShadow: cat === c.id ? `0 4px 20px ${c.color}55` : 'none',
-              transform: cat === c.id ? 'scale(1.06)' : 'scale(1)',
-              transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
-            }}>
-              {c.icon} {c.labels[lang]}
-            </button>
-          ))}
-        </div>
-        {/* Mobile: dropdown — shown on mobile via CSS */}
-        <select className="sector-pills-mobile inp" value={cat} onChange={e => setCat(e.target.value)}
-          style={{
-            width: '100%', fontSize: 13, padding: '9px 12px', fontFamily: "'DM Sans',sans-serif", fontWeight: 600,
-            background: cat === 'all' ? 'rgba(212,168,67,0.12)' : `${CATS.find(c=>c.id===cat)?.color||'#58a6ff'}18`,
-            border: `1px solid ${cat === 'all' ? 'rgba(212,168,67,0.4)' : `${CATS.find(c=>c.id===cat)?.color||'#58a6ff'}50`}`,
-            color: '#f0ece3', borderRadius: 10,
-          }}>
-          <option value="all">{t.allCats}</option>
-          {CATS.map(c => <option key={c.id} value={c.id}>{c.icon} {c.labels[lang]}</option>)}
-        </select>
-      </div>
+          {/* ── PROFILE TYPE BAR ── */}
+          <div style={{ borderRadius: 11, overflow: 'hidden', border: `1px solid ${typeF !== 'all' ? 'rgba(212,168,67,0.5)' : 'rgba(255,255,255,0.10)'}`, transition: 'border-color 0.2s' }}>
+            <div onClick={() => setTypeOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 14px', cursor:'pointer',
+              background: typeF !== 'all' ? 'linear-gradient(90deg,rgba(212,168,67,0.18),rgba(212,168,67,0.08))' : 'rgba(255,255,255,0.04)', transition:'background 0.2s' }}>
+              <div style={{ width:28, height:28, borderRadius:7, background: typeF !== 'all' ? 'rgba(212,168,67,0.25)' : 'rgba(255,255,255,0.08)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, flexShrink:0 }}>👥</div>
+              <div style={{ flex:1 }}>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color: typeF !== 'all' ? G.gold : 'rgba(232,228,217,0.85)' }}>
+                  {lang==='sq' ? 'Lloji i profilit' : 'Profile type'}
+                </div>
+                <div style={{ fontSize:11, color:'rgba(232,228,217,0.50)', marginTop:1 }}>
+                  {typeF === 'all' ? (lang==='sq'?'Të gjithë (kompani & freelancer)':'All (companies & freelancers)') : typeF === 'company' ? t.onlyComp : t.onlyFL}
+                </div>
+              </div>
+              {typeF !== 'all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:5, color:'rgba(232,228,217,0.7)', fontSize:11, padding:'2px 7px', cursor:'pointer' }}>✕</button>}
+              <div style={{ color:'rgba(232,228,217,0.5)', fontSize:16 }}>{typeOpen ? '▲' : '▼'}</div>
+            </div>
+            {typeOpen && (
+              <div style={{ padding:'0 14px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.15)' }}>
+                <div style={{ display:'flex', gap:7, flexWrap:'wrap', paddingTop:10 }}>
+                  {[['all', t.allTypes, '📋'], ['company', t.onlyComp, '🏢'], ['freelancer', t.onlyFL, '👤']].map(([v, l, ic]) => (
+                    <button key={v} onClick={() => { setTypeF(v); setTypeOpen(false) }} className="btn" style={{ padding:'7px 14px', fontSize:12, fontWeight:600, borderRadius:9,
+                      background: typeF===v ? G.goldDim : 'rgba(255,255,255,0.07)',
+                      color: typeF===v ? G.gold : 'rgba(232,228,217,0.75)',
+                      border: `1px solid ${typeF===v ? G.goldBorder : 'rgba(255,255,255,0.12)'}` }}>
+                      {ic} {l}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
-        {/* ── ROW 3: MATCH FILTER FULL-WIDTH BAR (last) ── */}
-      <div onClick={() => { setMatchMode(v => !v); setMatchSkills([]) }}
-        className="match-filter-bar"
-        style={{
-          display: 'flex', alignItems: 'center', gap: 12, padding: '13px 18px',
-          background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.22),rgba(45,212,191,0.10))' : 'rgba(45,212,191,0.09)',
-          border: `1px solid ${matchMode ? 'rgba(45,212,191,0.55)' : 'rgba(45,212,191,0.3)'}`,
-          borderRadius: 12, cursor: 'pointer', marginBottom: 0,
-          boxShadow: matchMode ? '0 0 0 2px rgba(45,212,191,0.15), 0 4px 20px rgba(45,212,191,0.1)' : 'none',
-          transition: 'all 0.22s',
-        }}>
-        <div style={{ width: 32, height: 32, borderRadius: 8,
-          background: matchMode ? 'linear-gradient(135deg,#2dd4bf,#0d9488)' : 'rgba(45,212,191,0.18)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
-          {matchMode ? '✓' : '🔎'}
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: matchMode ? G.teal : 'rgba(232,228,217,0.85)', letterSpacing: '0.2px' }}
-            className="match-filter-label">
-            {lang==='sq' ? 'Filtri i Përputhjes — Kërko sipas aftësive' : 'Match Filter — Search by skills & expertise'}
+          {/* ── SECTOR BAR ── */}
+          {(() => {
+            const activeCatObj = CATS.find(c => c.id === cat)
+            return (
+              <div style={{ borderRadius:11, overflow:'hidden', border:`1px solid ${cat !== 'all' ? `${activeCatObj?.color}55` : 'rgba(255,255,255,0.10)'}`, transition:'border-color 0.2s' }}>
+                <div onClick={() => setSectorOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 14px', cursor:'pointer',
+                  background: cat !== 'all' ? `linear-gradient(90deg,${activeCatObj?.color}18,${activeCatObj?.color}08)` : 'rgba(255,255,255,0.04)', transition:'background 0.2s' }}>
+                  <div style={{ width:28, height:28, borderRadius:7, background: cat !== 'all' ? `${activeCatObj?.color}25` : 'rgba(255,255,255,0.08)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, flexShrink:0 }}>
+                    {cat !== 'all' ? activeCatObj?.icon : '🏭'}
+                  </div>
+                  <div style={{ flex:1 }}>
+                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color: cat !== 'all' ? activeCatObj?.color : 'rgba(232,228,217,0.85)' }}>
+                      {lang==='sq' ? 'Sektori' : 'Sector'}
+                    </div>
+                    <div style={{ fontSize:11, color:'rgba(232,228,217,0.50)', marginTop:1 }}>
+                      {cat === 'all' ? (lang==='sq'?'Të gjithë sektorët':'All sectors') : activeCatObj?.labels[lang]}
+                    </div>
+                  </div>
+                  {cat !== 'all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:5, color:'rgba(232,228,217,0.7)', fontSize:11, padding:'2px 7px', cursor:'pointer' }}>✕</button>}
+                  <div style={{ color:'rgba(232,228,217,0.5)', fontSize:16 }}>{sectorOpen ? '▲' : '▼'}</div>
+                </div>
+                {sectorOpen && (
+                  <div style={{ padding:'0 14px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.15)' }}>
+                    <div style={{ display:'flex', gap:6, flexWrap:'wrap', paddingTop:10 }}>
+                      <button onClick={() => { setCat('all'); setSectorOpen(false) }} className="btn" style={{ padding:'6px 13px', fontSize:12, fontWeight:700, borderRadius:20,
+                        background: cat==='all' ? '#d4a843' : 'rgba(255,255,255,0.07)',
+                        color: cat==='all' ? '#080c14' : 'rgba(232,228,217,0.75)',
+                        border: `1px solid ${cat==='all' ? '#d4a843' : 'rgba(255,255,255,0.12)'}` }}>{t.allCats}</button>
+                      {CATS.map(c => (
+                        <button key={c.id} onClick={() => { setCat(c.id); setSectorOpen(false) }} className="btn" style={{ padding:'6px 13px', fontSize:12, fontWeight:700, borderRadius:20,
+                          background: cat===c.id ? c.color : 'rgba(255,255,255,0.07)',
+                          color: cat===c.id ? '#080c14' : 'rgba(232,228,217,0.75)',
+                          border: `1px solid ${cat===c.id ? c.color : 'rgba(255,255,255,0.12)'}`,
+                          boxShadow: cat===c.id ? `0 3px 12px ${c.color}44` : 'none' }}>
+                          {c.icon} {c.labels[lang]}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })()}
+
+          {/* ── MATCH FILTER BAR ── */}
+          <div onClick={() => setMatchMode(v => !v)}
+            className="match-filter-bar"
+            style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 14px', borderRadius:11, cursor:'pointer',
+              background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.22),rgba(45,212,191,0.10))' : 'rgba(45,212,191,0.06)',
+              border: `1px solid ${matchMode ? 'rgba(45,212,191,0.55)' : 'rgba(45,212,191,0.25)'}`,
+              transition:'all 0.2s' }}>
+            <div style={{ width:28, height:28, borderRadius:7, background: matchMode ? 'linear-gradient(135deg,#2dd4bf,#0d9488)' : 'rgba(45,212,191,0.15)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, flexShrink:0 }}>
+              {matchMode ? '✓' : '🔎'}
+            </div>
+            <div style={{ flex:1 }}>
+              <div className="match-filter-label" style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color: matchMode ? G.teal : 'rgba(232,228,217,0.85)' }}>
+                {lang==='sq' ? 'Match Filter' : 'Match Filter'}
+              </div>
+              <div className="match-filter-sub" style={{ fontSize:11, color:'rgba(232,228,217,0.50)', marginTop:1 }}>
+                {matchMode && matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length>1?'s':''} selected` : lang==='sq'?'Kërko sipas aftësive':'Search by skills & expertise'}
+              </div>
+            </div>
+            {matchMode && matchSkills.length > 0 && (
+              <button onClick={e=>{e.stopPropagation();setMatchSkills([])}} style={{ background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:5, color:'rgba(232,228,217,0.7)', fontSize:11, padding:'2px 7px', cursor:'pointer' }}>✕ Clear</button>
+            )}
+            <div style={{ color: matchMode ? G.teal : 'rgba(232,228,217,0.5)', fontSize:16 }}>{matchMode ? '▲' : '▼'}</div>
           </div>
-          <div style={{ fontSize: 11, color: 'rgba(232,228,217,0.55)', marginTop: 2 }} className="match-filter-sub">
-            {matchMode
-              ? (matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length > 1 ? 's' : ''} selected · ${lang==='sq'?'Kliko për të hequr':'Click to clear'}` : (lang==='sq'?'Zgjidhni aftësi më poshtë':'Select skills below to filter results'))
-              : (lang==='sq' ? 'Aktivizo për të filtruar sipas aftësive specifike' : 'Activate to filter listings by specific skills')
-            }
-          </div>
-        </div>
-        {matchMode && matchSkills.length > 0 && (
-          <div style={{ background: G.teal, color: '#080c14', borderRadius: 12, padding: '3px 10px', fontSize: 12, fontWeight: 800, flexShrink: 0 }}>
-            {matchSkills.length} {lang==='sq'?'aftësi':'skills'}
-          </div>
-        )}
-        <div style={{ color: matchMode ? G.teal : 'rgba(232,228,217,0.6)', fontSize: 18, fontWeight: 300, flexShrink: 0 }}>{matchMode ? '▲' : '▼'}</div>
-      </div>
+
         </div>
 
         {/* ── Skills panel: appears seamlessly below match bar when open ── */}
