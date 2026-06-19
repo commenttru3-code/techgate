@@ -470,8 +470,15 @@ textarea.inp{line-height:1.6;}
   .conc-partners-grid{grid-template-columns:1fr !important;}
   .conc-pkg-grid{grid-template-columns:1fr !important;}
   .conc-partner-card{padding:14px 13px !important;}
-  .conc-partner-card .partner-feat-grid{grid-template-columns:1fr 1fr !important;gap:6px !important;}
-  .conc-partner-card h-name{font-size:16px !important;}
+  .conc-partner-card .gp-header{gap:10px !important;margin-bottom:12px !important;flex-wrap:wrap !important;}
+  .conc-partner-card .gp-logo{width:46px !important;height:46px !important;border-radius:11px !important;}
+  .conc-partner-card .gp-logo span{font-size:18px !important;}
+  .conc-partner-card .gp-name{font-size:14px !important;line-height:1.25 !important;}
+  .conc-partner-card .gp-sub{font-size:10px !important;}
+  .conc-partner-card .gp-badge{font-size:9px !important;padding:2px 7px !important;}
+  .conc-partner-card .gp-desc{font-size:12px !important;margin-bottom:12px !important;line-height:1.55 !important;}
+  .conc-partner-card .partner-feat-grid{grid-template-columns:1fr 1fr !important;gap:5px !important;margin-bottom:12px !important;}
+  .conc-partner-card .partner-feat-item{padding:7px 8px !important;font-size:10px !important;}
   /* Sector pills → dropdown on mobile */
   .sector-pills-desktop{display:none !important;}
   .sector-pills-mobile{display:block !important;}
@@ -1088,18 +1095,18 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {/* ── STICKY PANEL: Filters + Skills — sticks right below nav ── */}
       <div style={{
         position: 'sticky', top: 64, zIndex: 50,
-        background: 'rgba(5,9,20,0.82)',
-        backdropFilter: 'blur(28px)',
-        WebkitBackdropFilter: 'blur(28px)',
-        border: '1px solid rgba(255,255,255,0.12)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
-        borderRadius: 14,
+        background: 'rgba(8,14,26,0.46)',
+        backdropFilter: 'blur(36px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(36px) saturate(160%)',
+        border: '1px solid rgba(255,255,255,0.14)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        borderRadius: 16,
         marginBottom: 18,
-        boxShadow: '0 12px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07)',
+        boxShadow: '0 16px 56px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.10)',
         overflow: 'hidden',
       }}>
         {/* ── Filters ── */}
-        <div className="filters-sticky-panel" style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div className="filters-sticky-panel" style={{ padding: '14px 18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
           {/* ── PROFILE TYPE — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
@@ -1133,6 +1140,9 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
               </div>
             )}
           </div>
+
+          {/* Desktop-only divider between Type and Sector */}
+          <div className="sector-pills-desktop" style={{ display:'block', height: 1, background: 'linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent)', margin: '4px 0' }} />
 
           {/* ── SECTOR — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
@@ -1656,13 +1666,21 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
               onClick={() => setDetailPartner(sp)}
               onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35), 0 0 32px rgba(45,212,191,0.10)'}}
               onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 6px 32px rgba(0,0,0,0.3)'}}>
-              {/* Top accent */}
-              <div style={{ height: 3, background: 'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
+              {/* Top accent / cover image */}
+              {sp.coverImage ? (
+                <div style={{ position:'relative', height:80, overflow:'hidden' }}>
+                  <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(14,20,32,0.85) 0%,rgba(14,20,32,0.1) 100%)' }} />
+                  <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
+                </div>
+              ) : (
+                <div style={{ height: 3, background: 'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
+              )}
 
-              <div style={{ padding: '20px 18px 18px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <div style={{ padding: '20px 18px 18px', marginTop: sp.coverImage ? -28 : 0, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position:'relative' }}>
                 {/* Large logo */}
                 <div style={{ marginBottom: 12, position: 'relative' }}>
-                  <div style={{ width: 60, height: 60, borderRadius: 14, overflow: 'hidden', border: '2px solid rgba(45,212,191,0.35)', boxShadow: '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
+                  <div style={{ width: 60, height: 60, borderRadius: 14, overflow: 'hidden', border: sp.coverImage ? '3px solid rgba(14,20,32,0.9)' : '2px solid rgba(45,212,191,0.35)', boxShadow: sp.coverImage ? '0 4px 16px rgba(0,0,0,0.4)' : '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
                     {sp.logoUrl
                       ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
                       : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:sp.logoColor||G.teal }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>
@@ -1820,26 +1838,26 @@ function ConciergePage({ lang, t, content = {} }) {
 
             {/* rootsGTM — General Partner */}
             <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: '22px 20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
+              <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
+                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
                   {P.rootsgtm_logo
                     ? <img src={P.rootsgtm_logo} alt={P.rootsgtm_name||'rootsGTM'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                     : <span style={{ fontSize:28 }}>🚀</span>}
                 </div>
-                <div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.teal }}>{P.rootsgtm_name || 'rootsGTM'}</div>
-                  <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
+                <div style={{ minWidth: 0 }}>
+                  <div className="gp-name" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.teal }}>{P.rootsgtm_name || 'rootsGTM'}</div>
+                  <div className="gp-sub" style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
                     {lang === 'sq' ? 'Partner i Përgjithshëm · Aktiv' : 'General Partner · Active'}
                   </div>
                 </div>
-                <span style={{ marginLeft: 'auto', fontSize: 11, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.25)', borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>✓ Live</span>
+                <span className="gp-badge" style={{ marginLeft: 'auto', fontSize: 11, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.25)', borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>✓ Live</span>
               </div>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
+              <p className="gp-desc" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
                 {P.rootsgtm_desc || 'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 18 }}>
+              <div className="partner-feat-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 18 }}>
                 {(lang === 'sq' ? ['🤝 Kontakt direkt', '📅 Organizim takimesh', '🎤 Evente & Rrjet', '📄 Vijim & Kontrata'] : ['🤝 Direct client contact', '📅 Meeting organisation', '🎤 Events & networking', '📄 Follow-up & contracts']).map(f => (
-                  <div key={f} style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
+                  <div key={f} className="partner-feat-item" style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
                 ))}
               </div>
               <button className="btn teal-btn" style={{ width: '100%', padding: '11px' }} onClick={() => setBookModal(true)}>
@@ -1849,28 +1867,28 @@ function ConciergePage({ lang, t, content = {} }) {
 
             {/* Government — General Partner */}
             <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: '22px 20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
+              <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
+                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
                   {P.gov_logo
                     ? <img src={P.gov_logo} alt={P.gov_name||'Kosova Gov'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                     : <span style={{ fontSize:28 }}>🏛️</span>}
                 </div>
-                <div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.gold }}>
+                <div style={{ minWidth: 0 }}>
+                  <div className="gp-name" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.gold }}>
                     {P.gov_name || (lang === 'sq' ? 'Qeveria e Kosovës' : 'Kosova Government')}
                   </div>
-                  <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>InvestKosova · {lang === 'sq' ? 'Partner Zyrtar' : 'Official Partner'}</div>
+                  <div className="gp-sub" style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>InvestKosova · {lang === 'sq' ? 'Partner Zyrtar' : 'Official Partner'}</div>
                 </div>
-                <span style={{ marginLeft: 'auto', fontSize: 11, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>
+                <span className="gp-badge" style={{ marginLeft: 'auto', fontSize: 11, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>
                   {lang === 'sq' ? '⏳ Në negocim' : '⏳ In negotiation'}
                 </span>
               </div>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
+              <p className="gp-desc" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
                 {P.gov_desc || (lang === 'sq' ? 'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë.' : 'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy.')}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
+              <div className="partner-feat-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
                 {(lang === 'sq' ? ['🏛️ Takime InvestKosova', '📋 Këshillim themelimi', '🤝 Takime ministrie', '📊 Mbështetje investimesh'] : ['🏛️ InvestKosova meetings', '📋 Company formation advice', '🤝 Ministry appointments', '📊 Investment support']).map(f => (
-                  <div key={f} style={{ background: 'rgba(212,168,67,0.07)', border: `1px solid ${G.goldBorder}`, borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
+                  <div key={f} className="partner-feat-item" style={{ background: 'rgba(212,168,67,0.07)', border: `1px solid ${G.goldBorder}`, borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
                 ))}
               </div>
               <button className="btn gbtn" style={{ width: '100%', padding: '11px' }} onClick={() => setBookModal(true)}>
@@ -2967,6 +2985,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
   const [gpEdit, setGpEdit] = React.useState(null)
   const [gpForm, setGpForm] = React.useState({})
   const [gpLogo, setGpLogo] = React.useState(null)
+  const [gpCover, setGpCover] = React.useState(null)
   const [gpSaving, setGpSaving] = React.useState(false)
   const [gpMsg, setGpMsg] = React.useState('')
   const [section, setSection] = React.useState('fixed') // 'fixed' | 'db'
@@ -2974,11 +2993,11 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
 
   const openNew = () => {
     setGpForm({ name:'', city:'', email:'', website:'', phone:'', desc:'', tags:'', logoColor:'#2dd4bf', visible:true, featured:false })
-    setGpLogo(null); setGpEdit('new')
+    setGpLogo(null); setGpCover(null); setGpEdit('new')
   }
   const openEditGP = (p) => {
     setGpForm({ name:p.name||'', city:p.city||'', email:p.contact||p.email||'', website:p.website||'', phone:p.phone||'', desc:p.desc?.en||'', tags:(p.tags||[]).join(', '), logoColor:p.logoColor||'#2dd4bf', visible:p.verified!==false, featured:p.tier==='sponsored' })
-    setGpLogo(p.logoUrl||null); setGpEdit(p)
+    setGpLogo(p.logoUrl||null); setGpCover(p.coverImage||null); setGpEdit(p)
   }
   const saveGP = async () => {
     setGpSaving(true)
@@ -2992,6 +3011,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
       logo_color: gpForm.logoColor||'#2dd4bf',
       tags: gpForm.tags ? gpForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : [],
       desc_en: gpForm.desc||null, desc_sq: gpForm.desc||null,
+      cover_image: gpCover || null,
     }
     if (gpLogo && gpLogo.startsWith('data:')) fields.logo_data = gpLogo
     if (gpEdit === 'new') { await insertProfile(fields).catch(e => console.error(e)) }
@@ -3217,6 +3237,29 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                             onMouseLeave={e=>e.currentTarget.style.transform=''} />
                         ))}
                       </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Cover image */}
+                <div>
+                  <label className="flabel">Cover / Banner Image</label>
+                  <div style={{ display:'flex', gap:14, alignItems:'center', marginTop:8 }}>
+                    {gpCover && (
+                      <div style={{ width:140, height:64, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}40` }}>
+                        <img src={gpCover} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                      </div>
+                    )}
+                    <div style={{ flex:1 }}>
+                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
+                        🖼 Upload cover
+                        <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                          const file=e.target.files?.[0]; if(!file) return
+                          const img=new Image(), url=URL.createObjectURL(file)
+                          img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setGpCover(c.toDataURL('image/webp',0.88)) }
+                          img.src=url
+                        }} />
+                      </label>
+                      {gpCover && <button onClick={()=>setGpCover(null)} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block'}}>✕ Remove</button>}
                     </div>
                   </div>
                 </div>
