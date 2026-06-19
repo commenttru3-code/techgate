@@ -1088,88 +1088,93 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {/* ── STICKY PANEL: Filters + Skills — sticks right below nav ── */}
       <div style={{
         position: 'sticky', top: 64, zIndex: 50,
-        background: 'rgba(6,11,22,0.90)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        border: '1px solid rgba(255,255,255,0.11)',
+        background: 'rgba(5,9,20,0.82)',
+        backdropFilter: 'blur(28px)',
+        WebkitBackdropFilter: 'blur(28px)',
+        border: '1px solid rgba(255,255,255,0.12)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
         borderRadius: 14,
         marginBottom: 18,
-        boxShadow: '0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+        boxShadow: '0 12px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07)',
         overflow: 'hidden',
       }}>
-        {/* ── Filters: type + sector + match — all expandable bars ── */}
-        <div className="filters-sticky-panel" style={{ padding: '10px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {/* ── Filters ── */}
+        <div className="filters-sticky-panel" style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
 
-          {/* ── PROFILE TYPE BAR ── */}
-          <div style={{ borderRadius: 11, overflow: 'hidden', border: `1px solid ${typeF !== 'all' ? 'rgba(212,168,67,0.5)' : 'rgba(255,255,255,0.10)'}`, transition: 'border-color 0.2s' }}>
-            <div onClick={() => setTypeOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 14px', cursor:'pointer',
-              background: typeF !== 'all' ? 'linear-gradient(90deg,rgba(212,168,67,0.18),rgba(212,168,67,0.08))' : 'rgba(255,255,255,0.04)', transition:'background 0.2s' }}>
-              <div style={{ width:28, height:28, borderRadius:7, background: typeF !== 'all' ? 'rgba(212,168,67,0.25)' : 'rgba(255,255,255,0.08)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, flexShrink:0 }}>👥</div>
+          {/* ── PROFILE TYPE — desktop: pills row, mobile: expandable bar ── */}
+          {/* DESKTOP */}
+          <div className="sector-pills-desktop" style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
+            <span style={{ fontSize:10, color:'rgba(232,228,217,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Syne',sans-serif", marginRight:2 }}>{lang==='sq'?'Lloji':'Type'}</span>
+            {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
+              <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding:'5px 13px', fontSize:12, fontWeight:600, borderRadius:9,
+                background: typeF===v ? G.goldDim : 'rgba(255,255,255,0.07)',
+                color: typeF===v ? G.gold : 'rgba(232,228,217,0.72)',
+                border:`1px solid ${typeF===v ? G.goldBorder : 'rgba(255,255,255,0.11)'}` }}>{l}</button>
+            ))}
+          </div>
+          {/* MOBILE */}
+          <div className="sector-pills-mobile" style={{ borderRadius:10, overflow:'hidden', border:`1px solid ${typeF !== 'all' ? 'rgba(212,168,67,0.5)' : 'rgba(255,255,255,0.10)'}` }}>
+            <div onClick={() => setTypeOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: typeF!=='all' ? 'rgba(212,168,67,0.12)' : 'rgba(255,255,255,0.04)' }}>
+              <span style={{ fontSize:13 }}>👥</span>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color: typeF !== 'all' ? G.gold : 'rgba(232,228,217,0.85)' }}>
-                  {lang==='sq' ? 'Lloji i profilit' : 'Profile type'}
-                </div>
-                <div style={{ fontSize:11, color:'rgba(232,228,217,0.50)', marginTop:1 }}>
-                  {typeF === 'all' ? (lang==='sq'?'Të gjithë (kompani & freelancer)':'All (companies & freelancers)') : typeF === 'company' ? t.onlyComp : t.onlyFL}
-                </div>
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:12, color: typeF!=='all' ? G.gold : 'rgba(232,228,217,0.85)' }}>{lang==='sq'?'Lloji i profilit':'Profile type'}</div>
+                <div style={{ fontSize:10, color:'rgba(232,228,217,0.45)' }}>{typeF==='all' ? (lang==='sq'?'Të gjithë':'All') : typeF==='company' ? t.onlyComp : t.onlyFL}</div>
               </div>
-              {typeF !== 'all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:5, color:'rgba(232,228,217,0.7)', fontSize:11, padding:'2px 7px', cursor:'pointer' }}>✕</button>}
-              <div style={{ color:'rgba(232,228,217,0.5)', fontSize:16 }}>{typeOpen ? '▲' : '▼'}</div>
+              {typeF!=='all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'none', borderRadius:4, color:'rgba(232,228,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
+              <span style={{ color:'rgba(232,228,217,0.4)', fontSize:12 }}>{typeOpen?'▲':'▼'}</span>
             </div>
             {typeOpen && (
-              <div style={{ padding:'0 14px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.15)' }}>
-                <div style={{ display:'flex', gap:7, flexWrap:'wrap', paddingTop:10 }}>
-                  {[['all', t.allTypes, '📋'], ['company', t.onlyComp, '🏢'], ['freelancer', t.onlyFL, '👤']].map(([v, l, ic]) => (
-                    <button key={v} onClick={() => { setTypeF(v); setTypeOpen(false) }} className="btn" style={{ padding:'7px 14px', fontSize:12, fontWeight:600, borderRadius:9,
-                      background: typeF===v ? G.goldDim : 'rgba(255,255,255,0.07)',
-                      color: typeF===v ? G.gold : 'rgba(232,228,217,0.75)',
-                      border: `1px solid ${typeF===v ? G.goldBorder : 'rgba(255,255,255,0.12)'}` }}>
-                      {ic} {l}
-                    </button>
-                  ))}
-                </div>
+              <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)', display:'flex', gap:6 }}>
+                {[['all',t.allTypes],['company',t.onlyComp],['freelancer',t.onlyFL]].map(([v,l]) => (
+                  <button key={v} onClick={()=>{setTypeF(v);setTypeOpen(false)}} className="btn" style={{ padding:'6px 12px', fontSize:11, fontWeight:600, borderRadius:8,
+                    background:typeF===v?G.goldDim:'rgba(255,255,255,0.07)', color:typeF===v?G.gold:'rgba(232,228,217,0.75)',
+                    border:`1px solid ${typeF===v?G.goldBorder:'rgba(255,255,255,0.11)'}`}}>{l}</button>
+                ))}
               </div>
             )}
           </div>
 
-          {/* ── SECTOR BAR ── */}
+          {/* ── SECTOR — desktop: pills row, mobile: expandable bar ── */}
+          {/* DESKTOP */}
+          <div className="sector-pills-desktop" style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
+            <span style={{ fontSize:10, color:'rgba(232,228,217,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Syne',sans-serif", marginRight:2 }}>{lang==='sq'?'Sektori':'Sector'}</span>
+            <button onClick={() => setCat('all')} className="btn" style={{ padding:'5px 12px', fontSize:11, fontWeight:700, borderRadius:20,
+              background:cat==='all'?'#d4a843':'rgba(255,255,255,0.07)', color:cat==='all'?'#080c14':'rgba(232,228,217,0.72)',
+              border:`1px solid ${cat==='all'?'#d4a843':'rgba(255,255,255,0.11)'}`,
+              boxShadow:cat==='all'?'0 3px 12px rgba(212,168,67,0.38)':'none' }}>{t.allCats}</button>
+            {CATS.map(c => (
+              <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding:'5px 12px', fontSize:11, fontWeight:700, borderRadius:20,
+                background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#080c14':'rgba(232,228,217,0.72)',
+                border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`,
+                boxShadow:cat===c.id?`0 3px 12px ${c.color}44`:'none',
+                transition:'all 0.18s' }}>
+                {c.icon} {c.labels[lang]}
+              </button>
+            ))}
+          </div>
+          {/* MOBILE */}
           {(() => {
-            const activeCatObj = CATS.find(c => c.id === cat)
+            const ac = CATS.find(c => c.id === cat)
             return (
-              <div style={{ borderRadius:11, overflow:'hidden', border:`1px solid ${cat !== 'all' ? `${activeCatObj?.color}55` : 'rgba(255,255,255,0.10)'}`, transition:'border-color 0.2s' }}>
-                <div onClick={() => setSectorOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 14px', cursor:'pointer',
-                  background: cat !== 'all' ? `linear-gradient(90deg,${activeCatObj?.color}18,${activeCatObj?.color}08)` : 'rgba(255,255,255,0.04)', transition:'background 0.2s' }}>
-                  <div style={{ width:28, height:28, borderRadius:7, background: cat !== 'all' ? `${activeCatObj?.color}25` : 'rgba(255,255,255,0.08)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, flexShrink:0 }}>
-                    {cat !== 'all' ? activeCatObj?.icon : '🏭'}
-                  </div>
+              <div className="sector-pills-mobile" style={{ borderRadius:10, overflow:'hidden', border:`1px solid ${cat!=='all'?`${ac?.color}55`:'rgba(255,255,255,0.10)'}` }}>
+                <div onClick={() => setSectorOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: cat!=='all'?`${ac?.color}12`:'rgba(255,255,255,0.04)' }}>
+                  <span style={{ fontSize:13 }}>{cat!=='all'?ac?.icon:'🏭'}</span>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color: cat !== 'all' ? activeCatObj?.color : 'rgba(232,228,217,0.85)' }}>
-                      {lang==='sq' ? 'Sektori' : 'Sector'}
-                    </div>
-                    <div style={{ fontSize:11, color:'rgba(232,228,217,0.50)', marginTop:1 }}>
-                      {cat === 'all' ? (lang==='sq'?'Të gjithë sektorët':'All sectors') : activeCatObj?.labels[lang]}
-                    </div>
+                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:12, color:cat!=='all'?ac?.color:'rgba(232,228,217,0.85)' }}>{lang==='sq'?'Sektori':'Sector'}</div>
+                    <div style={{ fontSize:10, color:'rgba(232,228,217,0.45)' }}>{cat==='all'?(lang==='sq'?'Të gjithë':'All sectors'):ac?.labels[lang]}</div>
                   </div>
-                  {cat !== 'all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:5, color:'rgba(232,228,217,0.7)', fontSize:11, padding:'2px 7px', cursor:'pointer' }}>✕</button>}
-                  <div style={{ color:'rgba(232,228,217,0.5)', fontSize:16 }}>{sectorOpen ? '▲' : '▼'}</div>
+                  {cat!=='all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'none', borderRadius:4, color:'rgba(232,228,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
+                  <span style={{ color:'rgba(232,228,217,0.4)', fontSize:12 }}>{sectorOpen?'▲':'▼'}</span>
                 </div>
                 {sectorOpen && (
-                  <div style={{ padding:'0 14px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.15)' }}>
-                    <div style={{ display:'flex', gap:6, flexWrap:'wrap', paddingTop:10 }}>
-                      <button onClick={() => { setCat('all'); setSectorOpen(false) }} className="btn" style={{ padding:'6px 13px', fontSize:12, fontWeight:700, borderRadius:20,
-                        background: cat==='all' ? '#d4a843' : 'rgba(255,255,255,0.07)',
-                        color: cat==='all' ? '#080c14' : 'rgba(232,228,217,0.75)',
-                        border: `1px solid ${cat==='all' ? '#d4a843' : 'rgba(255,255,255,0.12)'}` }}>{t.allCats}</button>
-                      {CATS.map(c => (
-                        <button key={c.id} onClick={() => { setCat(c.id); setSectorOpen(false) }} className="btn" style={{ padding:'6px 13px', fontSize:12, fontWeight:700, borderRadius:20,
-                          background: cat===c.id ? c.color : 'rgba(255,255,255,0.07)',
-                          color: cat===c.id ? '#080c14' : 'rgba(232,228,217,0.75)',
-                          border: `1px solid ${cat===c.id ? c.color : 'rgba(255,255,255,0.12)'}`,
-                          boxShadow: cat===c.id ? `0 3px 12px ${c.color}44` : 'none' }}>
-                          {c.icon} {c.labels[lang]}
-                        </button>
-                      ))}
-                    </div>
+                  <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)', display:'flex', gap:5, flexWrap:'wrap' }}>
+                    <button onClick={()=>{setCat('all');setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20, background:cat==='all'?'#d4a843':'rgba(255,255,255,0.07)', color:cat==='all'?'#080c14':'rgba(232,228,217,0.75)', border:`1px solid ${cat==='all'?'#d4a843':'rgba(255,255,255,0.11)'}`}}>{t.allCats}</button>
+                    {CATS.map(c => (
+                      <button key={c.id} onClick={()=>{setCat(c.id);setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20,
+                        background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#080c14':'rgba(232,228,217,0.75)', border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`}}>
+                        {c.icon} {c.labels[lang]}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
@@ -1179,25 +1184,25 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {/* ── MATCH FILTER BAR ── */}
           <div onClick={() => setMatchMode(v => !v)}
             className="match-filter-bar"
-            style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 14px', borderRadius:11, cursor:'pointer',
-              background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.22),rgba(45,212,191,0.10))' : 'rgba(45,212,191,0.06)',
-              border: `1px solid ${matchMode ? 'rgba(45,212,191,0.55)' : 'rgba(45,212,191,0.25)'}`,
+            style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 14px', borderRadius:11, cursor:'pointer',
+              background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.20),rgba(45,212,191,0.09))' : 'rgba(45,212,191,0.06)',
+              border: `1px solid ${matchMode ? 'rgba(45,212,191,0.5)' : 'rgba(45,212,191,0.22)'}`,
               transition:'all 0.2s' }}>
-            <div style={{ width:28, height:28, borderRadius:7, background: matchMode ? 'linear-gradient(135deg,#2dd4bf,#0d9488)' : 'rgba(45,212,191,0.15)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, flexShrink:0 }}>
+            <div style={{ width:26, height:26, borderRadius:7, background: matchMode ? 'linear-gradient(135deg,#2dd4bf,#0d9488)' : 'rgba(45,212,191,0.15)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, flexShrink:0 }}>
               {matchMode ? '✓' : '🔎'}
             </div>
             <div style={{ flex:1 }}>
               <div className="match-filter-label" style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color: matchMode ? G.teal : 'rgba(232,228,217,0.85)' }}>
-                {lang==='sq' ? 'Match Filter' : 'Match Filter'}
+                Match Filter
               </div>
-              <div className="match-filter-sub" style={{ fontSize:11, color:'rgba(232,228,217,0.50)', marginTop:1 }}>
-                {matchMode && matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length>1?'s':''} selected` : lang==='sq'?'Kërko sipas aftësive':'Search by skills & expertise'}
+              <div className="match-filter-sub" style={{ fontSize:10, color:'rgba(232,228,217,0.48)', marginTop:1 }}>
+                {matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length>1?'s':''} active` : (lang==='sq'?'Kërko sipas aftësive':'Filter by skills')}
               </div>
             </div>
-            {matchMode && matchSkills.length > 0 && (
-              <button onClick={e=>{e.stopPropagation();setMatchSkills([])}} style={{ background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:5, color:'rgba(232,228,217,0.7)', fontSize:11, padding:'2px 7px', cursor:'pointer' }}>✕ Clear</button>
+            {matchSkills.length > 0 && (
+              <button onClick={e=>{e.stopPropagation();setMatchSkills([])}} style={{ background:'rgba(45,212,191,0.12)', border:'1px solid rgba(45,212,191,0.35)', borderRadius:5, color:G.teal, fontSize:11, padding:'2px 7px', cursor:'pointer', fontWeight:600 }}>✕ Clear</button>
             )}
-            <div style={{ color: matchMode ? G.teal : 'rgba(232,228,217,0.5)', fontSize:16 }}>{matchMode ? '▲' : '▼'}</div>
+            <div style={{ color: matchMode ? G.teal : 'rgba(232,228,217,0.45)', fontSize:15 }}>{matchMode ? '▲' : '▼'}</div>
           </div>
 
         </div>
