@@ -1047,7 +1047,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
     const s = q.toLowerCase()
     const desc = p.desc[lang] || p.desc.en || ''
     const catMatch = cat === 'all' || p.cat === cat
-    const skillMatch = matchMode && matchSkills.length > 0
+    const skillMatch = matchSkills.length > 0
       ? matchSkills.some(sk => p.tags.some(tg => tg.toLowerCase().includes(sk.toLowerCase())))
       : true
     return (
@@ -1057,11 +1057,11 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       (!tagFilter || p.tags.some(tg => tg.toLowerCase() === tagFilter.toLowerCase()))
     )
   }).map(p => {
-    if (!matchMode || matchSkills.length === 0) return { ...p, _matchScore: null }
+    if (matchSkills.length === 0) return { ...p, _matchScore: null }
     const hits = matchSkills.filter(sk => p.tags.some(tg => tg.toLowerCase().includes(sk.toLowerCase())))
     return { ...p, _matchScore: Math.round((hits.length / matchSkills.length) * 100), _matchHits: hits }
   }).sort((a, b) => {
-    if (matchMode && matchSkills.length > 0 && a._matchScore !== b._matchScore) return (b._matchScore||0) - (a._matchScore||0)
+    if (matchSkills.length > 0 && a._matchScore !== b._matchScore) return (b._matchScore||0) - (a._matchScore||0)
     return 0
   })
 
