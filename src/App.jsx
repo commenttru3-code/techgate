@@ -646,11 +646,20 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
   return (
     <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
       <div className="modal" style={{ maxWidth:560, maxHeight:'90vh', overflowY:'auto', padding:0, borderRadius:20, border:`1px solid ${accentColor}40` }}>
-        <div style={{ height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)`, borderRadius:'20px 20px 0 0' }} />
-        <div style={{ padding:'24px 26px 22px' }}>
+        {p.coverImage ? (
+          <div style={{ position:'relative', height:120, overflow:'hidden', borderRadius:'20px 20px 0 0' }}>
+            <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+            <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(14,20,32,0.92) 0%,rgba(14,20,32,0.15) 100%)' }} />
+            <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)` }} />
+            <button onClick={onClose} style={{ position:'absolute', top:12, right:12, background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:8, width:30, height:30, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:14, backdropFilter:'blur(8px)' }}>✕</button>
+          </div>
+        ) : (
+          <div style={{ height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)`, borderRadius:'20px 20px 0 0' }} />
+        )}
+        <div style={{ padding:'24px 26px 22px', marginTop: p.coverImage ? -32 : 0 }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:18 }}>
             <div style={{ display:'flex', gap:14, alignItems:'center' }}>
-              <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${accentColor}44`, boxShadow:`0 0 16px ${accentColor}14`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||accentColor}18,${p.logoColor||accentColor}36)` }}>
+              <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '3px solid rgba(14,20,32,0.9)' : `2px solid ${accentColor}44`, boxShadow: p.coverImage ? '0 4px 16px rgba(0,0,0,0.4)' : `0 0 16px ${accentColor}14`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||accentColor}18,${p.logoColor||accentColor}36)` }}>
                 {p.logoUrl ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                   : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:p.logoColor||accentColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
               </div>
@@ -663,7 +672,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
                 </div>
               </div>
             </div>
-            <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, flexShrink:0 }}>✕</button>
+            {!p.coverImage && <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, flexShrink:0 }}>✕</button>}
           </div>
           {(p.desc?.[lang]||p.desc?.en) && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.78)', lineHeight:1.75, marginBottom:16 }}>{p.desc[lang]||p.desc.en}</p>}
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:9, marginBottom:16 }}>
@@ -1548,13 +1557,21 @@ function MatchPage({ lang, t }) {
                   style={{ padding: 0, overflow: 'hidden', animationDelay: `${i * 0.04}s`,
                     borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border,
                     background: isSp ? 'rgba(251,146,60,0.03)' : G.card }}>
-                  {isSp && <div className="sp-bar" />}
-                  <div style={{ padding: 20 }}>
+                  {p.coverImage ? (
+                    <div style={{ position:'relative', height:72, overflow:'hidden' }}>
+                      <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                      <div style={{ position:'absolute', inset:0, background: isSp ? 'linear-gradient(0deg,rgba(14,20,32,0.9) 0%,rgba(14,20,32,0.15) 100%)' : 'linear-gradient(0deg,rgba(14,20,32,0.85) 0%,rgba(14,20,32,0.1) 100%)' }} />
+                      <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,transparent)' : `linear-gradient(90deg,${p.logoColor||'#d4a843'}88,transparent)` }} />
+                    </div>
+                  ) : (isSp && <div className="sp-bar" />)}
+                  <div style={{ padding: 20, marginTop: p.coverImage ? -20 : 0, position:'relative' }}>
 
                     {/* Header row */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                       <div style={{ display: 'flex', gap: 10 }}>
-                        <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
+                        <div style={{ borderRadius: 12, overflow:'hidden', border: p.coverImage ? '2px solid rgba(14,20,32,0.9)' : 'none', boxShadow: p.coverImage ? '0 3px 12px rgba(0,0,0,0.35)' : 'none' }}>
+                          <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
+                        </div>
                         <div>
                           <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{p.name}</div>
                           <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
