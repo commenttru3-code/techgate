@@ -1837,9 +1837,16 @@ function ConciergePage({ lang, t, content = {} }) {
           <div className="conc-partners-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
             {/* rootsGTM — General Partner */}
-            <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: '22px 20px' }}>
+            <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: 0, overflow: 'hidden' }}>
+              {P.rootsgtm_cover && (
+                <div className="gp-cover" style={{ position: 'relative', height: 120, overflow: 'hidden' }}>
+                  <img src={P.rootsgtm_cover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(14,20,32,0.92) 0%,rgba(14,20,32,0.1) 100%)' }} />
+                </div>
+              )}
+              <div style={{ padding: '22px 20px', marginTop: P.rootsgtm_cover ? -36 : 0 }}>
               <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
+                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: P.rootsgtm_cover ? '3px solid rgba(14,20,32,0.9)' : '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
                   {P.rootsgtm_logo
                     ? <img src={P.rootsgtm_logo} alt={P.rootsgtm_name||'rootsGTM'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                     : <span style={{ fontSize:28 }}>🚀</span>}
@@ -1863,12 +1870,20 @@ function ConciergePage({ lang, t, content = {} }) {
               <button className="btn teal-btn" style={{ width: '100%', padding: '11px' }} onClick={() => setBookModal(true)}>
                 {lang === 'sq' ? 'Kërko me rootsGTM →' : 'Enquire via rootsGTM →'}
               </button>
+              </div>
             </div>
 
             {/* Government — General Partner */}
-            <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: '22px 20px' }}>
+            <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: 0, overflow: 'hidden' }}>
+              {P.gov_cover && (
+                <div className="gp-cover" style={{ position: 'relative', height: 120, overflow: 'hidden' }}>
+                  <img src={P.gov_cover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(14,20,32,0.92) 0%,rgba(14,20,32,0.1) 100%)' }} />
+                </div>
+              )}
+              <div style={{ padding: '22px 20px', marginTop: P.gov_cover ? -36 : 0 }}>
               <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
+                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: P.gov_cover ? '3px solid rgba(14,20,32,0.9)' : `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
                   {P.gov_logo
                     ? <img src={P.gov_logo} alt={P.gov_name||'Kosova Gov'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                     : <span style={{ fontSize:28 }}>🏛️</span>}
@@ -1894,6 +1909,7 @@ function ConciergePage({ lang, t, content = {} }) {
               <button className="btn gbtn" style={{ width: '100%', padding: '11px' }} onClick={() => setBookModal(true)}>
                 {lang === 'sq' ? 'Kërko takim qeveritar →' : 'Request government meeting →'}
               </button>
+              </div>
             </div>
           </div>
         </div>
@@ -4307,9 +4323,9 @@ export default function App() {
             if (sponsored.length === 0) return null
             return (
               <section style={{ padding: '0 48px 52px', maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:12 }}>
-                    <h2 style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, margin:0 }}>{t.topTitle}</h2>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20, flexWrap:'wrap', gap:10 }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+                    <h2 className="top-listings-title" style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:'clamp(15px,4vw,20px)', margin:0 }}>{t.topTitle}</h2>
                     <span style={{ fontSize:10, background:'rgba(251,146,60,0.14)', color:G.orange, border:'1px solid rgba(251,146,60,0.35)', borderRadius:20, padding:'3px 11px', fontWeight:800, letterSpacing:'0.3px' }}>🚀 SPONSORED</span>
                   </div>
                   <button className="btn ghost" style={{ fontSize:12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
@@ -4408,9 +4424,7 @@ export default function App() {
                         style={{ display:'flex', alignItems:'center', gap:11, padding:'12px 20px', background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, cursor:'pointer', flexShrink:0, transition:'all 0.2s', minWidth:200 }}
                         onMouseEnter={e=>{e.currentTarget.style.background='rgba(45,212,191,0.06)';e.currentTarget.style.borderColor='rgba(45,212,191,0.25)'}}
                         onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.03)';e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}}>
-                        {p.coverImage
-                          ? <div style={{ width:40, height:40, borderRadius:10, overflow:'hidden', flexShrink:0, border:'1.5px solid rgba(45,212,191,0.3)' }}><img src={p.coverImage} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /></div>
-                          : <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={40} />}
+                        <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={40} />
                         <div>
                           <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13 }}>{p.name}</div>
                           <div style={{ fontSize:11, color:G.teal }}>✓ Partner · {p.city||''}</div>
