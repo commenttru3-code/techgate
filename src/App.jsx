@@ -263,6 +263,7 @@ function normaliseProfile(p) {
     availability:    p.availability    || null,
     videoUrl:        p.videoUrl        || p.video_url        || null,
     coverImage:      p.coverImage      || p.cover_image      || null,
+    coverFocus:      p.coverFocus      || p.cover_focus      || '50% 50%',
     logoColor:       p.logoColor       || p.logo_color       || '#58a6ff',
     logoUrl:         p.logoUrl         || p.logo_url         || null,
   }
@@ -538,6 +539,36 @@ function Avatar({ text, color, size = 46 }) {
   )
 }
 
+// ─── COVER FOCUS PICKER — 3×3 grid to choose which part of a cover image shows ──
+const FOCUS_POINTS = [
+  ['0% 0%','50% 0%','100% 0%'],
+  ['0% 50%','50% 50%','100% 50%'],
+  ['0% 100%','50% 100%','100% 100%'],
+]
+function CoverFocusPicker({ image, focus, onChange, accentColor = '#d4a843' }) {
+  if (!image) return null
+  return (
+    <div style={{ marginTop: 8 }}>
+      <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.5)', marginBottom: 6, fontFamily: "'DM Sans',sans-serif" }}>
+        Click to choose which part of the image to show:
+      </div>
+      <div style={{ position: 'relative', width: '100%', maxWidth: 240, borderRadius: 9, overflow: 'hidden', border: `1px solid ${accentColor}40` }}>
+        <img src={image} alt="" style={{ width: '100%', height: 100, objectFit: 'cover', objectPosition: focus || '50% 50%', display: 'block' }} />
+        <div style={{ position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '1fr 1fr 1fr' }}>
+          {FOCUS_POINTS.flat().map(pt => (
+            <button key={pt} onClick={() => onChange(pt)}
+              style={{ border: (focus||'50% 50%') === pt ? `2px solid ${accentColor}` : '1px solid rgba(255,255,255,0.18)', background: (focus||'50% 50%') === pt ? `${accentColor}25` : 'rgba(0,0,0,0.05)', cursor: 'pointer', transition: 'all 0.15s' }}
+              onMouseEnter={e => { if ((focus||'50% 50%') !== pt) e.currentTarget.style.background = 'rgba(255,255,255,0.12)' }}
+              onMouseLeave={e => { if ((focus||'50% 50%') !== pt) e.currentTarget.style.background = 'rgba(0,0,0,0.05)' }}>
+              {(focus||'50% 50%') === pt && <span style={{ color: accentColor, fontSize: 12 }}>●</span>}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Spin() {
   return <div style={{ width: 13, height: 13, border: '2px solid rgba(255,255,255,0.2)', borderTopColor: 'white', borderRadius: '50%', flexShrink: 0 }} className="sp" />
 }
@@ -562,13 +593,18 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
       <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
         <div style={{ background:'#0e1420', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
           {/* Hero header */}
-          <div style={{ position:'relative', minHeight:p.coverImage?120:92, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22 0%,rgba(251,146,60,0.08) 50%,rgba(212,168,67,0.06) 100%)`, borderRadius:'20px 20px 0 0', overflow:'hidden', padding:'18px 18px 14px' }}>
-            {p.coverImage && <img src={p.coverImage} alt="" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', opacity:0.4 }} />}
+          <div style={{ position:'relative', minHeight:p.coverImage?160:92, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22 0%,rgba(251,146,60,0.08) 50%,rgba(212,168,67,0.06) 100%)`, borderRadius:'20px 20px 0 0', overflow:'hidden', padding:'18px 18px 14px' }}>
+            {p.coverImage && (
+              <>
+                <img src={p.coverImage} alt="" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus || '50% 50%' }} />
+                <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg, rgba(14,20,32,0.15) 0%, rgba(14,20,32,0.45) 45%, rgba(14,20,32,0.88) 80%, #0e1420 100%)' }} />
+              </>
+            )}
             <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at 80% 30%,rgba(251,146,60,0.15),transparent 55%)', pointerEvents:'none' }} />
             <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.4),transparent)' }} />
             <button onClick={onClose} style={{ position:'absolute', top:10, right:10, background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:7, width:28, height:28, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:14, zIndex:2, flexShrink:0 }}>✕</button>
             <div style={{ display:'flex', gap:12, alignItems:'flex-end', position:'relative', paddingRight:36 }}>
-              <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:'3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22,${p.logoColor||'#fb923c'}44)` }}>
+              <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '3px solid rgba(14,20,32,0.92)' : '3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22,${p.logoColor||'#fb923c'}44)` }}>
                 {p.logoUrl ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                   : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:p.logoColor||'#fb923c' }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
               </div>
@@ -645,18 +681,18 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
   // ── STANDARD MODAL (free / partner) ──────────────────────────────────────────
   return (
     <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
-      <div className="modal" style={{ maxWidth:560, maxHeight:'90vh', overflowY:'auto', padding:0, borderRadius:20, border:`1px solid ${accentColor}40` }}>
-        {p.coverImage ? (
-          <div style={{ position:'relative', height:120, overflow:'hidden', borderRadius:'20px 20px 0 0' }}>
-            <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(14,20,32,0.92) 0%,rgba(14,20,32,0.15) 100%)' }} />
-            <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)` }} />
-            <button onClick={onClose} style={{ position:'absolute', top:12, right:12, background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:8, width:30, height:30, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:14, backdropFilter:'blur(8px)' }}>✕</button>
+      <div className="modal" style={{ maxWidth:560, maxHeight:'90vh', overflowY:'auto', padding:0, borderRadius:20, border:`1px solid ${accentColor}40`, position:'relative' }}>
+        {p.coverImage && (
+          <div style={{ position:'absolute', top:0, left:0, right:0, height:220, overflow:'hidden', borderRadius:'20px 20px 0 0', zIndex:0 }}>
+            <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus || '50% 50%' }} />
+            <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg, rgba(14,20,32,0.20) 0%, rgba(14,20,32,0.50) 32%, rgba(14,20,32,0.85) 60%, #0e1420 100%)' }} />
           </div>
-        ) : (
-          <div style={{ height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)`, borderRadius:'20px 20px 0 0' }} />
         )}
-        <div style={{ padding:'24px 26px 22px', marginTop: p.coverImage ? -32 : 0 }}>
+        {!p.coverImage && <div style={{ height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)`, borderRadius:'20px 20px 0 0' }} />}
+        {p.coverImage && (
+          <button onClick={onClose} style={{ position:'absolute', top:12, right:12, zIndex:2, background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:8, width:30, height:30, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:14, backdropFilter:'blur(8px)' }}>✕</button>
+        )}
+        <div style={{ padding:'24px 26px 22px', position:'relative', zIndex:1 }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:18 }}>
             <div style={{ display:'flex', gap:14, alignItems:'center' }}>
               <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '3px solid rgba(14,20,32,0.9)' : `2px solid ${accentColor}44`, boxShadow: p.coverImage ? '0 4px 16px rgba(0,0,0,0.4)' : `0 0 16px ${accentColor}14`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||accentColor}18,${p.logoColor||accentColor}36)` }}>
@@ -857,31 +893,26 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
       onMouseLeave={() => setHov(false)}
       onClick={onCardClick ? (e) => { if (!e.target.closest('button,a')) onCardClick(p) } : undefined}
     >
-      {/* Cover image band — shown if profile has one, or if sponsored */}
-      {(p.coverImage || isSp) && (
-        <div style={{ position: 'relative', height: p.coverImage ? 88 : 36, overflow: 'hidden' }}>
-          {p.coverImage && <img src={p.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-          <div style={{ position: 'absolute', inset: 0, background: p.coverImage
-            ? 'linear-gradient(0deg,rgba(14,20,32,0.96) 0%,rgba(14,20,32,0.15) 100%)'
-            : `linear-gradient(135deg,${accentColor}14,rgba(14,20,32,0.9))` }} />
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3,
-            background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.2),transparent)' : `linear-gradient(90deg,${accentColor}aa,transparent)` }} />
-          {isSp && <span style={{ position: 'absolute', top: 9, right: 11, fontSize: 9, background: 'rgba(251,146,60,0.9)', color: '#080c14', borderRadius: 20, padding: '2px 9px', fontWeight: 800, letterSpacing: '0.3px', backdropFilter: 'blur(8px)' }}>🚀 SPONSORED</span>}
+      {/* Cover image — full-bleed soft background with gradient fade, not a hard band */}
+      {p.coverImage && (
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <img src={p.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.coverFocus || '50% 50%' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,20,32,0.30) 0%, rgba(14,20,32,0.68) 38%, rgba(14,20,32,0.94) 68%, rgba(14,20,32,0.98) 100%)' }} />
         </div>
       )}
-      {/* Non-sponsored, no cover: just accent line */}
-      {!p.coverImage && !isSp && (
-        <div style={{ height: 2, background: `linear-gradient(90deg,${accentColor}55,transparent)` }} />
-      )}
+      {/* Top accent line */}
+      <div style={{ position: 'relative', zIndex: 1, height: isSp ? 3 : 2,
+        background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.2),transparent)' : `linear-gradient(90deg,${accentColor}${p.coverImage ? 'aa' : '55'},transparent)` }} />
+      {isSp && <span style={{ position: 'absolute', top: 9, right: 11, zIndex: 2, fontSize: 9, background: 'rgba(251,146,60,0.9)', color: '#080c14', borderRadius: 20, padding: '2px 9px', fontWeight: 800, letterSpacing: '0.3px', backdropFilter: 'blur(8px)' }}>🚀 SPONSORED</span>}
 
-      <div style={{ padding: p.coverImage ? '0 18px 18px' : '15px 18px 16px', marginTop: p.coverImage ? -18 : 0, position: 'relative' }}>
+      <div style={{ padding: '15px 18px 16px', position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
           <div style={{ display: 'flex', gap: 11, alignItems: 'center', minWidth: 0, flex: 1 }}>
             <div style={{
               width: isSp ? 56 : 46, height: isSp ? 56 : 46, borderRadius: 13, overflow: 'hidden', flexShrink: 0,
-              border: isSp ? '3px solid rgba(251,146,60,0.5)' : `2px solid ${accentColor}40`,
-              boxShadow: isSp ? '0 0 18px rgba(251,146,60,0.2)' : `0 0 10px ${accentColor}12`,
+              border: isSp ? '3px solid rgba(251,146,60,0.5)' : (p.coverImage ? '2px solid rgba(255,255,255,0.3)' : `2px solid ${accentColor}40`),
+              boxShadow: isSp ? '0 0 18px rgba(251,146,60,0.2)' : (p.coverImage ? '0 3px 14px rgba(0,0,0,0.4)' : `0 0 10px ${accentColor}12`),
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               background: `linear-gradient(135deg,${accentColor}20,${accentColor}38)`,
             }}>
@@ -1554,22 +1585,26 @@ function MatchPage({ lang, t }) {
 
               return (
                 <div key={p.id} className={`card fu${isSp ? ' glow' : ''}`}
-                  style={{ padding: 0, overflow: 'hidden', animationDelay: `${i * 0.04}s`,
+                  style={{ padding: 0, overflow: 'hidden', position: 'relative', animationDelay: `${i * 0.04}s`,
                     borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border,
                     background: isSp ? 'rgba(251,146,60,0.03)' : G.card }}>
-                  {p.coverImage ? (
-                    <div style={{ position:'relative', height:72, overflow:'hidden' }}>
-                      <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                      <div style={{ position:'absolute', inset:0, background: isSp ? 'linear-gradient(0deg,rgba(14,20,32,0.9) 0%,rgba(14,20,32,0.15) 100%)' : 'linear-gradient(0deg,rgba(14,20,32,0.85) 0%,rgba(14,20,32,0.1) 100%)' }} />
-                      <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,transparent)' : `linear-gradient(90deg,${p.logoColor||'#d4a843'}88,transparent)` }} />
+                  {p.coverImage && (
+                    <div style={{ position:'absolute', inset:0, zIndex:0 }}>
+                      <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus || '50% 50%' }} />
+                      <div style={{ position:'absolute', inset:0, background: isSp
+                        ? 'linear-gradient(180deg, rgba(14,20,32,0.20) 0%, rgba(14,20,32,0.55) 32%, rgba(14,20,32,0.90) 62%, rgba(14,20,32,0.97) 100%)'
+                        : 'linear-gradient(180deg, rgba(14,20,32,0.22) 0%, rgba(14,20,32,0.58) 32%, rgba(14,20,32,0.92) 62%, rgba(14,20,32,0.98) 100%)' }} />
                     </div>
-                  ) : (isSp && <div className="sp-bar" />)}
-                  <div style={{ padding: 20, marginTop: p.coverImage ? -20 : 0, position:'relative' }}>
+                  )}
+                  <div style={{ position:'relative', zIndex:1, height: p.coverImage ? 3 : 0,
+                    background: p.coverImage ? (isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,transparent)' : `linear-gradient(90deg,${p.logoColor||'#d4a843'}88,transparent)`) : 'transparent' }} />
+                  {!p.coverImage && isSp && <div className="sp-bar" />}
+                  <div style={{ padding: 20, position:'relative', zIndex:1 }}>
 
                     {/* Header row */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                       <div style={{ display: 'flex', gap: 10 }}>
-                        <div style={{ borderRadius: 12, overflow:'hidden', border: p.coverImage ? '2px solid rgba(14,20,32,0.9)' : 'none', boxShadow: p.coverImage ? '0 3px 12px rgba(0,0,0,0.35)' : 'none' }}>
+                        <div style={{ borderRadius: 12, overflow:'hidden', border: p.coverImage ? '2px solid rgba(255,255,255,0.3)' : 'none', boxShadow: p.coverImage ? '0 3px 12px rgba(0,0,0,0.35)' : 'none' }}>
                           <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
                         </div>
                         <div>
@@ -1683,21 +1718,19 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
               onClick={() => setDetailPartner(sp)}
               onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35), 0 0 32px rgba(45,212,191,0.10)'}}
               onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 6px 32px rgba(0,0,0,0.3)'}}>
-              {/* Top accent / cover image */}
-              {sp.coverImage ? (
-                <div style={{ position:'relative', height:80, overflow:'hidden' }}>
-                  <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(14,20,32,0.85) 0%,rgba(14,20,32,0.1) 100%)' }} />
-                  <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
+              {/* Cover image — full-bleed soft background with gradient fade */}
+              {sp.coverImage && (
+                <div style={{ position:'absolute', inset:0, zIndex:0 }}>
+                  <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: sp.coverFocus || '50% 50%' }} />
+                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg, rgba(14,20,32,0.25) 0%, rgba(14,20,32,0.62) 35%, rgba(14,20,32,0.93) 65%, rgba(14,20,32,0.98) 100%)' }} />
                 </div>
-              ) : (
-                <div style={{ height: 3, background: 'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
               )}
+              <div style={{ position:'relative', zIndex:1, height: 3, background: 'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
 
-              <div style={{ padding: '20px 18px 18px', marginTop: sp.coverImage ? -28 : 0, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position:'relative' }}>
+              <div style={{ padding: '20px 18px 18px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position:'relative', zIndex:1 }}>
                 {/* Large logo */}
                 <div style={{ marginBottom: 12, position: 'relative' }}>
-                  <div style={{ width: 60, height: 60, borderRadius: 14, overflow: 'hidden', border: sp.coverImage ? '3px solid rgba(14,20,32,0.9)' : '2px solid rgba(45,212,191,0.35)', boxShadow: sp.coverImage ? '0 4px 16px rgba(0,0,0,0.4)' : '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
+                  <div style={{ width: 60, height: 60, borderRadius: 14, overflow: 'hidden', border: sp.coverImage ? '2px solid rgba(255,255,255,0.3)' : '2px solid rgba(45,212,191,0.35)', boxShadow: sp.coverImage ? '0 3px 14px rgba(0,0,0,0.4)' : '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
                     {sp.logoUrl
                       ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
                       : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:sp.logoColor||G.teal }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>
@@ -1854,16 +1887,16 @@ function ConciergePage({ lang, t, content = {} }) {
           <div className="conc-partners-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
             {/* rootsGTM — General Partner */}
-            <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: 0, overflow: 'hidden' }}>
+            <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: 0, overflow: 'hidden', position: 'relative' }}>
               {P.rootsgtm_cover && (
-                <div className="gp-cover" style={{ position: 'relative', height: 120, overflow: 'hidden' }}>
-                  <img src={P.rootsgtm_cover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(14,20,32,0.92) 0%,rgba(14,20,32,0.1) 100%)' }} />
+                <div className="gp-cover" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                  <img src={P.rootsgtm_cover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: P.rootsgtm_cover_focus || '50% 50%' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,20,32,0.25) 0%, rgba(14,20,32,0.60) 32%, rgba(14,20,32,0.92) 62%, rgba(14,20,32,0.97) 100%)' }} />
                 </div>
               )}
-              <div style={{ padding: '22px 20px', marginTop: P.rootsgtm_cover ? -36 : 0 }}>
+              <div style={{ padding: '22px 20px', position: 'relative', zIndex: 1 }}>
               <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: P.rootsgtm_cover ? '3px solid rgba(14,20,32,0.9)' : '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
+                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: P.rootsgtm_cover ? '2px solid rgba(255,255,255,0.3)' : '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
                   {P.rootsgtm_logo
                     ? <img src={P.rootsgtm_logo} alt={P.rootsgtm_name||'rootsGTM'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                     : <span style={{ fontSize:28 }}>🚀</span>}
@@ -1891,16 +1924,16 @@ function ConciergePage({ lang, t, content = {} }) {
             </div>
 
             {/* Government — General Partner */}
-            <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: 0, overflow: 'hidden' }}>
+            <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: 0, overflow: 'hidden', position: 'relative' }}>
               {P.gov_cover && (
-                <div className="gp-cover" style={{ position: 'relative', height: 120, overflow: 'hidden' }}>
-                  <img src={P.gov_cover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(14,20,32,0.92) 0%,rgba(14,20,32,0.1) 100%)' }} />
+                <div className="gp-cover" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                  <img src={P.gov_cover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: P.gov_cover_focus || '50% 50%' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,20,32,0.25) 0%, rgba(14,20,32,0.60) 32%, rgba(14,20,32,0.92) 62%, rgba(14,20,32,0.97) 100%)' }} />
                 </div>
               )}
-              <div style={{ padding: '22px 20px', marginTop: P.gov_cover ? -36 : 0 }}>
+              <div style={{ padding: '22px 20px', position: 'relative', zIndex: 1 }}>
               <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: P.gov_cover ? '3px solid rgba(14,20,32,0.9)' : `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
+                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: P.gov_cover ? '2px solid rgba(255,255,255,0.3)' : `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
                   {P.gov_logo
                     ? <img src={P.gov_logo} alt={P.gov_name||'Kosova Gov'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                     : <span style={{ fontSize:28 }}>🏛️</span>}
@@ -3045,6 +3078,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
       tags: gpForm.tags ? gpForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : [],
       desc_en: gpForm.desc||null, desc_sq: gpForm.desc||null,
       cover_image: gpCover || null,
+      cover_focus: gpForm.coverFocus || null,
     }
     if (gpLogo && gpLogo.startsWith('data:')) fields.logo_data = gpLogo
     if (gpEdit === 'new') { await insertProfile(fields).catch(e => console.error(e)) }
@@ -3279,7 +3313,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   <div style={{ display:'flex', gap:14, alignItems:'center', marginTop:8 }}>
                     {gpCover && (
                       <div style={{ width:140, height:64, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}40` }}>
-                        <img src={gpCover} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                        <img src={gpCover} alt="" style={{width:'100%',height:'100%',objectFit:'cover', objectPosition: gpForm.coverFocus||'50% 50%'}} />
                       </div>
                     )}
                     <div style={{ flex:1 }}>
@@ -3288,13 +3322,14 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                         <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                           const file=e.target.files?.[0]; if(!file) return
                           const img=new Image(), url=URL.createObjectURL(file)
-                          img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setGpCover(c.toDataURL('image/webp',0.88)) }
+                          img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setGpCover(c.toDataURL('image/webp',0.88)); setGpForm(f=>({...f,coverFocus:'50% 50%'})) }
                           img.src=url
                         }} />
                       </label>
-                      {gpCover && <button onClick={()=>setGpCover(null)} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block'}}>✕ Remove</button>}
+                      {gpCover && <button onClick={()=>{setGpCover(null);setGpForm(f=>({...f,coverFocus:null}))}} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block'}}>✕ Remove</button>}
                     </div>
                   </div>
+                  <CoverFocusPicker image={gpCover} focus={gpForm.coverFocus} onChange={pt=>setGpForm(f=>({...f,coverFocus:pt}))} accentColor={gpForm.logoColor||'#2dd4bf'} />
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
                   <div><label className="flabel">Name *</label><input className="inp" value={gpForm.name||''} onChange={e=>setGpForm(f=>({...f,name:e.target.value}))} placeholder="Organisation name" /></div>
@@ -3475,6 +3510,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       availability:    p.availability    || '',
       videoUrl:        p.videoUrl        || p.video_url        || '',
       coverImage:      p.coverImage      || p.cover_image      || null,
+      coverFocus:      p.coverFocus      || p.cover_focus      || '50% 50%',
     })
   }
 
@@ -3510,6 +3546,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     }
     // Cover image — always send (null clears it in DB)
     updates.cover_image = editForm.coverImage || null
+    updates.cover_focus = editForm.coverFocus || null
 
     try {
       await updateProfile(editProfile.id, updates)
@@ -4053,7 +4090,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                   <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:8 }}>
                     {editForm.coverImage && (
                       <div style={{ width:120, height:56, borderRadius:8, overflow:'hidden', flexShrink:0, border:'1px solid rgba(251,146,60,0.3)' }}>
-                        <img src={editForm.coverImage} alt="cover" style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                        <img src={editForm.coverImage} alt="cover" style={{width:'100%',height:'100%',objectFit:'cover', objectPosition: editForm.coverFocus || '50% 50%'}} />
                       </div>
                     )}
                     <div style={{ flex:1 }}>
@@ -4062,13 +4099,14 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                         <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                           const file=e.target.files?.[0]; if(!file) return
                           const img=new Image(), url=URL.createObjectURL(file)
-                          img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setEditForm(f=>({...f,coverImage:c.toDataURL('image/webp',0.88)})) }
+                          img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setEditForm(f=>({...f,coverImage:c.toDataURL('image/webp',0.88),coverFocus:'50% 50%'})) }
                           img.src=url
                         }} />
                       </label>
-                      {editForm.coverImage && <button onClick={()=>setEditForm(f=>({...f,coverImage:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px',display:'block'}}>✕ Remove</button>}
+                      {editForm.coverImage && <button onClick={()=>setEditForm(f=>({...f,coverImage:null,coverFocus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px',display:'block'}}>✕ Remove</button>}
                     </div>
                   </div>
+                  <CoverFocusPicker image={editForm.coverImage} focus={editForm.coverFocus} onChange={pt=>setEditForm(f=>({...f,coverFocus:pt}))} accentColor="#fb923c" />
                 </div>
               )}
 
@@ -4359,24 +4397,24 @@ export default function App() {
                       onClick={() => setProfileDetail(p)}
                       onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-6px) scale(1.01)';e.currentTarget.style.boxShadow='0 24px 64px rgba(0,0,0,0.5),0 0 40px rgba(251,146,60,0.14),inset 0 1px 0 rgba(255,255,255,0.06)'}}
                       onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.04)'}}>
-                      {/* Cover image / hero band */}
-                      <div style={{ position:'relative', height:p.coverImage ? 110 : 52, overflow:'hidden' }}>
-                        {p.coverImage
-                          ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                          : null}
-                        {/* Gradient overlay always */}
-                        <div style={{ position:'absolute', inset:0, background: p.coverImage
-                          ? 'linear-gradient(0deg,rgba(14,20,32,0.96) 0%,rgba(14,20,32,0.3) 60%,transparent 100%)'
-                          : `linear-gradient(135deg,${p.logoColor||'#fb923c'}18 0%,rgba(251,146,60,0.06) 50%,rgba(14,20,32,0.95) 100%)` }} />
-                        {/* Top shimmer bar */}
-                        <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' }} />
-                        {/* Sponsored badge top-right */}
-                        <span style={{ position:'absolute', top:10, right:12, fontSize:9, background:'rgba(251,146,60,0.85)', color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>
-                      </div>
-                      <div style={{ padding:'0 20px 20px', marginTop: p.coverImage ? -22 : 0, position:'relative' }}>
+                      {/* Cover image — full-bleed soft background with gradient fade */}
+                      {p.coverImage && (
+                        <div style={{ position:'absolute', inset:0, zIndex:0 }}>
+                          <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus || '50% 50%' }} />
+                          <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg, rgba(14,20,32,0.20) 0%, rgba(14,20,32,0.55) 30%, rgba(14,20,32,0.92) 58%, rgba(14,20,32,0.98) 100%)' }} />
+                        </div>
+                      )}
+                      {!p.coverImage && (
+                        <div style={{ position:'absolute', inset:0, zIndex:0, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}10 0%,transparent 50%)` }} />
+                      )}
+                      {/* Top shimmer bar */}
+                      <div style={{ position:'relative', zIndex:1, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' }} />
+                      {/* Sponsored badge top-right */}
+                      <span style={{ position:'absolute', top:13, right:12, zIndex:2, fontSize:9, background:'rgba(251,146,60,0.9)', color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>
+                      <div style={{ padding:'18px 20px 20px', position:'relative', zIndex:1 }}>
                         {/* Logo — bigger for sponsored */}
                         <div style={{ display:'flex', alignItems:'flex-end', gap:14, marginBottom:14 }}>
-                          <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:'3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}25,${p.logoColor||'#fb923c'}48)` }}>
+                          <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '2px solid rgba(255,255,255,0.3)' : '3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}25,${p.logoColor||'#fb923c'}48)` }}>
                             {p.logoUrl
                               ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                               : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:900, fontSize:20, color:p.logoColor||G.orange }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
