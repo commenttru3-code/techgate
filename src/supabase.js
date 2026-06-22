@@ -145,6 +145,7 @@ function dbToProfile(row) {
     availability:    row.availability     || null,
     videoUrl:        row.video_url        || null,
     coverImage:      row.cover_image      || null,
+    coverFocus:      row.cover_focus      || '50% 50%',
   }
 }
 
@@ -178,6 +179,7 @@ export function formToDb(form, catChoice, selectedTags, regType, tObj) {
     ...(form.availability    ? { availability:     form.availability    } : {}),
     ...(form.videoUrl        ? { video_url:        form.videoUrl        } : {}),
     ...(form.coverImage      ? { cover_image:      form.coverImage      } : {}),
+    ...(form.coverFocus      ? { cover_focus:      form.coverFocus      } : {}),
   }
 }
 
