@@ -1893,7 +1893,7 @@ function ConciergePage({ lang, t, content = {} }) {
               {/* rootsGTM cover — top bar with soft fade */}
               {P.rootsgtm_cover && (
                 <div className="gp-cover" style={{ position:'relative', height:90, overflow:'hidden', flexShrink:0 }}>
-                  <img src={P.rootsgtm_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'50% 50%' }} />
+                  <img src={P.rootsgtm_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: P.rootsgtm_cover_focus || '50% 50%' }} />
                   <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
                   <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,transparent)' }} />
                 </div>
@@ -1932,7 +1932,7 @@ function ConciergePage({ lang, t, content = {} }) {
               {/* Gov cover — top bar with soft fade */}
               {P.gov_cover && (
                 <div className="gp-cover" style={{ position:'relative', height:90, overflow:'hidden', flexShrink:0 }}>
-                  <img src={P.gov_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'50% 50%' }} />
+                  <img src={P.gov_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: P.gov_cover_focus || '50% 50%' }} />
                   <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
                   <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,#d4a843,#f59e0b,transparent)` }} />
                 </div>
@@ -3189,18 +3189,19 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
             <div>
               <label className="flabel">Cover / Banner image</label>
               <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
-                {partners.rootsgtm_cover && <div style={{ width:100, height:44, borderRadius:7, overflow:'hidden', border:'1px solid rgba(45,212,191,0.3)' }}><img src={partners.rootsgtm_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /></div>}
+                {partners.rootsgtm_cover && <div style={{ width:100, height:44, borderRadius:7, overflow:'hidden', border:'1px solid rgba(45,212,191,0.3)' }}><img src={partners.rootsgtm_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover', objectPosition: partners.rootsgtm_cover_focus||'50% 50%'}} /></div>}
                 <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
                   🖼 Upload cover
                   <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                     const file=e.target.files?.[0]; if(!file) return
                     const img=new Image(),url=URL.createObjectURL(file)
-                    img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setPartners(p=>({...p,rootsgtm_cover:c.toDataURL('image/webp',0.88)})) }
+                    img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setPartners(p=>({...p,rootsgtm_cover:c.toDataURL('image/webp',0.88),rootsgtm_cover_focus:'50% 50%'})) }
                     img.src=url
                   }} />
                 </label>
-                {partners.rootsgtm_cover && <button onClick={()=>setPartners(p=>({...p,rootsgtm_cover:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
+                {partners.rootsgtm_cover && <button onClick={()=>setPartners(p=>({...p,rootsgtm_cover:null,rootsgtm_cover_focus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
               </div>
+              <CoverFocusPicker image={partners.rootsgtm_cover} focus={partners.rootsgtm_cover_focus} onChange={pt=>setPartners(p=>({...p,rootsgtm_cover_focus:pt}))} accentColor="#2dd4bf" />
             </div>
           </div>
 
@@ -3239,18 +3240,19 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
             <div>
               <label className="flabel">Cover / Banner image</label>
               <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
-                {partners.gov_cover && <div style={{ width:100, height:44, borderRadius:7, overflow:'hidden', border:`1px solid ${G.goldBorder}` }}><img src={partners.gov_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /></div>}
+                {partners.gov_cover && <div style={{ width:100, height:44, borderRadius:7, overflow:'hidden', border:`1px solid ${G.goldBorder}` }}><img src={partners.gov_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover', objectPosition: partners.gov_cover_focus||'50% 50%'}} /></div>}
                 <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
                   🖼 Upload cover
                   <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                     const file=e.target.files?.[0]; if(!file) return
                     const img=new Image(),url=URL.createObjectURL(file)
-                    img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setPartners(p=>({...p,gov_cover:c.toDataURL('image/webp',0.88)})) }
+                    img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); setPartners(p=>({...p,gov_cover:c.toDataURL('image/webp',0.88),gov_cover_focus:'50% 50%'})) }
                     img.src=url
                   }} />
                 </label>
-                {partners.gov_cover && <button onClick={()=>setPartners(p=>({...p,gov_cover:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
+                {partners.gov_cover && <button onClick={()=>setPartners(p=>({...p,gov_cover:null,gov_cover_focus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
               </div>
+              <CoverFocusPicker image={partners.gov_cover} focus={partners.gov_cover_focus} onChange={pt=>setPartners(p=>({...p,gov_cover_focus:pt}))} accentColor="#d4a843" />
             </div>
           </div>
 
