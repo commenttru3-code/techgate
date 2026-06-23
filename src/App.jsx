@@ -682,17 +682,17 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
   return (
     <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
       <div className="modal" style={{ maxWidth:560, maxHeight:'90vh', overflowY:'auto', padding:0, borderRadius:20, border:`1px solid ${accentColor}40`, position:'relative' }}>
-        {p.coverImage && (
-          <div style={{ position:'absolute', top:0, left:0, right:0, height:220, overflow:'hidden', borderRadius:'20px 20px 0 0', zIndex:0 }}>
-            <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus || '50% 50%' }} />
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg, rgba(14,20,32,0.20) 0%, rgba(14,20,32,0.50) 32%, rgba(14,20,32,0.85) 60%, #0e1420 100%)' }} />
-          </div>
-        )}
-        {!p.coverImage && <div style={{ height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)`, borderRadius:'20px 20px 0 0' }} />}
-        {p.coverImage && (
-          <button onClick={onClose} style={{ position:'absolute', top:12, right:12, zIndex:2, background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:8, width:30, height:30, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:14, backdropFilter:'blur(8px)' }}>✕</button>
-        )}
-        <div style={{ padding:'24px 26px 22px', position:'relative', zIndex:1 }}>
+        {/* Cover top bar with soft fade */}
+        <div style={{ position:'relative', height: p.coverImage ? 100 : 3, overflow:'hidden', borderRadius: p.coverImage ? '20px 20px 0 0' : '20px 20px 0 0', flexShrink:0 }}>
+          {p.coverImage
+            ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />
+            : null}
+          {!p.coverImage && <div style={{ position:'absolute', inset:0, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)` }} />}
+          {p.coverImage && <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.55) 45%, rgba(14,20,32,0) 100%)' }} />}
+          {p.coverImage && <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)` }} />}
+          {p.coverImage && <button onClick={onClose} style={{ position:'absolute', top:10, right:10, zIndex:2, background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:8, width:28, height:28, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:13, backdropFilter:'blur(8px)' }}>✕</button>}
+        </div>
+        <div style={{ padding:'24px 26px 22px', marginTop: p.coverImage ? -14 : 0, position:'relative', zIndex:1 }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:18 }}>
             <div style={{ display:'flex', gap:14, alignItems:'center' }}>
               <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '3px solid rgba(14,20,32,0.9)' : `2px solid ${accentColor}44`, boxShadow: p.coverImage ? '0 4px 16px rgba(0,0,0,0.4)' : `0 0 16px ${accentColor}14`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||accentColor}18,${p.logoColor||accentColor}36)` }}>
@@ -893,19 +893,23 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
       onMouseLeave={() => setHov(false)}
       onClick={onCardClick ? (e) => { if (!e.target.closest('button,a')) onCardClick(p) } : undefined}
     >
-      {/* Cover image — full-bleed soft background with gradient fade, not a hard band */}
-      {p.coverImage && (
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          <img src={p.coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.coverFocus || '50% 50%' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,20,32,0.30) 0%, rgba(14,20,32,0.68) 38%, rgba(14,20,32,0.94) 68%, rgba(14,20,32,0.98) 100%)' }} />
+      {/* Cover image — top bar with soft gradient fade into card */}
+      {(p.coverImage || isSp) && (
+        <div style={{ position: 'relative', height: p.coverImage ? 90 : 36, overflow: 'hidden', flexShrink: 0 }}>
+          {p.coverImage && <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />}
+          {!p.coverImage && isSp && <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,rgba(251,146,60,0.18),rgba(14,20,32,0.9))` }} />}
+          {/* Soft gradient fade at bottom */}
+          <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.6) 40%, rgba(14,20,32,0) 100%)' }} />
+          {/* Top accent line */}
+          <div style={{ position:'absolute', top:0, left:0, right:0, height: isSp ? 3 : 2,
+            background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' : `linear-gradient(90deg,${accentColor}aa,transparent)` }} />
+          {isSp && <span style={{ position:'absolute', top:9, right:11, fontSize:9, background:'rgba(251,146,60,0.9)', color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.3px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>}
         </div>
       )}
-      {/* Top accent line */}
-      <div style={{ position: 'relative', zIndex: 1, height: isSp ? 3 : 2,
-        background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.2),transparent)' : `linear-gradient(90deg,${accentColor}${p.coverImage ? 'aa' : '55'},transparent)` }} />
-      {isSp && <span style={{ position: 'absolute', top: 9, right: 11, zIndex: 2, fontSize: 9, background: 'rgba(251,146,60,0.9)', color: '#080c14', borderRadius: 20, padding: '2px 9px', fontWeight: 800, letterSpacing: '0.3px', backdropFilter: 'blur(8px)' }}>🚀 SPONSORED</span>}
-
-      <div style={{ padding: '15px 18px 16px', position: 'relative', zIndex: 1 }}>
+      {!p.coverImage && !isSp && (
+        <div style={{ height: 2, background: `linear-gradient(90deg,${accentColor}55,transparent)` }} />
+      )}
+      <div style={{ padding: '15px 18px 16px', marginTop: p.coverImage ? -18 : 0, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
           <div style={{ display: 'flex', gap: 11, alignItems: 'center', minWidth: 0, flex: 1 }}>
@@ -1588,18 +1592,18 @@ function MatchPage({ lang, t }) {
                   style={{ padding: 0, overflow: 'hidden', position: 'relative', animationDelay: `${i * 0.04}s`,
                     borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border,
                     background: isSp ? 'rgba(251,146,60,0.03)' : G.card }}>
-                  {p.coverImage && (
-                    <div style={{ position:'absolute', inset:0, zIndex:0 }}>
-                      <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus || '50% 50%' }} />
-                      <div style={{ position:'absolute', inset:0, background: isSp
-                        ? 'linear-gradient(180deg, rgba(14,20,32,0.20) 0%, rgba(14,20,32,0.55) 32%, rgba(14,20,32,0.90) 62%, rgba(14,20,32,0.97) 100%)'
-                        : 'linear-gradient(180deg, rgba(14,20,32,0.22) 0%, rgba(14,20,32,0.58) 32%, rgba(14,20,32,0.92) 62%, rgba(14,20,32,0.98) 100%)' }} />
+                  {/* Cover top bar with soft fade */}
+                  {(p.coverImage || isSp) && (
+                    <div style={{ position:'relative', height: p.coverImage ? 72 : 36, overflow:'hidden', flexShrink:0 }}>
+                      {p.coverImage && <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />}
+                      {!p.coverImage && isSp && <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,rgba(251,146,60,0.16),rgba(14,20,32,0.9))` }} />}
+                      <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
+                      <div style={{ position:'absolute', top:0, left:0, right:0, height: isSp ? 3 : 2,
+                        background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,transparent)' : `linear-gradient(90deg,${p.logoColor||'#d4a843'}88,transparent)` }} />
                     </div>
                   )}
-                  <div style={{ position:'relative', zIndex:1, height: p.coverImage ? 3 : 0,
-                    background: p.coverImage ? (isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,transparent)' : `linear-gradient(90deg,${p.logoColor||'#d4a843'}88,transparent)`) : 'transparent' }} />
-                  {!p.coverImage && isSp && <div className="sp-bar" />}
-                  <div style={{ padding: 20, position:'relative', zIndex:1 }}>
+                  {!p.coverImage && !isSp && <div style={{ height:2, background:`linear-gradient(90deg,${p.logoColor||G.border}44,transparent)` }} />}
+                  <div style={{ padding: 20, marginTop: p.coverImage ? -12 : 0, position:'relative', zIndex:1 }}>
 
                     {/* Header row */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
@@ -1718,16 +1722,14 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
               onClick={() => setDetailPartner(sp)}
               onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35), 0 0 32px rgba(45,212,191,0.10)'}}
               onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 6px 32px rgba(0,0,0,0.3)'}}>
-              {/* Cover image — full-bleed soft background with gradient fade */}
-              {sp.coverImage && (
-                <div style={{ position:'absolute', inset:0, zIndex:0 }}>
-                  <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: sp.coverFocus || '50% 50%' }} />
-                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg, rgba(14,20,32,0.25) 0%, rgba(14,20,32,0.62) 35%, rgba(14,20,32,0.93) 65%, rgba(14,20,32,0.98) 100%)' }} />
-                </div>
-              )}
-              <div style={{ position:'relative', zIndex:1, height: 3, background: 'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
+              {/* Cover image — top bar with soft gradient fade */}
+              <div style={{ position:'relative', height: sp.coverImage ? 80 : 3, overflow:'hidden', flexShrink:0 }}>
+                {sp.coverImage && <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: sp.coverFocus||'50% 50%' }} />}
+                <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
+              </div>
 
-              <div style={{ padding: '20px 18px 18px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position:'relative', zIndex:1 }}>
+              <div style={{ padding: '20px 18px 18px', marginTop: sp.coverImage ? -16 : 0, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position:'relative', zIndex:1 }}>
                 {/* Large logo */}
                 <div style={{ marginBottom: 12, position: 'relative' }}>
                   <div style={{ width: 60, height: 60, borderRadius: 14, overflow: 'hidden', border: sp.coverImage ? '2px solid rgba(255,255,255,0.3)' : '2px solid rgba(45,212,191,0.35)', boxShadow: sp.coverImage ? '0 3px 14px rgba(0,0,0,0.4)' : '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
@@ -1888,13 +1890,15 @@ function ConciergePage({ lang, t, content = {} }) {
 
             {/* rootsGTM — General Partner */}
             <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: 0, overflow: 'hidden', position: 'relative' }}>
+              {/* rootsGTM cover — top bar with soft fade */}
               {P.rootsgtm_cover && (
-                <div className="gp-cover" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-                  <img src={P.rootsgtm_cover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: P.rootsgtm_cover_focus || '50% 50%' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,20,32,0.25) 0%, rgba(14,20,32,0.60) 32%, rgba(14,20,32,0.92) 62%, rgba(14,20,32,0.97) 100%)' }} />
+                <div className="gp-cover" style={{ position:'relative', height:90, overflow:'hidden', flexShrink:0 }}>
+                  <img src={P.rootsgtm_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'50% 50%' }} />
+                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
+                  <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,transparent)' }} />
                 </div>
               )}
-              <div style={{ padding: '22px 20px', position: 'relative', zIndex: 1 }}>
+              <div style={{ padding: '22px 20px', marginTop: P.rootsgtm_cover ? -16 : 0, position: 'relative', zIndex: 1 }}>
               <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
                 <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: P.rootsgtm_cover ? '2px solid rgba(255,255,255,0.3)' : '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
                   {P.rootsgtm_logo
@@ -1925,13 +1929,15 @@ function ConciergePage({ lang, t, content = {} }) {
 
             {/* Government — General Partner */}
             <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: 0, overflow: 'hidden', position: 'relative' }}>
+              {/* Gov cover — top bar with soft fade */}
               {P.gov_cover && (
-                <div className="gp-cover" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-                  <img src={P.gov_cover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: P.gov_cover_focus || '50% 50%' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,20,32,0.25) 0%, rgba(14,20,32,0.60) 32%, rgba(14,20,32,0.92) 62%, rgba(14,20,32,0.97) 100%)' }} />
+                <div className="gp-cover" style={{ position:'relative', height:90, overflow:'hidden', flexShrink:0 }}>
+                  <img src={P.gov_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'50% 50%' }} />
+                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
+                  <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,#d4a843,#f59e0b,transparent)` }} />
                 </div>
               )}
-              <div style={{ padding: '22px 20px', position: 'relative', zIndex: 1 }}>
+              <div style={{ padding: '22px 20px', marginTop: P.gov_cover ? -16 : 0, position: 'relative', zIndex: 1 }}>
               <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
                 <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: P.gov_cover ? '2px solid rgba(255,255,255,0.3)' : `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
                   {P.gov_logo
@@ -2303,7 +2309,7 @@ const TAG_SUGGESTIONS = {
 // ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
 function SmartRegForm({ lang, t, regType, onDone }) {
   const isSP = regType === t.regSP  // Partner — separate form
-  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#58a6ff' })
+  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#58a6ff', coverImage: null, coverFocus: '50% 50%' })
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
   const [partnerLogoFile, setPartnerLogoFile] = React.useState(null)
@@ -2703,6 +2709,31 @@ function SmartRegForm({ lang, t, regType, onDone }) {
               <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Video intro (URL)':'Video intro (URL)'}</label>
               <input className="inp" style={{ borderColor: 'rgba(251,146,60,0.2)' }} value={form.videoUrl||''} onChange={e=>f('videoUrl',e.target.value)} placeholder="youtube.com/…" />
             </div>
+          </div>
+
+          {/* Cover image upload with focus picker */}
+          <div style={{ marginTop: 12 }}>
+            <label className="flabel" style={{ color: 'rgba(251,146,60,0.6)' }}>{lang==='sq'?'Imazhi i kopertinës (banner)':'Cover / Banner Image'}</label>
+            <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
+              {form.coverImage && (
+                <div style={{ width:120, height:54, borderRadius:8, overflow:'hidden', flexShrink:0, border:'1px solid rgba(251,146,60,0.3)' }}>
+                  <img src={form.coverImage} alt="cover" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: form.coverFocus||'50% 50%' }} />
+                </div>
+              )}
+              <div>
+                <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.22)', borderRadius:7, cursor:'pointer', fontSize:11, color:'rgba(251,146,60,0.8)', marginBottom:6 }}>
+                  🖼 {lang==='sq'?'Ngarko kopertinë':'Upload cover'}
+                  <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
+                    const file=e.target.files?.[0]; if(!file) return
+                    const img=new Image(), url=URL.createObjectURL(file)
+                    img.onload=()=>{ const W=800,H=240,c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d'); const scale=Math.max(W/img.width,H/img.height); const sw=W/scale,sh=H/scale; ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,0,0,W,H); URL.revokeObjectURL(url); f('coverImage',c.toDataURL('image/webp',0.88)); f('coverFocus','50% 50%') }
+                    img.src=url
+                  }} />
+                </label>
+                {form.coverImage && <button onClick={()=>{f('coverImage',null);f('coverFocus',null)}} className="btn ghost" style={{fontSize:10,padding:'2px 8px'}}>✕ {lang==='sq'?'Hiq':'Remove'}</button>}
+              </div>
+            </div>
+            <CoverFocusPicker image={form.coverImage} focus={form.coverFocus} onChange={pt=>f('coverFocus',pt)} accentColor="#fb923c" />
           </div>
         </div>
       )}
@@ -4397,21 +4428,15 @@ export default function App() {
                       onClick={() => setProfileDetail(p)}
                       onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-6px) scale(1.01)';e.currentTarget.style.boxShadow='0 24px 64px rgba(0,0,0,0.5),0 0 40px rgba(251,146,60,0.14),inset 0 1px 0 rgba(255,255,255,0.06)'}}
                       onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.04)'}}>
-                      {/* Cover image — full-bleed soft background with gradient fade */}
-                      {p.coverImage && (
-                        <div style={{ position:'absolute', inset:0, zIndex:0 }}>
-                          <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus || '50% 50%' }} />
-                          <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg, rgba(14,20,32,0.20) 0%, rgba(14,20,32,0.55) 30%, rgba(14,20,32,0.92) 58%, rgba(14,20,32,0.98) 100%)' }} />
-                        </div>
-                      )}
-                      {!p.coverImage && (
-                        <div style={{ position:'absolute', inset:0, zIndex:0, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}10 0%,transparent 50%)` }} />
-                      )}
-                      {/* Top shimmer bar */}
-                      <div style={{ position:'relative', zIndex:1, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' }} />
-                      {/* Sponsored badge top-right */}
-                      <span style={{ position:'absolute', top:13, right:12, zIndex:2, fontSize:9, background:'rgba(251,146,60,0.9)', color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>
-                      <div style={{ padding:'18px 20px 20px', position:'relative', zIndex:1 }}>
+                      {/* Cover image — top bar with soft gradient fade */}
+                      <div style={{ position:'relative', height: p.coverImage ? 90 : 3, overflow:'hidden', flexShrink:0 }}>
+                        {p.coverImage && <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />}
+                        {!p.coverImage && <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}18,rgba(14,20,32,0.9))` }} />}
+                        <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
+                        <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' }} />
+                        <span style={{ position:'absolute', top:9, right:12, fontSize:9, background:'rgba(251,146,60,0.9)', color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>
+                      </div>
+                      <div style={{ padding:'18px 20px 20px', marginTop: p.coverImage ? -12 : 0, position:'relative', zIndex:1 }}>
                         {/* Logo — bigger for sponsored */}
                         <div style={{ display:'flex', alignItems:'flex-end', gap:14, marginBottom:14 }}>
                           <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '2px solid rgba(255,255,255,0.3)' : '3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}25,${p.logoColor||'#fb923c'}48)` }}>
