@@ -588,43 +588,55 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
   const accentColor = isPartner ? '#2dd4bf' : isSp ? '#fb923c' : '#d4a843'
 
   if (isSp && !isPartner) {
-    // ── PREMIUM SPONSORED MODAL — mobile optimised ────────────────────────────
+    // ── PREMIUM SPONSORED MODAL — LinkedIn-style hero ─────────────────────────
     return (
       <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
         <div style={{ background:'#0e1420', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
-          {/* Hero header */}
-          <div style={{ position:'relative', minHeight:p.coverImage?160:92, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22 0%,rgba(251,146,60,0.08) 50%,rgba(212,168,67,0.06) 100%)`, borderRadius:'20px 20px 0 0', overflow:'hidden', padding:'18px 18px 14px' }}>
-            {p.coverImage && (
-              <>
-                <img src={p.coverImage} alt="" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus || '50% 50%' }} />
-                <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg, rgba(14,20,32,0.15) 0%, rgba(14,20,32,0.45) 45%, rgba(14,20,32,0.88) 80%, #0e1420 100%)' }} />
-              </>
-            )}
-            <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at 80% 30%,rgba(251,146,60,0.15),transparent 55%)', pointerEvents:'none' }} />
+
+          {/* ── COVER BANNER ── */}
+          <div style={{ position:'relative', height: p.coverImage ? 140 : 72, borderRadius:'20px 20px 0 0', overflow:'hidden', flexShrink:0 }}>
+            {p.coverImage
+              ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />
+              : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}28 0%,rgba(251,146,60,0.08) 55%,rgba(14,20,32,0.95) 100%)` }} />
+            }
+            {/* Subtle dark overlay at bottom so logo pops */}
+            {p.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(14,20,32,0.55) 0%,transparent 100%)' }} />}
+            {/* Top orange accent line */}
             <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.4),transparent)' }} />
-            <button onClick={onClose} style={{ position:'absolute', top:10, right:10, background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:7, width:28, height:28, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:14, zIndex:2, flexShrink:0 }}>✕</button>
-            <div style={{ display:'flex', gap:12, alignItems:'flex-end', position:'relative', paddingRight:36 }}>
-              <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '3px solid rgba(14,20,32,0.92)' : '3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22,${p.logoColor||'#fb923c'}44)` }}>
+            {/* Close button */}
+            <button onClick={onClose} style={{ position:'absolute', top:10, right:10, background:'rgba(0,0,0,0.35)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:7, width:28, height:28, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:13, backdropFilter:'blur(8px)', zIndex:2 }}>✕</button>
+          </div>
+
+          {/* ── LOGO — overlaps bottom of cover ── */}
+          <div style={{ position:'relative', padding:'0 20px', marginTop:-36 }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end' }}>
+              <div style={{ width:72, height:72, borderRadius:16, overflow:'hidden', flexShrink:0,
+                border:'3px solid #0e1420',
+                boxShadow:`0 0 0 2px ${p.logoColor||'#fb923c'}55, 0 4px 20px rgba(0,0,0,0.5)`,
+                display:'flex', alignItems:'center', justifyContent:'center',
+                background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22,${p.logoColor||'#fb923c'}44)` }}>
                 {p.logoUrl ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:p.logoColor||'#fb923c' }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:22, color:p.logoColor||'#fb923c' }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
               </div>
-              <div style={{ flex:1, minWidth:0 }}>
-                <div style={{ display:'flex', gap:5, marginBottom:4, flexWrap:'wrap' }}>
-                  <span style={{ fontSize:9, background:'rgba(251,146,60,0.18)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.4)', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.3px', whiteSpace:'nowrap' }}>🚀 SPONSORED</span>
-                  {p.verified && <span style={{ fontSize:9, background:'rgba(52,199,89,0.12)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:20, padding:'2px 9px', fontWeight:700, whiteSpace:'nowrap' }}>✓ VERIFIED</span>}
-                </div>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:'clamp(15px,3.5vw,21px)', letterSpacing:'-0.3px', lineHeight:1.1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.name}</div>
-                <div style={{ fontSize:10, color:'rgba(232,228,217,0.5)', marginTop:2, display:'flex', gap:7, flexWrap:'wrap' }}>
-                  {p.city && <span>📍 {p.city}</span>}
-                  {p.cat && <span>· {catLabel(p.cat, lang)}</span>}
-                  {isFL && p.languages && <span>· 🗣 {p.languages}</span>}
-                  {!isFL && p.employees && <span>· 👥 {p.employees}</span>}
-                </div>
+              <div style={{ display:'flex', gap:5, paddingBottom:6, flexWrap:'wrap' }}>
+                <span style={{ fontSize:9, background:'rgba(251,146,60,0.18)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.4)', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.3px' }}>🚀 SPONSORED</span>
+                {p.verified && <span style={{ fontSize:9, background:'rgba(52,199,89,0.12)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:20, padding:'2px 9px', fontWeight:700 }}>✓ VERIFIED</span>}
+              </div>
+            </div>
+
+            {/* ── NAME + META — below logo ── */}
+            <div style={{ marginTop:10 }}>
+              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:'clamp(17px,4vw,23px)', letterSpacing:'-0.3px', lineHeight:1.1, marginBottom:4 }}>{p.name}</div>
+              <div style={{ fontSize:11, color:'rgba(232,228,217,0.55)', display:'flex', gap:7, flexWrap:'wrap', marginBottom:10 }}>
+                {p.city && <span>📍 {p.city}</span>}
+                {p.cat && <span>· {catLabel(p.cat, lang)}</span>}
+                {isFL && p.languages && <span>· 🗣 {p.languages}</span>}
+                {!isFL && p.employees && <span>· 👥 {p.employees}</span>}
               </div>
             </div>
           </div>
 
-          <div style={{ padding:'14px 16px 20px' }}>
+          <div style={{ padding:'4px 20px 20px' }}>
             {p.availability && (
               <div style={{ marginBottom:12 }}>
                 <span style={{ fontSize:10, fontWeight:700, padding:'3px 12px', borderRadius:20, fontFamily:"'DM Sans',sans-serif",
