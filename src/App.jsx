@@ -1734,48 +1734,53 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
               onClick={() => setDetailPartner(sp)}
               onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35), 0 0 32px rgba(45,212,191,0.10)'}}
               onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 6px 32px rgba(0,0,0,0.3)'}}>
-              {/* Cover image — top bar with soft gradient fade */}
-              <div style={{ position:'relative', height: sp.coverImage ? 80 : 3, overflow:'hidden', flexShrink:0 }}>
-                {sp.coverImage && <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: sp.coverFocus||'50% 50%' }} />}
-                <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
-                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.6),transparent)' }} />
+
+              {/* ── COVER BANNER ── */}
+              <div style={{ position:'relative', height: sp.coverImage ? 100 : 56, overflow:'hidden', flexShrink:0 }}>
+                {sp.coverImage
+                  ? <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: sp.coverFocus||'50% 50%' }} />
+                  : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}22,rgba(14,20,32,0.92))` }} />}
+                {sp.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(14,20,32,0.45) 0%,transparent 100%)' }} />}
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.5),transparent)' }} />
               </div>
 
-              <div style={{ padding: '20px 18px 18px', marginTop: sp.coverImage ? -16 : 0, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position:'relative', zIndex:1 }}>
-                {/* Large logo */}
-                <div style={{ marginBottom: 12, position: 'relative' }}>
-                  <div style={{ width: 60, height: 60, borderRadius: 14, overflow: 'hidden', border: sp.coverImage ? '2px solid rgba(255,255,255,0.3)' : '2px solid rgba(45,212,191,0.35)', boxShadow: sp.coverImage ? '0 3px 14px rgba(0,0,0,0.4)' : '0 0 20px rgba(45,212,191,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
+              {/* ── LOGO — overlaps cover bottom ── */}
+              <div style={{ padding:'0 16px', marginTop:-28, position:'relative', zIndex:1 }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:10 }}>
+                  <div style={{ width:56, height:56, borderRadius:14, overflow:'hidden', flexShrink:0,
+                    border: '3px solid #0e1420',
+                    boxShadow:`0 0 0 2px ${sp.logoColor||'#2dd4bf'}55, 0 4px 16px rgba(0,0,0,0.45)`,
+                    display:'flex', alignItems:'center', justifyContent:'center',
+                    background:`linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
                     {sp.logoUrl
                       ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                      : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:sp.logoColor||G.teal }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>
-                    }
+                      : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:sp.logoColor||G.teal }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>}
                   </div>
+                  <span style={{ fontSize:9, background:'rgba(45,212,191,0.12)', color:G.teal, border:'1px solid rgba(45,212,191,0.3)', borderRadius:20, padding:'3px 10px', fontWeight:700, letterSpacing:'0.5px', marginBottom:4 }}>✓ Partner</span>
                 </div>
 
-                {/* Name + badge */}
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, marginBottom:6, letterSpacing:'-0.2px' }}>{sp.name}</div>
-                <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom: sp.city ? 4 : 0, flexWrap:'wrap', justifyContent:'center' }}>
-                  <span style={{ fontSize:10, background:'rgba(45,212,191,0.12)', color:G.teal, border:'1px solid rgba(45,212,191,0.3)', borderRadius:20, padding:'3px 10px', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.5px' }}>✓ Official Partner</span>
-                </div>
-                {sp.city && <div style={{ fontSize:12, color:G.muted, marginBottom:12 }}>📍 {sp.city}</div>}
+                {/* ── NAME + META below logo ── */}
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, marginBottom:4, letterSpacing:'-0.2px' }}>{sp.name}</div>
+                {sp.city && <div style={{ fontSize:11, color:G.muted, marginBottom:10 }}>📍 {sp.city}</div>}
 
                 {/* Tags */}
                 {(sp.tags||[]).length > 0 && (
-                  <div style={{ display:'flex', gap:5, flexWrap:'wrap', justifyContent:'center', marginBottom:16 }}>
-                    {sp.tags.slice(0,4).map(s=><span key={s} style={{ background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.18)', borderRadius:20, padding:'3px 10px', fontSize:11 }}>{s}</span>)}
+                  <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:14 }}>
+                    {sp.tags.slice(0,4).map(s=><span key={s} style={{ background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.18)', borderRadius:20, padding:'3px 10px', fontSize:10 }}>{s}</span>)}
                   </div>
                 )}
 
                 {/* CTA buttons */}
-                <div style={{ display:'flex', gap:9, width:'100%', marginTop: 4 }}>
-                  <button className="btn teal-btn" style={{ flex:1, padding:'11px', fontSize:13, fontWeight:700, borderRadius:10 }}
-                    onClick={()=>{ setEnquiryPartner(sp); setEnquirySent(false); setEForm({name:'',email:'',msg:''}) }}>
+                <div style={{ display:'flex', gap:9, marginBottom:16 }}>
+                  <button className="btn teal-btn" style={{ flex:1, padding:'10px', fontSize:12, fontWeight:700, borderRadius:10 }}
+                    onClick={e=>{e.stopPropagation(); setEnquiryPartner(sp); setEnquirySent(false); setEForm({name:'',email:'',msg:''})}}>
                     ✉️ {lang==='sq'?'Dërgoni kërkesë':'Send Enquiry'}
                   </button>
                   {website && (
                     <a href={`https://${website}`} target="_blank" rel="noopener noreferrer"
-                      style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'11px 16px', background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.25)', borderRadius:10, color:G.teal, textDecoration:'none', fontSize:13, fontWeight:600, whiteSpace:'nowrap' }}>
-                      🌐 {lang==='sq'?'Faqja':'Website'}
+                      onClick={e=>e.stopPropagation()}
+                      style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 14px', background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.25)', borderRadius:10, color:G.teal, textDecoration:'none', fontSize:12, fontWeight:600, whiteSpace:'nowrap' }}>
+                      🌐
                     </a>
                   )}
                 </div>
@@ -1901,82 +1906,86 @@ function ConciergePage({ lang, t, content = {} }) {
           <div className="conc-partners-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
             {/* rootsGTM — General Partner */}
-            <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, padding: 0, overflow: 'hidden', position: 'relative' }}>
-              {/* rootsGTM cover — top bar with soft fade */}
-              {P.rootsgtm_cover && (
-                <div className="gp-cover" style={{ position:'relative', height:90, overflow:'hidden', flexShrink:0 }}>
-                  <img src={P.rootsgtm_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: P.rootsgtm_cover_focus || '50% 50%' }} />
-                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
-                  <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,transparent)' }} />
-                </div>
-              )}
-              <div style={{ padding: '22px 20px', marginTop: P.rootsgtm_cover ? -16 : 0, position: 'relative', zIndex: 1 }}>
-              <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))', border: P.rootsgtm_cover ? '2px solid rgba(255,255,255,0.3)' : '2px solid rgba(45,212,191,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:'0 0 20px rgba(45,212,191,0.15)' }}>
-                  {P.rootsgtm_logo
-                    ? <img src={P.rootsgtm_logo} alt={P.rootsgtm_name||'rootsGTM'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                    : <span style={{ fontSize:28 }}>🚀</span>}
-                </div>
-                <div style={{ minWidth: 0 }}>
-                  <div className="gp-name" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.teal }}>{P.rootsgtm_name || 'rootsGTM'}</div>
-                  <div className="gp-sub" style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
-                    {lang === 'sq' ? 'Partner i Përgjithshëm · Aktiv' : 'General Partner · Active'}
+            <div className="conc-partner-card" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.28)', borderRadius: 16, overflow: 'hidden', position: 'relative' }}>
+              {/* Cover banner */}
+              <div className="gp-cover" style={{ position:'relative', height: P.rootsgtm_cover ? 110 : 60, overflow:'hidden', flexShrink:0 }}>
+                {P.rootsgtm_cover
+                  ? <img src={P.rootsgtm_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: P.rootsgtm_cover_focus||'50% 50%' }} />
+                  : <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg,rgba(45,212,191,0.22),rgba(14,20,32,0.9))' }} />}
+                {P.rootsgtm_cover && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(14,20,32,0.4) 0%,transparent 100%)' }} />}
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.4),transparent)' }} />
+              </div>
+              {/* Logo overlapping cover */}
+              <div style={{ padding:'0 20px', marginTop:-34, position:'relative', zIndex:1 }}>
+                <div className="gp-header" style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:12 }}>
+                  <div className="gp-logo" style={{ width:68, height:68, borderRadius:16, overflow:'hidden',
+                    border:'3px solid #0a1222',
+                    boxShadow:'0 0 0 2px rgba(45,212,191,0.5), 0 4px 18px rgba(0,0,0,0.5)',
+                    display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0,
+                    background:'linear-gradient(135deg,rgba(45,212,191,0.3),rgba(45,212,191,0.1))' }}>
+                    {P.rootsgtm_logo
+                      ? <img src={P.rootsgtm_logo} alt={P.rootsgtm_name||'rootsGTM'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                      : <span style={{ fontSize:26 }}>🚀</span>}
                   </div>
+                  <span className="gp-badge" style={{ fontSize:11, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:5, padding:'3px 9px', fontWeight:700, marginBottom:6 }}>✓ Live</span>
                 </div>
-                <span className="gp-badge" style={{ marginLeft: 'auto', fontSize: 11, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.25)', borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>✓ Live</span>
-              </div>
-              <p className="gp-desc" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
-                {P.rootsgtm_desc || 'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
-              </p>
-              <div className="partner-feat-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 18 }}>
-                {(lang === 'sq' ? ['🤝 Kontakt direkt', '📅 Organizim takimesh', '🎤 Evente & Rrjet', '📄 Vijim & Kontrata'] : ['🤝 Direct client contact', '📅 Meeting organisation', '🎤 Events & networking', '📄 Follow-up & contracts']).map(f => (
-                  <div key={f} className="partner-feat-item" style={{ background: 'rgba(45,212,191,0.06)', border: '1px solid rgba(45,212,191,0.15)', borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
-                ))}
-              </div>
-              <button className="btn teal-btn" style={{ width: '100%', padding: '11px' }} onClick={() => setBookModal(true)}>
-                {lang === 'sq' ? 'Kërko me rootsGTM →' : 'Enquire via rootsGTM →'}
-              </button>
+                <div className="gp-name" style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:G.teal, marginBottom:2 }}>{P.rootsgtm_name||'rootsGTM'}</div>
+                <div className="gp-sub" style={{ fontSize:12, color:G.muted, marginBottom:14 }}>{lang==='sq'?'Partner i Përgjithshëm · Aktiv':'General Partner · Active'}</div>
+                <p className="gp-desc" style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:'rgba(232,228,217,0.75)', lineHeight:1.75, marginBottom:16 }}>
+                  {P.rootsgtm_desc||'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
+                </p>
+                <div className="partner-feat-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
+                  {(lang==='sq'?['🤝 Kontakt direkt','📅 Organizim takimesh','🎤 Evente & Rrjet','📄 Vijim & Kontrata']:['🤝 Direct client contact','📅 Meeting organisation','🎤 Events & networking','📄 Follow-up & contracts']).map(f=>(
+                    <div key={f} className="partner-feat-item" style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.15)', borderRadius:8, padding:'10px 12px', fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.8)' }}>{f}</div>
+                  ))}
+                </div>
+                <button className="btn teal-btn" style={{ width:'100%', padding:'11px', marginBottom:20 }} onClick={()=>setBookModal(true)}>
+                  {lang==='sq'?'Kërko me rootsGTM →':'Enquire via rootsGTM →'}
+                </button>
               </div>
             </div>
 
             {/* Government — General Partner */}
-            <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, padding: 0, overflow: 'hidden', position: 'relative' }}>
-              {/* Gov cover — top bar with soft fade */}
-              {P.gov_cover && (
-                <div className="gp-cover" style={{ position:'relative', height:90, overflow:'hidden', flexShrink:0 }}>
-                  <img src={P.gov_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: P.gov_cover_focus || '50% 50%' }} />
-                  <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
-                  <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,#d4a843,#f59e0b,transparent)` }} />
-                </div>
-              )}
-              <div style={{ padding: '22px 20px', marginTop: P.gov_cover ? -16 : 0, position: 'relative', zIndex: 1 }}>
-              <div className="gp-header" style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-                <div className="gp-logo" style={{ width: 68, height: 68, borderRadius: 16, overflow:'hidden', background: 'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))', border: P.gov_cover ? '2px solid rgba(255,255,255,0.3)' : `2px solid ${G.goldBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow:`0 0 20px rgba(212,168,67,0.15)` }}>
-                  {P.gov_logo
-                    ? <img src={P.gov_logo} alt={P.gov_name||'Kosova Gov'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                    : <span style={{ fontSize:28 }}>🏛️</span>}
-                </div>
-                <div style={{ minWidth: 0 }}>
-                  <div className="gp-name" style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, color: G.gold }}>
-                    {P.gov_name || (lang === 'sq' ? 'Qeveria e Kosovës' : 'Kosova Government')}
+            <div className="conc-partner-card" style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 16, overflow: 'hidden', position: 'relative' }}>
+              {/* Cover banner */}
+              <div className="gp-cover" style={{ position:'relative', height: P.gov_cover ? 110 : 60, overflow:'hidden', flexShrink:0 }}>
+                {P.gov_cover
+                  ? <img src={P.gov_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: P.gov_cover_focus||'50% 50%' }} />
+                  : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,rgba(212,168,67,0.22),rgba(14,20,32,0.9))` }} />}
+                {P.gov_cover && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(14,20,32,0.4) 0%,transparent 100%)' }} />}
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,#d4a843,#f59e0b,rgba(212,168,67,0.3),transparent)` }} />
+              </div>
+              {/* Logo overlapping cover */}
+              <div style={{ padding:'0 20px', marginTop:-34, position:'relative', zIndex:1 }}>
+                <div className="gp-header" style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:12 }}>
+                  <div className="gp-logo" style={{ width:68, height:68, borderRadius:16, overflow:'hidden',
+                    border:'3px solid #0a1222',
+                    boxShadow:`0 0 0 2px ${G.goldBorder}, 0 4px 18px rgba(0,0,0,0.5)`,
+                    display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0,
+                    background:'linear-gradient(135deg,rgba(212,168,67,0.3),rgba(212,168,67,0.1))' }}>
+                    {P.gov_logo
+                      ? <img src={P.gov_logo} alt={P.gov_name||'Kosova Gov'} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                      : <span style={{ fontSize:26 }}>🏛️</span>}
                   </div>
-                  <div className="gp-sub" style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>InvestKosova · {lang === 'sq' ? 'Partner Zyrtar' : 'Official Partner'}</div>
+                  <span className="gp-badge" style={{ fontSize:11, background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5, padding:'3px 9px', fontWeight:700, marginBottom:6 }}>
+                    {lang==='sq'?'⏳ Në negocim':'⏳ In negotiation'}
+                  </span>
                 </div>
-                <span className="gp-badge" style={{ marginLeft: 'auto', fontSize: 11, background: G.goldDim, color: G.gold, border: `1px solid ${G.goldBorder}`, borderRadius: 5, padding: '3px 9px', fontWeight: 700, flexShrink: 0 }}>
-                  {lang === 'sq' ? '⏳ Në negocim' : '⏳ In negotiation'}
-                </span>
-              </div>
-              <p className="gp-desc" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(232,228,217,0.75)', lineHeight: 1.75, marginBottom: 18 }}>
-                {P.gov_desc || (lang === 'sq' ? 'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë.' : 'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy.')}
-              </p>
-              <div className="partner-feat-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 18 }}>
-                {(lang === 'sq' ? ['🏛️ Takime InvestKosova', '📋 Këshillim themelimi', '🤝 Takime ministrie', '📊 Mbështetje investimesh'] : ['🏛️ InvestKosova meetings', '📋 Company formation advice', '🤝 Ministry appointments', '📊 Investment support']).map(f => (
-                  <div key={f} className="partner-feat-item" style={{ background: 'rgba(212,168,67,0.07)', border: `1px solid ${G.goldBorder}`, borderRadius: 8, padding: '10px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(232,228,217,0.8)' }}>{f}</div>
-                ))}
-              </div>
-              <button className="btn gbtn" style={{ width: '100%', padding: '11px' }} onClick={() => setBookModal(true)}>
-                {lang === 'sq' ? 'Kërko takim qeveritar →' : 'Request government meeting →'}
-              </button>
+                <div className="gp-name" style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:G.gold, marginBottom:2 }}>
+                  {P.gov_name||(lang==='sq'?'Qeveria e Kosovës':'Kosova Government')}
+                </div>
+                <div className="gp-sub" style={{ fontSize:12, color:G.muted, marginBottom:14 }}>InvestKosova · {lang==='sq'?'Partner Zyrtar':'Official Partner'}</div>
+                <p className="gp-desc" style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:'rgba(232,228,217,0.75)', lineHeight:1.75, marginBottom:16 }}>
+                  {P.gov_desc||(lang==='sq'?'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë.':'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy.')}
+                </p>
+                <div className="partner-feat-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
+                  {(lang==='sq'?['🏛️ Takime InvestKosova','📋 Këshillim themelimi','🤝 Takime ministrie','📊 Mbështetje investimesh']:['🏛️ InvestKosova meetings','📋 Company formation advice','🤝 Ministry appointments','📊 Investment support']).map(f=>(
+                    <div key={f} className="partner-feat-item" style={{ background:'rgba(212,168,67,0.07)', border:`1px solid ${G.goldBorder}`, borderRadius:8, padding:'10px 12px', fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.8)' }}>{f}</div>
+                  ))}
+                </div>
+                <button className="btn gbtn" style={{ width:'100%', padding:'11px', marginBottom:20 }} onClick={()=>setBookModal(true)}>
+                  {lang==='sq'?'Kërko takim qeveritar →':'Request government meeting →'}
+                </button>
               </div>
             </div>
           </div>
