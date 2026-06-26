@@ -1722,64 +1722,79 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
       <div className="partner-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 14 }}>
         {profiles.map((sp, i) => {
           const website = sp.website ? sp.website.replace(/^https?:\/\//, '') : null
+          const color = sp.logoColor || '#2dd4bf'
           return (
-            <div key={sp.id} style={{
-              background: 'linear-gradient(160deg,rgba(45,212,191,0.07),rgba(45,212,191,0.02),rgba(212,168,67,0.03))',
-              border: '1px solid rgba(45,212,191,0.28)',
-              borderRadius: 20, overflow: 'hidden',
-              boxShadow: '0 6px 32px rgba(0,0,0,0.3)',
-              transition: 'transform 0.25s, box-shadow 0.25s',
-              position: 'relative', cursor: 'pointer',
-            }}
+            <div key={sp.id}
               onClick={() => setDetailPartner(sp)}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='0 12px 48px rgba(0,0,0,0.35), 0 0 32px rgba(45,212,191,0.10)'}}
-              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 6px 32px rgba(0,0,0,0.3)'}}>
+              style={{
+                background: `linear-gradient(160deg,${color}0a 0%,rgba(14,20,32,0.92) 50%,rgba(8,13,24,0.95) 100%)`,
+                border: `1px solid ${color}28`,
+                borderRadius: 20, overflow: 'hidden',
+                boxShadow: `0 8px 40px rgba(0,0,0,0.35), 0 0 0 0 ${color}22`,
+                transition: 'transform 0.22s, box-shadow 0.22s, border-color 0.22s',
+                position: 'relative', cursor: 'pointer',
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)';e.currentTarget.style.boxShadow=`0 16px 56px rgba(0,0,0,0.4), 0 0 32px ${color}18`;e.currentTarget.style.borderColor=`${color}50`}}
+              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.35)';e.currentTarget.style.borderColor=`${color}28`}}>
 
               {/* ── COVER BANNER ── */}
-              <div style={{ position:'relative', height: sp.coverImage ? 100 : 56, overflow:'hidden', flexShrink:0 }}>
+              <div style={{ position:'relative', height: sp.coverImage ? 110 : 64, overflow:'hidden', flexShrink:0 }}>
                 {sp.coverImage
                   ? <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: sp.coverFocus||'50% 50%' }} />
-                  : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}22,rgba(14,20,32,0.92))` }} />}
-                {sp.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(14,20,32,0.45) 0%,transparent 100%)' }} />}
-                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.5),transparent)' }} />
+                  : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${color}30 0%,${color}08 55%,rgba(8,13,24,0.98) 100%)` }} />}
+                {sp.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'60%', background:'linear-gradient(0deg,rgba(8,13,24,0.55) 0%,transparent 100%)' }} />}
+                {/* Accent line */}
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${color},${color}66,transparent)` }} />
+                {/* Official Partner badge top-right */}
+                <span style={{ position:'absolute', top:10, right:12, fontSize:9, background:`${color}18`, color, border:`1px solid ${color}40`, borderRadius:20, padding:'2px 9px', fontWeight:700, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>✓ Official Partner</span>
               </div>
 
-              {/* ── LOGO — overlaps cover bottom ── */}
-              <div style={{ padding:'0 16px', marginTop:-28, position:'relative', zIndex:1 }}>
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:10 }}>
-                  <div style={{ width:56, height:56, borderRadius:14, overflow:'hidden', flexShrink:0,
-                    border: '3px solid #0e1420',
-                    boxShadow:`0 0 0 2px ${sp.logoColor||'#2dd4bf'}55, 0 4px 16px rgba(0,0,0,0.45)`,
+              {/* ── LOGO overlaps cover ── */}
+              <div style={{ padding:'0 18px', marginTop:-30, position:'relative', zIndex:1 }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:14 }}>
+                  <div style={{ width:60, height:60, borderRadius:15, overflow:'hidden', flexShrink:0,
+                    border: '3px solid #080d1a',
+                    boxShadow: `0 0 0 2px ${color}60, 0 6px 20px rgba(0,0,0,0.5)`,
                     display:'flex', alignItems:'center', justifyContent:'center',
-                    background:`linear-gradient(135deg,${sp.logoColor||'#2dd4bf'}18,${sp.logoColor||'#2dd4bf'}38)` }}>
+                    background:`linear-gradient(135deg,${color}20,${color}40)` }}>
                     {sp.logoUrl
                       ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                      : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:sp.logoColor||G.teal }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>}
+                      : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>}
                   </div>
-                  <span style={{ fontSize:9, background:'rgba(45,212,191,0.12)', color:G.teal, border:'1px solid rgba(45,212,191,0.3)', borderRadius:20, padding:'3px 10px', fontWeight:700, letterSpacing:'0.5px', marginBottom:4 }}>✓ Partner</span>
+                  {sp.city && <div style={{ fontSize:11, color:'rgba(232,228,217,0.45)', marginBottom:6, textAlign:'right' }}>📍 {sp.city}</div>}
                 </div>
 
-                {/* ── NAME + META below logo ── */}
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, marginBottom:4, letterSpacing:'-0.2px' }}>{sp.name}</div>
-                {sp.city && <div style={{ fontSize:11, color:G.muted, marginBottom:10 }}>📍 {sp.city}</div>}
+                {/* Name */}
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, marginBottom:4, letterSpacing:'-0.3px', color:'#f0ece3' }}>{sp.name}</div>
+
+                {/* Description */}
+                {(sp.desc?.en || sp.desc?.sq) && (
+                  <div style={{ fontSize:12, color:'rgba(232,228,217,0.55)', lineHeight:1.6, marginBottom:12,
+                    display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical', overflow:'hidden' }}>
+                    {sp.desc[lang]||sp.desc.en}
+                  </div>
+                )}
 
                 {/* Tags */}
                 {(sp.tags||[]).length > 0 && (
                   <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:14 }}>
-                    {sp.tags.slice(0,4).map(s=><span key={s} style={{ background:'rgba(45,212,191,0.08)', color:G.teal, border:'1px solid rgba(45,212,191,0.18)', borderRadius:20, padding:'3px 10px', fontSize:10 }}>{s}</span>)}
+                    {sp.tags.slice(0,3).map(s=>(
+                      <span key={s} style={{ background:`${color}10`, color, border:`1px solid ${color}22`, borderRadius:20, padding:'3px 10px', fontSize:10, fontWeight:500 }}>{s}</span>
+                    ))}
                   </div>
                 )}
 
-                {/* CTA buttons */}
-                <div style={{ display:'flex', gap:9, marginBottom:16 }}>
-                  <button className="btn teal-btn" style={{ flex:1, padding:'10px', fontSize:12, fontWeight:700, borderRadius:10 }}
+                {/* CTA */}
+                <div style={{ display:'flex', gap:8, paddingBottom:18 }}>
+                  <button className="btn teal-btn" style={{ flex:1, padding:'10px', fontSize:12, fontWeight:700, borderRadius:10,
+                    background:`linear-gradient(135deg,${color},${color}bb)`, border:'none', color:'#080d1a' }}
                     onClick={e=>{e.stopPropagation(); setEnquiryPartner(sp); setEnquirySent(false); setEForm({name:'',email:'',msg:''})}}>
-                    ✉️ {lang==='sq'?'Dërgoni kërkesë':'Send Enquiry'}
+                    ✉️ {lang==='sq'?'Kontakto':'Contact'}
                   </button>
                   {website && (
                     <a href={`https://${website}`} target="_blank" rel="noopener noreferrer"
                       onClick={e=>e.stopPropagation()}
-                      style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 14px', background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.25)', borderRadius:10, color:G.teal, textDecoration:'none', fontSize:12, fontWeight:600, whiteSpace:'nowrap' }}>
+                      style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 14px', background:`${color}0e`, border:`1px solid ${color}30`, borderRadius:10, color, textDecoration:'none', fontSize:12, fontWeight:600 }}>
                       🌐
                     </a>
                   )}
@@ -4524,13 +4539,29 @@ export default function App() {
                     onMouseLeave={e=>e.currentTarget.style.animationPlayState='running'}>
                     {items.map((p, idx) => (
                       <div key={idx} onClick={() => setProfileDetail(p)}
-                        style={{ display:'flex', alignItems:'center', gap:11, padding:'12px 20px', background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, cursor:'pointer', flexShrink:0, transition:'all 0.2s', minWidth:200 }}
-                        onMouseEnter={e=>{e.currentTarget.style.background='rgba(45,212,191,0.06)';e.currentTarget.style.borderColor='rgba(45,212,191,0.25)'}}
-                        onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.03)';e.currentTarget.style.borderColor='rgba(255,255,255,0.07)'}}>
-                        <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={40} />
-                        <div>
-                          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13 }}>{p.name}</div>
-                          <div style={{ fontSize:11, color:G.teal }}>✓ Partner · {p.city||''}</div>
+                        style={{ display:'flex', flexDirection:'column', padding:0, background:'linear-gradient(160deg,rgba(45,212,191,0.06),rgba(8,13,24,0.94))', border:`1px solid ${p.logoColor||'#2dd4bf'}25`, borderRadius:16, cursor:'pointer', flexShrink:0, transition:'all 0.2s', width:220, overflow:'hidden',
+                          boxShadow:'0 4px 20px rgba(0,0,0,0.25)' }}
+                        onMouseEnter={e=>{e.currentTarget.style.background=`linear-gradient(160deg,${p.logoColor||'#2dd4bf'}12,rgba(8,13,24,0.96))`;e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px ${p.logoColor||'#2dd4bf'}40`}}
+                        onMouseLeave={e=>{e.currentTarget.style.background='linear-gradient(160deg,rgba(45,212,191,0.06),rgba(8,13,24,0.94))';e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'}}>
+                        {/* Cover or gradient top */}
+                        <div style={{ position:'relative', height: p.coverImage ? 64 : 36, overflow:'hidden', flexShrink:0 }}>
+                          {p.coverImage
+                            ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />
+                            : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,rgba(8,13,24,0.95))` }} />}
+                          <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${p.logoColor||'#2dd4bf'},transparent)` }} />
+                          {p.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(8,13,24,0.6) 0%,transparent 100%)' }} />}
+                        </div>
+                        <div style={{ padding:'0 14px 14px', marginTop: p.coverImage ? -16 : 0, position:'relative', zIndex:1 }}>
+                          <div style={{ display:'flex', alignItems:'flex-end', gap:10, marginBottom:10 }}>
+                            <div style={{ width:44, height:44, borderRadius:11, overflow:'hidden', flexShrink:0, border:'2px solid #080d1a', boxShadow:`0 0 0 1.5px ${p.logoColor||'#2dd4bf'}55`, background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,${p.logoColor||'#2dd4bf'}38)`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                              {p.logoUrl ? <img src={p.logoUrl} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} size={44} />}
+                            </div>
+                            <div style={{ paddingBottom:2 }}>
+                              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:'#f0ece3', lineHeight:1.2 }}>{p.name}</div>
+                              <div style={{ fontSize:10, color:p.logoColor||G.teal, marginTop:2 }}>✓ Partner</div>
+                            </div>
+                          </div>
+                          {p.city && <div style={{ fontSize:10, color:'rgba(232,228,217,0.4)' }}>📍 {p.city}</div>}
                         </div>
                       </div>
                     ))}
