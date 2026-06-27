@@ -378,8 +378,8 @@ const SALES_PEOPLE = [
 
 // ─── THEME ────────────────────────────────────────────────────────────────────
 const G = {
-  bg: '#080c14', surface: '#0e1420', card: 'rgba(255,255,255,0.025)',
-  border: 'rgba(255,255,255,0.07)', gold: '#d4a843', goldDim: 'rgba(212,168,67,0.10)',
+  bg: '#080c14', surface: '#0e1420', card: 'rgba(255,255,255,0.03)',
+  border: 'rgba(255,255,255,0.09)', gold: '#d4a843', goldDim: 'rgba(212,168,67,0.10)',
   goldBorder: 'rgba(212,168,67,0.22)', text: '#e8e4d9', muted: 'rgba(232,228,217,0.45)',
   green: '#34c759', red: '#ff3b30', blue: '#58a6ff', purple: '#a78bfa',
   teal: '#2dd4bf', orange: '#fb923c',
@@ -413,8 +413,8 @@ body{background:#080c14;margin:0;-webkit-font-smoothing:antialiased;}
 .ghost:hover{color:#e8e4d9;border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04);}
 .teal-btn{background:linear-gradient(135deg,#2dd4bf,#0d9488);color:white;padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;}
 .teal-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,212,191,0.28);}
-.card{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:14px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
-.card:hover{background:rgba(255,255,255,0.04);border-color:rgba(212,168,67,0.22);transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,0.32);}
+.card{background:rgba(255,255,255,0.03);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.09);border-radius:14px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
+.card:hover{background:rgba(255,255,255,0.055);border-color:rgba(212,168,67,0.28);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.06);}
 .inp{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px 13px;color:#e8e4d9;font-size:14px;outline:none;width:100%;font-family:'DM Sans',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
 .inp:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,0.09);background:rgba(255,255,255,0.07);}
 .inp::placeholder{color:rgba(232,228,217,0.26);}
@@ -1701,7 +1701,7 @@ function MatchPage({ lang, t }) {
                 <div key={p.id} className={`card fu${isSp ? ' glow' : ''}`}
                   style={{ padding: 0, overflow: 'hidden', position: 'relative', animationDelay: `${i * 0.04}s`,
                     borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border,
-                    background: isSp ? 'rgba(251,146,60,0.03)' : G.card }}>
+                    background: isSp ? 'rgba(251,146,60,0.04)' : 'rgba(255,255,255,0.03)' }}>
                   {/* Cover top bar with soft fade */}
                   {(p.coverImage || isSp) && (
                     <div style={{ position:'relative', height: p.coverImage ? 72 : 36, overflow:'hidden', flexShrink:0 }}>
@@ -1825,7 +1825,7 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
             <div key={sp.id}
               onClick={() => setDetailPartner(sp)}
               style={{
-                background: `rgba(8,13,24,0.45)`,
+                background: 'rgba(255,255,255,0.04)',
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
                 border: `1px solid ${color}30`,
@@ -4652,12 +4652,12 @@ export default function App() {
                     {items.map((p, idx) => (
                       <div key={idx} onClick={() => setProfileDetail(p)}
                         style={{ display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center',
-                          background:'linear-gradient(160deg,rgba(45,212,191,0.06),rgba(8,13,24,0.94))',
+                          background:'rgba(255,255,255,0.03)',
                           border:`1px solid ${p.logoColor||'#2dd4bf'}25`, borderRadius:16, cursor:'pointer',
                           flexShrink:0, transition:'all 0.2s', width:170, overflow:'hidden',
                           boxShadow:'0 4px 20px rgba(0,0,0,0.25)' }}
-                        onMouseEnter={e=>{e.currentTarget.style.background=`linear-gradient(160deg,${p.logoColor||'#2dd4bf'}12,rgba(8,13,24,0.96))`;e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px ${p.logoColor||'#2dd4bf'}40`}}
-                        onMouseLeave={e=>{e.currentTarget.style.background='linear-gradient(160deg,rgba(45,212,191,0.06),rgba(8,13,24,0.94))';e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'}}>
+                        onMouseEnter={e=>{e.currentTarget.style.background=`${p.logoColor||'#2dd4bf'}10`;e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px ${p.logoColor||'#2dd4bf'}40`}}
+                        onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.02)';e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'}}>
                         {/* Cover or gradient top */}
                         <div style={{ position:'relative', height: p.coverImage ? 52 : 32, overflow:'hidden', width:'100%', flexShrink:0 }}>
                           {p.coverImage
