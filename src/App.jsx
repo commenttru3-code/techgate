@@ -1727,49 +1727,48 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
             <div key={sp.id}
               onClick={() => setDetailPartner(sp)}
               style={{
-                background: `linear-gradient(160deg,${color}0a 0%,rgba(14,20,32,0.92) 50%,rgba(8,13,24,0.95) 100%)`,
-                border: `1px solid ${color}28`,
+                background: `rgba(8,13,24,0.45)`,
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: `1px solid ${color}30`,
                 borderRadius: 20, overflow: 'hidden',
-                boxShadow: `0 8px 40px rgba(0,0,0,0.35), 0 0 0 0 ${color}22`,
+                boxShadow: `0 8px 40px rgba(0,0,0,0.28)`,
                 transition: 'transform 0.22s, box-shadow 0.22s, border-color 0.22s',
                 position: 'relative', cursor: 'pointer',
               }}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)';e.currentTarget.style.boxShadow=`0 16px 56px rgba(0,0,0,0.4), 0 0 32px ${color}18`;e.currentTarget.style.borderColor=`${color}50`}}
-              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.35)';e.currentTarget.style.borderColor=`${color}28`}}>
+              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)';e.currentTarget.style.boxShadow=`0 16px 56px rgba(0,0,0,0.38), 0 0 28px ${color}14`;e.currentTarget.style.borderColor=`${color}50`}}
+              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.28)';e.currentTarget.style.borderColor=`${color}30`}}>
 
               {/* ── COVER BANNER ── */}
-              <div style={{ position:'relative', height: sp.coverImage ? 110 : 64, overflow:'hidden', flexShrink:0 }}>
+              <div style={{ position:'relative', height: sp.coverImage ? 110 : 72, overflow:'hidden', flexShrink:0 }}>
                 {sp.coverImage
                   ? <img src={sp.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: sp.coverFocus||'50% 50%' }} />
-                  : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${color}30 0%,${color}08 55%,rgba(8,13,24,0.98) 100%)` }} />}
+                  : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${color}28 0%,${color}08 55%,rgba(8,13,24,0.0) 100%)` }} />}
                 {sp.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'60%', background:'linear-gradient(0deg,rgba(8,13,24,0.55) 0%,transparent 100%)' }} />}
-                {/* Accent line */}
-                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${color},${color}66,transparent)` }} />
-                {/* Official Partner badge top-right */}
-                <span style={{ position:'absolute', top:10, right:12, fontSize:9, background:`${color}18`, color, border:`1px solid ${color}40`, borderRadius:20, padding:'2px 9px', fontWeight:700, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>✓ Official Partner</span>
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${color},${color}55,transparent)` }} />
+                <span style={{ position:'absolute', top:10, right:12, fontSize:9, background:`rgba(8,13,24,0.6)`, color, border:`1px solid ${color}40`, borderRadius:20, padding:'2px 9px', fontWeight:700, backdropFilter:'blur(8px)' }}>✓ Official Partner</span>
               </div>
 
-              {/* ── LOGO overlaps cover ── */}
-              <div style={{ padding:'0 18px', marginTop:-30, position:'relative', zIndex:1 }}>
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:14 }}>
-                  <div style={{ width:60, height:60, borderRadius:15, overflow:'hidden', flexShrink:0,
-                    border: '3px solid #080d1a',
-                    boxShadow: `0 0 0 2px ${color}60, 0 6px 20px rgba(0,0,0,0.5)`,
-                    display:'flex', alignItems:'center', justifyContent:'center',
-                    background:`linear-gradient(135deg,${color}20,${color}40)` }}>
-                    {sp.logoUrl
-                      ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                      : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>}
-                  </div>
-                  {sp.city && <div style={{ fontSize:11, color:'rgba(232,228,217,0.45)', marginBottom:6, textAlign:'right' }}>📍 {sp.city}</div>}
+              {/* ── LOGO centered, bigger, overlaps cover ── */}
+              <div style={{ display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center', padding:'0 18px', marginTop:-38, position:'relative', zIndex:1 }}>
+                <div style={{ width:76, height:76, borderRadius:18, overflow:'hidden', flexShrink:0,
+                  border: '3px solid rgba(8,13,24,0.9)',
+                  boxShadow: `0 0 0 2px ${color}55, 0 8px 28px rgba(0,0,0,0.5)`,
+                  display:'flex', alignItems:'center', justifyContent:'center',
+                  background:`linear-gradient(135deg,${color}20,${color}44)`,
+                  marginBottom:12 }}>
+                  {sp.logoUrl
+                    ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                    : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:24, color }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>}
                 </div>
 
-                {/* Name */}
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, marginBottom:4, letterSpacing:'-0.3px', color:'#f0ece3' }}>{sp.name}</div>
+                {/* Name + city centered */}
+                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, marginBottom:3, letterSpacing:'-0.3px', color:'#f0ece3' }}>{sp.name}</div>
+                {sp.city && <div style={{ fontSize:11, color:'rgba(232,228,217,0.45)', marginBottom:12 }}>📍 {sp.city}</div>}
 
                 {/* Description */}
                 {(sp.desc?.en || sp.desc?.sq) && (
-                  <div style={{ fontSize:12, color:'rgba(232,228,217,0.55)', lineHeight:1.6, marginBottom:12,
+                  <div style={{ fontSize:12, color:'rgba(232,228,217,0.52)', lineHeight:1.6, marginBottom:14, textAlign:'center',
                     display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical', overflow:'hidden' }}>
                     {sp.desc[lang]||sp.desc.en}
                   </div>
@@ -1777,15 +1776,15 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
 
                 {/* Tags */}
                 {(sp.tags||[]).length > 0 && (
-                  <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:14 }}>
+                  <div style={{ display:'flex', gap:5, flexWrap:'wrap', justifyContent:'center', marginBottom:16 }}>
                     {sp.tags.slice(0,3).map(s=>(
-                      <span key={s} style={{ background:`${color}10`, color, border:`1px solid ${color}22`, borderRadius:20, padding:'3px 10px', fontSize:10, fontWeight:500 }}>{s}</span>
+                      <span key={s} style={{ background:`${color}0e`, color, border:`1px solid ${color}25`, borderRadius:20, padding:'3px 10px', fontSize:10 }}>{s}</span>
                     ))}
                   </div>
                 )}
 
                 {/* CTA */}
-                <div style={{ display:'flex', gap:8, paddingBottom:18 }}>
+                <div style={{ display:'flex', gap:8, paddingBottom:20, width:'100%' }}>
                   <button className="btn teal-btn" style={{ flex:1, padding:'10px', fontSize:12, fontWeight:700, borderRadius:10,
                     background:`linear-gradient(135deg,${color},${color}bb)`, border:'none', color:'#080d1a' }}
                     onClick={e=>{e.stopPropagation(); setEnquiryPartner(sp); setEnquirySent(false); setEForm({name:'',email:'',msg:''})}}>
@@ -1794,7 +1793,7 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
                   {website && (
                     <a href={`https://${website}`} target="_blank" rel="noopener noreferrer"
                       onClick={e=>e.stopPropagation()}
-                      style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 14px', background:`${color}0e`, border:`1px solid ${color}30`, borderRadius:10, color, textDecoration:'none', fontSize:12, fontWeight:600 }}>
+                      style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'10px 14px', background:`rgba(8,13,24,0.4)`, border:`1px solid ${color}30`, borderRadius:10, color, textDecoration:'none', fontSize:12, backdropFilter:'blur(8px)' }}>
                       🌐
                     </a>
                   )}
@@ -1803,6 +1802,7 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
             </div>
           )
         })}
+
       </div>
       {enquiryPartner && (
         <div className="modal-bg fi" onClick={e=>e.target===e.currentTarget&&setEnquiryPartner(null)}>
@@ -2767,6 +2767,9 @@ function SmartRegForm({ lang, t, regType, onDone }) {
                   }} />
                 </label>
                 {form.coverImage && <button onClick={()=>{f('coverImage',null);f('coverFocus',null)}} className="btn ghost" style={{fontSize:10,padding:'2px 8px'}}>✕ {lang==='sq'?'Hiq':'Remove'}</button>}
+                  <div style={{ fontSize:10, color:'rgba(251,146,60,0.45)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                    💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
+                  </div>
               </div>
             </div>
             <CoverFocusPicker image={form.coverImage} focus={form.coverFocus} onChange={pt=>f('coverFocus',pt)} accentColor="#fb923c" />
@@ -3177,8 +3180,8 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
           <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Manage all partner types shown on the platform</div>
         </div>
         <div style={{ display:'flex', gap:6 }}>
-          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='fixed'?G.goldDim:'rgba(255,255,255,0.04)', color:section==='fixed'?G.gold:G.muted, border:`1px solid ${section==='fixed'?G.goldBorder:'rgba(255,255,255,0.1)'}` }} onClick={()=>{setGpEdit(null);setSection('fixed')}}>rootsGTM & Gov</button>
-          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='db'?'rgba(45,212,191,0.1)':'rgba(255,255,255,0.04)', color:section==='db'?G.teal:G.muted, border:`1px solid ${section==='db'?'rgba(45,212,191,0.3)':'rgba(255,255,255,0.1)'}` }} onClick={()=>{setGpEdit(null);setSection('db')}}>General Partners ({gpList.length})</button>
+          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='fixed'?G.goldDim:'rgba(255,255,255,0.04)', color:section==='fixed'?G.gold:G.muted, border:`1px solid ${section==='fixed'?G.goldBorder:'rgba(255,255,255,0.1)'}` }} onClick={()=>{setGpEdit(null);setSection('fixed')}}>General Partner</button>
+          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='db'?'rgba(45,212,191,0.1)':'rgba(255,255,255,0.04)', color:section==='db'?G.teal:G.muted, border:`1px solid ${section==='db'?'rgba(45,212,191,0.3)':'rgba(255,255,255,0.1)'}` }} onClick={()=>{setGpEdit(null);setSection('db')}}>Partner ({gpList.length})</button>
         </div>
       </div>
       {gpMsg && <div style={{ fontSize:13, color:G.green, background:'rgba(52,199,89,0.08)', border:'1px solid rgba(52,199,89,0.2)', borderRadius:8, padding:'8px 14px' }}>{gpMsg}</div>}
@@ -3236,6 +3239,9 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   }} />
                 </label>
                 {partners.rootsgtm_cover && <button onClick={()=>setPartners(p=>({...p,rootsgtm_cover:null,rootsgtm_cover_focus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
+                  <div style={{ fontSize:10, color:'rgba(232,228,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                    💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
+                  </div>
               </div>
               <CoverFocusPicker image={partners.rootsgtm_cover} focus={partners.rootsgtm_cover_focus} onChange={pt=>setPartners(p=>({...p,rootsgtm_cover_focus:pt}))} accentColor="#2dd4bf" />
             </div>
@@ -3287,6 +3293,9 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   }} />
                 </label>
                 {partners.gov_cover && <button onClick={()=>setPartners(p=>({...p,gov_cover:null,gov_cover_focus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
+                  <div style={{ fontSize:10, color:'rgba(232,228,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                    💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
+                  </div>
               </div>
               <CoverFocusPicker image={partners.gov_cover} focus={partners.gov_cover_focus} onChange={pt=>setPartners(p=>({...p,gov_cover_focus:pt}))} accentColor="#d4a843" />
             </div>
@@ -3396,6 +3405,9 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                         }} />
                       </label>
                       {gpCover && <button onClick={()=>{setGpCover(null);setGpForm(f=>({...f,coverFocus:null}))}} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block'}}>✕ Remove</button>}
+                  <div style={{ fontSize:10, color:'rgba(232,228,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                    💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
+                  </div>
                     </div>
                   </div>
                   <CoverFocusPicker image={gpCover} focus={gpForm.coverFocus} onChange={pt=>setGpForm(f=>({...f,coverFocus:pt}))} accentColor={gpForm.logoColor||'#2dd4bf'} />
@@ -3712,7 +3724,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     { id: 'pending_profiles', label: 'New profiles',      labelEn: 'New profiles',         icon: '🆕' },
     { id: 'profiles',         label: 'All profiles',      labelEn: 'All profiles',          icon: '📋' },
     { id: 'pending_changes',  label: 'Change requests',   labelEn: 'Change requests',       icon: '✏️' },
-    { id: 'partners',         label: 'Partners',          labelEn: 'Partners',              icon: '🤝' },
+    { id: 'partners',         label: 'Partner',           labelEn: 'Partner',               icon: '🤝' },
     { id: 'government',       label: 'Government Page',   labelEn: 'Government Page',       icon: '🏛️' },
     { id: 'settings',         label: 'Settings',          labelEn: 'Settings',              icon: '⚙️' },
   ]
@@ -4173,6 +4185,9 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                         }} />
                       </label>
                       {editForm.coverImage && <button onClick={()=>setEditForm(f=>({...f,coverImage:null,coverFocus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px',display:'block'}}>✕ Remove</button>}
+                  <div style={{ fontSize:10, color:'rgba(251,146,60,0.45)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                    💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
+                  </div>
                     </div>
                   </div>
                   <CoverFocusPicker image={editForm.coverImage} focus={editForm.coverFocus} onChange={pt=>setEditForm(f=>({...f,coverFocus:pt}))} accentColor="#fb923c" />
@@ -4553,8 +4568,8 @@ export default function App() {
                         </div>
                         <div style={{ padding:'0 14px 14px', marginTop: p.coverImage ? -16 : 0, position:'relative', zIndex:1 }}>
                           <div style={{ display:'flex', alignItems:'flex-end', gap:10, marginBottom:10 }}>
-                            <div style={{ width:44, height:44, borderRadius:11, overflow:'hidden', flexShrink:0, border:'2px solid #080d1a', boxShadow:`0 0 0 1.5px ${p.logoColor||'#2dd4bf'}55`, background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,${p.logoColor||'#2dd4bf'}38)`, display:'flex', alignItems:'center', justifyContent:'center' }}>
-                              {p.logoUrl ? <img src={p.logoUrl} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} size={44} />}
+                            <div style={{ width:52, height:52, borderRadius:13, overflow:'hidden', flexShrink:0, border:'2px solid #080d1a', boxShadow:`0 0 0 1.5px ${p.logoColor||'#2dd4bf'}55`, background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,${p.logoColor||'#2dd4bf'}38)`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                              {p.logoUrl ? <img src={p.logoUrl} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} size={52} />}
                             </div>
                             <div style={{ paddingBottom:2 }}>
                               <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:'#f0ece3', lineHeight:1.2 }}>{p.name}</div>
