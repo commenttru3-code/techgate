@@ -540,11 +540,111 @@ function Avatar({ text, color, size = 46 }) {
 }
 
 // ─── COVER FOCUS PICKER — 3×3 grid to choose which part of a cover image shows ──
-const FOCUS_POINTS = [
-  ['0% 0%','50% 0%','100% 0%'],
-  ['0% 50%','50% 50%','100% 50%'],
-  ['0% 100%','50% 100%','100% 100%'],
-]
+// ─── COVER CROP PICKER — drag + zoom, produces a perfectly cropped image ──────
+function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
+  const [offsetX, setOffsetX] = React.useState(50)  // % position of image center
+  const [offsetY, setOffsetY] = React.useState(50)
+  const [zoom, setZoom]       = React.useState(1)
+  const dragging = React.useRef(false)
+  const startPos = React.useRef({ x: 0, y: 0, ox: 50, oy: 50 })
+  const containerRef = React.useRef()
+
+  if (!image) return null
+
+  const handleMouseDown = e => {
+    dragging.current = true
+    startPos.current = { x: e.clientX, y: e.clientY, ox: offsetX, oy: offsetY }
+    e.preventDefault()
+  }
+  const handleMouseMove = e => {
+    if (!dragging.current || !containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const dx = ((e.clientX - startPos.current.x) / rect.width)  * 100 / zoom
+    const dy = ((e.clientY - startPos.current.y) / rect.height) * 100 / zoom
+    setOffsetX(Math.max(0, Math.min(100, startPos.current.ox - dx)))
+    setOffsetY(Math.max(0, Math.min(100, startPos.current.oy - dy)))
+  }
+  const handleMouseUp = () => { dragging.current = false }
+
+  // Touch support
+  const handleTouchStart = e => {
+    dragging.current = true
+    startPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, ox: offsetX, oy: offsetY }
+  }
+  const handleTouchMove = e => {
+    if (!dragging.current || !containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const dx = ((e.touches[0].clientX - startPos.current.x) / rect.width)  * 100 / zoom
+    const dy = ((e.touches[0].clientY - startPos.current.y) / rect.height) * 100 / zoom
+    setOffsetX(Math.max(0, Math.min(100, startPos.current.ox - dx)))
+    setOffsetY(Math.max(0, Math.min(100, startPos.current.oy - dy)))
+    e.preventDefault()
+  }
+
+  const applyCrop = () => {
+    const img = new Image()
+    img.onload = () => {
+      const W = 900, H = 300   // 3:1 output
+      const c = document.createElement('canvas')
+      c.width = W; c.height = H
+      const ctx = c.getContext('2d')
+      // compute visible region from zoom + offset
+      const baseScale = Math.max(W / img.width, H / img.height) * zoom
+      const sw = W / baseScale, sh = H / baseScale
+      const sx = Math.max(0, Math.min(img.width  - sw, (img.width  - sw) * offsetX / 100))
+      const sy = Math.max(0, Math.min(img.height - sh, (img.height - sh) * offsetY / 100))
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H)
+      onApply(c.toDataURL('image/webp', 0.88))
+    }
+    img.src = image
+  }
+
+  return (
+    <div style={{ marginTop: 10 }}>
+      <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', marginBottom: 8, fontFamily: "'DM Sans',sans-serif" }}>
+        🖱 Drag to reposition · Slider to zoom · Click Apply to confirm
+      </div>
+      {/* Drag area — 3:1 preview */}
+      <div ref={containerRef}
+        style={{ position:'relative', width:'100%', maxWidth:300, height:100, borderRadius:10, overflow:'hidden',
+          border:`2px solid ${accentColor}55`, cursor:'grab', userSelect:'none', touchAction:'none' }}
+        onMouseDown={handleMouseDown} onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleMouseUp}>
+        <img src={image} alt="" draggable={false} style={{
+          position:'absolute', inset:0, width:`${zoom * 100}%`, height:`${zoom * 100}%`,
+          objectFit:'fill',
+          left: `${-(zoom - 1) * offsetX}%`,
+          top:  `${-(zoom - 1) * offsetY}%`,
+          maxWidth:'none', display:'block', pointerEvents:'none',
+        }} />
+        {/* Guide text overlay */}
+        <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center',
+          background:'rgba(0,0,0,0.0)', pointerEvents:'none' }}>
+          <span style={{ fontSize:9, color:'rgba(255,255,255,0.35)', background:'rgba(0,0,0,0.3)', borderRadius:4, padding:'2px 6px' }}>
+            drag to adjust
+          </span>
+        </div>
+      </div>
+      {/* Zoom slider */}
+      <div style={{ display:'flex', alignItems:'center', gap:8, marginTop:8 }}>
+        <span style={{ fontSize:10, color:'rgba(232,228,217,0.45)', flexShrink:0 }}>Zoom</span>
+        <input type="range" min="1" max="3" step="0.05" value={zoom}
+          onChange={e => setZoom(parseFloat(e.target.value))}
+          style={{ flex:1, accentColor }} />
+        <span style={{ fontSize:10, color:`${accentColor}cc`, width:30, textAlign:'right', flexShrink:0 }}>{zoom.toFixed(1)}×</span>
+      </div>
+      {/* Apply button */}
+      <button onClick={applyCrop} style={{ marginTop:10, width:'100%', padding:'7px', fontSize:11, fontWeight:700,
+        background:`linear-gradient(135deg,${accentColor},${accentColor}99)`, border:'none', borderRadius:8,
+        color:'#080c14', cursor:'pointer' }}>
+        ✓ Apply crop
+      </button>
+    </div>
+  )
+}
+
+// Keep backward-compat alias for places still using CoverFocusPicker
 function CoverFocusPicker({ image, focus, onChange, accentColor = '#d4a843' }) {
   if (!image) return null
   return (
@@ -555,11 +655,9 @@ function CoverFocusPicker({ image, focus, onChange, accentColor = '#d4a843' }) {
       <div style={{ position: 'relative', width: '100%', maxWidth: 240, borderRadius: 9, overflow: 'hidden', border: `1px solid ${accentColor}40` }}>
         <img src={image} alt="" style={{ width: '100%', height: 100, objectFit: 'cover', objectPosition: focus || '50% 50%', display: 'block' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '1fr 1fr 1fr' }}>
-          {FOCUS_POINTS.flat().map(pt => (
+          {['0% 0%','50% 0%','100% 0%','0% 50%','50% 50%','100% 50%','0% 100%','50% 100%','100% 100%'].map(pt => (
             <button key={pt} onClick={() => onChange(pt)}
-              style={{ border: (focus||'50% 50%') === pt ? `2px solid ${accentColor}` : '1px solid rgba(255,255,255,0.18)', background: (focus||'50% 50%') === pt ? `${accentColor}25` : 'rgba(0,0,0,0.05)', cursor: 'pointer', transition: 'all 0.15s' }}
-              onMouseEnter={e => { if ((focus||'50% 50%') !== pt) e.currentTarget.style.background = 'rgba(255,255,255,0.12)' }}
-              onMouseLeave={e => { if ((focus||'50% 50%') !== pt) e.currentTarget.style.background = 'rgba(0,0,0,0.05)' }}>
+              style={{ border: (focus||'50% 50%') === pt ? `2px solid ${accentColor}` : '1px solid rgba(255,255,255,0.18)', background: (focus||'50% 50%') === pt ? `${accentColor}25` : 'rgba(0,0,0,0.05)', cursor: 'pointer' }}>
               {(focus||'50% 50%') === pt && <span style={{ color: accentColor, fontSize: 12 }}>●</span>}
             </button>
           ))}
@@ -1746,7 +1844,6 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
                   : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${color}28 0%,${color}08 55%,rgba(8,13,24,0.0) 100%)` }} />}
                 {sp.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'60%', background:'linear-gradient(0deg,rgba(8,13,24,0.55) 0%,transparent 100%)' }} />}
                 <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${color},${color}55,transparent)` }} />
-                <span style={{ position:'absolute', top:10, right:12, fontSize:9, background:`rgba(8,13,24,0.6)`, color, border:`1px solid ${color}40`, borderRadius:20, padding:'2px 9px', fontWeight:700, backdropFilter:'blur(8px)' }}>✓ Official Partner</span>
               </div>
 
               {/* ── LOGO centered, bigger, overlaps cover ── */}
@@ -2772,7 +2869,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
                   </div>
               </div>
             </div>
-            <CoverFocusPicker image={form.coverImage} focus={form.coverFocus} onChange={pt=>f('coverFocus',pt)} accentColor="#fb923c" />
+            <CoverCropPicker image={form.coverImage} onApply={cropped=>f('coverImage',cropped)} accentColor="#fb923c" />
           </div>
         </div>
       )}
@@ -3243,7 +3340,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                     💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
                   </div>
               </div>
-              <CoverFocusPicker image={partners.rootsgtm_cover} focus={partners.rootsgtm_cover_focus} onChange={pt=>setPartners(p=>({...p,rootsgtm_cover_focus:pt}))} accentColor="#2dd4bf" />
+              <CoverCropPicker image={partners.rootsgtm_cover} onApply={cropped=>setPartners(p=>({...p,rootsgtm_cover:cropped}))} accentColor="#2dd4bf" />
             </div>
           </div>
 
@@ -3297,7 +3394,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                     💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
                   </div>
               </div>
-              <CoverFocusPicker image={partners.gov_cover} focus={partners.gov_cover_focus} onChange={pt=>setPartners(p=>({...p,gov_cover_focus:pt}))} accentColor="#d4a843" />
+              <CoverCropPicker image={partners.gov_cover} onApply={cropped=>setPartners(p=>({...p,gov_cover:cropped}))} accentColor="#d4a843" />
             </div>
           </div>
 
@@ -3410,7 +3507,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   </div>
                     </div>
                   </div>
-                  <CoverFocusPicker image={gpCover} focus={gpForm.coverFocus} onChange={pt=>setGpForm(f=>({...f,coverFocus:pt}))} accentColor={gpForm.logoColor||'#2dd4bf'} />
+                  <CoverCropPicker image={gpCover} onApply={cropped=>setGpCover(cropped)} accentColor={gpForm.logoColor||'#2dd4bf'} />
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
                   <div><label className="flabel">Name *</label><input className="inp" value={gpForm.name||''} onChange={e=>setGpForm(f=>({...f,name:e.target.value}))} placeholder="Organisation name" /></div>
@@ -4190,7 +4287,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                   </div>
                     </div>
                   </div>
-                  <CoverFocusPicker image={editForm.coverImage} focus={editForm.coverFocus} onChange={pt=>setEditForm(f=>({...f,coverFocus:pt}))} accentColor="#fb923c" />
+                  <CoverCropPicker image={editForm.coverImage} onApply={cropped=>setEditForm(f=>({...f,coverImage:cropped}))} accentColor="#fb923c" />
                 </div>
               )}
 
@@ -4554,29 +4651,33 @@ export default function App() {
                     onMouseLeave={e=>e.currentTarget.style.animationPlayState='running'}>
                     {items.map((p, idx) => (
                       <div key={idx} onClick={() => setProfileDetail(p)}
-                        style={{ display:'flex', flexDirection:'column', padding:0, background:'linear-gradient(160deg,rgba(45,212,191,0.06),rgba(8,13,24,0.94))', border:`1px solid ${p.logoColor||'#2dd4bf'}25`, borderRadius:16, cursor:'pointer', flexShrink:0, transition:'all 0.2s', width:220, overflow:'hidden',
+                        style={{ display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center',
+                          background:'linear-gradient(160deg,rgba(45,212,191,0.06),rgba(8,13,24,0.94))',
+                          border:`1px solid ${p.logoColor||'#2dd4bf'}25`, borderRadius:16, cursor:'pointer',
+                          flexShrink:0, transition:'all 0.2s', width:170, overflow:'hidden',
                           boxShadow:'0 4px 20px rgba(0,0,0,0.25)' }}
                         onMouseEnter={e=>{e.currentTarget.style.background=`linear-gradient(160deg,${p.logoColor||'#2dd4bf'}12,rgba(8,13,24,0.96))`;e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px ${p.logoColor||'#2dd4bf'}40`}}
                         onMouseLeave={e=>{e.currentTarget.style.background='linear-gradient(160deg,rgba(45,212,191,0.06),rgba(8,13,24,0.94))';e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'}}>
                         {/* Cover or gradient top */}
-                        <div style={{ position:'relative', height: p.coverImage ? 64 : 36, overflow:'hidden', flexShrink:0 }}>
+                        <div style={{ position:'relative', height: p.coverImage ? 52 : 32, overflow:'hidden', width:'100%', flexShrink:0 }}>
                           {p.coverImage
-                            ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />
+                            ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
                             : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,rgba(8,13,24,0.95))` }} />}
                           <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${p.logoColor||'#2dd4bf'},transparent)` }} />
-                          {p.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(8,13,24,0.6) 0%,transparent 100%)' }} />}
+                          {p.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'60%', background:'linear-gradient(0deg,rgba(8,13,24,0.65) 0%,transparent 100%)' }} />}
                         </div>
-                        <div style={{ padding:'0 14px 14px', marginTop: p.coverImage ? -16 : 0, position:'relative', zIndex:1 }}>
-                          <div style={{ display:'flex', alignItems:'flex-end', gap:10, marginBottom:10 }}>
-                            <div style={{ width:52, height:52, borderRadius:13, overflow:'hidden', flexShrink:0, border:'2px solid #080d1a', boxShadow:`0 0 0 1.5px ${p.logoColor||'#2dd4bf'}55`, background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,${p.logoColor||'#2dd4bf'}38)`, display:'flex', alignItems:'center', justifyContent:'center' }}>
-                              {p.logoUrl ? <img src={p.logoUrl} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} size={52} />}
-                            </div>
-                            <div style={{ paddingBottom:2 }}>
-                              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:'#f0ece3', lineHeight:1.2 }}>{p.name}</div>
-                              <div style={{ fontSize:10, color:p.logoColor||G.teal, marginTop:2 }}>✓ Partner</div>
-                            </div>
+                        {/* Centered logo overlapping cover */}
+                        <div style={{ marginTop: p.coverImage ? -22 : 8, marginBottom:8, position:'relative', zIndex:1 }}>
+                          <div style={{ width:52, height:52, borderRadius:13, overflow:'hidden', border:'2px solid #080d1a',
+                            boxShadow:`0 0 0 1.5px ${p.logoColor||'#2dd4bf'}55, 0 4px 14px rgba(0,0,0,0.4)`,
+                            background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,${p.logoColor||'#2dd4bf'}38)`,
+                            display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto' }}>
+                            {p.logoUrl ? <img src={p.logoUrl} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} size={52} />}
                           </div>
-                          {p.city && <div style={{ fontSize:10, color:'rgba(232,228,217,0.4)' }}>📍 {p.city}</div>}
+                        </div>
+                        <div style={{ padding:'0 10px 12px' }}>
+                          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:12, color:'#f0ece3', lineHeight:1.2, marginBottom:2 }}>{p.name}</div>
+                          {p.city && <div style={{ fontSize:10, color:'rgba(232,228,217,0.38)' }}>📍 {p.city}</div>}
                         </div>
                       </div>
                     ))}
