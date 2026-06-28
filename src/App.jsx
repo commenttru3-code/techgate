@@ -4574,32 +4574,38 @@ export default function App() {
                   <button className="btn ghost" style={{ fontSize:12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))', gap:18 }}>
-                  {sponsored.slice(0,6).map(p => (
+                  {sponsored.slice(0,6).map(p => {
+                    const sColor = p.logoColor || '#fb923c'
+                    return (
                     <div key={p.id} style={{
                       borderRadius:20, overflow:'hidden', position:'relative', cursor:'pointer',
-                      background:'linear-gradient(160deg,rgba(251,146,60,0.09) 0%,rgba(14,20,32,0.98) 60%)',
-                      border:'1px solid rgba(251,146,60,0.42)',
-                      boxShadow:'0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04)',
-                      transition:'all 0.28s cubic-bezier(0.4,0,0.2,1)',
+                      background: hexToRgba(sColor, 0.05),
+                      border: `1px solid ${hexToRgba(sColor, 0.28)}`,
+                      boxShadow:'0 6px 32px rgba(0,0,0,0.28)',
+                      transition:'all 0.25s cubic-bezier(0.4,0,0.2,1)',
                     }}
                       onClick={() => setProfileDetail(p)}
-                      onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-6px) scale(1.01)';e.currentTarget.style.boxShadow='0 24px 64px rgba(0,0,0,0.5),0 0 40px rgba(251,146,60,0.14),inset 0 1px 0 rgba(255,255,255,0.06)'}}
-                      onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.04)'}}>
+                      onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)';e.currentTarget.style.background=hexToRgba(sColor,0.09);e.currentTarget.style.boxShadow=`0 18px 52px rgba(0,0,0,0.35), 0 0 32px ${hexToRgba(sColor,0.12)}`;e.currentTarget.style.borderColor=hexToRgba(sColor,0.45)}}
+                      onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.background=hexToRgba(sColor,0.05);e.currentTarget.style.boxShadow='0 6px 32px rgba(0,0,0,0.28)';e.currentTarget.style.borderColor=hexToRgba(sColor,0.28)}}>
                       {/* Cover image — top bar with soft gradient fade */}
                       <div style={{ position:'relative', height: p.coverImage ? 90 : 3, overflow:'hidden', flexShrink:0 }}>
                         {p.coverImage && <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />}
-                        {!p.coverImage && <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}18,rgba(14,20,32,0.9))` }} />}
-                        <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
-                        <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' }} />
-                        <span style={{ position:'absolute', top:9, right:12, fontSize:9, background:'rgba(251,146,60,0.9)', color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>
+                        {!p.coverImage && <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${hexToRgba(sColor,0.14)},transparent)` }} />}
+                        <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(4,8,18,0.9) 0%, rgba(4,8,18,0.4) 45%, rgba(4,8,18,0) 100%)' }} />
+                        <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${hexToRgba(sColor,0.9)},${hexToRgba(sColor,0.4)},transparent)` }} />
+                        <span style={{ position:'absolute', top:9, right:12, fontSize:9, background:`${hexToRgba(sColor,0.18)}`, color:sColor, border:`1px solid ${hexToRgba(sColor,0.40)}`, borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.4px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>
                       </div>
                       <div style={{ padding:'18px 20px 20px', marginTop: p.coverImage ? -12 : 0, position:'relative', zIndex:1 }}>
-                        {/* Logo — bigger for sponsored */}
+                        {/* Logo */}
                         <div style={{ display:'flex', alignItems:'flex-end', gap:14, marginBottom:14 }}>
-                          <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '2px solid rgba(255,255,255,0.3)' : '3px solid rgba(251,146,60,0.5)', boxShadow:'0 0 24px rgba(251,146,60,0.22)', display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}25,${p.logoColor||'#fb923c'}48)` }}>
+                          <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0,
+                            border: p.coverImage ? '3px solid rgba(4,8,18,0.9)' : `2px solid ${hexToRgba(sColor,0.40)}`,
+                            boxShadow:`0 0 0 1px ${hexToRgba(sColor,0.22)}, 0 4px 18px rgba(0,0,0,0.4)`,
+                            display:'flex', alignItems:'center', justifyContent:'center',
+                            background:`linear-gradient(135deg,${hexToRgba(sColor,0.22)},${hexToRgba(sColor,0.10)})` }}>
                             {p.logoUrl
                               ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                              : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:900, fontSize:20, color:p.logoColor||G.orange }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+                              : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:900, fontSize:20, color:sColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
                           </div>
                           <div style={{ paddingBottom:4 }}>
                             <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, marginBottom:3, letterSpacing:'-0.3px' }}>{p.name}</div>
@@ -4609,24 +4615,26 @@ export default function App() {
                             </div>
                           </div>
                         </div>
-                        <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.68)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
+                        <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.65)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
                         {(p.tags||[]).length>0 && (
                           <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:16 }}>
-                            {p.tags.slice(0,4).map(tg=><span key={tg} style={{ fontSize:10, background:'rgba(251,146,60,0.1)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.22)', borderRadius:20, padding:'3px 9px', fontWeight:600 }}>{tg}</span>)}
+                            {p.tags.slice(0,4).map(tg=><span key={tg} style={{ fontSize:10, background:hexToRgba(sColor,0.10), color:sColor, border:`1px solid ${hexToRgba(sColor,0.22)}`, borderRadius:20, padding:'3px 9px', fontWeight:600 }}>{tg}</span>)}
                           </div>
                         )}
                         <div style={{ display:'flex', gap:9, alignItems:'center' }}>
-                          <button className="btn" style={{ flex:1, padding:'10px', fontSize:12, fontWeight:700, background:'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))', color:G.orange, border:'1px solid rgba(251,146,60,0.38)', borderRadius:10, transition:'all 0.18s' }}
-                            onMouseEnter={e=>{e.currentTarget.style.background='linear-gradient(135deg,rgba(251,146,60,0.28),rgba(251,146,60,0.18))'}}
-                            onMouseLeave={e=>{e.currentTarget.style.background='linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))'}}
+                          <button className="btn" style={{ flex:1, padding:'10px', fontSize:12, fontWeight:700,
+                            background:hexToRgba(sColor,0.12), color:sColor, border:`1px solid ${hexToRgba(sColor,0.32)}`, borderRadius:10, transition:'all 0.18s' }}
+                            onMouseEnter={e=>{e.currentTarget.style.background=hexToRgba(sColor,0.22)}}
+                            onMouseLeave={e=>{e.currentTarget.style.background=hexToRgba(sColor,0.12)}}
                             onClick={e=>{e.stopPropagation();setProfileDetail(p)}}>
                             View profile →
                           </button>
-                          {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:20, padding:'4px 10px', fontWeight:700, whiteSpace:'nowrap' }}>✓ Verified</span>}
+                          {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.08)', color:G.green, border:'1px solid rgba(52,199,89,0.22)', borderRadius:20, padding:'4px 10px', fontWeight:700, whiteSpace:'nowrap' }}>✓ Verified</span>}
                         </div>
                       </div>
                     </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </section>
             )
