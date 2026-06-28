@@ -413,8 +413,8 @@ body{background:#080c14;margin:0;-webkit-font-smoothing:antialiased;}
 .ghost:hover{color:#e8e4d9;border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04);}
 .teal-btn{background:linear-gradient(135deg,#2dd4bf,#0d9488);color:white;padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;}
 .teal-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,212,191,0.28);}
-.card{background:rgba(255,255,255,0.03);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,0.09);border-radius:14px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
-.card:hover{background:rgba(255,255,255,0.055);border-color:rgba(212,168,67,0.28);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.06);}
+.card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:14px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
+.card:hover{background:rgba(255,255,255,0.04);border-color:rgba(212,168,67,0.28);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.30);}
 .inp{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px 13px;color:#e8e4d9;font-size:14px;outline:none;width:100%;font-family:'DM Sans',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
 .inp:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,0.09);background:rgba(255,255,255,0.07);}
 .inp::placeholder{color:rgba(232,228,217,0.26);}
@@ -822,13 +822,13 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
           </div>
           {(p.desc?.[lang]||p.desc?.en) && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.78)', lineHeight:1.75, marginBottom:16 }}>{p.desc[lang]||p.desc.en}</p>}
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:9, marginBottom:16 }}>
-            {p.cat && !isPartner && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div><div style={{ fontSize:12, fontWeight:600 }}>{catLabel(p.cat,lang)}</div></div>}
-            {isFL && p.languages && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div><div style={{ fontSize:12, fontWeight:600 }}>🗣 {p.languages}</div></div>}
-            {!isFL && p.employees && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Team</div><div style={{ fontSize:12, fontWeight:600 }}>👥 {p.employees}</div></div>}
-            {p.markets && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div><div style={{ fontSize:12, fontWeight:600 }}>🌍 {p.markets}</div></div>}
+            {p.cat && !isPartner && <div style={{ background:`${p.logoColor||'#2dd4bf'}0d`, border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div><div style={{ fontSize:12, fontWeight:600 }}>{catLabel(p.cat,lang)}</div></div>}
+            {isFL && p.languages && <div style={{ background:`${p.logoColor||'#2dd4bf'}0d`, border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div><div style={{ fontSize:12, fontWeight:600 }}>🗣 {p.languages}</div></div>}
+            {!isFL && p.employees && <div style={{ background:`${p.logoColor||'#2dd4bf'}0d`, border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Team</div><div style={{ fontSize:12, fontWeight:600 }}>👥 {p.employees}</div></div>}
+            {p.markets && <div style={{ background:`${p.logoColor||'#2dd4bf'}0d`, border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div><div style={{ fontSize:12, fontWeight:600 }}>🌍 {p.markets}</div></div>}
           </div>
           {(p.tags||[]).length>0 && <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:16 }}>{p.tags.map(tg=><span key={tg} style={{ fontSize:11, background:`${accentColor}10`, color:accentColor, border:`1px solid ${accentColor}28`, borderRadius:20, padding:'3px 11px' }}>{tg}</span>)}</div>}
-          {!isPartner && <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px', marginBottom:16 }}><div style={{ fontSize:12, color:accentColor }}>💼 {t.rateNote}</div></div>}
+          {!isPartner && <div style={{ background:`${p.logoColor||'#2dd4bf'}0d`, border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px', marginBottom:16 }}><div style={{ fontSize:12, color:accentColor }}>💼 {t.rateNote}</div></div>}
           <div style={{ display:'flex', gap:9, flexWrap:'wrap' }}>
             {p.contact && !isPartner && <button className="btn gbtn" style={{ flex:1, padding:'11px', fontSize:13, fontWeight:700 }} onClick={()=>{ onContact(p); onClose() }}>✉️ {lang==='sq'?'Kontakt':'Contact'}</button>}
             {isPartner && <button className="btn teal-btn" style={{ flex:1, padding:'11px', fontSize:13, fontWeight:700 }} onClick={onClose}>✉️ {lang==='sq'?'Dërgoni kërkesë':'Send Enquiry'}</button>}
@@ -1074,7 +1074,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             ))}
           </div>
         )}
-        <div style={{ background:'rgba(255,255,255,0.03)', border:`1px solid ${isSp?'rgba(251,146,60,0.15)':G.border}`, borderRadius:7, padding:'6px 11px', marginBottom:11 }}>
+        <div style={{ background:`${p.logoColor||'#2dd4bf'}0d`, border:`1px solid ${isSp?'rgba(251,146,60,0.15)':G.border}`, borderRadius:7, padding:'6px 11px', marginBottom:11 }}>
           <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:11, color:isSp?'#fb923c':G.teal, fontWeight:500 }}>💼 {t.rateNote}</div>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
@@ -1701,7 +1701,8 @@ function MatchPage({ lang, t }) {
                 <div key={p.id} className={`card fu${isSp ? ' glow' : ''}`}
                   style={{ padding: 0, overflow: 'hidden', position: 'relative', animationDelay: `${i * 0.04}s`,
                     borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border,
-                    background: isSp ? 'rgba(251,146,60,0.04)' : 'rgba(255,255,255,0.03)' }}>
+                    background: isSp ? 'rgba(251,146,60,0.05)' : 'rgba(255,255,255,0.02)',
+                    borderColor: isSp ? 'rgba(251,146,60,0.3)' : 'rgba(255,255,255,0.07)' }}>
                   {/* Cover top bar with soft fade */}
                   {(p.coverImage || isSp) && (
                     <div style={{ position:'relative', height: p.coverImage ? 72 : 36, overflow:'hidden', flexShrink:0 }}>
@@ -1825,10 +1826,10 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
             <div key={sp.id}
               onClick={() => setDetailPartner(sp)}
               style={{
-                background: 'rgba(255,255,255,0.04)',
+                background: `${color}0d`,
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
-                border: `1px solid ${color}30`,
+                border: `1px solid ${color}35`,
                 borderRadius: 20, overflow: 'hidden',
                 boxShadow: `0 8px 40px rgba(0,0,0,0.28)`,
                 transition: 'transform 0.22s, box-shadow 0.22s, border-color 0.22s',
@@ -4438,7 +4439,7 @@ export default function App() {
             ))}
           </div>
           <div style={{ width: 1, height: 18, background: G.border, margin: '0 6px' }} />
-          <div style={{ display: 'flex', gap: 2, background: 'rgba(255,255,255,0.04)', border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
+          <div style={{ display: 'flex', gap: 2, background: `${color}0d`, border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
             {['en', 'sq'].map(l => (
               <button key={l} onClick={() => setLang(l)} className="btn" style={{ padding: '4px 9px', fontSize: 11, fontWeight: 700, background: lang === l ? 'rgba(212,168,67,0.18)' : 'transparent', color: lang === l ? G.gold : G.muted, border: `1px solid ${lang === l ? G.goldBorder : 'transparent'}`, borderRadius: 6 }}>
                 {FLAGS[l]} {l.toUpperCase()}
@@ -4652,12 +4653,12 @@ export default function App() {
                     {items.map((p, idx) => (
                       <div key={idx} onClick={() => setProfileDetail(p)}
                         style={{ display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center',
-                          background:'rgba(255,255,255,0.03)',
+                          background:`${p.logoColor||'#2dd4bf'}0d`,
                           border:`1px solid ${p.logoColor||'#2dd4bf'}25`, borderRadius:16, cursor:'pointer',
                           flexShrink:0, transition:'all 0.2s', width:170, overflow:'hidden',
                           boxShadow:'0 4px 20px rgba(0,0,0,0.25)' }}
                         onMouseEnter={e=>{e.currentTarget.style.background=`${p.logoColor||'#2dd4bf'}10`;e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px ${p.logoColor||'#2dd4bf'}40`}}
-                        onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.02)';e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'}}>
+                        onMouseLeave={e=>{e.currentTarget.style.background=`${p.logoColor||'#2dd4bf'}05`;e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'}}>
                         {/* Cover or gradient top */}
                         <div style={{ position:'relative', height: p.coverImage ? 52 : 32, overflow:'hidden', width:'100%', flexShrink:0 }}>
                           {p.coverImage
