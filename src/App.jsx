@@ -516,6 +516,14 @@ function Stars({ r }) {
   )
 }
 
+function hexToRgba(hex, alpha) {
+  try {
+    const h = hex.replace('#','')
+    const r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16)
+    return `rgba(${r},${g},${b},${alpha})`
+  } catch { return `rgba(45,212,191,${alpha})` }
+}
+
 function Logo({ text, color, size = 44, url = null }) {
   if (url) {
     return (
@@ -1826,17 +1834,15 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
             <div key={sp.id}
               onClick={() => setDetailPartner(sp)}
               style={{
-                background: `rgba(255,255,255,0.04)`,
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: `1px solid ${color}35`,
+                background: hexToRgba(color, 0.05),
+                border: `1px solid ${hexToRgba(color, 0.28)}`,
                 borderRadius: 20, overflow: 'hidden',
-                boxShadow: `0 8px 40px rgba(0,0,0,0.28)`,
+                boxShadow: `0 8px 40px rgba(0,0,0,0.22)`,
                 transition: 'transform 0.22s, box-shadow 0.22s, border-color 0.22s',
                 position: 'relative', cursor: 'pointer',
               }}
-              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)';e.currentTarget.style.boxShadow=`0 16px 56px rgba(0,0,0,0.38), 0 0 28px ${color}14`;e.currentTarget.style.borderColor=`${color}50`}}
-              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.28)';e.currentTarget.style.borderColor=`${color}30`}}>
+              onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-5px)';e.currentTarget.style.boxShadow=`0 16px 56px rgba(0,0,0,0.32), 0 0 28px ${hexToRgba(color,0.12)}`;e.currentTarget.style.borderColor=hexToRgba(color,0.45)}}
+              onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 8px 40px rgba(0,0,0,0.22)';e.currentTarget.style.borderColor=hexToRgba(color,0.28)}}>
 
               {/* ── COVER BANNER ── */}
               <div style={{ position:'relative', height: sp.coverImage ? 110 : 72, overflow:'hidden', flexShrink:0 }}>
@@ -4653,12 +4659,12 @@ export default function App() {
                     {items.map((p, idx) => (
                       <div key={idx} onClick={() => setProfileDetail(p)}
                         style={{ display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center',
-                          background:'rgba(255,255,255,0.04)',
-                          border:`1px solid ${p.logoColor||'#2dd4bf'}25`, borderRadius:16, cursor:'pointer',
+                          background: hexToRgba(p.logoColor||'#2dd4bf', 0.05),
+                          border:`1px solid ${hexToRgba(p.logoColor||'#2dd4bf', 0.28)}`, borderRadius:16, cursor:'pointer',
                           flexShrink:0, transition:'all 0.2s', width:170, overflow:'hidden',
-                          boxShadow:'0 4px 20px rgba(0,0,0,0.25)' }}
-                        onMouseEnter={e=>{e.currentTarget.style.background=`${p.logoColor||'#2dd4bf'}10`;e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px ${p.logoColor||'#2dd4bf'}40`}}
-                        onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.02)';e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.25)'}}>
+                          boxShadow:'0 4px 20px rgba(0,0,0,0.18)' }}
+                        onMouseEnter={e=>{e.currentTarget.style.background=hexToRgba(p.logoColor||'#2dd4bf',0.10);e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.28), 0 0 0 1px ${hexToRgba(p.logoColor||'#2dd4bf',0.40)}`}}
+                        onMouseLeave={e=>{e.currentTarget.style.background=hexToRgba(p.logoColor||'#2dd4bf',0.05);e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.18)'}}>
                         {/* Cover or gradient top */}
                         <div style={{ position:'relative', height: p.coverImage ? 52 : 32, overflow:'hidden', width:'100%', flexShrink:0 }}>
                           {p.coverImage
