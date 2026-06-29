@@ -3405,10 +3405,32 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
             </div>
           </div>
 
+          {/* ── Concierge page text ── */}
+          <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'20px 22px' }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:14 }}>📄 Concierge Page Text</div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">Hero Title</label><input className="inp" value={concierge.hero_title||''} onChange={e=>setConcierge(c=>({...c,hero_title:e.target.value}))} placeholder="Kosova Concierge" /></div>
+              <div><label className="flabel">Hero Subtitle</label><input className="inp" value={concierge.hero_sub||''} onChange={e=>setConcierge(c=>({...c,hero_sub:e.target.value}))} placeholder="Our partners organise your complete business visit." /></div>
+            </div>
+            <div style={{ marginBottom:10 }}><label className="flabel">rootsGTM Description</label>
+              <textarea className="inp" rows={2} style={{resize:'vertical'}} value={partners.rootsgtm_desc||''} onChange={e=>setPartners(p=>({...p,rootsgtm_desc:e.target.value}))} /></div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div><label className="flabel">Government Name</label><input className="inp" value={partners.gov_name||''} onChange={e=>setPartners(p=>({...p,gov_name:e.target.value}))} placeholder="Kosova Government" /></div>
+              <div><label className="flabel">Government Subtitle</label><input className="inp" value={partners.gov_sub||''} onChange={e=>setPartners(p=>({...p,gov_sub:e.target.value}))} placeholder="InvestKosova · Official Partner" /></div>
+            </div>
+            <div><label className="flabel">Government Description</label>
+              <textarea className="inp" rows={2} style={{resize:'vertical'}} value={partners.gov_desc||''} onChange={e=>setPartners(p=>({...p,gov_desc:e.target.value}))} /></div>
+          </div>
+
           {settingsSaved==='partners' && <div style={{ fontSize:12, color:G.green }}>✓ Saved to database</div>}
-          <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'10px 24px' }} onClick={savePartners} disabled={saving}>
-            {saving ? 'Saving…' : '💾 Save General Partner Details'}
-          </button>
+          <div style={{ display:'flex', gap:10 }}>
+            <button className="btn gbtn" style={{ alignSelf:'flex-start', padding:'10px 24px' }} onClick={savePartners} disabled={saving}>
+              {saving ? 'Saving…' : '💾 Save General Partner Details'}
+            </button>
+            <button className="btn ghost" style={{ alignSelf:'flex-start', padding:'10px 24px' }} onClick={saveConcierge} disabled={saving}>
+              💾 Save Concierge Text
+            </button>
+          </div>
         </div>
       )}
 
