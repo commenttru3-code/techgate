@@ -3220,7 +3220,7 @@ const INITIAL_PENDING = [
 ]
 
 // ─── ADMIN PARTNERS TAB ───────────────────────────────────────────────────────
-function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, savePartners, saving, settingsSaved }) {
+function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, savePartners, concierge, setConcierge, saveConcierge, saving, settingsSaved }) {
   const gpList = profiles.filter(p => p.type === 'partner')
   const [gpEdit, setGpEdit] = React.useState(null)
   const [gpForm, setGpForm] = React.useState({})
@@ -4114,6 +4114,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       {tab === 'partners' && (
         <AdminPartnersTab profiles={profiles} setProfiles={setProfiles} G={G}
           partners={partners} setPartners={setPartners} savePartners={savePartners}
+          concierge={concierge} setConcierge={setConcierge} saveConcierge={saveConcierge}
           saving={saving} settingsSaved={settingsSaved} />
       )}
 
