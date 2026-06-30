@@ -550,14 +550,50 @@ function Avatar({ text, color, size = 46 }) {
 // ─── COVER FOCUS PICKER — 3×3 grid to choose which part of a cover image shows ──
 // ─── COVER CROP PICKER — drag + zoom, produces a perfectly cropped image ──────
 function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
-  const [offsetX, setOffsetX] = React.useState(50)  // % position of image center
-  const [offsetY, setOffsetY] = React.useState(50)
-  const [zoom, setZoom]       = React.useState(1)
-  const dragging = React.useRef(false)
-  const startPos = React.useRef({ x: 0, y: 0, ox: 50, oy: 50 })
+  const [offsetX, setOffsetX]   = React.useState(50)  // 0–100: position within the pannable range
+  const [offsetY, setOffsetY]   = React.useState(50)
+  const [zoom, setZoom]         = React.useState(1)
+  const [natural, setNatural]   = React.useState(null) // { w, h } of the source image
+  const dragging   = React.useRef(false)
+  const startPos    = React.useRef({ x: 0, y: 0, ox: 50, oy: 50 })
   const containerRef = React.useRef()
 
   if (!image) return null
+
+  const CONTAINER_ASPECT = 3 // output is 900×300 → 3:1
+
+  // Base "cover" size as a % of the container, BEFORE zoom is applied.
+  // One dimension is always exactly 100% (the tightly-fitted one); the other
+  // overflows according to how the image's aspect ratio differs from 3:1.
+  let baseWidthPct = 100, baseHeightPct = 100
+  if (natural && natural.w && natural.h) {
+    const imgAspect = natural.w / natural.h
+    if (imgAspect >= CONTAINER_ASPECT) {
+      baseHeightPct = 100
+      baseWidthPct  = (imgAspect / CONTAINER_ASPECT) * 100
+    } else {
+      baseWidthPct  = 100
+      baseHeightPct = (CONTAINER_ASPECT / imgAspect) * 100
+    }
+  }
+
+  const dispWidthPct  = baseWidthPct  * zoom
+  const dispHeightPct = baseHeightPct * zoom
+  const extraWidthPct  = Math.max(0, dispWidthPct  - 100)
+  const extraHeightPct = Math.max(0, dispHeightPct - 100)
+  const leftPct = -(extraWidthPct  * offsetX / 100)
+  const topPct  = -(extraHeightPct * offsetY / 100)
+
+  const applyDelta = (dxPx, dyPx) => {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const dxPct = (dxPx / rect.width)  * 100
+    const dyPct = (dyPx / rect.height) * 100
+    const dOffsetX = extraWidthPct  > 0 ? (dxPct / extraWidthPct)  * 100 : 0
+    const dOffsetY = extraHeightPct > 0 ? (dyPct / extraHeightPct) * 100 : 0
+    setOffsetX(Math.max(0, Math.min(100, startPos.current.ox - dOffsetX)))
+    setOffsetY(Math.max(0, Math.min(100, startPos.current.oy - dOffsetY)))
+  }
 
   const handleMouseDown = e => {
     dragging.current = true
@@ -565,12 +601,8 @@ function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
     e.preventDefault()
   }
   const handleMouseMove = e => {
-    if (!dragging.current || !containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    const dx = ((e.clientX - startPos.current.x) / rect.width)  * 100 / zoom
-    const dy = ((e.clientY - startPos.current.y) / rect.height) * 100 / zoom
-    setOffsetX(Math.max(0, Math.min(100, startPos.current.ox - dx)))
-    setOffsetY(Math.max(0, Math.min(100, startPos.current.oy - dy)))
+    if (!dragging.current) return
+    applyDelta(e.clientX - startPos.current.x, e.clientY - startPos.current.y)
   }
   const handleMouseUp = () => { dragging.current = false }
 
@@ -580,12 +612,8 @@ function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
     startPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, ox: offsetX, oy: offsetY }
   }
   const handleTouchMove = e => {
-    if (!dragging.current || !containerRef.current) return
-    const rect = containerRef.current.getBoundingClientRect()
-    const dx = ((e.touches[0].clientX - startPos.current.x) / rect.width)  * 100 / zoom
-    const dy = ((e.touches[0].clientY - startPos.current.y) / rect.height) * 100 / zoom
-    setOffsetX(Math.max(0, Math.min(100, startPos.current.ox - dx)))
-    setOffsetY(Math.max(0, Math.min(100, startPos.current.oy - dy)))
+    if (!dragging.current) return
+    applyDelta(e.touches[0].clientX - startPos.current.x, e.touches[0].clientY - startPos.current.y)
     e.preventDefault()
   }
 
@@ -596,7 +624,6 @@ function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
       const c = document.createElement('canvas')
       c.width = W; c.height = H
       const ctx = c.getContext('2d')
-      // compute visible region from zoom + offset
       const baseScale = Math.max(W / img.width, H / img.height) * zoom
       const sw = W / baseScale, sh = H / baseScale
       const sx = Math.max(0, Math.min(img.width  - sw, (img.width  - sw) * offsetX / 100))
@@ -615,20 +642,20 @@ function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
       {/* Drag area — 3:1 preview */}
       <div ref={containerRef}
         style={{ position:'relative', width:'100%', maxWidth:300, height:100, borderRadius:10, overflow:'hidden',
-          border:`2px solid ${accentColor}55`, cursor:'grab', userSelect:'none', touchAction:'none' }}
+          border:`2px solid ${accentColor}55`, cursor:'grab', userSelect:'none', touchAction:'none', background:'#000' }}
         onMouseDown={handleMouseDown} onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}
         onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleMouseUp}>
-        <img src={image} alt="" draggable={false} style={{
-          position:'absolute', inset:0, width:`${zoom * 100}%`, height:`${zoom * 100}%`,
-          objectFit:'fill',
-          left: `${-(zoom - 1) * offsetX}%`,
-          top:  `${-(zoom - 1) * offsetY}%`,
-          maxWidth:'none', display:'block', pointerEvents:'none',
-        }} />
+        <img src={image} alt="" draggable={false}
+          onLoad={e => setNatural({ w: e.target.naturalWidth, h: e.target.naturalHeight })}
+          style={{
+            position:'absolute',
+            width:`${dispWidthPct}%`, height:`${dispHeightPct}%`,
+            left:`${leftPct}%`, top:`${topPct}%`,
+            maxWidth:'none', display:'block', pointerEvents:'none',
+          }} />
         {/* Guide text overlay */}
-        <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center',
-          background:'rgba(0,0,0,0.0)', pointerEvents:'none' }}>
+        <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', pointerEvents:'none' }}>
           <span style={{ fontSize:9, color:'rgba(255,255,255,0.35)', background:'rgba(0,0,0,0.3)', borderRadius:4, padding:'2px 6px' }}>
             drag to adjust
           </span>
