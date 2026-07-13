@@ -274,7 +274,7 @@ const CATS = [
   { id: 'support',    icon: '🛠️', color: '#a78bfa', labels: { en: 'Tech Support',      sq: 'Mbështetje Tech'   }, count: 0 },
   { id: 'consulting', icon: '📊', color: '#34d399', labels: { en: 'Consulting',         sq: 'Konsulencë'       }, count: 0 },
   { id: 'media',      icon: '🎬', color: '#e879f9', labels: { en: 'Media & Content',    sq: 'Media & Content'  }, count: 0 },
-  { id: 'production', icon: '🏭', color: '#fb923c', labels: { en: 'Production',         sq: 'Prodhim'          }, count: 0 },
+  { id: 'production', icon: '🏭', color: '#c9943a', labels: { en: 'Production',         sq: 'Prodhim'          }, count: 0 },
   { id: 'textile',    icon: '🧵', color: '#f9a8d4', labels: { en: 'Textile & Fashion',  sq: 'Tekstil & Modë'   }, count: 0 },
   { id: 'bpo',        icon: '📞', color: '#f472b6', labels: { en: 'BPO / Call Centre',  sq: 'BPO / Call Center'}, count: 0 },
   { id: 'design',     icon: '🎨', color: '#facc15', labels: { en: 'Design & Creative',  sq: 'Dizajn & Kreativ' }, count: 0 },
@@ -300,7 +300,7 @@ const PROFILES = [
    desc: { de: '7 Jahre React-Erfahrung. SaaS-Frontend-Spezialist.', en: '7 years React. SaaS frontend specialist.', sq: '7 vite React. Specialist frontend SaaS.', sv: '7 år React. SaaS-frontendspecialist.' } },
   { id: 'f4', tier: 'premium', type: 'freelancer', name: 'Visar Berisha', cat: 'software', city: 'Ferizaj',
    tags: ['Python', 'Django', 'PostgreSQL'], rating: 4.7, reviews: 15, verified: true,
-   availability: 'remote', experience: '6', logo: 'VB', logoColor: '#fb923c',
+   availability: 'remote', experience: '6', logo: 'VB', logoColor: '#c9943a',
    contact: 'v.berisha@gmail.com',
    availFrom: '2025-05-15', availUntil: '2025-09-30', capacity: 1, remote: true, languages: 'EN, SQ',
    skills: ['Python', 'Django', 'PostgreSQL', 'REST API', 'Docker'],
@@ -371,24 +371,24 @@ const PROFILES = [
 ]
 
 const SALES_PEOPLE = [
-  { id: 'sp1', name: 'Mentor Gashi', city: 'Pristina', languages: 'DE, EN, SQ', logo: 'MG', logoColor: '#2dd4bf', rating: 4.9, reviews: 47, deals: 124, experience: '8', title: { de: 'Senior Sales Spezialist', en: 'Senior Sales Specialist', sq: 'Specialist i Lartë Shitjesh', sv: 'Senior säljspecialist' }, specialties: { de: ['IT-Outsourcing', 'Firmengründung', 'Tech-Events'], en: ['IT Outsourcing', 'Company formation', 'Tech events'], sq: ['IT Outsourcing', 'Themelim', 'Evente'], sv: ['IT-outsourcing', 'Bolagsbildning', 'Event'] }, bio: { de: 'Ehemaliger BD-Manager bei deutschem IT-Konzern. 124 erfolgreiche EU-Kosova-Kooperationen.', en: 'Former BD manager at German IT company. 124 successful deals.', sq: 'Ish-menaxher BD. 124 bashkëpunime të suksesshme.', sv: 'Tidigare BD-chef. 124 framgångsrika affärer.' }, contact: 'mentor@bbplatform.com', phone: '+383 44 123 456' },
+  { id: 'sp1', name: 'Mentor Gashi', city: 'Pristina', languages: 'DE, EN, SQ', logo: 'MG', logoColor: '#4a8fa8', rating: 4.9, reviews: 47, deals: 124, experience: '8', title: { de: 'Senior Sales Spezialist', en: 'Senior Sales Specialist', sq: 'Specialist i Lartë Shitjesh', sv: 'Senior säljspecialist' }, specialties: { de: ['IT-Outsourcing', 'Firmengründung', 'Tech-Events'], en: ['IT Outsourcing', 'Company formation', 'Tech events'], sq: ['IT Outsourcing', 'Themelim', 'Evente'], sv: ['IT-outsourcing', 'Bolagsbildning', 'Event'] }, bio: { de: 'Ehemaliger BD-Manager bei deutschem IT-Konzern. 124 erfolgreiche EU-Kosova-Kooperationen.', en: 'Former BD manager at German IT company. 124 successful deals.', sq: 'Ish-menaxher BD. 124 bashkëpunime të suksesshme.', sv: 'Tidigare BD-chef. 124 framgångsrika affärer.' }, contact: 'mentor@bbplatform.com', phone: '+383 44 123 456' },
   { id: 'sp2', name: 'Fjolla Kelmendi', city: 'Prizren', languages: 'DE, EN, SQ, IT', logo: 'FK', logoColor: '#a78bfa', rating: 4.8, reviews: 31, deals: 67, experience: '5', title: { de: 'Sales Spezialistin · Süd-Kosova', en: 'Sales Specialist · South Kosova', sq: 'Specialiste · Jug-Kosovë', sv: 'Säljspecialist · Södra Kosova' }, specialties: { de: ['Produktion', 'Design', 'E-Commerce'], en: ['Production', 'Design', 'E-Commerce'], sq: ['Prodhim', 'Dizajn', 'E-Commerce'], sv: ['Tillverkning', 'Design', 'E-handel'] }, bio: { de: 'MBA. Fokus auf Produktionsbetriebe. Handelskammer Prizren.', en: 'MBA. Focus on production. Prizren Chamber of Commerce.', sq: 'MBA. Fokus prodhimi. Dhoma Tregtie Prizren.', sv: 'MBA. Tillverkning. Handelskammare Prizren.' }, contact: 'fjolla@bbplatform.com', phone: '+383 45 234 567' },
-  { id: 'sp3', name: 'Besnik Rama', city: 'Pristina', languages: 'EN, SQ, DE', logo: 'BR', logoColor: '#fb923c', rating: 4.7, reviews: 22, deals: 44, experience: '4', title: { de: 'Sales Spezialist · Startups', en: 'Sales Specialist · Startups', sq: 'Specialist · Startup', sv: 'Säljspecialist · Startups' }, specialties: { de: ['Startups', 'Software-Teams', 'Investoren'], en: ['Startups', 'Software teams', 'Investors'], sq: ['Startup', 'Ekipe software', 'Investitorë'], sv: ['Startups', 'Mjukvaruteam', 'Investerare'] }, bio: { de: 'Serial Entrepreneur, 2 Exits. Kennt die kosovarische Startup-Szene.', en: 'Serial entrepreneur, 2 exits. Kosova startup expert.', sq: 'Sipërmarrës serial, 2 exits. Ekspert startup.', sv: 'Serieentreprenör, 2 exiter.' }, contact: 'besnik@bbplatform.com', phone: '+383 46 345 678' },
+  { id: 'sp3', name: 'Besnik Rama', city: 'Pristina', languages: 'EN, SQ, DE', logo: 'BR', logoColor: '#c9943a', rating: 4.7, reviews: 22, deals: 44, experience: '4', title: { de: 'Sales Spezialist · Startups', en: 'Sales Specialist · Startups', sq: 'Specialist · Startup', sv: 'Säljspecialist · Startups' }, specialties: { de: ['Startups', 'Software-Teams', 'Investoren'], en: ['Startups', 'Software teams', 'Investors'], sq: ['Startup', 'Ekipe software', 'Investitorë'], sv: ['Startups', 'Mjukvaruteam', 'Investerare'] }, bio: { de: 'Serial Entrepreneur, 2 Exits. Kennt die kosovarische Startup-Szene.', en: 'Serial entrepreneur, 2 exits. Kosova startup expert.', sq: 'Sipërmarrës serial, 2 exits. Ekspert startup.', sv: 'Serieentreprenör, 2 exiter.' }, contact: 'besnik@bbplatform.com', phone: '+383 46 345 678' },
 ]
 
 // ─── THEME ────────────────────────────────────────────────────────────────────
 const G = {
-  bg: '#080c14', surface: '#0e1420', card: 'rgba(255,255,255,0.03)',
-  border: 'rgba(255,255,255,0.09)', gold: '#d4a843', goldDim: 'rgba(212,168,67,0.10)',
-  goldBorder: 'rgba(212,168,67,0.22)', text: '#e8e4d9', muted: 'rgba(232,228,217,0.45)',
-  green: '#34c759', red: '#ff3b30', blue: '#58a6ff', purple: '#a78bfa',
-  teal: '#2dd4bf', orange: '#fb923c',
+  bg: '#060e1c', surface: '#0b1628', card: 'rgba(255,255,255,0.025)',
+  border: 'rgba(255,255,255,0.08)', gold: '#c9a44a', goldDim: 'rgba(201,164,74,0.10)',
+  goldBorder: 'rgba(201,164,74,0.20)', text: '#e4ddd0', muted: 'rgba(228,221,208,0.48)',
+  green: '#4a9e6b', red: '#c94040', blue: '#5b8db8', purple: '#8b78ba',
+  teal: '#4a8fa8', orange: '#c9943a',
 }
 
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#080c14;margin:0;-webkit-font-smoothing:antialiased;}
+body{background:#060e1c;margin:0;-webkit-font-smoothing:antialiased;}
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:#2a3040;border-radius:2px;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
@@ -404,32 +404,32 @@ body{background:#080c14;margin:0;-webkit-font-smoothing:antialiased;}
 .sp{animation:spin 0.7s linear infinite;}
 .glow{animation:glow 3s ease infinite;}
 .pg{animation:pulse 2s ease infinite;}
-.btn{border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.18s cubic-bezier(0.4,0,0.2,1);border-radius:8px;-webkit-tap-highlight-color:transparent;}
+.btn{border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.18s cubic-bezier(0.4,0,0.2,1);border-radius:8px;-webkit-tap-highlight-color:transparent;}
 .btn:active{transform:scale(0.97) !important;}
-.gbtn{background:#d4a843;color:#080c14;padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.3px;}
+.gbtn{background:linear-gradient(135deg,#c9a44a,#a8833a);color:#060e1c;padding:10px 22px;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;letter-spacing:0.2px;}
 .gbtn:hover{background:#e5ba55;transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,168,67,0.32);}
 .gbtn:disabled{opacity:0.38;cursor:not-allowed;transform:none !important;box-shadow:none;}
-.ghost{background:transparent;color:rgba(232,228,217,0.5);padding:9px 16px;font-size:13px;border:1px solid rgba(255,255,255,0.09);font-weight:500;}
-.ghost:hover{color:#e8e4d9;border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04);}
-.teal-btn{background:linear-gradient(135deg,#2dd4bf,#0d9488);color:white;padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;}
+.ghost{background:transparent;color:rgba(228,221,208,0.5);padding:9px 16px;font-size:13px;border:1px solid rgba(255,255,255,0.09);font-weight:500;}
+.ghost:hover{color:#e4ddd0;border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04);}
+.teal-btn{background:linear-gradient(135deg,#4a8fa8,#2d6a85);color:white;padding:10px 22px;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;}
 .teal-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,212,191,0.28);}
-.card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:14px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
-.card:hover{background:rgba(255,255,255,0.04);border-color:rgba(212,168,67,0.28);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.30);}
-.inp{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px 13px;color:#e8e4d9;font-size:14px;outline:none;width:100%;font-family:'DM Sans',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
-.inp:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,0.09);background:rgba(255,255,255,0.07);}
-.inp::placeholder{color:rgba(232,228,217,0.26);}
+.card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:14px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
+.card:hover{background:rgba(255,255,255,0.045);border-color:rgba(201,164,74,0.30);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.32);}
+.inp{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:10px 13px;color:#e4ddd0;font-size:14px;outline:none;width:100%;font-family:'Inter',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
+.inp:focus{border-color:#c9a44a;box-shadow:0 0 0 3px rgba(212,168,67,0.09);background:rgba(255,255,255,0.07);}
+.inp::placeholder{color:rgba(228,221,208,0.26);}
 .inp:hover:not(:focus){border-color:rgba(255,255,255,0.18);}
 select.inp{cursor:pointer;}
 textarea.inp{line-height:1.6;}
-.navl{background:transparent;color:rgba(232,228,217,0.5);padding:7px 11px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;border:none;cursor:pointer;border-radius:7px;transition:all 0.16s;}
-.navl:hover{color:#e8e4d9;background:rgba(255,255,255,0.05);}
-.navl.on{color:#d4a843;background:rgba(212,168,67,0.1);}
+.navl{background:transparent;color:rgba(228,221,208,0.55);padding:7px 11px;font-size:13px;font-family:'Inter',sans-serif;font-weight:500;letter-spacing:0.15px;border:none;cursor:pointer;border-radius:7px;transition:all 0.16s;}
+.navl:hover{color:#e4ddd0;background:rgba(255,255,255,0.05);}
+.navl.on{color:#c9a44a;background:rgba(212,168,67,0.1);}
 .tag{display:inline-block;background:rgba(88,166,255,0.08);color:#8eb4d4;border:1px solid rgba(88,166,255,0.15);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
 .modal-bg{position:fixed;inset:0;background:rgba(4,8,20,0.88);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
-.modal{background:#0e1420;border:1px solid rgba(212,168,67,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
-.flabel{display:block;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;color:rgba(232,228,217,0.42);margin-bottom:5px;letter-spacing:0.8px;text-transform:uppercase;}
-.sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#fb923c,#fdba74,rgba(251,146,60,0.3));}
-.pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#d4a843,#fde68a);}
+.modal{background:#0b1628;border:1px solid rgba(212,168,67,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
+.flabel{display:block;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:rgba(228,221,208,0.45);margin-bottom:5px;letter-spacing:0.9px;text-transform:uppercase;}
+.sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#c9a44a,#e8cc8a,rgba(201,164,74,0.3));}
+.pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#c9a44a,#fde68a);}
 .sector-pills-mobile{display:none;}
 .sector-pills-desktop{display:flex;}
 .rank-badge{position:absolute;top:10px;right:10px;}
@@ -511,7 +511,7 @@ function Stars({ r }) {
   return (
     <span style={{ color: G.gold, fontSize: 12 }}>
       {'★'.repeat(Math.round(r))}
-      <span style={{ color: 'rgba(232,228,217,0.14)' }}>{'★'.repeat(5 - Math.round(r))}</span>
+      <span style={{ color: 'rgba(228,221,208,0.14)' }}>{'★'.repeat(5 - Math.round(r))}</span>
     </span>
   )
 }
@@ -533,7 +533,7 @@ function Logo({ text, color, size = 44, url = null }) {
     )
   }
   return (
-    <div style={{ width: size, height: size, borderRadius: 10, background: `linear-gradient(135deg,${color}20,${color}46)`, border: `1px solid ${color}32`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: size > 36 ? 13 : 11, color, flexShrink: 0 }}>
+    <div style={{ width: size, height: size, borderRadius: 10, background: `linear-gradient(135deg,${color}20,${color}46)`, border: `1px solid ${color}32`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: size > 36 ? 13 : 11, color, flexShrink: 0 }}>
       {text}
     </div>
   )
@@ -541,7 +541,7 @@ function Logo({ text, color, size = 44, url = null }) {
 
 function Avatar({ text, color, size = 46 }) {
   return (
-    <div style={{ width: size, height: size, borderRadius: '50%', background: `linear-gradient(135deg,${color}28,${color}56)`, border: `2px solid ${color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color, flexShrink: 0 }}>
+    <div style={{ width: size, height: size, borderRadius: '50%', background: `linear-gradient(135deg,${color}28,${color}56)`, border: `2px solid ${color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 14, color, flexShrink: 0 }}>
       {text}
     </div>
   )
@@ -549,7 +549,7 @@ function Avatar({ text, color, size = 46 }) {
 
 // ─── COVER FOCUS PICKER — 3×3 grid to choose which part of a cover image shows ──
 // ─── COVER CROP PICKER — drag + zoom, produces a perfectly cropped image ──────
-function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
+function CoverCropPicker({ image, onApply, accentColor = '#c9a44a' }) {
   const [offsetX, setOffsetX]   = React.useState(50)  // 0–100: position within the pannable range
   const [offsetY, setOffsetY]   = React.useState(50)
   const [zoom, setZoom]         = React.useState(1)
@@ -636,7 +636,7 @@ function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
 
   return (
     <div style={{ marginTop: 10 }}>
-      <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.55)', marginBottom: 8, fontFamily: "'DM Sans',sans-serif" }}>
+      <div style={{ fontSize: 10, color: 'rgba(228,221,208,0.55)', marginBottom: 8, fontFamily: "'Inter',sans-serif" }}>
         🖱 Drag to reposition · Slider to zoom · Click Apply to confirm
       </div>
       {/* Drag area — 3:1 preview */}
@@ -663,7 +663,7 @@ function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
       </div>
       {/* Zoom slider */}
       <div style={{ display:'flex', alignItems:'center', gap:8, marginTop:8 }}>
-        <span style={{ fontSize:10, color:'rgba(232,228,217,0.45)', flexShrink:0 }}>Zoom</span>
+        <span style={{ fontSize:10, color:'rgba(228,221,208,0.45)', flexShrink:0 }}>Zoom</span>
         <input type="range" min="1" max="3" step="0.05" value={zoom}
           onChange={e => setZoom(parseFloat(e.target.value))}
           style={{ flex:1, accentColor }} />
@@ -672,7 +672,7 @@ function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
       {/* Apply button */}
       <button onClick={applyCrop} style={{ marginTop:10, width:'100%', padding:'7px', fontSize:11, fontWeight:700,
         background:`linear-gradient(135deg,${accentColor},${accentColor}99)`, border:'none', borderRadius:8,
-        color:'#080c14', cursor:'pointer' }}>
+        color:'#060e1c', cursor:'pointer' }}>
         ✓ Apply crop
       </button>
     </div>
@@ -680,11 +680,11 @@ function CoverCropPicker({ image, onApply, accentColor = '#d4a843' }) {
 }
 
 // Keep backward-compat alias for places still using CoverFocusPicker
-function CoverFocusPicker({ image, focus, onChange, accentColor = '#d4a843' }) {
+function CoverFocusPicker({ image, focus, onChange, accentColor = '#c9a44a' }) {
   if (!image) return null
   return (
     <div style={{ marginTop: 8 }}>
-      <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.5)', marginBottom: 6, fontFamily: "'DM Sans',sans-serif" }}>
+      <div style={{ fontSize: 10, color: 'rgba(228,221,208,0.5)', marginBottom: 6, fontFamily: "'Inter',sans-serif" }}>
         Click to choose which part of the image to show:
       </div>
       <div style={{ position: 'relative', width: '100%', maxWidth: 240, borderRadius: 9, overflow: 'hidden', border: `1px solid ${accentColor}40` }}>
@@ -718,24 +718,24 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
   const isPartner = p.type === 'partner'
   const isSp = p.tier === 'sponsored'
   const website = p.website ? p.website.replace(/^https?:\/\//,'') : null
-  const accentColor = isPartner ? '#2dd4bf' : isSp ? '#fb923c' : '#d4a843'
+  const accentColor = isPartner ? '#4a8fa8' : isSp ? '#c9943a' : '#c9a44a'
 
   if (isSp && !isPartner) {
     // ── PREMIUM SPONSORED MODAL — LinkedIn-style hero ─────────────────────────
     return (
       <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
-        <div style={{ background:'#0e1420', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
+        <div style={{ background:'#0b1628', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
 
           {/* ── COVER BANNER ── */}
           <div style={{ position:'relative', height: p.coverImage ? 140 : 72, borderRadius:'20px 20px 0 0', overflow:'hidden', flexShrink:0 }}>
             {p.coverImage
               ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />
-              : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}28 0%,rgba(251,146,60,0.08) 55%,rgba(14,20,32,0.95) 100%)` }} />
+              : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#c9943a'}28 0%,rgba(251,146,60,0.08) 55%,rgba(14,20,32,0.95) 100%)` }} />
             }
             {/* Subtle dark overlay at bottom so logo pops */}
             {p.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(14,20,32,0.55) 0%,transparent 100%)' }} />}
             {/* Top orange accent line */}
-            <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.4),transparent)' }} />
+            <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#c9943a,#c9a44a,rgba(251,146,60,0.4),transparent)' }} />
             {/* Close button */}
             <button onClick={onClose} style={{ position:'absolute', top:10, right:10, background:'rgba(0,0,0,0.35)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:7, width:28, height:28, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:13, backdropFilter:'blur(8px)', zIndex:2 }}>✕</button>
           </div>
@@ -744,23 +744,23 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
           <div style={{ position:'relative', padding:'0 20px', marginTop:-36 }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end' }}>
               <div style={{ width:72, height:72, borderRadius:16, overflow:'hidden', flexShrink:0,
-                border:'3px solid #0e1420',
-                boxShadow:`0 0 0 2px ${p.logoColor||'#fb923c'}55, 0 4px 20px rgba(0,0,0,0.5)`,
+                border:'3px solid #0b1628',
+                boxShadow:`0 0 0 2px ${p.logoColor||'#c9943a'}55, 0 4px 20px rgba(0,0,0,0.5)`,
                 display:'flex', alignItems:'center', justifyContent:'center',
-                background:`linear-gradient(135deg,${p.logoColor||'#fb923c'}22,${p.logoColor||'#fb923c'}44)` }}>
+                background:`linear-gradient(135deg,${p.logoColor||'#c9943a'}22,${p.logoColor||'#c9943a'}44)` }}>
                 {p.logoUrl ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:22, color:p.logoColor||'#fb923c' }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+                  : <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:22, color:p.logoColor||'#c9943a' }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
               </div>
               <div style={{ display:'flex', gap:5, paddingBottom:6, flexWrap:'wrap' }}>
-                <span style={{ fontSize:9, background:'rgba(251,146,60,0.18)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.4)', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.3px' }}>🚀 SPONSORED</span>
+                <span style={{ fontSize:9, background:'rgba(251,146,60,0.18)', color:'#c9943a', border:'1px solid rgba(251,146,60,0.4)', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.1px' }}>🚀 SPONSORED</span>
                 {p.verified && <span style={{ fontSize:9, background:'rgba(52,199,89,0.12)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:20, padding:'2px 9px', fontWeight:700 }}>✓ VERIFIED</span>}
               </div>
             </div>
 
             {/* ── NAME + META — below logo ── */}
             <div style={{ marginTop:10 }}>
-              <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:'clamp(17px,4vw,23px)', letterSpacing:'-0.3px', lineHeight:1.1, marginBottom:4 }}>{p.name}</div>
-              <div style={{ fontSize:11, color:'rgba(232,228,217,0.55)', display:'flex', gap:7, flexWrap:'wrap', marginBottom:10 }}>
+              <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:'clamp(17px,4vw,23px)', letterSpacing:'-0.1px', lineHeight:1.1, marginBottom:4 }}>{p.name}</div>
+              <div style={{ fontSize:11, color:'rgba(228,221,208,0.55)', display:'flex', gap:7, flexWrap:'wrap', marginBottom:10 }}>
                 {p.city && <span>📍 {p.city}</span>}
                 {p.cat && <span>· {catLabel(p.cat, lang)}</span>}
                 {isFL && p.languages && <span>· 🗣 {p.languages}</span>}
@@ -772,7 +772,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
           <div style={{ padding:'4px 20px 20px' }}>
             {p.availability && (
               <div style={{ marginBottom:12 }}>
-                <span style={{ fontSize:10, fontWeight:700, padding:'3px 12px', borderRadius:20, fontFamily:"'DM Sans',sans-serif",
+                <span style={{ fontSize:10, fontWeight:700, padding:'3px 12px', borderRadius:20, fontFamily:"'Inter',sans-serif",
                   background: p.availability==='available'?'rgba(52,199,89,0.12)':p.availability==='limited'?'rgba(251,146,60,0.12)':'rgba(255,255,255,0.06)',
                   color: p.availability==='available'?G.green:p.availability==='limited'?G.orange:G.muted,
                   border: `1px solid ${p.availability==='available'?'rgba(52,199,89,0.3)':p.availability==='limited'?'rgba(251,146,60,0.3)':'rgba(255,255,255,0.1)'}` }}>
@@ -781,13 +781,13 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
               </div>
             )}
             {(p.desc?.[lang]||p.desc?.en) && (
-              <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.82)', lineHeight:1.7, marginBottom:14 }}>{p.desc[lang]||p.desc.en}</p>
+              <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(228,221,208,0.82)', lineHeight:1.7, marginBottom:14 }}>{p.desc[lang]||p.desc.en}</p>
             )}
             {(p.tags||[]).length>0 && (
               <div style={{ marginBottom:13 }}>
                 <div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:6, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Expertise & Services</div>
                 <div style={{ display:'flex', gap:5, flexWrap:'wrap' }}>
-                  {p.tags.map(tg=><span key={tg} style={{ fontSize:10, background:'rgba(251,146,60,0.1)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.25)', borderRadius:20, padding:'3px 10px', fontWeight:600 }}>{tg}</span>)}
+                  {p.tags.map(tg=><span key={tg} style={{ fontSize:10, background:'rgba(251,146,60,0.1)', color:'#c9943a', border:'1px solid rgba(251,146,60,0.25)', borderRadius:20, padding:'3px 10px', fontWeight:600 }}>{tg}</span>)}
                 </div>
               </div>
             )}
@@ -801,20 +801,20 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
                 <div style={{ fontSize:11, fontWeight:600 }}>💼 {t.rateNote}</div>
               </div>
             </div>
-            {p.prevCompanies && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Previous clients</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(232,228,217,0.8)' }}>🏢 {p.prevCompanies}</div></div>}
-            {p.featuredProject && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Featured project</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(232,228,217,0.8)' }}>🎯 {p.featuredProject}</div></div>}
-            {p.certifications && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Certifications & Awards</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(232,228,217,0.8)' }}>🏅 {p.certifications}</div></div>}
+            {p.prevCompanies && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Previous clients</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(228,221,208,0.8)' }}>🏢 {p.prevCompanies}</div></div>}
+            {p.featuredProject && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Featured project</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(228,221,208,0.8)' }}>🎯 {p.featuredProject}</div></div>}
+            {p.certifications && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Certifications & Awards</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(228,221,208,0.8)' }}>🏅 {p.certifications}</div></div>}
             {(p.linkedin||p.github) && (
               <div style={{ display:'flex', gap:7, marginBottom:11, flexWrap:'wrap' }}>
-                {p.linkedin && <a href={`https://${p.linkedin.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:5, padding:'6px 12px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:8, color:'#fb923c', textDecoration:'none', fontSize:11, fontWeight:600 }}>in LinkedIn ↗</a>}
-                {p.github && <a href={`https://${p.github.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:5, padding:'6px 12px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:8, color:'#fb923c', textDecoration:'none', fontSize:11, fontWeight:600 }}>⬡ Portfolio ↗</a>}
+                {p.linkedin && <a href={`https://${p.linkedin.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:5, padding:'6px 12px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:8, color:'#c9943a', textDecoration:'none', fontSize:11, fontWeight:600 }}>in LinkedIn ↗</a>}
+                {p.github && <a href={`https://${p.github.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:5, padding:'6px 12px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:8, color:'#c9943a', textDecoration:'none', fontSize:11, fontWeight:600 }}>⬡ Portfolio ↗</a>}
               </div>
             )}
-            {p.videoUrl && <div style={{ marginBottom:11 }}><a href={p.videoUrl.startsWith('http')?p.videoUrl:`https://${p.videoUrl}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:9, padding:'9px 13px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:10, textDecoration:'none' }}><span style={{ width:28, height:28, borderRadius:6, background:'rgba(251,146,60,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, flexShrink:0 }}>▶</span><div><div style={{ fontSize:11, fontWeight:700, color:'#fb923c' }}>Watch intro video</div><div style={{ fontSize:9, color:'rgba(251,146,60,0.55)', marginTop:1 }}>{p.videoUrl.replace(/^https?:\/\//,'').slice(0,36)}</div></div></a></div>}
-            {website && <div style={{ background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:10, padding:'9px 13px', marginBottom:13, display:'flex', alignItems:'center', gap:8 }}><span style={{ fontSize:15 }}>🌐</span><a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ color:'#fb923c', textDecoration:'none', fontWeight:600, fontSize:12, wordBreak:'break-all' }}>{website} ↗</a></div>}
+            {p.videoUrl && <div style={{ marginBottom:11 }}><a href={p.videoUrl.startsWith('http')?p.videoUrl:`https://${p.videoUrl}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:9, padding:'9px 13px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:10, textDecoration:'none' }}><span style={{ width:28, height:28, borderRadius:6, background:'rgba(251,146,60,0.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, flexShrink:0 }}>▶</span><div><div style={{ fontSize:11, fontWeight:700, color:'#c9943a' }}>Watch intro video</div><div style={{ fontSize:9, color:'rgba(251,146,60,0.55)', marginTop:1 }}>{p.videoUrl.replace(/^https?:\/\//,'').slice(0,36)}</div></div></a></div>}
+            {website && <div style={{ background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:10, padding:'9px 13px', marginBottom:13, display:'flex', alignItems:'center', gap:8 }}><span style={{ fontSize:15 }}>🌐</span><a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ color:'#c9943a', textDecoration:'none', fontWeight:600, fontSize:12, wordBreak:'break-all' }}>{website} ↗</a></div>}
             <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-              {p.contact && <button className="btn" style={{ flex:1, minWidth:110, padding:'11px', fontSize:13, fontWeight:700, background:'linear-gradient(135deg,#fb923c,#f59e0b)', color:'#0e1420', border:'none', borderRadius:10, cursor:'pointer' }} onClick={()=>{ onContact(p); onClose() }}>✉️ {lang==='sq'?'Kontakto':'Contact Now'}</button>}
-              {website && <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'11px 16px', background:'rgba(251,146,60,0.1)', border:'1px solid rgba(251,146,60,0.3)', borderRadius:10, color:'#fb923c', textDecoration:'none', fontSize:12, fontWeight:600 }}>🌐 {lang==='sq'?'Vizito':'Visit'}</a>}
+              {p.contact && <button className="btn" style={{ flex:1, minWidth:110, padding:'11px', fontSize:13, fontWeight:700, background:'linear-gradient(135deg,#c9943a,#c9a44a)', color:'#0b1628', border:'none', borderRadius:10, cursor:'pointer' }} onClick={()=>{ onContact(p); onClose() }}>✉️ {lang==='sq'?'Kontakto':'Contact Now'}</button>}
+              {website && <a href={`https://${website}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'11px 16px', background:'rgba(251,146,60,0.1)', border:'1px solid rgba(251,146,60,0.3)', borderRadius:10, color:'#c9943a', textDecoration:'none', fontSize:12, fontWeight:600 }}>🌐 {lang==='sq'?'Vizito':'Visit'}</a>}
             </div>
           </div>
         </div>
@@ -842,12 +842,12 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
             <div style={{ display:'flex', gap:14, alignItems:'center' }}>
               <div style={{ width:60, height:60, borderRadius:14, overflow:'hidden', flexShrink:0, border: p.coverImage ? '3px solid rgba(14,20,32,0.9)' : `2px solid ${accentColor}44`, boxShadow: p.coverImage ? '0 4px 16px rgba(0,0,0,0.4)' : `0 0 16px ${accentColor}14`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${p.logoColor||accentColor}18,${p.logoColor||accentColor}36)` }}>
                 {p.logoUrl ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                  : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:p.logoColor||accentColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+                  : <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:18, color:p.logoColor||accentColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
               </div>
               <div>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, marginBottom:4 }}>{p.name}</div>
+                <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:18, marginBottom:4 }}>{p.name}</div>
                 <div style={{ display:'flex', gap:6, flexWrap:'wrap', alignItems:'center' }}>
-                  {isPartner && <span style={{ fontSize:10, background:'rgba(45,212,191,0.12)', color:'#2dd4bf', border:'1px solid rgba(45,212,191,0.3)', borderRadius:20, padding:'2px 9px', fontWeight:700 }}>✓ Official Partner</span>}
+                  {isPartner && <span style={{ fontSize:10, background:'rgba(45,212,191,0.12)', color:'#4a8fa8', border:'1px solid rgba(45,212,191,0.3)', borderRadius:20, padding:'2px 9px', fontWeight:700 }}>✓ Official Partner</span>}
                   {p.verified && <span style={{ fontSize:10, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.2)', borderRadius:20, padding:'2px 9px' }}>✓ Verified</span>}
                   {p.city && <span style={{ fontSize:11, color:G.muted }}>📍 {p.city}</span>}
                 </div>
@@ -855,7 +855,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
             </div>
             {!p.coverImage && <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, flexShrink:0 }}>✕</button>}
           </div>
-          {(p.desc?.[lang]||p.desc?.en) && <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.78)', lineHeight:1.75, marginBottom:16 }}>{p.desc[lang]||p.desc.en}</p>}
+          {(p.desc?.[lang]||p.desc?.en) && <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(228,221,208,0.78)', lineHeight:1.75, marginBottom:16 }}>{p.desc[lang]||p.desc.en}</p>}
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:9, marginBottom:16 }}>
             {p.cat && !isPartner && <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div><div style={{ fontSize:12, fontWeight:600 }}>{catLabel(p.cat,lang)}</div></div>}
             {isFL && p.languages && <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div><div style={{ fontSize:12, fontWeight:600 }}>🗣 {p.languages}</div></div>}
@@ -896,7 +896,7 @@ function UpgradeModal({ catId, t, lang, onClose }) {
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
               <div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19, marginBottom: 3 }}>{t.upgradeTitle}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 19, marginBottom: 3 }}>{t.upgradeTitle}</div>
                 <div style={{ fontSize: 12, color: G.muted }}>{catName}</div>
               </div>
               <ModalClose onClose={onClose} />
@@ -905,12 +905,12 @@ function UpgradeModal({ catId, t, lang, onClose }) {
             {/* Slot visual */}
             <div style={{ marginBottom: 20 }}>
               <div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: G.orange, marginBottom: 8, fontFamily: "'Syne',sans-serif" }}>🚀 {t.upgradeSubSp}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: G.orange, marginBottom: 8, fontFamily: "'Cormorant Garamond',Georgia,serif" }}>🚀 {t.upgradeSubSp}</div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {Array.from({ length: SLOTS.sponsored }).map((_, i) => {
                     const taken = i < used.sp
                     return (
-                      <div key={i} style={{ flex: 1, height: 32, borderRadius: 8, background: taken ? 'rgba(251,146,60,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${taken ? 'rgba(251,146,60,0.4)' : 'rgba(255,255,255,0.08)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: taken ? G.orange : G.green, fontFamily: "'DM Sans',sans-serif", fontWeight: 600 }}>
+                      <div key={i} style={{ flex: 1, height: 32, borderRadius: 8, background: taken ? 'rgba(251,146,60,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${taken ? 'rgba(251,146,60,0.4)' : 'rgba(255,255,255,0.08)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: taken ? G.orange : G.green, fontFamily: "'Inter',sans-serif", fontWeight: 600 }}>
                         {taken ? (lang==='sq'?'🔒 Zënë':'🔒 Taken') : (lang==='sq'?'✓ Lirë':'✓ Available')}
                       </div>
                     )
@@ -921,13 +921,13 @@ function UpgradeModal({ catId, t, lang, onClose }) {
 
             {spFree > 0 ? (
               <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 10, padding: '14px 16px' }}>
-                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 4 }}>{t.upgradeContact}</div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, color: G.gold }}>{t.upgradeMail}</div>
+                <div style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.muted, marginBottom: 4 }}>{t.upgradeContact}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 16, color: G.gold }}>{t.upgradeMail}</div>
               </div>
             ) : (
               <>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 15, marginBottom: 10 }}>{t.waitTitle}</div>
-                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>{t.waitSub}</p>
+                <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 15, marginBottom: 10 }}>{t.waitTitle}</div>
+                <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>{t.waitSub}</p>
                 <div style={{ marginBottom: 12 }}><label className="flabel">{t.waitName}</label><input className="inp" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} /></div>
                 <div style={{ marginBottom: 16 }}><label className="flabel">{t.waitEmail}</label><input className="inp" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} /></div>
                 <button className="btn gbtn" style={{ width: '100%' }} disabled={!form.name || !form.email} onClick={() => setWaitDone(true)}>{t.waitSend}</button>
@@ -937,8 +937,8 @@ function UpgradeModal({ catId, t, lang, onClose }) {
         ) : (
           <div style={{ textAlign: 'center', padding: '16px 0' }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>🎉</div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.waitDoneTitle}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{t.waitDoneSub}</p>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.waitDoneTitle}</div>
+            <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{t.waitDoneSub}</p>
             <button className="btn gbtn" style={{ width: '100%' }} onClick={onClose}>{t.close}</button>
           </div>
         )}
@@ -958,15 +958,15 @@ function ContactModal({ profile, t, onClose }) {
           <>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
               <div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.reqTitle}: {profile.name}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 19 }}>{t.reqTitle}: {profile.name}</div>
                 <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>Business Bridge Platform</div>
               </div>
               <ModalClose onClose={onClose} />
             </div>
             <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${G.border}`, borderRadius: 9, padding: '11px 14px', marginBottom: 16 }}>
-              <div style={{ fontSize: 11, color: G.muted, marginBottom: 4, letterSpacing: '0.5px', textTransform: 'uppercase', fontFamily: "'DM Sans',sans-serif" }}>Kontakt</div>
-              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.blue }}>📧 {profile.contact}</div>
-              {profile.phone && <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.blue, marginTop: 3 }}>📞 {profile.phone}</div>}
+              <div style={{ fontSize: 11, color: G.muted, marginBottom: 4, letterSpacing: '0.5px', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif" }}>Kontakt</div>
+              <div style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.blue }}>📧 {profile.contact}</div>
+              {profile.phone && <div style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.blue, marginTop: 3 }}>📞 {profile.phone}</div>}
             </div>
             <div style={{ marginBottom: 12 }}><label className="flabel">{t.reqName}</label><input className="inp" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} /></div>
             <div style={{ marginBottom: 12 }}><label className="flabel">{t.reqEmail}</label><input className="inp" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} /></div>
@@ -998,8 +998,8 @@ function ContactModal({ profile, t, onClose }) {
         ) : (
           <div style={{ textAlign: 'center', padding: '18px 0' }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.reqDoneTitle}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}><strong>{profile.name}</strong> {t.reqDoneSub}</p>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.reqDoneTitle}</div>
+            <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}><strong>{profile.name}</strong> {t.reqDoneSub}</p>
             <button className="btn gbtn" style={{ width: '100%' }} onClick={onClose}>{t.close}</button>
           </div>
         )}
@@ -1013,7 +1013,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
   const isFL = p.type === 'freelancer'
   const isSp = p.tier === 'sponsored'
   const [hov, setHov] = React.useState(false)
-  const accentColor = isSp ? '#fb923c' : (p.logoColor || G.gold)
+  const accentColor = isSp ? '#c9943a' : (p.logoColor || G.gold)
 
   return (
     <div
@@ -1047,8 +1047,8 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.6) 40%, rgba(14,20,32,0) 100%)' }} />
           {/* Top accent line */}
           <div style={{ position:'absolute', top:0, left:0, right:0, height: isSp ? 3 : 2,
-            background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,rgba(251,146,60,0.3),transparent)' : `linear-gradient(90deg,${accentColor}aa,transparent)` }} />
-          {isSp && <span style={{ position:'absolute', top:9, right:11, fontSize:9, background:'rgba(251,146,60,0.9)', color:'#080c14', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.3px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>}
+            background: isSp ? 'linear-gradient(90deg,#c9943a,#c9a44a,rgba(251,146,60,0.3),transparent)' : `linear-gradient(90deg,${accentColor}aa,transparent)` }} />
+          {isSp && <span style={{ position:'absolute', top:9, right:11, fontSize:9, background:'rgba(251,146,60,0.9)', color:'#060e1c', borderRadius:20, padding:'2px 9px', fontWeight:800, letterSpacing:'0.1px', backdropFilter:'blur(8px)' }}>🚀 SPONSORED</span>}
         </div>
       )}
       {!p.coverImage && !isSp && (
@@ -1067,19 +1067,19 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             }}>
               {p.logoUrl
                 ? <img src={p.logoUrl} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                : <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 900, fontSize: isSp ? 17 : 14, color: accentColor }}>{(p.logo || p.name || '?').slice(0, 2)}</span>}
+                : <span style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 900, fontSize: isSp ? 17 : 14, color: accentColor }}>{(p.logo || p.name || '?').slice(0, 2)}</span>}
             </div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: isSp ? 15 : 13, marginBottom: 2,
-                color: hov ? (isSp ? '#fb923c' : G.gold) : G.text, transition: 'color 0.18s',
+              <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: isSp ? 15 : 13, marginBottom: 2,
+                color: hov ? (isSp ? '#c9943a' : G.gold) : G.text, transition: 'color 0.18s',
                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-              <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.6)' }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
+              <div style={{ fontSize: 10, color: 'rgba(228,221,208,0.6)' }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', flexShrink: 0, marginLeft: 8 }}>
             {matchScore !== null && matchScore !== undefined && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'flex-end' }}>
-                <span style={{ fontSize: 10, fontWeight: 800, fontFamily: "'Syne',sans-serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
+                <span style={{ fontSize: 10, fontWeight: 800, fontFamily: "'Cormorant Garamond',Georgia,serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
                 <div style={{ width: 40, height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: `${matchScore}%`, background: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted, borderRadius: 2, transition: 'width 0.5s ease' }} />
                 </div>
@@ -1089,10 +1089,10 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           </div>
         </div>
 
-        <div style={{ fontSize: 11, color: G.muted, marginBottom: 7, fontFamily: "'DM Sans',sans-serif" }}>
+        <div style={{ fontSize: 11, color: G.muted, marginBottom: 7, fontFamily: "'Inter',sans-serif" }}>
           {isFL ? `🗣 ${p.languages}` : `👥 ${p.employees}`}
         </div>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.6)', lineHeight: 1.6, marginBottom: 10 }}>
+        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(228,221,208,0.6)', lineHeight: 1.6, marginBottom: 10 }}>
           {(p.desc?.[lang]||p.desc?.en||'').slice(0, isSp?115:90)}{((p.desc?.[lang]||p.desc?.en||'').length>(isSp?115:90))?'…':''}
         </p>
         {(p.tags||[]).length > 0 && (
@@ -1100,9 +1100,9 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             {p.tags.slice(0, isSp?5:4).map(tag => (
               <span key={tag} className="tag"
                 style={{ cursor: onTagClick?'pointer':'default', fontSize: 10, transition: 'all 0.15s',
-                  ...(isSp ? { background:'rgba(251,146,60,0.09)', color:'#fb923c', border:'1px solid rgba(251,146,60,0.22)' } : {}) }}
+                  ...(isSp ? { background:'rgba(251,146,60,0.09)', color:'#c9943a', border:'1px solid rgba(251,146,60,0.22)' } : {}) }}
                 onClick={e => { e.stopPropagation(); onTagClick && onTagClick(tag) }}
-                onMouseEnter={e => { if (onTagClick) { e.currentTarget.style.background = isSp?'rgba(251,146,60,0.18)':'rgba(45,212,191,0.15)'; e.currentTarget.style.color = isSp?'#fb923c':G.teal }}}
+                onMouseEnter={e => { if (onTagClick) { e.currentTarget.style.background = isSp?'rgba(251,146,60,0.18)':'rgba(45,212,191,0.15)'; e.currentTarget.style.color = isSp?'#c9943a':G.teal }}}
                 onMouseLeave={e => { e.currentTarget.style.background=''; e.currentTarget.style.color='' }}>
                 {tag}
               </span>
@@ -1110,12 +1110,12 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           </div>
         )}
         <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${isSp?'rgba(251,146,60,0.15)':G.border}`, borderRadius:7, padding:'6px 11px', marginBottom:11 }}>
-          <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:11, color:isSp?'#fb923c':G.teal, fontWeight:500 }}>💼 {t.rateNote}</div>
+          <div style={{ fontFamily:"'Inter',sans-serif", fontSize:11, color:isSp?'#c9943a':G.teal, fontWeight:500 }}>💼 {t.rateNote}</div>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
           <button className="btn" style={{ flex:1, padding:'8px', fontSize:11, fontWeight:700, borderRadius:9, transition:'all 0.18s',
             background: isSp?'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))':'rgba(255,255,255,0.05)',
-            color: isSp?'#fb923c':G.text, border: isSp?'1px solid rgba(251,146,60,0.35)':`1px solid ${G.border}` }}
+            color: isSp?'#c9943a':G.text, border: isSp?'1px solid rgba(251,146,60,0.35)':`1px solid ${G.border}` }}
             onMouseEnter={e=>{e.currentTarget.style.background=isSp?'rgba(251,146,60,0.26)':'rgba(212,168,67,0.1)';e.currentTarget.style.borderColor=isSp?'rgba(251,146,60,0.55)':G.goldBorder}}
             onMouseLeave={e=>{e.currentTarget.style.background=isSp?'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))':'rgba(255,255,255,0.05)';e.currentTarget.style.borderColor=isSp?'rgba(251,146,60,0.35)':G.border}}
             onClick={e=>{e.stopPropagation();onContact(p)}}>{t.sendReq}</button>
@@ -1165,14 +1165,14 @@ function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills
     <div>
       <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:10 }}>
         {lang==='sq'?'Zgjidh aftësitë':'Select skills'}
-        {cat !== 'all' && <span style={{ color:'rgba(232,228,217,0.6)', fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
+        {cat !== 'all' && <span style={{ color:'rgba(228,221,208,0.6)', fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
       </div>
       <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:120, overflowY:'auto' }}>
         {skillList.map(s => (
           <button key={s} onClick={() => toggleSkill(s)} className="btn"
             style={{ padding:'5px 12px', fontSize:11, fontWeight:matchSkills.includes(s)?700:500, borderRadius:14,
               background:matchSkills.includes(s)?'rgba(45,212,191,0.18)':'rgba(255,255,255,0.08)',
-              color:matchSkills.includes(s)?G.teal:'rgba(232,228,217,0.78)',
+              color:matchSkills.includes(s)?G.teal:'rgba(228,221,208,0.78)',
               border:'1px solid '+(matchSkills.includes(s)?'rgba(45,212,191,0.45)':'rgba(255,255,255,0.14)') }}>
             {matchSkills.includes(s)?'✓ ':''}{s}
           </button>
@@ -1300,11 +1300,11 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {/* ── PROFILE TYPE — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
           <div className="sector-pills-desktop" style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
-            <span style={{ fontSize:10, color:'rgba(232,228,217,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Syne',sans-serif", marginRight:2 }}>{lang==='sq'?'Lloji':'Type'}</span>
+            <span style={{ fontSize:10, color:'rgba(228,221,208,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Cormorant Garamond',Georgia,serif", marginRight:2 }}>{lang==='sq'?'Lloji':'Type'}</span>
             {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
               <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding:'5px 13px', fontSize:12, fontWeight:600, borderRadius:9,
                 background: typeF===v ? G.goldDim : 'rgba(255,255,255,0.07)',
-                color: typeF===v ? G.gold : 'rgba(232,228,217,0.72)',
+                color: typeF===v ? G.gold : 'rgba(228,221,208,0.72)',
                 border:`1px solid ${typeF===v ? G.goldBorder : 'rgba(255,255,255,0.11)'}` }}>{l}</button>
             ))}
           </div>
@@ -1313,17 +1313,17 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             <div onClick={() => setTypeOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: typeF!=='all' ? 'rgba(212,168,67,0.12)' : 'rgba(255,255,255,0.04)' }}>
               <span style={{ fontSize:13 }}>👥</span>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:12, color: typeF!=='all' ? G.gold : 'rgba(232,228,217,0.85)' }}>{lang==='sq'?'Lloji i profilit':'Profile type'}</div>
-                <div style={{ fontSize:10, color:'rgba(232,228,217,0.45)' }}>{typeF==='all' ? (lang==='sq'?'Të gjithë':'All') : typeF==='company' ? t.onlyComp : t.onlyFL}</div>
+                <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:12, color: typeF!=='all' ? G.gold : 'rgba(228,221,208,0.85)' }}>{lang==='sq'?'Lloji i profilit':'Profile type'}</div>
+                <div style={{ fontSize:10, color:'rgba(228,221,208,0.45)' }}>{typeF==='all' ? (lang==='sq'?'Të gjithë':'All') : typeF==='company' ? t.onlyComp : t.onlyFL}</div>
               </div>
-              {typeF!=='all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'none', borderRadius:4, color:'rgba(232,228,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
-              <span style={{ color:'rgba(232,228,217,0.4)', fontSize:12 }}>{typeOpen?'▲':'▼'}</span>
+              {typeF!=='all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'none', borderRadius:4, color:'rgba(228,221,208,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
+              <span style={{ color:'rgba(228,221,208,0.4)', fontSize:12 }}>{typeOpen?'▲':'▼'}</span>
             </div>
             {typeOpen && (
               <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)', display:'flex', gap:6 }}>
                 {[['all',t.allTypes],['company',t.onlyComp],['freelancer',t.onlyFL]].map(([v,l]) => (
                   <button key={v} onClick={()=>{setTypeF(v);setTypeOpen(false)}} className="btn" style={{ padding:'6px 12px', fontSize:11, fontWeight:600, borderRadius:8,
-                    background:typeF===v?G.goldDim:'rgba(255,255,255,0.07)', color:typeF===v?G.gold:'rgba(232,228,217,0.75)',
+                    background:typeF===v?G.goldDim:'rgba(255,255,255,0.07)', color:typeF===v?G.gold:'rgba(228,221,208,0.75)',
                     border:`1px solid ${typeF===v?G.goldBorder:'rgba(255,255,255,0.11)'}`}}>{l}</button>
                 ))}
               </div>
@@ -1336,14 +1336,14 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {/* ── SECTOR — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
           <div className="sector-pills-desktop" style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
-            <span style={{ fontSize:10, color:'rgba(232,228,217,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Syne',sans-serif", marginRight:2 }}>{lang==='sq'?'Sektori':'Sector'}</span>
+            <span style={{ fontSize:10, color:'rgba(228,221,208,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Cormorant Garamond',Georgia,serif", marginRight:2 }}>{lang==='sq'?'Sektori':'Sector'}</span>
             <button onClick={() => setCat('all')} className="btn" style={{ padding:'5px 12px', fontSize:11, fontWeight:700, borderRadius:20,
-              background:cat==='all'?'#d4a843':'rgba(255,255,255,0.07)', color:cat==='all'?'#080c14':'rgba(232,228,217,0.72)',
-              border:`1px solid ${cat==='all'?'#d4a843':'rgba(255,255,255,0.11)'}`,
+              background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#060e1c':'rgba(228,221,208,0.72)',
+              border:`1px solid ${cat==='all'?'#c9a44a':'rgba(255,255,255,0.11)'}`,
               boxShadow:cat==='all'?'0 3px 12px rgba(212,168,67,0.38)':'none' }}>{t.allCats}</button>
             {CATS.map(c => (
               <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding:'5px 12px', fontSize:11, fontWeight:700, borderRadius:20,
-                background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#080c14':'rgba(232,228,217,0.72)',
+                background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#060e1c':'rgba(228,221,208,0.72)',
                 border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`,
                 boxShadow:cat===c.id?`0 3px 12px ${c.color}44`:'none',
                 transition:'all 0.18s' }}>
@@ -1359,18 +1359,18 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
                 <div onClick={() => setSectorOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: cat!=='all'?`${ac?.color}12`:'rgba(255,255,255,0.04)' }}>
                   <span style={{ fontSize:13 }}>{cat!=='all'?ac?.icon:'🏭'}</span>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:12, color:cat!=='all'?ac?.color:'rgba(232,228,217,0.85)' }}>{lang==='sq'?'Sektori':'Sector'}</div>
-                    <div style={{ fontSize:10, color:'rgba(232,228,217,0.45)' }}>{cat==='all'?(lang==='sq'?'Të gjithë':'All sectors'):ac?.labels[lang]}</div>
+                    <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:12, color:cat!=='all'?ac?.color:'rgba(228,221,208,0.85)' }}>{lang==='sq'?'Sektori':'Sector'}</div>
+                    <div style={{ fontSize:10, color:'rgba(228,221,208,0.45)' }}>{cat==='all'?(lang==='sq'?'Të gjithë':'All sectors'):ac?.labels[lang]}</div>
                   </div>
-                  {cat!=='all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'none', borderRadius:4, color:'rgba(232,228,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
-                  <span style={{ color:'rgba(232,228,217,0.4)', fontSize:12 }}>{sectorOpen?'▲':'▼'}</span>
+                  {cat!=='all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'none', borderRadius:4, color:'rgba(228,221,208,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
+                  <span style={{ color:'rgba(228,221,208,0.4)', fontSize:12 }}>{sectorOpen?'▲':'▼'}</span>
                 </div>
                 {sectorOpen && (
                   <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)', display:'flex', gap:5, flexWrap:'wrap' }}>
-                    <button onClick={()=>{setCat('all');setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20, background:cat==='all'?'#d4a843':'rgba(255,255,255,0.07)', color:cat==='all'?'#080c14':'rgba(232,228,217,0.75)', border:`1px solid ${cat==='all'?'#d4a843':'rgba(255,255,255,0.11)'}`}}>{t.allCats}</button>
+                    <button onClick={()=>{setCat('all');setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20, background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#060e1c':'rgba(228,221,208,0.75)', border:`1px solid ${cat==='all'?'#c9a44a':'rgba(255,255,255,0.11)'}`}}>{t.allCats}</button>
                     {CATS.map(c => (
                       <button key={c.id} onClick={()=>{setCat(c.id);setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20,
-                        background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#080c14':'rgba(232,228,217,0.75)', border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`}}>
+                        background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#060e1c':'rgba(228,221,208,0.75)', border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`}}>
                         {c.icon} {c.labels[lang]}
                       </button>
                     ))}
@@ -1387,21 +1387,21 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
               background: matchMode ? 'linear-gradient(90deg,rgba(45,212,191,0.20),rgba(45,212,191,0.09))' : 'rgba(45,212,191,0.06)',
               border: `1px solid ${matchMode ? 'rgba(45,212,191,0.5)' : 'rgba(45,212,191,0.22)'}`,
               transition:'all 0.2s' }}>
-            <div style={{ width:26, height:26, borderRadius:7, background: matchMode ? 'linear-gradient(135deg,#2dd4bf,#0d9488)' : 'rgba(45,212,191,0.15)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, flexShrink:0 }}>
+            <div style={{ width:26, height:26, borderRadius:7, background: matchMode ? 'linear-gradient(135deg,#4a8fa8,#2d6a85)' : 'rgba(45,212,191,0.15)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, flexShrink:0 }}>
               {matchMode ? '✓' : '🔎'}
             </div>
             <div style={{ flex:1 }}>
-              <div className="match-filter-label" style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color: matchMode ? G.teal : 'rgba(232,228,217,0.85)' }}>
+              <div className="match-filter-label" style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:13, color: matchMode ? G.teal : 'rgba(228,221,208,0.85)' }}>
                 Match Filter
               </div>
-              <div className="match-filter-sub" style={{ fontSize:10, color:'rgba(232,228,217,0.48)', marginTop:1 }}>
+              <div className="match-filter-sub" style={{ fontSize:10, color:'rgba(228,221,208,0.48)', marginTop:1 }}>
                 {matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length>1?'s':''} active` : (lang==='sq'?'Kërko sipas aftësive':'Filter by skills')}
               </div>
             </div>
             {matchSkills.length > 0 && (
               <button onClick={e=>{e.stopPropagation();setMatchSkills([])}} style={{ background:'rgba(45,212,191,0.12)', border:'1px solid rgba(45,212,191,0.35)', borderRadius:5, color:G.teal, fontSize:11, padding:'2px 7px', cursor:'pointer', fontWeight:600 }}>✕ Clear</button>
             )}
-            <div style={{ color: matchMode ? G.teal : 'rgba(232,228,217,0.45)', fontSize:15 }}>{matchMode ? '▲' : '▼'}</div>
+            <div style={{ color: matchMode ? G.teal : 'rgba(228,221,208,0.45)', fontSize:15 }}>{matchMode ? '▲' : '▼'}</div>
           </div>
 
         </div>
@@ -1428,7 +1428,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {/* Active tag filter banner */}
       {tagFilter && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 9, padding: '9px 14px' }}>
-          <span style={{ fontSize: 13, color: G.teal, fontFamily: "'DM Sans',sans-serif" }}>
+          <span style={{ fontSize: 13, color: G.teal, fontFamily: "'Inter',sans-serif" }}>
             🏷 {lang === 'sq' ? 'Filtër tag:' : 'Tag filter:'} <strong>{tagFilter}</strong>
           </span>
           <button onClick={clearTagFilter} className="btn ghost" style={{ fontSize: 11, padding: '3px 10px', marginLeft: 'auto' }}>✕ {lang === 'sq' ? 'Hiq' : 'Remove'}</button>
@@ -1451,7 +1451,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
                 borderRadius: 8, padding: '4px 12px',
               }}>
                 <span style={{ fontSize: 12 }}>{catObj.icon}</span>
-                <span style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 12, color: '#ffffff', letterSpacing: '0.1px', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{catObj.labels[lang]}</span>
+                <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 12, color: '#ffffff', letterSpacing: '0.1px', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{catObj.labels[lang]}</span>
                 <span style={{ background: catObj.color, color: '#08111e', borderRadius: 5, padding: '1px 6px', fontSize: 10, fontWeight: 800, marginLeft: 2 }}>{catProfiles.length}</span>
               </div>
               <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}60, transparent)` }} />
@@ -1468,8 +1468,8 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
       {filtered.length === 0 && (
         <div style={{ textAlign: 'center', padding: '64px 20px', color: G.muted }}>
           <div style={{ fontSize: 42, marginBottom: 12 }}>🔍</div>
-          <div style={{ fontSize: 15, fontFamily: "'DM Sans',sans-serif" }}>{t.noResults} "{q}"</div>
-          <div style={{ fontSize: 13, fontFamily: "'DM Sans',sans-serif", marginTop: 6 }}>{t.noResultsSub}</div>
+          <div style={{ fontSize: 15, fontFamily: "'Inter',sans-serif" }}>{t.noResults} "{q}"</div>
+          <div style={{ fontSize: 13, fontFamily: "'Inter',sans-serif", marginTop: 6 }}>{t.noResultsSub}</div>
         </div>
       )}
 
@@ -1639,8 +1639,8 @@ function MatchPage({ lang, t }) {
       {/* Header */}
       <div style={{ marginBottom: 26 }}>
 
-        <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3.5vw,36px)', letterSpacing: '-0.6px', marginBottom: 8 }}>{Lm.title}</h2>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 15, lineHeight: 1.75 }}>{Lm.sub}</p>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 'clamp(22px,3.5vw,36px)', letterSpacing: '-0.6px', marginBottom: 8 }}>{Lm.title}</h2>
+        <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 15, lineHeight: 1.75 }}>{Lm.sub}</p>
       </div>
 
       <div className="card" style={{ padding: 26, marginBottom: 24 }}>
@@ -1664,7 +1664,7 @@ function MatchPage({ lang, t }) {
         <div style={{ marginBottom: 22 }}>
           <label className="flabel">{Lm.skillLabel}</label>
           {category === 'all' ? (
-            <div style={{ fontSize: 13, color: G.muted, fontFamily: "'DM Sans',sans-serif", marginTop: 8, fontStyle: 'italic' }}>
+            <div style={{ fontSize: 13, color: G.muted, fontFamily: "'Inter',sans-serif", marginTop: 8, fontStyle: 'italic' }}>
               {Lm.noSkillNote}
             </div>
           ) : (
@@ -1680,11 +1680,11 @@ function MatchPage({ lang, t }) {
                 })}
               </div>
               {skills.length > 0 && (
-                <div style={{ marginTop: 8, fontSize: 12, color: G.teal, fontFamily: "'DM Sans',sans-serif" }}>
+                <div style={{ marginTop: 8, fontSize: 12, color: G.teal, fontFamily: "'Inter',sans-serif" }}>
                   ✓ {skills.length} {Lm.allSkills}: {skills.join(', ')}
                 </div>
               )}
-              <div style={{ fontSize: 11, color: G.muted, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>{Lm.skillHint}</div>
+              <div style={{ fontSize: 11, color: G.muted, marginTop: 6, fontFamily: "'Inter',sans-serif" }}>{Lm.skillHint}</div>
             </>
           )}
         </div>
@@ -1714,13 +1714,13 @@ function MatchPage({ lang, t }) {
       {/* Results */}
       {results !== null && (
         <div className="fi">
-          <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 17, marginBottom: 16 }}>
+          <h3 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 17, marginBottom: 16 }}>
             {Lm.resultsTitle}
             <span style={{ color: G.gold, marginLeft: 8 }}>({results.length})</span>
           </h3>
 
           {results.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '48px 20px', color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
+            <div style={{ textAlign: 'center', padding: '48px 20px', color: G.muted, fontFamily: "'Inter',sans-serif" }}>
               <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
               {Lm.noResults}
             </div>
@@ -1745,7 +1745,7 @@ function MatchPage({ lang, t }) {
                       {!p.coverImage && isSp && <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,rgba(251,146,60,0.16),rgba(14,20,32,0.9))` }} />}
                       <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.5) 45%, rgba(14,20,32,0) 100%)' }} />
                       <div style={{ position:'absolute', top:0, left:0, right:0, height: isSp ? 3 : 2,
-                        background: isSp ? 'linear-gradient(90deg,#fb923c,#f59e0b,transparent)' : `linear-gradient(90deg,${p.logoColor||'#d4a843'}88,transparent)` }} />
+                        background: isSp ? 'linear-gradient(90deg,#c9943a,#c9a44a,transparent)' : `linear-gradient(90deg,${p.logoColor||'#c9a44a'}88,transparent)` }} />
                     </div>
                   )}
                   {!p.coverImage && !isSp && <div style={{ height:2, background:`linear-gradient(90deg,${p.logoColor||G.border}44,transparent)` }} />}
@@ -1758,7 +1758,7 @@ function MatchPage({ lang, t }) {
                           <Logo text={p.logo} color={p.logoColor} url={p.logoUrl} />
                         </div>
                         <div>
-                          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 14 }}>{p.name}</div>
+                          <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 14 }}>{p.name}</div>
                           <div style={{ fontSize: 11, color: G.muted, marginTop: 2 }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
                           {isFL && <div style={{ fontSize: 11, color: G.muted }}>🗣 {p.languages}</div>}
                         </div>
@@ -1767,7 +1767,7 @@ function MatchPage({ lang, t }) {
                       {/* Score badge — only when skills selected */}
                       {sc !== null && (
                         <div style={{ textAlign: 'center', flexShrink: 0, marginLeft: 8 }}>
-                          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: scoreColor(sc), lineHeight: 1 }}>{sc}%</div>
+                          <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 22, color: scoreColor(sc), lineHeight: 1 }}>{sc}%</div>
                           <div style={{ fontSize: 9, color: G.muted, marginTop: 1, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{Lm.scoreLabel}</div>
                         </div>
                       )}
@@ -1783,7 +1783,7 @@ function MatchPage({ lang, t }) {
                     {/* Matched skills highlight */}
                     {p._matched && p._matched.length > 0 && (
                       <div style={{ marginBottom: 10, padding: '7px 11px', background: 'rgba(45,212,191,0.07)', border: '1px solid rgba(45,212,191,0.2)', borderRadius: 8 }}>
-                        <div style={{ fontSize: 10, color: G.teal, fontWeight: 700, marginBottom: 5, letterSpacing: '0.3px' }}>✓ {Lm.matchedSkills}</div>
+                        <div style={{ fontSize: 10, color: G.teal, fontWeight: 700, marginBottom: 5, letterSpacing: '0.1px' }}>✓ {Lm.matchedSkills}</div>
                         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                           {p._matched.map(s => (
                             <span key={s} style={{ fontSize: 11, background: 'rgba(45,212,191,0.15)', color: G.teal, border: '1px solid rgba(45,212,191,0.35)', borderRadius: 5, padding: '2px 8px', fontWeight: 700 }}>{s}</span>
@@ -1803,10 +1803,10 @@ function MatchPage({ lang, t }) {
                     {/* Tier + rating */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                       <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-                        {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Syne',sans-serif" }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
+                        {isSp && <span style={{ fontSize: 10, background: 'rgba(251,146,60,0.14)', color: G.orange, border: '1px solid rgba(251,146,60,0.3)', borderRadius: 5, padding: '2px 8px', fontWeight: 700, fontFamily: "'Cormorant Garamond',Georgia,serif" }}>🚀 {lang==='sq'?'Sponsorizuar':'Sponsored'}</span>}
                         {p.verified && <span style={{ fontSize: 10, background: 'rgba(52,199,89,0.1)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px' }}>{t.verified}</span>}
                       </div>
-                      <div style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 12, color: G.muted, fontFamily: "'Inter',sans-serif" }}>
 
                       </div>
                     </div>
@@ -1816,7 +1816,7 @@ function MatchPage({ lang, t }) {
                       <button className="btn gbtn" style={{ flex: 1, padding: '9px', fontSize: 12 }} onClick={() => setContact(p)}>
                         {t.sendReq}
                       </button>
-                      <span style={{ fontSize: 11, color: G.teal, fontFamily: "'DM Sans',sans-serif", flexShrink: 0 }}>
+                      <span style={{ fontSize: 11, color: G.teal, fontFamily: "'Inter',sans-serif", flexShrink: 0 }}>
                         💬 {t.rateNote}
                       </span>
                     </div>
@@ -1850,13 +1850,13 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
     <div style={{ marginBottom: 48 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 32 }}>
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,transparent,rgba(212,168,67,0.22))' }} />
-        <span style={{ fontSize: 11, color: '#d4a843', fontFamily: "'Syne',sans-serif", fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(212,168,67,0.10)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: 20, padding: '4px 16px' }}>{dividerLabel}</span>
+        <span style={{ fontSize: 11, color: '#c9a44a', fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(212,168,67,0.10)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: 20, padding: '4px 16px' }}>{dividerLabel}</span>
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,rgba(212,168,67,0.22),transparent)' }} />
       </div>
       <div className="partner-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 14 }}>
         {profiles.map((sp, i) => {
           const website = sp.website ? sp.website.replace(/^https?:\/\//, '') : null
-          const color = sp.logoColor || '#2dd4bf'
+          const color = sp.logoColor || '#4a8fa8'
           return (
             <div key={sp.id}
               onClick={() => setDetailPartner(sp)}
@@ -1890,16 +1890,16 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
                   marginBottom:12 }}>
                   {sp.logoUrl
                     ? <img src={sp.logoUrl} alt={sp.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                    : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:24, color }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>}
+                    : <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:24, color }}>{(sp.logo||sp.name||'?').slice(0,2)}</span>}
                 </div>
 
                 {/* Name + city centered */}
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:17, marginBottom:3, letterSpacing:'-0.3px', color:'#f0ece3' }}>{sp.name}</div>
-                {sp.city && <div style={{ fontSize:11, color:'rgba(232,228,217,0.45)', marginBottom:12 }}>📍 {sp.city}</div>}
+                <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:17, marginBottom:3, letterSpacing:'-0.1px', color:'#f0ece3' }}>{sp.name}</div>
+                {sp.city && <div style={{ fontSize:11, color:'rgba(228,221,208,0.45)', marginBottom:12 }}>📍 {sp.city}</div>}
 
                 {/* Description */}
                 {(sp.desc?.en || sp.desc?.sq) && (
-                  <div style={{ fontSize:12, color:'rgba(232,228,217,0.52)', lineHeight:1.6, marginBottom:14, textAlign:'center',
+                  <div style={{ fontSize:12, color:'rgba(228,221,208,0.52)', lineHeight:1.6, marginBottom:14, textAlign:'center',
                     display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical', overflow:'hidden' }}>
                     {sp.desc[lang]||sp.desc.en}
                   </div>
@@ -1941,7 +1941,7 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
             {!enquirySent ? (<>
               <div style={{ display:'flex', justifyContent:'space-between', marginBottom:18 }}>
                 <div>
-                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:19 }}>{lang==='sq'?'Kërkesë për':'Enquiry to'}: {enquiryPartner.name}</div>
+                  <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:19 }}>{lang==='sq'?'Kërkesë për':'Enquiry to'}: {enquiryPartner.name}</div>
                   {enquiryPartner.website && <a href={`https://${enquiryPartner.website.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ fontSize:12, color:G.teal, textDecoration:'none' }}>{enquiryPartner.website.replace(/^https?:\/\//,'')} ↗</a>}
                 </div>
                 <ModalClose onClose={()=>setEnquiryPartner(null)} />
@@ -1970,8 +1970,8 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
             </>) : (
               <div style={{ textAlign:'center', padding:'18px 0' }}>
                 <div style={{ fontSize:48, marginBottom:12 }}>✅</div>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:21, marginBottom:9 }}>{t.reqDoneTitle}</div>
-                <p style={{ fontFamily:"'DM Sans',sans-serif", color:G.muted, fontSize:14, lineHeight:1.75, marginBottom:18 }}><strong>{enquiryPartner.name}</strong> {t.reqDoneSub}</p>
+                <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:21, marginBottom:9 }}>{t.reqDoneTitle}</div>
+                <p style={{ fontFamily:"'Inter',sans-serif", color:G.muted, fontSize:14, lineHeight:1.75, marginBottom:18 }}><strong>{enquiryPartner.name}</strong> {t.reqDoneSub}</p>
                 <button className="btn teal-btn" style={{ width:'100%' }} onClick={()=>setEnquiryPartner(null)}>{t.close}</button>
               </div>
             )}
@@ -2026,16 +2026,16 @@ function ConciergePage({ lang, t, content = {} }) {
         <div style={{ maxWidth: 660, position: 'relative' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.25)', borderRadius: 100, padding: '5px 16px', marginBottom: 18 }}>
             <span style={{ width: 7, height: 7, background: G.teal, borderRadius: '50%', display: 'inline-block' }} className="pg" />
-            <span style={{ fontSize: 12, color: G.teal, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>
+            <span style={{ fontSize: 12, color: G.teal, fontFamily: "'Inter',sans-serif", fontWeight: 500 }}>
               {(2 + (partnerProfiles?.length || 0))} {t.concAvail}
             </span>
           </div>
-          <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4.5vw,48px)', letterSpacing: '-1.1px', lineHeight: 1.1, marginBottom: 14 }}>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 'clamp(28px,4.5vw,48px)', letterSpacing: '-1.1px', lineHeight: 1.1, marginBottom: 14 }}>
             {CC.hero_title || t.concHeroTitle}<br /><span style={{ color: G.teal }}>
               {lang === 'sq' ? 'Ne organizojmë gjithçka.' : 'We organise everything.'}
             </span>
           </h1>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: G.muted, lineHeight: 1.82, marginBottom: 26, maxWidth: 520, fontWeight: 300 }}>{CC.hero_sub || t.concHeroSub}</p>
+          <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 15, color: G.muted, lineHeight: 1.82, marginBottom: 26, maxWidth: 520, fontWeight: 300 }}>{CC.hero_sub || t.concHeroSub}</p>
           <div style={{ display: 'flex', gap: 10 }}>
             <button className="btn teal-btn" onClick={() => setBookModal(true)}>{t.concReq}</button>
             <button className="btn ghost">{t.concLearn}</button>
@@ -2047,8 +2047,8 @@ function ConciergePage({ lang, t, content = {} }) {
 
         {/* ── OFFICIAL PARTNERS ── */}
         <div id="concierge-partners" style={{ marginBottom: 52 }}>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concPartnersTitle}</h2>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22, lineHeight: 1.7 }}>{t.concPartnersSub}</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concPartnersTitle}</h2>
+          <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22, lineHeight: 1.7 }}>{t.concPartnersSub}</p>
           <div className="conc-partners-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
             {/* rootsGTM — General Partner */}
@@ -2059,7 +2059,7 @@ function ConciergePage({ lang, t, content = {} }) {
                   ? <img src={P.rootsgtm_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: P.rootsgtm_cover_focus||'50% 50%' }} />
                   : <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg,rgba(45,212,191,0.22),rgba(14,20,32,0.9))' }} />}
                 {P.rootsgtm_cover && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(14,20,32,0.4) 0%,transparent 100%)' }} />}
-                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#2dd4bf,#0d9488,rgba(212,168,67,0.4),transparent)' }} />
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:'linear-gradient(90deg,#4a8fa8,#2d6a85,rgba(212,168,67,0.4),transparent)' }} />
               </div>
               {/* Logo overlapping cover */}
               <div style={{ padding:'0 20px', marginTop:-34, position:'relative', zIndex:1 }}>
@@ -2075,14 +2075,14 @@ function ConciergePage({ lang, t, content = {} }) {
                   </div>
                   <span className="gp-badge" style={{ fontSize:11, background:'rgba(52,199,89,0.1)', color:G.green, border:'1px solid rgba(52,199,89,0.25)', borderRadius:5, padding:'3px 9px', fontWeight:700, marginBottom:6 }}>✓ Live</span>
                 </div>
-                <div className="gp-name" style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:G.teal, marginBottom:2 }}>{P.rootsgtm_name||'rootsGTM'}</div>
+                <div className="gp-name" style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:20, color:G.teal, marginBottom:2 }}>{P.rootsgtm_name||'rootsGTM'}</div>
                 <div className="gp-sub" style={{ fontSize:12, color:G.muted, marginBottom:14 }}>{lang==='sq'?'Partner i Përgjithshëm · Aktiv':'General Partner · Active'}</div>
-                <p className="gp-desc" style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:'rgba(232,228,217,0.75)', lineHeight:1.75, marginBottom:16 }}>
+                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(228,221,208,0.75)', lineHeight:1.75, marginBottom:16 }}>
                   {P.rootsgtm_desc||'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
                 </p>
                 <div className="partner-feat-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
                   {(lang==='sq'?['🤝 Kontakt direkt','📅 Organizim takimesh','🎤 Evente & Rrjet','📄 Vijim & Kontrata']:['🤝 Direct client contact','📅 Meeting organisation','🎤 Events & networking','📄 Follow-up & contracts']).map(f=>(
-                    <div key={f} className="partner-feat-item" style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.15)', borderRadius:8, padding:'10px 12px', fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.8)' }}>{f}</div>
+                    <div key={f} className="partner-feat-item" style={{ background:'rgba(45,212,191,0.06)', border:'1px solid rgba(45,212,191,0.15)', borderRadius:8, padding:'10px 12px', fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(228,221,208,0.8)' }}>{f}</div>
                   ))}
                 </div>
                 <button className="btn teal-btn" style={{ width:'100%', padding:'11px', marginBottom:20 }} onClick={()=>setBookModal(true)}>
@@ -2099,7 +2099,7 @@ function ConciergePage({ lang, t, content = {} }) {
                   ? <img src={P.gov_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: P.gov_cover_focus||'50% 50%' }} />
                   : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,rgba(212,168,67,0.22),rgba(14,20,32,0.9))` }} />}
                 {P.gov_cover && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(14,20,32,0.4) 0%,transparent 100%)' }} />}
-                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,#d4a843,#f59e0b,rgba(212,168,67,0.3),transparent)` }} />
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,#c9a44a,#c9a44a,rgba(212,168,67,0.3),transparent)` }} />
               </div>
               {/* Logo overlapping cover */}
               <div style={{ padding:'0 20px', marginTop:-34, position:'relative', zIndex:1 }}>
@@ -2117,16 +2117,16 @@ function ConciergePage({ lang, t, content = {} }) {
                     {lang==='sq'?'⏳ Në negocim':'⏳ In negotiation'}
                   </span>
                 </div>
-                <div className="gp-name" style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20, color:G.gold, marginBottom:2 }}>
+                <div className="gp-name" style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:20, color:G.gold, marginBottom:2 }}>
                   {P.gov_name||(lang==='sq'?'Qeveria e Kosovës':'Kosova Government')}
                 </div>
                 <div className="gp-sub" style={{ fontSize:12, color:G.muted, marginBottom:14 }}>InvestKosova · {lang==='sq'?'Partner Zyrtar':'Official Partner'}</div>
-                <p className="gp-desc" style={{ fontFamily:"'DM Sans',sans-serif", fontSize:14, color:'rgba(232,228,217,0.75)', lineHeight:1.75, marginBottom:16 }}>
+                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(228,221,208,0.75)', lineHeight:1.75, marginBottom:16 }}>
                   {P.gov_desc||(lang==='sq'?'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë.':'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy.')}
                 </p>
                 <div className="partner-feat-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
                   {(lang==='sq'?['🏛️ Takime InvestKosova','📋 Këshillim themelimi','🤝 Takime ministrie','📊 Mbështetje investimesh']:['🏛️ InvestKosova meetings','📋 Company formation advice','🤝 Ministry appointments','📊 Investment support']).map(f=>(
-                    <div key={f} className="partner-feat-item" style={{ background:'rgba(212,168,67,0.07)', border:`1px solid ${G.goldBorder}`, borderRadius:8, padding:'10px 12px', fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.8)' }}>{f}</div>
+                    <div key={f} className="partner-feat-item" style={{ background:'rgba(212,168,67,0.07)', border:`1px solid ${G.goldBorder}`, borderRadius:8, padding:'10px 12px', fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(228,221,208,0.8)' }}>{f}</div>
                   ))}
                 </div>
                 <button className="btn gbtn" style={{ width:'100%', padding:'11px', marginBottom:20 }} onClick={()=>setBookModal(true)}>
@@ -2139,49 +2139,49 @@ function ConciergePage({ lang, t, content = {} }) {
 
         {/* ── PACKAGES ── */}
         <div style={{ marginBottom: 48 }}>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concPkgTitle}</h2>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concPkgSub}</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concPkgTitle}</h2>
+          <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concPkgSub}</p>
           <div className="conc-pkg-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 13 }}>
             {PACKAGES.map((pkg, i) => (
               <div key={i} style={{ background: pkg.highlight ? G.goldDim : G.card, border: `1px solid ${pkg.highlight ? G.goldBorder : G.border}`, borderRadius: 14, padding: '22px 20px', position: 'relative', transition: 'all 0.22s' }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)' }}
                 onMouseLeave={e => { e.currentTarget.style.transform = '' }}>
-                {pkg.highlight && <div style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', background: G.gold, color: '#080c14', borderRadius: 100, padding: '3px 14px', fontSize: 10, fontWeight: 700, fontFamily: "'Syne',sans-serif", whiteSpace: 'nowrap' }}>⭐ POPULAR</div>}
+                {pkg.highlight && <div style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', background: G.gold, color: '#060e1c', borderRadius: 100, padding: '3px 14px', fontSize: 10, fontWeight: 700, fontFamily: "'Cormorant Garamond',Georgia,serif", whiteSpace: 'nowrap' }}>⭐ POPULAR</div>}
                 <div style={{ fontSize: 26, marginBottom: 8 }}>{pkg.ic}</div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 16, marginBottom: 4 }}>{pkg.name}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 16, marginBottom: 4 }}>{pkg.name}</div>
                 {/* Price */}
                 <div style={{ marginBottom: 6 }}>
-                  <span style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 26, color: pkg.highlight ? G.gold : pkg.col }}>{pkg.price[lang] || pkg.price.en}</span>
+                  <span style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 26, color: pkg.highlight ? G.gold : pkg.col }}>{pkg.price[lang] || pkg.price.en}</span>
                 </div>
                 <div style={{ fontSize: 11, color: G.muted, marginBottom: 2 }}>⏱ {pkg.dur}</div>
                 <div style={{ fontSize: 11, color: G.muted, marginBottom: 13, fontStyle: 'italic' }}>{pkg.ideal}</div>
                 <div style={{ borderTop: `1px solid ${G.border}`, paddingTop: 10, marginBottom: 14 }}>
                   {pkg.inc.map(item => (
-                    <div key={item} style={{ display: 'flex', gap: 7, marginBottom: 6, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.75)' }}>
+                    <div key={item} style={{ display: 'flex', gap: 7, marginBottom: 6, fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(228,221,208,0.75)' }}>
                       <span style={{ color: pkg.col, flexShrink: 0 }}>✓</span>{item}
                     </div>
                   ))}
                 </div>
-                <button className="btn" style={{ width: '100%', padding: '9px', background: pkg.highlight ? G.gold : 'transparent', color: pkg.highlight ? '#080c14' : pkg.col, border: `1px solid ${pkg.col}44`, fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13 }} onClick={() => { setSelectedPkg(pkg.name); setBookModal(true) }}>{t.pkgCta}</button>
+                <button className="btn" style={{ width: '100%', padding: '9px', background: pkg.highlight ? G.gold : 'transparent', color: pkg.highlight ? '#060e1c' : pkg.col, border: `1px solid ${pkg.col}44`, fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 13 }} onClick={() => { setSelectedPkg(pkg.name); setBookModal(true) }}>{t.pkgCta}</button>
               </div>
             ))}
           </div>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, marginTop: 12, fontStyle: 'italic' }}>
+          <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: G.muted, marginTop: 12, fontStyle: 'italic' }}>
             {lang === 'sq' ? '* Çmimet janë orientuese. Çmimi final bien dakord bashkërisht.' : '* Prices are indicative. The final price is agreed together based on scope and requirements.'}
           </p>
         </div>
 
         {/* ── HOW IT WORKS ── */}
         <div style={{ marginBottom: 48 }}>
-          <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concHowTitle}</h2>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concHowSub}</p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 21, marginBottom: 6 }}>{t.concHowTitle}</h2>
+          <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, marginBottom: 22 }}>{t.concHowSub}</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))', gap: 9 }}>
             {t.howSteps.map((s, i) => (
               <div key={i} className="card fu" style={{ padding: 16, textAlign: 'center', animationDelay: `${i * 0.05}s` }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: G.teal, marginBottom: 6, letterSpacing: '1px' }}>STEP {s.n}</div>
                 <div style={{ fontSize: 22, marginBottom: 7 }}>{s.ic}</div>
                 <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 4 }}>{s.t}</div>
-                <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: G.muted, lineHeight: 1.6 }}>{s.d}</p>
+                <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 11, color: G.muted, lineHeight: 1.6 }}>{s.d}</p>
               </div>
             ))}
           </div>
@@ -2192,8 +2192,8 @@ function ConciergePage({ lang, t, content = {} }) {
         {/* ── CTA ── */}
         <div style={{ background: 'linear-gradient(135deg,rgba(45,212,191,0.08),rgba(212,168,67,0.04))', border: '1px solid rgba(45,212,191,0.2)', borderRadius: 14, padding: '30px 36px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 20, flexWrap: 'wrap', marginBottom: 32 }}>
           <div>
-            <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, marginBottom: 8 }}>{t.concCtaTitle}</h3>
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.teal }}>
+            <h3 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 20, marginBottom: 8 }}>{t.concCtaTitle}</h3>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.teal }}>
               {t.concCtaFeats.map(f => <span key={f}>{f}</span>)}
             </div>
           </div>
@@ -2206,18 +2206,18 @@ function ConciergePage({ lang, t, content = {} }) {
           <div style={{ position:'absolute', top:'-50%', right:'-5%', width:'30%', paddingBottom:'30%', borderRadius:'50%', background:'radial-gradient(circle,rgba(45,212,191,0.1),transparent 70%)', pointerEvents:'none' }} />
           <div style={{ position:'absolute', bottom:'-50%', left:'5%', width:'20%', paddingBottom:'20%', borderRadius:'50%', background:'radial-gradient(circle,rgba(212,168,67,0.07),transparent 70%)', pointerEvents:'none' }} />
           <div style={{ position:'relative', maxWidth: 500 }}>
-            <div style={{ fontSize:10, color:G.teal, fontFamily:"'DM Sans',sans-serif", fontWeight:700, letterSpacing:'1.5px', textTransform:'uppercase', marginBottom:8 }}>
+            <div style={{ fontSize:10, color:G.teal, fontFamily:"'Inter',sans-serif", fontWeight:700, letterSpacing:'1.5px', textTransform:'uppercase', marginBottom:8 }}>
               🤝 {lang==='sq'?'Rrjet Global B2B · Oportunitete Partneriteti':'Global B2B Network · Partnership Opportunity'}
             </div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 20, marginBottom: 8, letterSpacing:'-0.3px' }}>{t.concBecomeTitle}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.75, marginBottom: 12 }}>{t.concBecomeSub}</p>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 20, marginBottom: 8, letterSpacing:'-0.1px' }}>{t.concBecomeTitle}</div>
+            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.muted, lineHeight: 1.75, marginBottom: 12 }}>{t.concBecomeSub}</p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-              {t.concBecomeTypes.map(type => <span key={type} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.teal }}>{type}</span>)}
+              {t.concBecomeTypes.map(type => <span key={type} style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: G.teal }}>{type}</span>)}
             </div>
           </div>
           <div style={{ display:'flex', flexDirection:'column', gap:9, flexShrink:0, position:'relative' }}>
             <button className="btn teal-btn" style={{ padding:'12px 24px', fontSize:13, fontWeight:700, whiteSpace:'nowrap' }} onClick={() => setPartnerModal(true)}>{t.concBecomeBtn}</button>
-            <div style={{ fontSize:11, color:'rgba(45,212,191,0.5)', textAlign:'center', fontFamily:"'DM Sans',sans-serif" }}>
+            <div style={{ fontSize:11, color:'rgba(45,212,191,0.5)', textAlign:'center', fontFamily:"'Inter',sans-serif" }}>
               {lang==='sq'?'✓ Pa pagesë · Verifikim brenda 48h':'✓ Free · Verified within 48h'}
             </div>
           </div>
@@ -2230,7 +2230,7 @@ function ConciergePage({ lang, t, content = {} }) {
           <div className="modal su">
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
               <div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.bookTitle}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 19 }}>{t.bookTitle}</div>
                 <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>
                   rootsGTM · Business Bridge Platform
                   {selectedPkg && <span style={{ color: G.teal, marginLeft: 6 }}>· {selectedPkg}</span>}
@@ -2280,8 +2280,8 @@ function ConciergePage({ lang, t, content = {} }) {
         <div className="modal-bg fi" onClick={() => { setBookDone(false); setBookModal(false) }}>
           <div className="modal su" style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.bookDoneTitle}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 18 }}>{t.bookDoneSub}</p>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.bookDoneTitle}</div>
+            <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 18 }}>{t.bookDoneSub}</p>
             <button className="btn gbtn" style={{ width: '100%' }} onClick={() => { setBookDone(false); setBookModal(false) }}>{t.close}</button>
           </div>
         </div>
@@ -2293,7 +2293,7 @@ function ConciergePage({ lang, t, content = {} }) {
           <div className="modal su" style={{ maxWidth: 560 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
               <div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.partnerRegTitle}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 19 }}>{t.partnerRegTitle}</div>
                 <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>{t.partnerRegSub}</div>
               </div>
               <ModalClose onClose={() => setPartnerModal(false)} />
@@ -2309,9 +2309,9 @@ function ConciergePage({ lang, t, content = {} }) {
         <div className="modal-bg fi" onClick={() => { setPartnerDone(false); setPartnerModal(false) }}>
           <div className="modal su" style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>🎉</div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.partnerDoneTitle}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 18 }}>{t.partnerDoneSub}</p>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 13, marginBottom: 18 }}>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.partnerDoneTitle}</div>
+            <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 18 }}>{t.partnerDoneSub}</p>
+            <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 13, marginBottom: 18 }}>
               {lang==='sq' ? '⏳ Profili juaj shfaqet pas miratimit nga admin.' : '⏳ Your profile will appear here after admin approval.'}
             </p>
             <button className="btn gbtn" style={{ width: '100%' }} onClick={() => { setPartnerDone(false); setPartnerModal(false) }}>{t.close}</button>
@@ -2339,26 +2339,26 @@ function GovPage({ lang, t, content = {} }) {
   return (
     <div style={{ padding: '44px', maxWidth: 980, margin: '0 auto' }}>
       <div style={{ display: 'inline-block', background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 6, padding: '4px 12px', fontSize: 11, color: G.gold, marginBottom: 12, letterSpacing: '1px', textTransform: 'uppercase' }}>{badge}</div>
-      <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(22px,3.5vw,36px)', letterSpacing: '-0.7px', marginBottom: 10 }}>{heroTitle}<br /><span style={{ color: G.gold }}>{heroTitle2}</span></h2>
-      <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.8, maxWidth: 560, marginBottom: 36 }}>{heroSub}</p>
+      <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 'clamp(22px,3.5vw,36px)', letterSpacing: '-0.7px', marginBottom: 10 }}>{heroTitle}<br /><span style={{ color: G.gold }}>{heroTitle2}</span></h2>
+      <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.8, maxWidth: 560, marginBottom: 36 }}>{heroSub}</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 32 }}>
         {(gc.steps || t.govSteps).map((s, i) => (
           <div key={i} className="card fu" style={{ padding: 18, animationDelay: `${i * 0.06}s` }}>
             <div style={{ fontSize: 22, marginBottom: 8 }}>{s.ic || s.icon || '📋'}</div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 10, fontWeight: 700, color: G.gold, marginBottom: 4, letterSpacing: '0.5px' }}>{String(i + 1).padStart(2, '0')}</div>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: 10, fontWeight: 700, color: G.gold, marginBottom: 4, letterSpacing: '0.5px' }}>{String(i + 1).padStart(2, '0')}</div>
             <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 4 }}>{s.t || s.title}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, lineHeight: 1.6, marginBottom: 7 }}>{s.d || s.desc}</p>
+            <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: G.muted, lineHeight: 1.6, marginBottom: 7 }}>{s.d || s.desc}</p>
             <div style={{ fontSize: 11, background: 'rgba(52,199,89,0.08)', color: G.green, border: '1px solid rgba(52,199,89,0.2)', borderRadius: 5, padding: '2px 7px', display: 'inline-block' }}>⏱ {s.time}</div>
           </div>
         ))}
       </div>
       <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 14, padding: '24px 28px' }}>
-        <h3 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 18 }}>{factsHeading}</h3>
+        <h3 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 16, marginBottom: 18 }}>{factsHeading}</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(130px,1fr))', gap: 16, marginBottom: 20 }}>
           {(gc.facts || t.govFacts).map(([v, l]) => (
             <div key={l}>
-              <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, color: G.gold }}>{v}</div>
-              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: G.muted, marginTop: 2 }}>{l}</div>
+              <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 22, color: G.gold }}>{v}</div>
+              <div style={{ fontFamily: "'Inter',sans-serif", fontSize: 11, color: G.muted, marginTop: 2 }}>{l}</div>
             </div>
           ))}
         </div>
@@ -2449,7 +2449,7 @@ function AdBanner({ slot = 'banner', lang }) {
       }}>
         {ad.imageUrl && <img src={ad.imageUrl} alt={ad.label} style={{ maxHeight: slot==='sidebar'?120:48, maxWidth: slot==='sidebar'?130:220, objectFit:'contain' }} />}
         <div>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:ad.textColor||G.text }}>{ad.label}</div>
+          <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:13, color:ad.textColor||G.text }}>{ad.label}</div>
           {ad.sub && <div style={{ fontSize:11, color:G.muted, marginTop:2 }}>{ad.sub}</div>}
           {ad.cta && <div style={{ fontSize:11, color:G.teal, marginTop:4, fontWeight:600 }}>{ad.cta} →</div>}
         </div>
@@ -2562,10 +2562,10 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         <div style={{ marginBottom:14 }}>
           <label className="flabel">{lang==='sq'?'Logo e organizatës (opsionale)':'Organisation logo (optional)'}</label>
           <div style={{ display:'flex', gap:10, alignItems:'flex-start', marginTop:7 }}>
-            <div style={{ width:46, height:46, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${form.logoColor||'#2dd4bf'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${form.logoColor||'#2dd4bf'}20,${form.logoColor||'#2dd4bf'}46)` }}>
+            <div style={{ width:46, height:46, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${form.logoColor||'#4a8fa8'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${form.logoColor||'#4a8fa8'}20,${form.logoColor||'#4a8fa8'}46)` }}>
               {partnerLogoFile
                 ? <img src={partnerLogoFile} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:15, color:form.logoColor||'#2dd4bf' }}>{form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}</span>
+                : <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:15, color:form.logoColor||'#4a8fa8' }}>{form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}</span>
               }
             </div>
             <div style={{ flex:1 }}>
@@ -2580,9 +2580,9 @@ function SmartRegForm({ lang, t, regType, onDone }) {
               </label>
               {partnerLogoFile && <button onClick={() => setPartnerLogoFile(null)} className="btn ghost" style={{ fontSize:11, padding:'3px 9px', marginBottom:7 }}>✕ {lang==='sq'?'Hiq':'Remove'}</button>}
               <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                {['#2dd4bf','#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#d4a843'].map(col => (
+                {['#4a8fa8','#58a6ff','#34d399','#f472b6','#c9943a','#a78bfa','#facc15','#c9a44a'].map(col => (
                   <button key={col} onClick={() => { setForm(f=>({...f,logoColor:col})); setPartnerLogoFile(null) }}
-                    style={{ width:24, height:24, borderRadius:'50%', background:col, border:(form.logoColor||'#2dd4bf')===col?'3px solid #fff':'2px solid transparent', cursor:'pointer', boxShadow:(form.logoColor||'#2dd4bf')===col?`0 0 0 2px ${col}`:'none' }} />
+                    style={{ width:24, height:24, borderRadius:'50%', background:col, border:(form.logoColor||'#4a8fa8')===col?'3px solid #fff':'2px solid transparent', cursor:'pointer', boxShadow:(form.logoColor||'#4a8fa8')===col?`0 0 0 2px ${col}`:'none' }} />
                 ))}
               </div>
             </div>
@@ -2597,7 +2597,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             phone: form.phone||null, website: form.website||null,
             languages: form.eu_langs||null,
             type: 'partner', cat: 'partner', tier: 'free', verified: false,
-            logo_color: form.logoColor || '#2dd4bf',
+            logo_color: form.logoColor || '#4a8fa8',
             tags: form.focus ? form.focus.split(',').map(s=>s.trim()).filter(Boolean) : [],
             desc_en: form.desc||null, desc_sq: form.desc||null,
             employees: form.markets||null,
@@ -2664,13 +2664,13 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           <div style={{ width:52, height:52, borderRadius:12, overflow:'hidden', flexShrink:0, border:`2px solid ${form.logoColor||'#58a6ff'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${form.logoColor||'#58a6ff'}20,${form.logoColor||'#58a6ff'}46)` }}>
             {logoFile
               ? <img src={logoFile} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-              : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, color:form.logoColor||'#58a6ff' }}>{form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}</span>
+              : <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:16, color:form.logoColor||'#58a6ff' }}>{form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}</span>
             }
           </div>
 
           <div style={{ flex:1 }}>
             {/* Upload button */}
-            <label style={{ display:'flex', alignItems:'center', gap:7, padding:'7px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, fontFamily:"'DM Sans',sans-serif", marginBottom:8, width:'fit-content' }}>
+            <label style={{ display:'flex', alignItems:'center', gap:7, padding:'7px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, fontFamily:"'Inter',sans-serif", marginBottom:8, width:'fit-content' }}>
               📷 {lang==='sq' ? 'Ngarko logo (opsionale)' : 'Upload logo (optional)'}
               <input type="file" accept="image/*" style={{ display:'none' }} onChange={handleLogoUpload} />
             </label>
@@ -2684,7 +2684,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             </div>
             {/* Color swatches */}
             <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-              {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col => {
+              {['#58a6ff','#34d399','#f472b6','#c9943a','#a78bfa','#facc15','#4a8fa8','#6ee7b7','#fca5a5','#c9a44a'].map(col => {
                 const isSel = (form.logoColor||'#58a6ff') === col
                 return (
                   <button key={col} onClick={() => { setForm(f=>({...f,logoColor:col})); setLogoFile(null) }}
@@ -2727,7 +2727,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             onChange={e => { f('email', e.target.value); checkEmail(e.target.value) }}
             onBlur={e => checkEmail(e.target.value)} />
           {emailChecking && <div style={{fontSize:11,color:G.muted,marginTop:4,display:'flex',alignItems:'center',gap:5}}><div style={{width:8,height:8,borderRadius:'50%',border:'1.5px solid rgba(255,255,255,0.2)',borderTopColor:G.muted,animation:'spin 0.7s linear infinite'}} />Checking…</div>}
-          {emailError && <div style={{fontSize:11,color:G.red,marginTop:4,display:'flex',alignItems:'center',gap:5,fontFamily:"'DM Sans',sans-serif",fontWeight:500}}>⚠ {emailError}</div>}
+          {emailError && <div style={{fontSize:11,color:G.red,marginTop:4,display:'flex',alignItems:'center',gap:5,fontFamily:"'Inter',sans-serif",fontWeight:500}}>⚠ {emailError}</div>}
         </div>
         <div><label className="flabel">{Lr.website}</label><input className="inp" value={form.website} onChange={e => f('website', e.target.value)} placeholder="techfirma.com" /></div>
       </div>
@@ -2790,7 +2790,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
       )}
 
       {/* Availability note */}
-      <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 9, padding: '10px 14px', marginBottom: 14, fontSize: 13, fontFamily: "'DM Sans',sans-serif", color: G.muted }}>
+      <div style={{ background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 9, padding: '10px 14px', marginBottom: 14, fontSize: 13, fontFamily: "'Inter',sans-serif", color: G.muted }}>
         {Lr.availNote}
       </div>
 
@@ -2812,8 +2812,8 @@ function SmartRegForm({ lang, t, regType, onDone }) {
                 onMouseLeave={e => { if (!sel) { e.currentTarget.style.borderColor = G.border; e.currentTarget.style.background = 'rgba(255,255,255,0.02)' } }}>
                 {sel && <div style={{ position: 'absolute', top: -1, left: -1, right: -1, height: 2, background: `linear-gradient(90deg,${opt.col},transparent)`, borderRadius: '12px 12px 0 0' }} />}
                 <div style={{ fontSize: 20, marginBottom: 5 }}>{opt.icon}</div>
-                <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 12, color: sel ? opt.col : G.muted, marginBottom: 3 }}>{opt.label}</div>
-                <div style={{ fontSize: 10, color: 'rgba(232,228,217,0.45)', lineHeight: 1.4 }}>{opt.sub}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 12, color: sel ? opt.col : G.muted, marginBottom: 3 }}>{opt.label}</div>
+                <div style={{ fontSize: 10, color: 'rgba(228,221,208,0.45)', lineHeight: 1.4 }}>{opt.sub}</div>
                 {opt.val === 'sponsored' && <div style={{ fontSize: 9, color: G.orange, marginTop: 5, fontWeight: 700 }}>→ {lang==='sq'?'Admin do ju kontaktojë':'Admin will contact you'}</div>}
               </div>
             )
@@ -2826,8 +2826,8 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         <div style={{ background: 'linear-gradient(135deg,rgba(251,146,60,0.06),rgba(251,146,60,0.02))', border: '1px solid rgba(251,146,60,0.25)', borderRadius: 14, padding: '18px 18px 14px', marginBottom: 18 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
             <span style={{ fontSize: 14 }}>🚀</span>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13, color: G.orange }}>Premium Profile Fields</div>
-            <span style={{ fontSize: 10, color: 'rgba(251,146,60,0.6)', fontFamily: "'DM Sans',sans-serif" }}>· {lang==='sq'?'Shfaqen në profilin tuaj premium':'Displayed in your premium profile popup'}</span>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 13, color: G.orange }}>Premium Profile Fields</div>
+            <span style={{ fontSize: 10, color: 'rgba(251,146,60,0.6)', fontFamily: "'Inter',sans-serif" }}>· {lang==='sq'?'Shfaqen në profilin tuaj premium':'Displayed in your premium profile popup'}</span>
           </div>
 
           {/* Previous companies */}
@@ -2903,7 +2903,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
                   </div>
               </div>
             </div>
-            <CoverCropPicker image={form.coverImage} onApply={cropped=>f('coverImage',cropped)} accentColor="#fb923c" />
+            <CoverCropPicker image={form.coverImage} onApply={cropped=>f('coverImage',cropped)} accentColor="#c9943a" />
           </div>
         </div>
       )}
@@ -3090,7 +3090,7 @@ function SelfEditModal({ profile, lang, t, onClose }) {
         {/* Header */}
         <div style={{ display:'flex', justifyContent:'space-between', marginBottom:18 }}>
           <div>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:19 }}>{Ls.title}: {profile.name}</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:19 }}>{Ls.title}: {profile.name}</div>
             <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Business Bridge Platform</div>
           </div>
           <button onClick={onClose} className="btn ghost" style={{ padding:'5px 10px', fontSize:15, alignSelf:'flex-start' }}>✕</button>
@@ -3108,8 +3108,8 @@ function SelfEditModal({ profile, lang, t, onClose }) {
         {/* ── STEP 1: Email ─────────────────────────────────────────────── */}
         {step === 'email' && (
           <>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step1h}</div>
-            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:16 }}>{Ls.step1sub}</p>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step1h}</div>
+            <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:16 }}>{Ls.step1sub}</p>
             <div style={{ marginBottom:18 }}>
               <label className="flabel">{Ls.emailLabel}</label>
               <input className="inp" type="email" value={email} onChange={e => setEmail(e.target.value)}
@@ -3139,8 +3139,8 @@ function SelfEditModal({ profile, lang, t, onClose }) {
         {/* ── STEP 2: Code ──────────────────────────────────────────────── */}
         {step === 'code' && (
           <>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step2h}</div>
-            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:18 }}>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step2h}</div>
+            <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:18 }}>
               {lang==='sq' ? `Kodi u dërgua te ${email}. Kontrolloni emailin tuaj.` : `Code sent to ${email}. Check your inbox.`}
             </p>
             <div style={{ marginBottom:10 }}>
@@ -3149,7 +3149,7 @@ function SelfEditModal({ profile, lang, t, onClose }) {
                 placeholder="123456" maxLength={6} style={{ fontSize:22, letterSpacing:6, textAlign:'center' }}
                 onKeyDown={e => e.key==='Enter' && verifyCode()} />
             </div>
-            {codeError && <div style={{ fontSize:12, color:G.red, marginBottom:10, fontFamily:"'DM Sans',sans-serif" }}>⚠️ {Ls.codeErr}</div>}
+            {codeError && <div style={{ fontSize:12, color:G.red, marginBottom:10, fontFamily:"'Inter',sans-serif" }}>⚠️ {Ls.codeErr}</div>}
             <button className="btn gbtn" style={{ width:'100%' }} disabled={code.length < 6}
               onClick={async () => {
                 const storedHash = sessionStorage.getItem('__vc_hash')
@@ -3171,7 +3171,7 @@ function SelfEditModal({ profile, lang, t, onClose }) {
         {/* ── STEP 3: Form ──────────────────────────────────────────────── */}
         {step === 'form' && (
           <>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step3h}</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:16, marginBottom:6 }}>{Ls.step3h}</div>
             <div style={{ background:'rgba(45,212,191,0.07)', border:'1px solid rgba(45,212,191,0.22)', borderRadius:9, padding:'10px 14px', marginBottom:16, fontSize:12, color:G.teal }}>
               🔐 {lang==='sq'?'Kodi u verifikua':'Code verified'}
               <span style={{ color:G.muted, marginLeft:8 }}>— {Ls.step3sub}</span>
@@ -3227,8 +3227,8 @@ function SelfEditModal({ profile, lang, t, onClose }) {
         {step === 'done' && (
           <div style={{ textAlign:'center', padding:'16px 0' }}>
             <div style={{ fontSize:50, marginBottom:14 }}>📬</div>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:21, marginBottom:10 }}>{Ls.step4h}</div>
-            <p style={{ fontFamily:"'DM Sans',sans-serif", color:G.muted, fontSize:14, lineHeight:1.75, marginBottom:16 }}>{Ls.step4sub}</p>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:21, marginBottom:10 }}>{Ls.step4h}</div>
+            <p style={{ fontFamily:"'Inter',sans-serif", color:G.muted, fontSize:14, lineHeight:1.75, marginBottom:16 }}>{Ls.step4sub}</p>
             <div style={{ background:G.goldDim, border:`1px solid ${G.goldBorder}`, borderRadius:9, padding:'10px 14px', marginBottom:20, fontSize:13, color:G.gold }}>
               {Ls.pendingNote}
             </div>
@@ -3256,14 +3256,14 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
   const [gpSaving, setGpSaving] = React.useState(false)
   const [gpMsg, setGpMsg] = React.useState('')
   const [section, setSection] = React.useState('fixed') // 'fixed' | 'db'
-  const logoColors = ['#2dd4bf','#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#d4a843']
+  const logoColors = ['#4a8fa8','#58a6ff','#34d399','#f472b6','#c9943a','#a78bfa','#facc15','#c9a44a']
 
   const openNew = () => {
-    setGpForm({ name:'', city:'', email:'', website:'', phone:'', desc:'', tags:'', logoColor:'#2dd4bf', visible:true, featured:false })
+    setGpForm({ name:'', city:'', email:'', website:'', phone:'', desc:'', tags:'', logoColor:'#4a8fa8', visible:true, featured:false })
     setGpLogo(null); setGpCover(null); setGpEdit('new')
   }
   const openEditGP = (p) => {
-    setGpForm({ name:p.name||'', city:p.city||'', email:p.contact||p.email||'', website:p.website||'', phone:p.phone||'', desc:p.desc?.en||'', tags:(p.tags||[]).join(', '), logoColor:p.logoColor||'#2dd4bf', visible:p.verified!==false, featured:p.tier==='sponsored' })
+    setGpForm({ name:p.name||'', city:p.city||'', email:p.contact||p.email||'', website:p.website||'', phone:p.phone||'', desc:p.desc?.en||'', tags:(p.tags||[]).join(', '), logoColor:p.logoColor||'#4a8fa8', visible:p.verified!==false, featured:p.tier==='sponsored' })
     setGpLogo(p.logoUrl||null); setGpCover(p.coverImage||null); setGpEdit(p)
   }
   const saveGP = async () => {
@@ -3275,7 +3275,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
       type: 'partner', cat: 'partner',
       tier: gpForm.featured ? 'sponsored' : 'free',
       verified: gpForm.visible,
-      logo_color: gpForm.logoColor||'#2dd4bf',
+      logo_color: gpForm.logoColor||'#4a8fa8',
       tags: gpForm.tags ? gpForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : [],
       desc_en: gpForm.desc||null, desc_sq: gpForm.desc||null,
       cover_image: gpCover || null,
@@ -3307,7 +3307,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
     <div style={{ display:'flex', flexDirection:'column', gap:18 }}>
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
         <div>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17 }}>🤝 Partners</div>
+          <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:17 }}>🤝 Partners</div>
           <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Manage all partner types shown on the platform</div>
         </div>
         <div style={{ display:'flex', gap:6 }}>
@@ -3322,7 +3322,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
         <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
           {/* rootsGTM */}
           <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:14, padding:'20px 22px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.teal, marginBottom:14, display:'flex', alignItems:'center', gap:8 }}>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:15, color:G.teal, marginBottom:14, display:'flex', alignItems:'center', gap:8 }}>
               <span style={{ fontSize:20 }}>🚀</span> rootsGTM — General Partner
             </div>
             {/* Logo row */}
@@ -3370,17 +3370,17 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   }} />
                 </label>
                 {partners.rootsgtm_cover && <button onClick={()=>setPartners(p=>({...p,rootsgtm_cover:null,rootsgtm_cover_focus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
-                  <div style={{ fontSize:10, color:'rgba(232,228,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                  <div style={{ fontSize:10, color:'rgba(228,221,208,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
                     💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
                   </div>
               </div>
-              <CoverCropPicker image={partners.rootsgtm_cover} onApply={cropped=>setPartners(p=>({...p,rootsgtm_cover:cropped}))} accentColor="#2dd4bf" />
+              <CoverCropPicker image={partners.rootsgtm_cover} onApply={cropped=>setPartners(p=>({...p,rootsgtm_cover:cropped}))} accentColor="#4a8fa8" />
             </div>
           </div>
 
           {/* Government */}
           <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, padding:'20px 22px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, color:G.gold, marginBottom:14, display:'flex', alignItems:'center', gap:8 }}>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:15, color:G.gold, marginBottom:14, display:'flex', alignItems:'center', gap:8 }}>
               <span style={{ fontSize:20 }}>🏛️</span> Kosova Government / InvestKosova — General Partner
             </div>
             {/* Logo row */}
@@ -3424,17 +3424,17 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   }} />
                 </label>
                 {partners.gov_cover && <button onClick={()=>setPartners(p=>({...p,gov_cover:null,gov_cover_focus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
-                  <div style={{ fontSize:10, color:'rgba(232,228,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                  <div style={{ fontSize:10, color:'rgba(228,221,208,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
                     💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
                   </div>
               </div>
-              <CoverCropPicker image={partners.gov_cover} onApply={cropped=>setPartners(p=>({...p,gov_cover:cropped}))} accentColor="#d4a843" />
+              <CoverCropPicker image={partners.gov_cover} onApply={cropped=>setPartners(p=>({...p,gov_cover:cropped}))} accentColor="#c9a44a" />
             </div>
           </div>
 
           {/* ── Concierge page text ── */}
           <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'20px 22px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:14 }}>📄 Concierge Page Text</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:14, marginBottom:14 }}>📄 Concierge Page Text</div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
               <div><label className="flabel">Hero Title</label><input className="inp" value={concierge.hero_title||''} onChange={e=>setConcierge(c=>({...c,hero_title:e.target.value}))} placeholder="Kosova Concierge" /></div>
               <div><label className="flabel">Hero Subtitle</label><input className="inp" value={concierge.hero_sub||''} onChange={e=>setConcierge(c=>({...c,hero_sub:e.target.value}))} placeholder="Our partners organise your complete business visit." /></div>
@@ -3471,13 +3471,13 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
             gpList.length===0 ? (
               <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'44px', textAlign:'center', color:G.muted }}>
                 <div style={{ fontSize:36, marginBottom:12 }}>🤝</div>
-                <div style={{ fontFamily:"'DM Sans',sans-serif" }}>No general partners yet. Click "+ Add Partner" to create the first one.</div>
+                <div style={{ fontFamily:"'Inter',sans-serif" }}>No general partners yet. Click "+ Add Partner" to create the first one.</div>
               </div>
             ) : (
               <div style={{ display:'flex', flexDirection:'column', gap:9 }}>
                 {gpList.map(p => (
                   <div key={p.id} style={{ background:G.surface, border:`1px solid ${p.verified!==false?'rgba(45,212,191,0.25)':G.border}`, borderRadius:14, padding:'14px 18px', display:'flex', gap:14, alignItems:'center', flexWrap:'wrap' }}>
-                    <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} url={p.logoUrl} size={46} />
+                    <Logo text={p.logo} color={p.logoColor||'#4a8fa8'} url={p.logoUrl} size={46} />
                     <div style={{ flex:1, minWidth:160 }}>
                       <div style={{ fontWeight:700, fontSize:14, display:'flex', alignItems:'center', gap:7, flexWrap:'wrap' }}>
                         {p.name}
@@ -3502,7 +3502,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
           {gpEdit!==null && (
             <div style={{ background:G.surface, border:`1px solid rgba(45,212,191,0.3)`, borderRadius:16, overflow:'hidden' }}>
               <div style={{ padding:'16px 22px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', background:'rgba(45,212,191,0.04)' }}>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:16, color:G.teal }}>
+                <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:16, color:G.teal }}>
                   {gpEdit==='new' ? '+ New General Partner' : `✏️ Edit: ${gpEdit.name}`}
                 </div>
                 <button className="btn ghost" style={{ fontSize:12, padding:'4px 12px' }} onClick={()=>setGpEdit(null)}>✕ Cancel</button>
@@ -3511,10 +3511,10 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                 <div>
                   <label className="flabel">Logo</label>
                   <div style={{ display:'flex', gap:14, alignItems:'flex-start', marginTop:8 }}>
-                    <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}55`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gpForm.logoColor||'#2dd4bf'}18,${gpForm.logoColor||'#2dd4bf'}38)` }}>
+                    <div style={{ width:64, height:64, borderRadius:14, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#4a8fa8'}55`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gpForm.logoColor||'#4a8fa8'}18,${gpForm.logoColor||'#4a8fa8'}38)` }}>
                       {gpLogo
                         ? <img src={gpLogo} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                        : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:18, color:gpForm.logoColor||'#2dd4bf' }}>{(gpForm.name||'?').split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?'}</span>}
+                        : <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:18, color:gpForm.logoColor||'#4a8fa8' }}>{(gpForm.name||'?').split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?'}</span>}
                     </div>
                     <div style={{ flex:1 }}>
                       <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
@@ -3530,7 +3530,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                       <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
                         {logoColors.map(col=>(
                           <button key={col} onClick={()=>setGpForm(f=>({...f,logoColor:col}))}
-                            style={{ width:22, height:22, borderRadius:'50%', background:col, border:`2px solid ${(gpForm.logoColor||'#2dd4bf')===col?'#fff':'transparent'}`, cursor:'pointer', transition:'transform 0.15s' }}
+                            style={{ width:22, height:22, borderRadius:'50%', background:col, border:`2px solid ${(gpForm.logoColor||'#4a8fa8')===col?'#fff':'transparent'}`, cursor:'pointer', transition:'transform 0.15s' }}
                             onMouseEnter={e=>e.currentTarget.style.transform='scale(1.2)'}
                             onMouseLeave={e=>e.currentTarget.style.transform=''} />
                         ))}
@@ -3543,7 +3543,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   <label className="flabel">Cover / Banner Image</label>
                   <div style={{ display:'flex', gap:14, alignItems:'center', marginTop:8 }}>
                     {gpCover && (
-                      <div style={{ width:140, height:64, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#2dd4bf'}40` }}>
+                      <div style={{ width:140, height:64, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${gpForm.logoColor||'#4a8fa8'}40` }}>
                         <img src={gpCover} alt="" style={{width:'100%',height:'100%',objectFit:'cover', objectPosition: gpForm.coverFocus||'50% 50%'}} />
                       </div>
                     )}
@@ -3558,12 +3558,12 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                         }} />
                       </label>
                       {gpCover && <button onClick={()=>{setGpCover(null);setGpForm(f=>({...f,coverFocus:null}))}} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block'}}>✕ Remove</button>}
-                  <div style={{ fontSize:10, color:'rgba(232,228,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                  <div style={{ fontSize:10, color:'rgba(228,221,208,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
                     💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
                   </div>
                     </div>
                   </div>
-                  <CoverCropPicker image={gpCover} onApply={cropped=>setGpCover(cropped)} accentColor={gpForm.logoColor||'#2dd4bf'} />
+                  <CoverCropPicker image={gpCover} onApply={cropped=>setGpCover(cropped)} accentColor={gpForm.logoColor||'#4a8fa8'} />
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
                   <div><label className="flabel">Name *</label><input className="inp" value={gpForm.name||''} onChange={e=>setGpForm(f=>({...f,name:e.target.value}))} placeholder="Organisation name" /></div>
@@ -3861,7 +3861,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: G.bg }}>
       <div style={{ background: G.surface, border: `1px solid ${G.goldBorder}`, borderRadius: 18, padding: 38, width: 360, textAlign: 'center' }}>
         <div style={{ fontSize: 36, marginBottom: 14 }}>🔒</div>
-        <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22, marginBottom: 6 }}>Admin</div>
+        <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 22, marginBottom: 6 }}>Admin</div>
         <div style={{ fontSize: 12, color: G.muted, marginBottom: 22 }}>Business Bridge Platform</div>
         <input className="inp" type="password" value={pw} onChange={e => setPw(e.target.value)}
           placeholder="Password" style={{ marginBottom: 10, textAlign: 'center' }}
@@ -3918,13 +3918,13 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
   )
 
   return (
-    <div style={{ fontFamily: "'DM Sans',sans-serif", background: G.bg, minHeight: '100vh', color: G.text, padding: '28px 40px', maxWidth: 1200, margin: '0 auto' }}>
+    <div style={{ fontFamily: "'Inter',sans-serif", background: G.bg, minHeight: '100vh', color: G.text, padding: '28px 40px', maxWidth: 1200, margin: '0 auto' }}>
       <style>{`* { box-sizing: border-box; }`}</style>
 
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
         <div>
-          <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 22 }}>🔧 Admin Panel</div>
+          <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 22 }}>🔧 Admin Panel</div>
           <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>Business Bridge Platform</div>
         </div>
         <div style={{ display: 'flex', gap: 9 }}>
@@ -3942,7 +3942,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
           [pending.length, 'Change requests', pending.length > 0 ? G.orange : G.muted],
         ].map(([v, l, col]) => (
           <div key={l} style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 10, padding: '14px 18px' }}>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 28, color: col }}>{v}</div>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 28, color: col }}>{v}</div>
             <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>{l}</div>
           </div>
         ))}
@@ -3968,7 +3968,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
         return (
           <div>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
-              <div style={{ fontSize:13, color:G.muted, fontFamily:"'DM Sans',sans-serif" }}>
+              <div style={{ fontSize:13, color:G.muted, fontFamily:"'Inter',sans-serif" }}>
                 {pendingProfiles.length} pending · Partners: {pendingPartners.length} · Companies/FL: {pendingFirms.length}
               </div>
               <button className="btn ghost" style={{ fontSize:12, padding:'6px 14px' }} onClick={() => { setLoadingP(true); fetchAllProfilesAdmin().then(d=>{setProfiles(d.map(normaliseProfile));setLoadingP(false)}).catch(()=>setLoadingP(false)) }}>
@@ -3981,10 +3981,10 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
             {!loadingP && pendingPartners.length > 0 && (
               <div style={{ marginBottom: 28 }}>
                 <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
-                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15 }}>🤝 Partner Applications</div>
+                  <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:15 }}>🤝 Partner Applications</div>
                   <span style={{ background:'rgba(45,212,191,0.12)', color:G.teal, border:'1px solid rgba(45,212,191,0.3)', borderRadius:10, padding:'1px 8px', fontSize:11, fontWeight:700 }}>{pendingPartners.length}</span>
                 </div>
-                <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:G.muted, marginBottom:12 }}>
+                <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:G.muted, marginBottom:12 }}>
                   Sales partner applications. Verify to make them visible on the Concierge page.
                 </p>
                 <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
@@ -4024,7 +4024,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
             {!loadingP && (
               <div>
                 {pendingPartners.length > 0 && (
-                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:15, marginBottom:12 }}>
+                  <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:15, marginBottom:12 }}>
                     🏢 Companies & Freelancers
                     <span style={{ marginLeft:8, background:G.goldDim, color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:10, padding:'1px 8px', fontSize:11, fontWeight:700 }}>{pendingFirms.length}</span>
                   </div>
@@ -4047,7 +4047,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       {/* ── TAB: ALL PROFILES ─────────────────────────────────────────────── */}
       {tab === 'profiles' && (
         <div>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>
+          <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>
             All profiles — verified (live) and unverified. Use ✏️ to edit, ✓/✕ to toggle visibility.
           </p>
           {loadingP && <div style={{ color: G.muted, padding: 20 }}>Loading…</div>}
@@ -4060,7 +4060,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       {/* ── TAB: CHANGE REQUESTS ──────────────────────────────────────────── */}
       {tab === 'pending_changes' && (
         <div>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>
+          <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.muted, marginBottom: 16 }}>
             Profile change requests from owners. Code was verified by the owner. Review the diff and approve or reject.
           </p>
           {loadingC && <div style={{ color: G.muted, padding: 20 }}>Loading…</div>}
@@ -4122,7 +4122,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                       <div style={{ fontSize: 12, color: G.muted, marginBottom: 6 }}><b style={{color:G.text}}>City:</b> {chg.changes.city}</div>
                     )}
                     {chg.changes?.website && <div style={{ fontSize: 12, color: G.muted, marginBottom: 6 }}><b style={{color:G.text}}>Website:</b> {chg.changes.website}</div>}
-                    {chg.changes?.desc && <p style={{ fontSize: 12, color: 'rgba(232,228,217,0.8)', lineHeight: 1.6 }}>{chg.changes.desc.en || chg.changes.desc.de}</p>}
+                    {chg.changes?.desc && <p style={{ fontSize: 12, color: 'rgba(228,221,208,0.8)', lineHeight: 1.6 }}>{chg.changes.desc.en || chg.changes.desc.de}</p>}
                   </div>
                 </div>
                 <div style={{ padding: '14px 20px', borderTop: `1px solid ${G.border}`, display: 'flex', gap: 10 }}>
@@ -4149,13 +4149,13 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       {tab === 'government' && (
         <div style={{ display:'flex', flexDirection:'column', gap:18 }}>
           <div>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:17 }}>🏛️ Government Page Editor</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:17 }}>🏛️ Government Page Editor</div>
             <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Edit all text and links on the Government page. Blank fields use the default translated text.</div>
           </div>
 
           {/* Hero section */}
           <div style={{ background:G.surface, border:`1px solid ${G.goldBorder}`, borderRadius:14, padding:'20px 22px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, color:G.gold, marginBottom:14 }}>Hero Section</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:14, color:G.gold, marginBottom:14 }}>Hero Section</div>
             <div style={{ marginBottom:10 }}><label className="flabel">Badge text (e.g. "🏛️ For Investors & Governments")</label><input className="inp" value={govContent.badge||''} onChange={e=>setGovContent(g=>({...g,badge:e.target.value}))} placeholder="Leave blank for default" /></div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
               <div><label className="flabel">Headline line 1</label><input className="inp" value={govContent.heroTitle||''} onChange={e=>setGovContent(g=>({...g,heroTitle:e.target.value}))} placeholder="Leave blank for default" /></div>
@@ -4166,13 +4166,13 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
           {/* Facts section */}
           <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'20px 22px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:14 }}>Facts Box Heading</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:14, marginBottom:14 }}>Facts Box Heading</div>
             <div><label className="flabel">Section heading</label><input className="inp" value={govContent.factsHeading||''} onChange={e=>setGovContent(g=>({...g,factsHeading:e.target.value}))} placeholder="Leave blank for default" /></div>
           </div>
 
           {/* Buttons */}
           <div style={{ background:G.surface, border:`1px solid ${G.border}`, borderRadius:14, padding:'20px 22px' }}>
-            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:14, marginBottom:4 }}>Action Buttons</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:14, marginBottom:4 }}>Action Buttons</div>
             <div style={{ fontSize:12, color:G.muted, marginBottom:14 }}>Edit the links and labels shown at the bottom of the Government page.</div>
             {(govContent.buttons||[]).map((btn, i) => (
               <div key={i} style={{ display:'grid', gridTemplateColumns:'1fr 2fr auto auto', gap:8, marginBottom:9, alignItems:'center' }}>
@@ -4200,7 +4200,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
           {/* Change password */}
           <div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: '22px 24px' }}>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 14 }}>🔐 Change password</div>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 16, marginBottom: 14 }}>🔐 Change password</div>
             <div style={{ marginBottom: 10 }}><label className="flabel">New password (min. 8 chars)</label><input className="inp" type="password" value={newPw} onChange={e => setNewPw(e.target.value)} /></div>
             <div style={{ marginBottom: 16 }}><label className="flabel">Confirm new password</label><input className="inp" type="password" value={newPwConfirm} onChange={e => setNewPwConfirm(e.target.value)} /></div>
             {pwChanged && <div style={{ fontSize: 12, color: G.green, marginBottom: 10 }}>✓ Password changed for this session</div>}
@@ -4210,7 +4210,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
 
           {/* Notification email */}
           <div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: '22px 24px' }}>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 14 }}>📧 Notification email</div>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 16, marginBottom: 14 }}>📧 Notification email</div>
             <div style={{ marginBottom: 10 }}><label className="flabel">Your email (for new profile alerts)</label><input className="inp" type="email" value={notifEmail} onChange={e => setNotifEmail(e.target.value)} placeholder="admin@bbplatform.com" /></div>
             {notifSaved && <div style={{ fontSize: 12, color: G.green, marginBottom: 10 }}>✓ Saved locally</div>}
             <div style={{ fontSize: 11, color: G.muted, marginBottom: 12 }}>
@@ -4225,12 +4225,12 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       {/* ── EDIT MODAL — modern card layout ───────────────────────────── */}
       {editProfile && (
         <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.9)', zIndex:300, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={e => e.target===e.currentTarget && setEditProfile(null)}>
-          <div style={{ background:'#0e1420', border:`1px solid ${G.goldBorder}`, borderRadius:20, width:'100%', maxWidth:680, maxHeight:'92vh', overflowY:'auto', display:'flex', flexDirection:'column' }}>
+          <div style={{ background:'#0b1628', border:`1px solid ${G.goldBorder}`, borderRadius:20, width:'100%', maxWidth:680, maxHeight:'92vh', overflowY:'auto', display:'flex', flexDirection:'column' }}>
 
             {/* Modal header */}
-            <div style={{ padding:'22px 28px 18px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, background:'#0e1420', zIndex:1 }}>
+            <div style={{ padding:'22px 28px 18px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, background:'#0b1628', zIndex:1 }}>
               <div>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:20 }}>✏️ Edit Profile</div>
+                <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:20 }}>✏️ Edit Profile</div>
                 <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>{editProfile.name} · Changes go live immediately</div>
               </div>
               <button onClick={() => setEditProfile(null)} className="btn ghost" style={{ padding:'6px 12px', fontSize:15 }}>✕</button>
@@ -4263,11 +4263,11 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                   <div style={{ width:48, height:48, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${editForm.logoColor||'#58a6ff'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${editForm.logoColor||'#58a6ff'}20,${editForm.logoColor||'#58a6ff'}46)` }}>
                     {editForm.logoDataPreview
                       ? <img src={editForm.logoDataPreview} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                      : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:14, color:editForm.logoColor||'#58a6ff' }}>{(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
+                      : <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:14, color:editForm.logoColor||'#58a6ff' }}>{(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
                     }
                   </div>
                   <div style={{ flex:1 }}>
-                    <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:'rgba(232,228,217,0.8)', marginBottom:7 }}>
+                    <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:'rgba(228,221,208,0.8)', marginBottom:7 }}>
                       📷 Upload new logo
                       <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => {
                         const file = e.target.files?.[0]; if(!file) return
@@ -4278,7 +4278,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                     </label>
                     {editForm.logoDataPreview && <button onClick={()=>setEditForm(f=>({...f,logoDataPreview:null}))} className="btn ghost" style={{ fontSize:10, padding:'3px 8px', marginBottom:7, display:'block' }}>✕ Remove photo</button>}
                     <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                      {['#58a6ff','#34d399','#f472b6','#fb923c','#a78bfa','#facc15','#2dd4bf','#6ee7b7','#fca5a5','#d4a843'].map(col => {
+                      {['#58a6ff','#34d399','#f472b6','#c9943a','#a78bfa','#facc15','#4a8fa8','#6ee7b7','#fca5a5','#c9a44a'].map(col => {
                         const isSel = (editForm.logoColor||'#58a6ff') === col
                         return <button key={col} onClick={()=>setEditForm(f=>({...f,logoColor:col,logoDataPreview:null}))} style={{ width:22, height:22, borderRadius:'50%', background:col, border:`2px solid ${isSel?'#fff':'transparent'}`, cursor:'pointer', boxShadow: isSel?`0 0 0 2px ${col}`:'none' }} />
                       })}
@@ -4344,14 +4344,14 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                   </div>
                     </div>
                   </div>
-                  <CoverCropPicker image={editForm.coverImage} onApply={cropped=>setEditForm(f=>({...f,coverImage:cropped}))} accentColor="#fb923c" />
+                  <CoverCropPicker image={editForm.coverImage} onApply={cropped=>setEditForm(f=>({...f,coverImage:cropped}))} accentColor="#c9943a" />
                 </div>
               )}
 
               {/* ── Sponsored premium fields (only when tier = sponsored) ── */}
               {editForm.tier === 'sponsored' && (
                 <div style={{ background:'linear-gradient(135deg,rgba(251,146,60,0.06),rgba(251,146,60,0.02))', border:'1px solid rgba(251,146,60,0.22)', borderRadius:12, padding:'16px', marginBottom:12 }}>
-                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:G.orange, marginBottom:14, display:'flex', alignItems:'center', gap:7 }}>
+                  <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:13, color:G.orange, marginBottom:14, display:'flex', alignItems:'center', gap:7 }}>
                     🚀 Sponsored Premium Fields
                   </div>
                   <div style={{ marginBottom:10 }}>
@@ -4396,7 +4396,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
               </div>
 
             {/* Sticky footer */}
-            <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0e1420' }}>
+            <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0b1628' }}>
               <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveEdit} disabled={saving}>
                 {saving ? <><div style={{width:13,height:13,border:'2px solid rgba(0,0,0,0.25)',borderTopColor:G.bg,borderRadius:'50%'}} className="sp" />Saving…</> : '💾 Save changes'}
               </button>
@@ -4470,17 +4470,17 @@ export default function App() {
   if (showAdmin) return <AdminPage lang={lang} onExit={() => setShowAdmin(false)} siteContent={siteContent} onContentSave={(key, val) => { saveSiteContent(key, val); setSiteContent(prev => ({...prev, [key]: val})); window.__siteContent = {...(window.__siteContent||{}), [key]: val} }} />
 
   return (
-    <div style={{ fontFamily: "'DM Sans',sans-serif", background: G.bg, minHeight: '100vh', color: G.text }}>
+    <div style={{ fontFamily: "'Inter',sans-serif", background: G.bg, minHeight: '100vh', color: G.text }}>
       <style>{CSS}</style>
 
       {/* ── NAV ── */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: `${G.bg}f2`, backdropFilter: 'blur(18px)', borderBottom: `1px solid ${G.border}`, padding: '0 28px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(6,14,28,0.92)', backdropFilter: 'blur(18px)', borderBottom: `1px solid ${G.border}`, padding: '0 28px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setPage('home')} className="btn" style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: 0 }}>
           <div style={{ width: 40, height: 27, borderRadius: 4, overflow: 'hidden', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAOTBQADASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAcIBQYDBAkBAv/EAE0QAQABAwIBBwcIBwYFBAEFAAABAgMEBREGBxIWITFB0RNRVGFxgaMIFBUiMmKRoUJSVoKUorEXI0NywdIYM1VjkiRT4fCyJTVzwvH/xAAcAQEAAgMBAQEAAAAAAAAAAAAABQYDBAcCAQj/xAA5EQEAAQIDBQYEBQUAAgMBAAAAAQIDBAUREhMhMVIGFEFRYZFxgaHRIjKxwfAHFRZC4SNTM3Lxkv/aAAwDAQACEQMRAD8AicB1NVQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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" alt="Kosovo flag" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </div>
           <div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 14, color: G.text }}>Kosova <span style={{ color: G.gold }}>Business Hub</span></div>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 14, color: G.text }}>Kosova <span style={{ color: G.gold }}>Business Hub</span></div>
             <div style={{ fontSize: 9, color: G.muted, letterSpacing: '0.7px', textTransform: 'uppercase' }}>{t.tagline}</div>
           </div>
         </button>
@@ -4504,24 +4504,24 @@ export default function App() {
           </div>
           <button className="btn gbtn nav-reg-btn" style={{ marginLeft: 8, padding: '8px 16px', fontSize: 12 }} onClick={() => setShowReg(true)}>{t.registerBtn}</button>
           <button className="hamburger" onClick={() => setMobileNav(v => !v)} style={{ display:'none', flexDirection:'column', gap:5, background:'transparent', border:'none', cursor:'pointer', padding:8, marginLeft:4 }}>
-            <span style={{ display:'block', width:22, height:2, background:'rgba(232,228,217,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
-            <span style={{ display:'block', width:22, height:2, background:'rgba(232,228,217,0.7)', borderRadius:1, transition:'all 0.2s', opacity: mobileNav ? 0 : 1 }} />
-            <span style={{ display:'block', width:22, height:2, background:'rgba(232,228,217,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
+            <span style={{ display:'block', width:22, height:2, background:'rgba(228,221,208,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
+            <span style={{ display:'block', width:22, height:2, background:'rgba(228,221,208,0.7)', borderRadius:1, transition:'all 0.2s', opacity: mobileNav ? 0 : 1 }} />
+            <span style={{ display:'block', width:22, height:2, background:'rgba(228,221,208,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
           </button>
         </div>
       </nav>
       {mobileNav && (
-        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#0e1420', borderBottom:'1px solid rgba(255,255,255,0.07)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4 }}>
+        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#0b1628', borderBottom:'1px solid rgba(255,255,255,0.07)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4 }}>
           {[['home',t.navHome,'🏠'],['directory',t.navDir,'🏢'],['concierge',t.navConcierge,'🤝'],['gov',t.navGov,'🏛️']].map(([pg,l,ic]) => (
             <button key={pg} onClick={() => { setPage(pg); setMobileNav(false) }}
-              style={{ background: page===pg?'rgba(212,168,67,0.1)':'transparent', color: page===pg?'#d4a843':'rgba(232,228,217,0.75)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'DM Sans',sans-serif", fontSize:15, fontWeight:500, display:'flex', alignItems:'center', gap:10, width:'100%' }}>
+              style={{ background: page===pg?'rgba(212,168,67,0.1)':'transparent', color: page===pg?'#c9a44a':'rgba(228,221,208,0.75)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'Inter',sans-serif", fontSize:15, fontWeight:500, display:'flex', alignItems:'center', gap:10, width:'100%' }}>
               <span>{ic}</span>{l}
             </button>
           ))}
           <div style={{ borderTop:'1px solid rgba(255,255,255,0.07)', marginTop:8, paddingTop:12, display:'flex', gap:6 }}>
             {['en','sq'].map(l => (
               <button key={l} onClick={() => { setLang(l) }}
-                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(212,168,67,0.15)':'rgba(255,255,255,0.04)', color: lang===l?'#d4a843':'rgba(232,228,217,0.45)', border:'1px solid '+(lang===l?'rgba(212,168,67,0.22)':'rgba(255,255,255,0.07)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
+                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(212,168,67,0.15)':'rgba(255,255,255,0.04)', color: lang===l?'#c9a44a':'rgba(228,221,208,0.45)', border:'1px solid '+(lang===l?'rgba(212,168,67,0.22)':'rgba(255,255,255,0.07)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
                 {FLAGS[l]} {l.toUpperCase()}
               </button>
             ))}
@@ -4550,17 +4550,17 @@ export default function App() {
             <div className="fu" style={{ maxWidth: 700, margin: '0 auto', position: 'relative' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: G.goldDim, border: `1px solid ${G.goldBorder}`, borderRadius: 100, padding: '6px 18px', marginBottom: 26 }}>
                 <span style={{ width: 7, height: 7, background: G.green, borderRadius: '50%', display: 'inline-block', boxShadow: `0 0 8px ${G.green}` }} />
-                <span style={{ fontSize: 12, color: G.gold, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, letterSpacing:'0.3px' }}>
+                <span style={{ fontSize: 12, color: G.gold, fontFamily: "'Inter',sans-serif", fontWeight: 600, letterSpacing:'0.1px' }}>
                   {(window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type !== 'partner').length > 0
                     ? `${(window.__techgateProfiles||[]).filter(p => p.verified !== false && p.type !== 'partner').length} ${lang==='sq' ? 'Regjistrimet e Verifikuara · Live' : 'Verified Listings · Live'}`
                     : (lang==='sq' ? 'Platforma e Biznesit Kosova · Live' : 'Global B2B Network · Live')
                   }
                 </span>
               </div>
-              <h1 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 'clamp(32px,5.2vw,60px)', letterSpacing: '-1.8px', lineHeight: 1.06, marginBottom: 20 }}>
+              <h1 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 'clamp(32px,5.2vw,60px)', letterSpacing: '-1.8px', lineHeight: 1.06, marginBottom: 20 }}>
                 {t.h1a}<br /><span style={{ color: G.gold }}>{t.h1b}</span>
               </h1>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 17, color: G.muted, lineHeight: 1.8, fontWeight: 300, maxWidth: 540, margin: '0 auto 36px' }}>{t.heroSub}</p>
+              <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 17, color: G.muted, lineHeight: 1.8, fontWeight: 300, maxWidth: 540, margin: '0 auto 36px' }}>{t.heroSub}</p>
               <div style={{ display: 'flex', gap: 7, maxWidth: 560, margin: '0 auto 36px', background: 'rgba(255,255,255,0.045)', border: `1px solid ${G.goldBorder}`, borderRadius: 14, padding: 6, boxShadow: '0 4px 24px rgba(0,0,0,0.2)' }}>
                 <input className="inp" style={{ flex: 1, background: 'transparent', border: 'none', fontSize: 15 }} placeholder={t.searchPH}
                   value={searchQ} onChange={e => setSearchQ(e.target.value)}
@@ -4570,21 +4570,21 @@ export default function App() {
               <div style={{ display: 'flex', justifyContent: 'center', gap: 36, flexWrap: 'wrap', marginBottom: 24 }}>
                 {[[String(homeStats.companies||0), t.stat1], [String(homeStats.freelancers||0), t.stat2], [String(homeStats.partners||0), t.stat3], ['10%', t.stat4]].map(([n, l]) => (
                   <div key={l} style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 24, color: G.gold }}>{n}</div>
-                    <div style={{ fontSize: 11, color: G.muted, marginTop: 2, letterSpacing:'0.3px' }}>{l}</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 24, color: G.gold }}>{n}</div>
+                    <div style={{ fontSize: 11, color: G.muted, marginTop: 2, letterSpacing:'0.1px' }}>{l}</div>
                   </div>
                 ))}
               </div>
               <div style={{ display:'flex', justifyContent:'center', gap:8, flexWrap:'wrap' }}>
                 {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'✓ Regjistrimet e verifikuara':'✓ Verified Listings', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network'].map(tag => (
-                  <span key={tag} style={{ fontSize:11, color:'rgba(232,228,217,0.4)', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:20, padding:'4px 14px', fontFamily:"'DM Sans',sans-serif" }}>{tag}</span>
+                  <span key={tag} style={{ fontSize:11, color:'rgba(228,221,208,0.4)', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:20, padding:'4px 14px', fontFamily:"'Inter',sans-serif" }}>{tag}</span>
                 ))}
               </div>
             </div>
           </section>
           {/* ── HOW IT WORKS ── */}
           <section style={{ padding: '44px 48px 0', maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-            <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 18, marginBottom: 14 }}>{t.howTitle}</h2>
+            <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 18, marginBottom: 14 }}>{t.howTitle}</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 40 }}>
               {[
                 [G.blue,  '🔍', t.f1t, t.f1d, 'directory'],
@@ -4603,8 +4603,8 @@ export default function App() {
                   }}>
                   <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${col}90,transparent)` }} />
                   <div style={{ fontSize: 22, marginBottom: 9 }}>{ic}</div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 13, color: col, marginBottom: 5, lineHeight:1.3 }}>{title}</div>
-                  <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: G.muted, lineHeight: 1.65, margin:0 }}>{desc}</p>
+                  <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 13, color: col, marginBottom: 5, lineHeight:1.3 }}>{title}</div>
+                  <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: G.muted, lineHeight: 1.65, margin:0 }}>{desc}</p>
                 </div>
               ))}
             </div>
@@ -4618,14 +4618,14 @@ export default function App() {
               <section style={{ padding: '0 48px 52px', maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20, flexWrap:'wrap', gap:10 }}>
                   <div style={{ display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
-                    <h2 className="top-listings-title" style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:'clamp(15px,4vw,20px)', margin:0 }}>{t.topTitle}</h2>
-                    <span style={{ fontSize:10, background:'rgba(251,146,60,0.14)', color:G.orange, border:'1px solid rgba(251,146,60,0.35)', borderRadius:20, padding:'3px 11px', fontWeight:800, letterSpacing:'0.3px' }}>🚀 SPONSORED</span>
+                    <h2 className="top-listings-title" style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:'clamp(15px,4vw,20px)', margin:0 }}>{t.topTitle}</h2>
+                    <span style={{ fontSize:10, background:'rgba(251,146,60,0.14)', color:G.orange, border:'1px solid rgba(251,146,60,0.35)', borderRadius:20, padding:'3px 11px', fontWeight:800, letterSpacing:'0.1px' }}>🚀 SPONSORED</span>
                   </div>
                   <button className="btn ghost" style={{ fontSize:12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))', gap:18 }}>
                   {sponsored.slice(0,6).map(p => {
-                    const sColor = p.logoColor || '#fb923c'
+                    const sColor = p.logoColor || '#c9943a'
                     return (
                     <div key={p.id} style={{
                       borderRadius:20, overflow:'hidden', position:'relative', cursor:'pointer',
@@ -4655,17 +4655,17 @@ export default function App() {
                             background:`linear-gradient(135deg,${hexToRgba(sColor,0.22)},${hexToRgba(sColor,0.10)})` }}>
                             {p.logoUrl
                               ? <img src={p.logoUrl} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}} />
-                              : <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:900, fontSize:20, color:sColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
+                              : <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:900, fontSize:20, color:sColor }}>{(p.logo||p.name||'?').slice(0,2)}</span>}
                           </div>
                           <div style={{ paddingBottom:4 }}>
-                            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:16, marginBottom:3, letterSpacing:'-0.3px' }}>{p.name}</div>
-                            <div style={{ fontSize:11, color:'rgba(232,228,217,0.5)', display:'flex', gap:8 }}>
+                            <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:16, marginBottom:3, letterSpacing:'-0.1px' }}>{p.name}</div>
+                            <div style={{ fontSize:11, color:'rgba(228,221,208,0.5)', display:'flex', gap:8 }}>
                               {p.city && <span>📍 {p.city}</span>}
                               <span>· {catLabel(p.cat, lang)}</span>
                             </div>
                           </div>
                         </div>
-                        <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:13, color:'rgba(232,228,217,0.65)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
+                        <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(228,221,208,0.65)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
                         {(p.tags||[]).length>0 && (
                           <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:16 }}>
                             {p.tags.slice(0,4).map(tg=><span key={tg} style={{ fontSize:10, background:hexToRgba(sColor,0.10), color:sColor, border:`1px solid ${hexToRgba(sColor,0.22)}`, borderRadius:20, padding:'3px 9px', fontWeight:600 }}>{tg}</span>)}
@@ -4699,50 +4699,50 @@ export default function App() {
               <section style={{ padding: '0 0 52px', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 48px', marginBottom: 18, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 3 }}>
+                    <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 20, marginBottom: 3 }}>
                       {lang==='sq' ? '🤝 Partnerët Tanë' : '🤝 Our Partners'}
                     </h2>
-                    <div style={{ fontSize: 12, color: G.muted, fontFamily: "'DM Sans',sans-serif" }}>
+                    <div style={{ fontSize: 12, color: G.muted, fontFamily: "'Inter',sans-serif" }}>
                       {lang==='sq' ? 'Organizata të verifikuara — klikoni për të kontaktuar' : 'Verified organisations — click to connect on Concierge'}
                     </div>
                   </div>
                   <button className="btn ghost" style={{ fontSize: 12, flexShrink: 0 }} onClick={() => setPage('concierge')}>{lang==='sq'?'Shiko →':'View all →'}</button>
                 </div>
                 <div style={{ position: 'relative' }}>
-                  <div style={{ position:'absolute', left:0, top:0, bottom:0, width:80, background:'linear-gradient(90deg,#080c14,transparent)', zIndex:2, pointerEvents:'none' }} />
-                  <div style={{ position:'absolute', right:0, top:0, bottom:0, width:80, background:'linear-gradient(270deg,#080c14,transparent)', zIndex:2, pointerEvents:'none' }} />
+                  <div style={{ position:'absolute', left:0, top:0, bottom:0, width:80, background:'linear-gradient(90deg,#060e1c,transparent)', zIndex:2, pointerEvents:'none' }} />
+                  <div style={{ position:'absolute', right:0, top:0, bottom:0, width:80, background:'linear-gradient(270deg,#060e1c,transparent)', zIndex:2, pointerEvents:'none' }} />
                   <div style={{ display:'flex', gap:14, animation:'ticker-scroll 28s linear infinite', width:'max-content', padding:'6px 0' }}
                     onMouseEnter={e=>e.currentTarget.style.animationPlayState='paused'}
                     onMouseLeave={e=>e.currentTarget.style.animationPlayState='running'}>
                     {items.map((p, idx) => (
                       <div key={idx} onClick={() => setProfileDetail(p)}
                         style={{ display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center',
-                          background: hexToRgba(p.logoColor||'#2dd4bf', 0.05),
-                          border:`1px solid ${hexToRgba(p.logoColor||'#2dd4bf', 0.28)}`, borderRadius:16, cursor:'pointer',
+                          background: hexToRgba(p.logoColor||'#4a8fa8', 0.05),
+                          border:`1px solid ${hexToRgba(p.logoColor||'#4a8fa8', 0.28)}`, borderRadius:16, cursor:'pointer',
                           flexShrink:0, transition:'all 0.2s', width:170, overflow:'hidden',
                           boxShadow:'0 4px 20px rgba(0,0,0,0.18)' }}
-                        onMouseEnter={e=>{e.currentTarget.style.background=hexToRgba(p.logoColor||'#2dd4bf',0.10);e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.28), 0 0 0 1px ${hexToRgba(p.logoColor||'#2dd4bf',0.40)}`}}
-                        onMouseLeave={e=>{e.currentTarget.style.background=hexToRgba(p.logoColor||'#2dd4bf',0.05);e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.18)'}}>
+                        onMouseEnter={e=>{e.currentTarget.style.background=hexToRgba(p.logoColor||'#4a8fa8',0.10);e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 32px rgba(0,0,0,0.28), 0 0 0 1px ${hexToRgba(p.logoColor||'#4a8fa8',0.40)}`}}
+                        onMouseLeave={e=>{e.currentTarget.style.background=hexToRgba(p.logoColor||'#4a8fa8',0.05);e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.18)'}}>
                         {/* Cover or gradient top */}
                         <div style={{ position:'relative', height: p.coverImage ? 52 : 32, overflow:'hidden', width:'100%', flexShrink:0 }}>
                           {p.coverImage
                             ? <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                            : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,rgba(8,13,24,0.95))` }} />}
-                          <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${p.logoColor||'#2dd4bf'},transparent)` }} />
+                            : <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg,${p.logoColor||'#4a8fa8'}20,rgba(8,13,24,0.95))` }} />}
+                          <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${p.logoColor||'#4a8fa8'},transparent)` }} />
                           {p.coverImage && <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'60%', background:'linear-gradient(0deg,rgba(8,13,24,0.65) 0%,transparent 100%)' }} />}
                         </div>
                         {/* Centered logo overlapping cover */}
                         <div style={{ marginTop: p.coverImage ? -22 : 8, marginBottom:8, position:'relative', zIndex:1 }}>
                           <div style={{ width:52, height:52, borderRadius:13, overflow:'hidden', border:'2px solid #080d1a',
-                            boxShadow:`0 0 0 1.5px ${p.logoColor||'#2dd4bf'}55, 0 4px 14px rgba(0,0,0,0.4)`,
-                            background:`linear-gradient(135deg,${p.logoColor||'#2dd4bf'}20,${p.logoColor||'#2dd4bf'}38)`,
+                            boxShadow:`0 0 0 1.5px ${p.logoColor||'#4a8fa8'}55, 0 4px 14px rgba(0,0,0,0.4)`,
+                            background:`linear-gradient(135deg,${p.logoColor||'#4a8fa8'}20,${p.logoColor||'#4a8fa8'}38)`,
                             display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto' }}>
-                            {p.logoUrl ? <img src={p.logoUrl} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <Logo text={p.logo} color={p.logoColor||'#2dd4bf'} size={52} />}
+                            {p.logoUrl ? <img src={p.logoUrl} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} /> : <Logo text={p.logo} color={p.logoColor||'#4a8fa8'} size={52} />}
                           </div>
                         </div>
                         <div style={{ padding:'0 10px 12px' }}>
-                          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:12, color:'#f0ece3', lineHeight:1.2, marginBottom:2 }}>{p.name}</div>
-                          {p.city && <div style={{ fontSize:10, color:'rgba(232,228,217,0.38)' }}>📍 {p.city}</div>}
+                          <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:12, color:'#f0ece3', lineHeight:1.2, marginBottom:2 }}>{p.name}</div>
+                          {p.city && <div style={{ fontSize:10, color:'rgba(228,221,208,0.38)' }}>📍 {p.city}</div>}
                         </div>
                       </div>
                     ))}
@@ -4755,7 +4755,7 @@ export default function App() {
           {/* ── 3. SECTORS ── */}
           <section style={{ padding: '0 48px 0', maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 700, fontSize: 20 }}>{t.catsTitle}</h2>
+              <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 20 }}>{t.catsTitle}</h2>
               <button className="btn ghost" style={{ fontSize: 12 }} onClick={() => setPage('directory')}>{t.viewAll}</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(128px,1fr))', gap: 7, marginBottom: 44 }}>
@@ -4772,8 +4772,8 @@ export default function App() {
                     onMouseLeave={e=>{e.currentTarget.style.background=`linear-gradient(135deg,${c.color}09,${c.color}04)`;e.currentTarget.style.borderColor=`${c.color}30`;e.currentTarget.style.transform=''}}>
                     <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${c.color}80,transparent)`, borderRadius:'12px 12px 0 0' }} />
                     <div style={{ fontSize: 18, marginBottom: 5 }}>{c.icon}</div>
-                    <div style={{ fontFamily:"'Syne',sans-serif", fontWeight: 700, fontSize: 11, marginBottom: 3, letterSpacing:'-0.1px', color:'rgba(232,228,217,0.9)' }}>{c.labels[lang]}</div>
-                    {count > 0 && <div style={{ fontSize: 10, color: c.color, fontFamily:"'DM Sans',sans-serif", fontWeight:600 }}>{count} {lang==='sq'?'regj.':'listed'}</div>}
+                    <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight: 700, fontSize: 11, marginBottom: 3, letterSpacing:'-0.1px', color:'rgba(228,221,208,0.9)' }}>{c.labels[lang]}</div>
+                    {count > 0 && <div style={{ fontSize: 10, color: c.color, fontFamily:"'Inter',sans-serif", fontWeight:600 }}>{count} {lang==='sq'?'regj.':'listed'}</div>}
                   </div>
                 )
               })}
@@ -4787,14 +4787,14 @@ export default function App() {
               <div style={{ position:'absolute', bottom:'-30%', left:'5%', width:'25%', paddingBottom:'25%', borderRadius:'50%', background:'radial-gradient(circle,rgba(45,212,191,0.07),transparent 70%)', pointerEvents:'none' }} />
               <div style={{ position:'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 32, flexWrap: 'wrap' }}>
                 <div style={{ maxWidth: 520 }}>
-                  <div style={{ fontSize:11, color:G.gold, fontFamily:"'DM Sans',sans-serif", fontWeight:700, letterSpacing:'1.5px', textTransform:'uppercase', marginBottom:10 }}>
+                  <div style={{ fontSize:11, color:G.gold, fontFamily:"'Inter',sans-serif", fontWeight:700, letterSpacing:'1.5px', textTransform:'uppercase', marginBottom:10 }}>
                     🌐 {lang==='sq'?'Rrjet Global B2B · Platforma Premium':'Global B2B Network · Premium Executive Platform'}
                   </div>
-                  <h2 style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 26, letterSpacing: '-0.5px', marginBottom: 10, lineHeight:1.15 }}>{t.ctaTitle}</h2>
-                  <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75 }}>{t.ctaSub}</p>
+                  <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 26, letterSpacing: '-0.5px', marginBottom: 10, lineHeight:1.15 }}>{t.ctaTitle}</h2>
+                  <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75 }}>{t.ctaSub}</p>
                   <div style={{ display:'flex', gap:16, marginTop:18, flexWrap:'wrap' }}>
                     {[lang==='sq'?'✓ Pa pagesë':'✓ Always free', lang==='sq'?'✓ Verifikim admin':'✓ Admin verified', lang==='sq'?'✓ I dukshëm ndërkombëtarisht':'✓ Worldwide visibility'].map(item => (
-                      <span key={item} style={{ fontSize:12, color:G.teal, fontFamily:"'DM Sans',sans-serif" }}>{item}</span>
+                      <span key={item} style={{ fontSize:12, color:G.teal, fontFamily:"'Inter',sans-serif" }}>{item}</span>
                     ))}
                   </div>
                 </div>
@@ -4853,7 +4853,7 @@ export default function App() {
             {!regType ? (
               <>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{t.regTitle}</div>
+                  <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 19 }}>{t.regTitle}</div>
                   <ModalClose onClose={() => setShowReg(false)} />
                 </div>
                 {/* Kosova-based */}
@@ -4870,7 +4870,7 @@ export default function App() {
                       onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-2px)';e.currentTarget.style.boxShadow=`0 4px 16px ${opt.col}22`}}
                       onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow=''}}>
                       <div style={{ fontSize:26, marginBottom:7 }}>{opt.icon}</div>
-                      <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:opt.col, marginBottom:3 }}>{opt.regT}</div>
+                      <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:13, color:opt.col, marginBottom:3 }}>{opt.regT}</div>
                       <div style={{ fontSize:11, color:G.muted }}>{opt.sub}</div>
                     </div>
                   ))}
@@ -4883,7 +4883,7 @@ export default function App() {
                   style={{ padding:'14px 12px', border:'1px solid rgba(45,212,191,0.35)', background:'rgba(45,212,191,0.05)', borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all 0.18s' }}
                   onMouseEnter={e=>{e.currentTarget.style.borderColor='rgba(45,212,191,0.7)';e.currentTarget.style.background='rgba(45,212,191,0.12)'}}
                   onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(45,212,191,0.35)';e.currentTarget.style.background='rgba(45,212,191,0.05)'}}>
-                  <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:700, fontSize:13, color:G.teal, marginBottom:3 }}>{t.regSP}</div>
+                  <div style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:700, fontSize:13, color:G.teal, marginBottom:3 }}>{t.regSP}</div>
                   <div style={{ fontSize:11, color:'rgba(45,212,191,0.6)' }}>{t.regSPS}</div>
                 </div>
               </>
@@ -4891,7 +4891,7 @@ export default function App() {
               <>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
                   <div>
-                    <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 19 }}>{regType}</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 19 }}>{regType}</div>
                     <div style={{ fontSize: 12, color: G.muted, marginTop: 2 }}>{t.regFree}</div>
                   </div>
                   <button onClick={() => setRegType(null)} className="btn ghost" style={{ padding: '5px 10px', fontSize: 15 }}>{t.back}</button>
@@ -4906,8 +4906,8 @@ export default function App() {
         <div className="modal-bg fi" onClick={() => { setRegDone(false); setShowReg(false); setRegType(null) }}>
           <div className="modal su" style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>🚀</div>
-            <div style={{ fontFamily: "'Syne',sans-serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.regDoneTitle}</div>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 18 }}>{t.regDoneSub}</p>
+            <div style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontWeight: 800, fontSize: 21, marginBottom: 9 }}>{t.regDoneTitle}</div>
+            <p style={{ fontFamily: "'Inter',sans-serif", color: G.muted, fontSize: 14, lineHeight: 1.75, marginBottom: 18 }}>{t.regDoneSub}</p>
             <button className="btn gbtn" style={{ width: '100%' }} onClick={() => { setRegDone(false); setShowReg(false); setRegType(null) }}>{t.close}</button>
           </div>
         </div>
@@ -4926,26 +4926,26 @@ export default function App() {
       <footer style={{ 
         background: 'rgba(6,11,22,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
         borderTop: '1px solid rgba(255,255,255,0.12)', padding: '22px 44px',
-        fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(232,228,217,0.75)'
+        fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(228,221,208,0.75)'
       }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, marginBottom:14 }}>
           <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-            <span style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:13, color:'#ffffff' }}>Kosova Hub</span>
+            <span style={{ fontFamily:"'Cormorant Garamond',Georgia,serif", fontWeight:800, fontSize:13, color:'#ffffff' }}>Kosova Hub</span>
             <span style={{ fontSize:10, background:'rgba(212,168,67,0.18)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:20, padding:'1px 8px', fontWeight:600 }}>B2B</span>
           </div>
-          <div style={{ display: 'flex', gap: 16, alignItems:'center', color:'rgba(232,228,217,0.72)' }}>
+          <div style={{ display: 'flex', gap: 16, alignItems:'center', color:'rgba(228,221,208,0.72)' }}>
             {t.footLinks.map(l => <span key={l} style={{ cursor: 'pointer', transition:'color 0.15s' }}
-              onMouseEnter={e=>e.currentTarget.style.color='#fff'} onMouseLeave={e=>e.currentTarget.style.color='rgba(232,228,217,0.72)'}>{l}</span>)}
+              onMouseEnter={e=>e.currentTarget.style.color='#fff'} onMouseLeave={e=>e.currentTarget.style.color='rgba(228,221,208,0.72)'}>{l}</span>)}
             <span onClick={() => setShowAdmin(true)} style={{ cursor: 'pointer', opacity: 0, transition: 'opacity 0.3s' }}
               onMouseEnter={e => e.currentTarget.style.opacity = '1'}
               onMouseLeave={e => e.currentTarget.style.opacity = '0'}>⚙</span>
           </div>
         </div>
         <div style={{ borderTop:'1px solid rgba(255,255,255,0.10)', paddingTop:12, display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
-          <div style={{ color:'rgba(232,228,217,0.65)' }}>{t.footer}</div>
+          <div style={{ color:'rgba(228,221,208,0.65)' }}>{t.footer}</div>
           <div style={{ display:'flex', gap:18 }}>
             {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network', lang==='sq'?'🔐 Verifikim admin':'🔐 Admin Verified'].map(tag => (
-              <span key={tag} style={{ fontSize:11, color:'rgba(232,228,217,0.55)' }}>{tag}</span>
+              <span key={tag} style={{ fontSize:11, color:'rgba(228,221,208,0.55)' }}>{tag}</span>
             ))}
           </div>
         </div>
