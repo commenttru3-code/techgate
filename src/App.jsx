@@ -264,36 +264,36 @@ function normaliseProfile(p) {
     videoUrl:        p.videoUrl        || p.video_url        || null,
     coverImage:      p.coverImage      || p.cover_image      || null,
     coverFocus:      p.coverFocus      || p.cover_focus      || '50% 50%',
-    logoColor:       p.logoColor       || p.logo_color       || '#58a6ff',
+    logoColor:       p.logoColor       || p.logo_color       || '#4a7fa5',
     logoUrl:         p.logoUrl         || p.logo_url         || null,
   }
 }
 
 const CATS = [
-  { id: 'software',   icon: '💻', color: '#58a6ff', labels: { en: 'Software & IT',     sq: 'Softuer & IT'      }, count: 0 },
-  { id: 'support',    icon: '🛠️', color: '#a78bfa', labels: { en: 'Tech Support',      sq: 'Mbështetje Tech'   }, count: 0 },
-  { id: 'consulting', icon: '📊', color: '#34d399', labels: { en: 'Consulting',         sq: 'Konsulencë'       }, count: 0 },
-  { id: 'media',      icon: '🎬', color: '#e879f9', labels: { en: 'Media & Content',    sq: 'Media & Content'  }, count: 0 },
-  { id: 'production', icon: '🏭', color: '#c9943a', labels: { en: 'Production',         sq: 'Prodhim'          }, count: 0 },
-  { id: 'textile',    icon: '🧵', color: '#f9a8d4', labels: { en: 'Textile & Fashion',  sq: 'Tekstil & Modë'   }, count: 0 },
-  { id: 'bpo',        icon: '📞', color: '#f472b6', labels: { en: 'BPO / Call Centre',  sq: 'BPO / Call Center'}, count: 0 },
-  { id: 'design',     icon: '🎨', color: '#facc15', labels: { en: 'Design & Creative',  sq: 'Dizajn & Kreativ' }, count: 0 },
-  { id: 'logistics',  icon: '🚚', color: '#6ee7b7', labels: { en: 'Logistics',          sq: 'Logjistikë'       }, count: 0 },
-  { id: 'legal',      icon: '⚖️', color: '#fca5a5', labels: { en: 'Legal & Finance',    sq: 'Ligjor & Financa' }, count: 0 },
+  { id: 'software',   icon: '💻', color: '#4a7fa5', labels: { en: 'Software & IT',     sq: 'Softuer & IT'      }, count: 0 },
+  { id: 'support',    icon: '🛠️', color: '#6b7fa8', labels: { en: 'Tech Support',      sq: 'Mbështetje Tech'   }, count: 0 },
+  { id: 'consulting', icon: '📊', color: '#5a8a6e', labels: { en: 'Consulting',         sq: 'Konsulencë'       }, count: 0 },
+  { id: 'media',      icon: '🎬', color: '#7a6aaa', labels: { en: 'Media & Content',    sq: 'Media & Content'  }, count: 0 },
+  { id: 'production', icon: '🏭', color: '#8a7055', labels: { en: 'Production',         sq: 'Prodhim'          }, count: 0 },
+  { id: 'textile',    icon: '🧵', color: '#9a7878', labels: { en: 'Textile & Fashion',  sq: 'Tekstil & Modë'   }, count: 0 },
+  { id: 'bpo',        icon: '📞', color: '#5c7a8a', labels: { en: 'BPO / Call Centre',  sq: 'BPO / Call Center'}, count: 0 },
+  { id: 'design',     icon: '🎨', color: '#8a7a4a', labels: { en: 'Design & Creative',  sq: 'Dizajn & Kreativ' }, count: 0 },
+  { id: 'logistics',  icon: '🚚', color: '#4a7a6e', labels: { en: 'Logistics',          sq: 'Logjistikë'       }, count: 0 },
+  { id: 'legal',      icon: '⚖️', color: '#7a5a5a', labels: { en: 'Legal & Finance',    sq: 'Ligjor & Financa' }, count: 0 },
 ]
 
 
 const PROFILES = [
   { id: 'c1', tier: 'sponsored', type: 'company', name: 'AlbaCode', cat: 'software', city: 'Pristina',
    tags: ['React', 'Node.js', 'TypeScript', 'Mobile'], rating: 4.9, reviews: 34, verified: true,
-   employees: '15–30', founded: 2019, logo: 'AC', logoColor: '#58a6ff',
+   employees: '15–30', founded: 2019, logo: 'AC', logoColor: '#4a7fa5',
    contact: 'hi@albacode.ks', phone: '+383 44 100 200',
    availFrom: '2025-05-01', availUntil: '2025-10-31', capacity: 4, remote: true, languages: 'DE, EN, SQ',
    skills: ['React', 'Node.js', 'TypeScript', 'React Native', 'PostgreSQL'],
    desc: { de: 'Full-Stack Entwicklung & Mobile Apps für EU-Märkte.', en: 'Full-stack development & mobile apps for EU markets.', sq: 'Zhvillim full-stack dhe aplikacione mobile.', sv: 'Full-stack och mobilappar för EU.' } },
   { id: 'f1', tier: 'premium', type: 'freelancer', name: 'Arton Krasniqi', cat: 'software', city: 'Pristina',
    tags: ['React', 'TypeScript', 'GraphQL'], rating: 4.9, reviews: 28, verified: true,
-   availability: 'remote', experience: '7', logo: 'AK', logoColor: '#34d399',
+   availability: 'remote', experience: '7', logo: 'AK', logoColor: '#5a8a6e',
    contact: 'arton.k@dev.ks', phone: '+383 44 200 300',
    availFrom: '2025-06-01', availUntil: '2025-12-31', capacity: 1, remote: true, languages: 'DE, EN, SQ',
    skills: ['React', 'TypeScript', 'GraphQL', 'Next.js', 'Figma'],
@@ -307,63 +307,63 @@ const PROFILES = [
    desc: { de: 'Backend & Data Engineer. Python/Django.', en: 'Backend & data engineer. Python/Django.', sq: 'Backend dhe data engineer.', sv: 'Backend och dataingenjör.' } },
   { id: 'c5', tier: 'free', type: 'company', name: 'CloudNest Kosovo', cat: 'software', city: 'Pristina',
    tags: ['DevOps', 'Kubernetes', 'AWS'], rating: 4.6, reviews: 11, verified: true,
-   employees: '5–10', founded: 2020, logo: 'CN', logoColor: '#58a6ff',
+   employees: '5–10', founded: 2020, logo: 'CN', logoColor: '#4a7fa5',
    contact: 'team@cloudnest.io',
    availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'EN, SQ',
    skills: ['DevOps', 'Kubernetes', 'AWS', 'Terraform', 'CI/CD'],
    desc: { de: 'Managed Cloud & DevOps für EU-Startups.', en: 'Managed cloud & DevOps for EU startups.', sq: 'Cloud i menaxhuar & DevOps.', sv: 'Molntjänst för EU-startups.' } },
   { id: 'c2', tier: 'sponsored', type: 'company', name: 'SupportXPro', cat: 'support', city: 'Gjakova',
    tags: ['24/7', 'Helpdesk', 'ITIL v4', 'DE/EN/SQ'], rating: 4.8, reviews: 58, verified: true,
-   employees: '30–50', founded: 2018, logo: 'SX', logoColor: '#a78bfa',
+   employees: '30–50', founded: 2018, logo: 'SX', logoColor: '#6b7fa8',
    contact: 'ops@supportxpro.ks', phone: '+383 44 300 400',
    availFrom: '2025-05-01', availUntil: null, capacity: 10, remote: true, languages: 'DE, EN, SQ',
    skills: ['Helpdesk', 'ITIL', 'Windows', 'CRM', 'Ticketing'],
    desc: { de: 'Mehrsprachiger Tech-Support, ITIL v4 zertifiziert.', en: 'Multilingual tech support, ITIL v4 certified.', sq: 'Mbështetje teknike shumëgjuhëshe.', sv: 'Flerspråkig support, ITIL v4.' } },
   { id: 'f5', tier: 'premium', type: 'freelancer', name: 'Flori Hyseni', cat: 'support', city: 'Gjakova',
    tags: ['IT-Support', 'Windows', 'CompTIA'], rating: 4.6, reviews: 12, verified: true,
-   availability: 'remote', experience: '4', logo: 'FH', logoColor: '#a78bfa',
+   availability: 'remote', experience: '4', logo: 'FH', logoColor: '#6b7fa8',
    contact: 'flori@support.ks',
    availFrom: '2025-07-01', availUntil: '2025-12-31', capacity: 1, remote: true, languages: 'DE, EN, SQ',
    skills: ['IT-Support', 'Windows', 'CompTIA A+', 'Netzwerk', 'Remote Desktop'],
    desc: { de: 'Deutschsprachiger IT-Support. CompTIA A+.', en: 'German-speaking IT support. CompTIA A+.', sq: 'IT support gjermanisht. CompTIA A+.', sv: 'Tysktalande IT-support.' } },
   { id: 'f3', tier: 'premium', type: 'freelancer', name: 'Rina Morina', cat: 'consulting', city: 'Pristina',
    tags: ['Projektmanagement', 'Agile', 'PMP'], rating: 4.9, reviews: 23, verified: true,
-   availability: 'remote', experience: '8', logo: 'RM', logoColor: '#34d399',
+   availability: 'remote', experience: '8', logo: 'RM', logoColor: '#5a8a6e',
    contact: 'rina.m@pm.ks', phone: '+383 44 400 500',
    availFrom: '2025-05-01', availUntil: '2025-08-31', capacity: 1, remote: true, languages: 'DE, EN, SQ, IT',
    skills: ['PMP', 'Agile', 'Scrum', 'JIRA', 'Confluence', 'MS Project'],
    desc: { de: 'Zertifizierte PMP-Projektmanagerin.', en: 'Certified PMP project manager.', sq: 'Menaxhere projektesh PMP.', sv: 'Certifierad PMP-projektledare.' } },
   { id: 'c6', tier: 'free', type: 'company', name: 'TechBridge Kosovo', cat: 'consulting', city: 'Prizren',
    tags: ['ERP', 'SAP', 'Digitalisierung'], rating: 4.7, reviews: 21, verified: true,
-   employees: '10–20', founded: 2020, logo: 'TB', logoColor: '#34d399',
+   employees: '10–20', founded: 2020, logo: 'TB', logoColor: '#5a8a6e',
    contact: 'info@techbridge-ks.com',
    availFrom: null, availUntil: null, capacity: null, remote: false, languages: 'DE, EN, SQ',
    skills: ['SAP', 'ERP', 'Digitalisierung', 'Change Management'],
    desc: { de: 'IT-Beratung & Digitaltransformation.', en: 'IT consulting & digital transformation.', sq: 'Konsulencë IT & transformim.', sv: 'IT-konsulting.' } },
   { id: 'c3', tier: 'sponsored', type: 'company', name: 'NexCall Solutions', cat: 'bpo', city: 'Pristina',
    tags: ['Inbound', 'Outbound', 'CRM', '6 Sprachen'], rating: 4.5, reviews: 44, verified: true,
-   employees: '40–80', founded: 2017, logo: 'NC', logoColor: '#f472b6',
+   employees: '40–80', founded: 2017, logo: 'NC', logoColor: '#8a7070',
    contact: 'start@nexcall.ks',
    availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'DE, EN, SQ, IT, TR, FR',
    skills: ['Call Center', 'CRM', 'Inbound', 'Outbound', 'Customer Service'],
    desc: { de: 'Call-Center für DACH-Kunden. 6 Sprachen.', en: 'Call centre for DACH. 6 languages.', sq: 'Qendër thirrjesh DACH. 6 gjuhë.', sv: 'Callcenter för DACH. 6 språk.' } },
   { id: 'f6', tier: 'premium', type: 'freelancer', name: 'Dea Berisha', cat: 'bpo', city: 'Pristina',
    tags: ['Kundenservice', 'DE/EN', 'CRM'], rating: 4.7, reviews: 31, verified: true,
-   availability: 'remote', experience: '3', logo: 'DB', logoColor: '#f472b6',
+   availability: 'remote', experience: '3', logo: 'DB', logoColor: '#8a7070',
    contact: 'dea.va@outlook.com',
    availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'DE, EN, SQ',
    skills: ['Kundenservice', 'CRM', 'E-Mail Management', 'Deutsch native'],
    desc: { de: 'Native-Level Deutsch. Kundenbetreuung & CRM.', en: 'Native German. Customer service & CRM.', sq: 'Gjermanisht native. CRM.', sv: 'Infödd tyska. Kundservice.' } },
   { id: 'f2', tier: 'premium', type: 'freelancer', name: 'Blerta Gashi', cat: 'design', city: 'Prizren',
    tags: ['Figma', 'UI/UX', 'Branding'], rating: 4.8, reviews: 19, verified: true,
-   availability: 'remote', experience: '5', logo: 'BG', logoColor: '#facc15',
+   availability: 'remote', experience: '5', logo: 'BG', logoColor: '#8a7a4a',
    contact: 'blerta.design@outlook.com',
    availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'DE, EN, SQ',
    skills: ['Figma', 'UI/UX', 'Branding', 'Prototyping', 'Adobe XD'],
    desc: { de: 'UX-Designerin, Figma-Expertin.', en: 'UX designer, Figma expert.', sq: 'Dizajnere UX, eksperte Figma.', sv: 'UX-designer, Figma-expert.' } },
   { id: 'c4', tier: 'free', type: 'company', name: 'PixelDrin Studio', cat: 'design', city: 'Peja',
    tags: ['Branding', 'Motion', 'Video'], rating: 4.9, reviews: 29, verified: true,
-   employees: '5–15', founded: 2021, logo: 'PD', logoColor: '#facc15',
+   employees: '5–15', founded: 2021, logo: 'PD', logoColor: '#8a7a4a',
    contact: 'hello@pixeldrin.studio',
    availFrom: null, availUntil: null, capacity: null, remote: true, languages: 'EN, SQ',
    skills: ['Branding', 'Motion Design', 'Video', 'After Effects'],
@@ -372,7 +372,7 @@ const PROFILES = [
 
 const SALES_PEOPLE = [
   { id: 'sp1', name: 'Mentor Gashi', city: 'Pristina', languages: 'DE, EN, SQ', logo: 'MG', logoColor: '#3d7fa8', rating: 4.9, reviews: 47, deals: 124, experience: '8', title: { de: 'Senior Sales Spezialist', en: 'Senior Sales Specialist', sq: 'Specialist i Lartë Shitjesh', sv: 'Senior säljspecialist' }, specialties: { de: ['IT-Outsourcing', 'Firmengründung', 'Tech-Events'], en: ['IT Outsourcing', 'Company formation', 'Tech events'], sq: ['IT Outsourcing', 'Themelim', 'Evente'], sv: ['IT-outsourcing', 'Bolagsbildning', 'Event'] }, bio: { de: 'Ehemaliger BD-Manager bei deutschem IT-Konzern. 124 erfolgreiche EU-Kosova-Kooperationen.', en: 'Former BD manager at German IT company. 124 successful deals.', sq: 'Ish-menaxher BD. 124 bashkëpunime të suksesshme.', sv: 'Tidigare BD-chef. 124 framgångsrika affärer.' }, contact: 'mentor@bbplatform.com', phone: '+383 44 123 456' },
-  { id: 'sp2', name: 'Fjolla Kelmendi', city: 'Prizren', languages: 'DE, EN, SQ, IT', logo: 'FK', logoColor: '#a78bfa', rating: 4.8, reviews: 31, deals: 67, experience: '5', title: { de: 'Sales Spezialistin · Süd-Kosova', en: 'Sales Specialist · South Kosova', sq: 'Specialiste · Jug-Kosovë', sv: 'Säljspecialist · Södra Kosova' }, specialties: { de: ['Produktion', 'Design', 'E-Commerce'], en: ['Production', 'Design', 'E-Commerce'], sq: ['Prodhim', 'Dizajn', 'E-Commerce'], sv: ['Tillverkning', 'Design', 'E-handel'] }, bio: { de: 'MBA. Fokus auf Produktionsbetriebe. Handelskammer Prizren.', en: 'MBA. Focus on production. Prizren Chamber of Commerce.', sq: 'MBA. Fokus prodhimi. Dhoma Tregtie Prizren.', sv: 'MBA. Tillverkning. Handelskammare Prizren.' }, contact: 'fjolla@bbplatform.com', phone: '+383 45 234 567' },
+  { id: 'sp2', name: 'Fjolla Kelmendi', city: 'Prizren', languages: 'DE, EN, SQ, IT', logo: 'FK', logoColor: '#6b7fa8', rating: 4.8, reviews: 31, deals: 67, experience: '5', title: { de: 'Sales Spezialistin · Süd-Kosova', en: 'Sales Specialist · South Kosova', sq: 'Specialiste · Jug-Kosovë', sv: 'Säljspecialist · Södra Kosova' }, specialties: { de: ['Produktion', 'Design', 'E-Commerce'], en: ['Production', 'Design', 'E-Commerce'], sq: ['Prodhim', 'Dizajn', 'E-Commerce'], sv: ['Tillverkning', 'Design', 'E-handel'] }, bio: { de: 'MBA. Fokus auf Produktionsbetriebe. Handelskammer Prizren.', en: 'MBA. Focus on production. Prizren Chamber of Commerce.', sq: 'MBA. Fokus prodhimi. Dhoma Tregtie Prizren.', sv: 'MBA. Tillverkning. Handelskammare Prizren.' }, contact: 'fjolla@bbplatform.com', phone: '+383 45 234 567' },
   { id: 'sp3', name: 'Besnik Rama', city: 'Pristina', languages: 'EN, SQ, DE', logo: 'BR', logoColor: '#c9943a', rating: 4.7, reviews: 22, deals: 44, experience: '4', title: { de: 'Sales Spezialist · Startups', en: 'Sales Specialist · Startups', sq: 'Specialist · Startup', sv: 'Säljspecialist · Startups' }, specialties: { de: ['Startups', 'Software-Teams', 'Investoren'], en: ['Startups', 'Software teams', 'Investors'], sq: ['Startup', 'Ekipe software', 'Investitorë'], sv: ['Startups', 'Mjukvaruteam', 'Investerare'] }, bio: { de: 'Serial Entrepreneur, 2 Exits. Kennt die kosovarische Startup-Szene.', en: 'Serial entrepreneur, 2 exits. Kosova startup expert.', sq: 'Sipërmarrës serial, 2 exits. Ekspert startup.', sv: 'Serieentreprenör, 2 exiter.' }, contact: 'besnik@bbplatform.com', phone: '+383 46 345 678' },
 ]
 
@@ -424,7 +424,7 @@ textarea.inp{line-height:1.6;}
 .navl{background:transparent;color:rgba(237,231,217,0.60);padding:7px 13px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;border:none;cursor:pointer;border-radius:5px;transition:all 0.16s;}
 .navl:hover{color:#ede7d9;background:rgba(255,255,255,0.05);}
 .navl.on{color:#c9a44a;background:rgba(201,164,74,0.1);}
-.tag{display:inline-block;background:rgba(88,166,255,0.08);color:#8eb4d4;border:1px solid rgba(88,166,255,0.15);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
+.tag{display:inline-block;background:rgba(74,127,165,0.08);color:#8eb4d4;border:1px solid rgba(74,127,165,0.15);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
 .modal-bg{position:fixed;inset:0;background:rgba(4,8,20,0.88);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
 .modal{background:#0a1828;border:1px solid rgba(201,164,74,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
 .flabel{display:block;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;color:rgba(237,231,217,0.50);margin-bottom:5px;letter-spacing:1.2px;text-transform:uppercase;}
@@ -1263,7 +1263,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
 
   const catList = cat === 'all' ? CATS : CATS.filter(c => c.id === cat)
   const activeCat = CATS.find(c => c.id === cat)
-  const bgColor = activeCat ? activeCat.color : '#58a6ff'
+  const bgColor = activeCat ? activeCat.color : '#4a7fa5'
   const isSectorSelected = cat !== 'all'
 
   return (
@@ -2013,9 +2013,9 @@ function ConciergePage({ lang, t, content = {} }) {
   const [partnerDone, setPartnerDone] = useState(false)
 
   const PACKAGES = [
-    { ic: '🔍', col: '#58a6ff', price: { de: 'ab €390', en: 'from €390', sq: 'nga €390', sv: 'från €390' }, name: lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'sq' ? '1–2 ditë' : '1–2 days', ideal: lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
+    { ic: '🔍', col: '#4a7fa5', price: { de: 'ab €390', en: 'from €390', sq: 'nga €390', sv: 'från €390' }, name: lang === 'sq' ? 'Vizita Discovery' : 'Discovery Visit', dur: lang === 'sq' ? '1–2 ditë' : '1–2 days', ideal: lang === 'sq' ? 'Eksplorimi i parë' : 'First exploration', inc: lang === 'sq' ? ['Analizë nevojash', '2–3 takime', 'Briefing & raport'] : ['Needs analysis call', '2–3 meetings', 'Briefing & report'] },
     { ic: '🤝', col: G.gold, highlight: true, price: { de: 'ab €790', en: 'from €790', sq: 'nga €790', sv: 'från €790' }, name: lang === 'sq' ? 'Vizita Biznesi' : 'Business Visit', dur: lang === 'sq' ? '2–3 ditë' : '2–3 days', ideal: lang === 'sq' ? 'Projekt konkret' : 'Concrete project', inc: lang === 'sq' ? ['Gjithçka nga Discovery', '4–6 takime', 'Hotel & transport', 'Mbrëmje rrjetëzimi'] : ['Everything in Discovery', '4–6 meetings', 'Hotel & transfer', 'Networking evening'] },
-    { ic: '🏛️', col: '#a78bfa', price: { de: 'ab €1.490', en: 'from €1,490', sq: 'nga €1.490', sv: 'från €1 490' }, name: lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
+    { ic: '🏛️', col: '#6b7fa8', price: { de: 'ab €1.490', en: 'from €1,490', sq: 'nga €1.490', sv: 'från €1 490' }, name: lang === 'sq' ? 'Vizita Executive' : 'Executive Visit', dur: lang === 'sq' ? '3–5 ditë' : '3–5 days', ideal: lang === 'sq' ? 'Themelim / Investim' : 'Company formation / Investment', inc: lang === 'sq' ? ['Gjithçka nga Business', 'Takim ministrie', 'Darkë partnerësh', 'Këshillim ligjor'] : ['Everything in Business Visit', 'Ministry meeting', 'Partner dinner', 'Initial legal advice'] },
   ]
 
   return (
@@ -2476,7 +2476,7 @@ const TAG_SUGGESTIONS = {
 // ─── SMART REGISTRATION FORM ─────────────────────────────────────────────────
 function SmartRegForm({ lang, t, regType, onDone }) {
   const isSP = regType === t.regSP  // Partner — separate form
-  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#58a6ff', coverImage: null, coverFocus: '50% 50%' })
+  const [form, setForm] = React.useState({ name: '', city: '', email: '', website: '', phone: '', employees: '', desc: '', customTag: '', focus: '', eu_langs: '', markets: '', logoColor: '#4a7fa5', coverImage: null, coverFocus: '50% 50%' })
   const [selectedTags, setSelectedTags] = React.useState([])
   const [catChoice, setCatChoice] = React.useState('software')
   const [partnerLogoFile, setPartnerLogoFile] = React.useState(null)
@@ -2580,7 +2580,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
               </label>
               {partnerLogoFile && <button onClick={() => setPartnerLogoFile(null)} className="btn ghost" style={{ fontSize:11, padding:'3px 9px', marginBottom:7 }}>✕ {lang==='sq'?'Hiq':'Remove'}</button>}
               <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                {['#3d7fa8','#58a6ff','#34d399','#f472b6','#c9943a','#a78bfa','#facc15','#c9a44a'].map(col => (
+                {['#3d7fa8','#4a7fa5','#5a8a6e','#8a7070','#c9943a','#6b7fa8','#8a7a4a','#c9a44a'].map(col => (
                   <button key={col} onClick={() => { setForm(f=>({...f,logoColor:col})); setPartnerLogoFile(null) }}
                     style={{ width:24, height:24, borderRadius:'50%', background:col, border:(form.logoColor||'#3d7fa8')===col?'3px solid #fff':'2px solid transparent', cursor:'pointer', boxShadow:(form.logoColor||'#3d7fa8')===col?`0 0 0 2px ${col}`:'none' }} />
                 ))}
@@ -2661,10 +2661,10 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         <div style={{ display:'flex', gap:12, alignItems:'flex-start', marginTop:8 }}>
 
           {/* Preview */}
-          <div style={{ width:52, height:52, borderRadius:12, overflow:'hidden', flexShrink:0, border:`2px solid ${form.logoColor||'#58a6ff'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${form.logoColor||'#58a6ff'}20,${form.logoColor||'#58a6ff'}46)` }}>
+          <div style={{ width:52, height:52, borderRadius:12, overflow:'hidden', flexShrink:0, border:`2px solid ${form.logoColor||'#4a7fa5'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${form.logoColor||'#4a7fa5'}20,${form.logoColor||'#4a7fa5'}46)` }}>
             {logoFile
               ? <img src={logoFile} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-              : <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:16, color:form.logoColor||'#58a6ff' }}>{form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}</span>
+              : <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:16, color:form.logoColor||'#4a7fa5' }}>{form.name ? form.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : '??'}</span>
             }
           </div>
 
@@ -2684,8 +2684,8 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             </div>
             {/* Color swatches */}
             <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-              {['#58a6ff','#34d399','#f472b6','#c9943a','#a78bfa','#facc15','#3d7fa8','#6ee7b7','#fca5a5','#c9a44a'].map(col => {
-                const isSel = (form.logoColor||'#58a6ff') === col
+              {['#4a7fa5','#5a8a6e','#8a7070','#c9943a','#6b7fa8','#8a7a4a','#3d7fa8','#4a7a6e','#7a5a5a','#c9a44a'].map(col => {
+                const isSel = (form.logoColor||'#4a7fa5') === col
                 return (
                   <button key={col} onClick={() => { setForm(f=>({...f,logoColor:col})); setLogoFile(null) }}
                     style={{ width:26, height:26, borderRadius:'50%', background:col, border: isSel?'3px solid #fff':'2px solid transparent', cursor:'pointer', boxShadow: isSel?`0 0 0 2px ${col}`:'none', transition:'all 0.15s' }} />
@@ -3256,7 +3256,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
   const [gpSaving, setGpSaving] = React.useState(false)
   const [gpMsg, setGpMsg] = React.useState('')
   const [section, setSection] = React.useState('fixed') // 'fixed' | 'db'
-  const logoColors = ['#3d7fa8','#58a6ff','#34d399','#f472b6','#c9943a','#a78bfa','#facc15','#c9a44a']
+  const logoColors = ['#3d7fa8','#4a7fa5','#5a8a6e','#8a7070','#c9943a','#6b7fa8','#8a7a4a','#c9a44a']
 
   const openNew = () => {
     setGpForm({ name:'', city:'', email:'', website:'', phone:'', desc:'', tags:'', logoColor:'#3d7fa8', visible:true, featured:false })
@@ -3731,7 +3731,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       type:           p.type || 'company',
       cat:            p.cat || 'software',
       tags:           Array.isArray(p.tags) ? p.tags.join(', ') : '',
-      logoColor:      p.logoColor || '#58a6ff',
+      logoColor:      p.logoColor || '#4a7fa5',
       logoDataPreview:p.logoUrl || null,
       desc_en:        p.desc?.en || '',
       desc_sq:        p.desc?.sq || p.desc?.en || '',
@@ -3763,7 +3763,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       type:            editForm.type,
       cat:             editForm.cat,
       tags:            typeof editForm.tags === 'string' ? editForm.tags.split(',').map(s=>s.trim()).filter(Boolean) : (editForm.tags||[]),
-      logo_color:      editForm.logoColor || '#58a6ff',
+      logo_color:      editForm.logoColor || '#4a7fa5',
       ...(editForm.logoDataPreview && !editForm.logoDataPreview.startsWith('http') ? { logo_data: editForm.logoDataPreview } : {}),
       desc_en:         editForm.desc_en || null,
       desc_sq:         editForm.desc_sq || editForm.desc_en || null,
@@ -4108,7 +4108,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 8 }}>
                         {chg.changes.tags.map(t2 => {
                           const isNew = !chg.original?.tags?.includes(t2)
-                          return <span key={t2} style={{ fontSize: 11, background: isNew ? 'rgba(61,111,168,0.15)' : 'rgba(88,166,255,0.08)', color: isNew ? G.teal : '#8eb4d4', border: `1px solid ${isNew ? 'rgba(61,111,168,0.35)' : 'rgba(88,166,255,0.15)'}`, borderRadius: 4, padding: '2px 7px', fontWeight: isNew ? 700 : 400 }}>{isNew ? '+ ' : ''}{t2}</span>
+                          return <span key={t2} style={{ fontSize: 11, background: isNew ? 'rgba(61,111,168,0.15)' : 'rgba(74,127,165,0.08)', color: isNew ? G.teal : '#8eb4d4', border: `1px solid ${isNew ? 'rgba(61,111,168,0.35)' : 'rgba(74,127,165,0.15)'}`, borderRadius: 4, padding: '2px 7px', fontWeight: isNew ? 700 : 400 }}>{isNew ? '+ ' : ''}{t2}</span>
                         })}
                         {chg.original?.tags?.filter(t2 => !chg.changes.tags.includes(t2)).map(t2 => (
                           <span key={t2} style={{ fontSize: 11, background: 'rgba(255,59,48,0.1)', color: G.red, border: '1px solid rgba(255,59,48,0.25)', borderRadius: 4, padding: '2px 7px', textDecoration: 'line-through' }}>{t2}</span>
@@ -4260,10 +4260,10 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
               <div style={{ marginBottom:12 }}>
                 <label className="flabel">Logo</label>
                 <div style={{ display:'flex', gap:10, alignItems:'flex-start', marginTop:6 }}>
-                  <div style={{ width:48, height:48, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${editForm.logoColor||'#58a6ff'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${editForm.logoColor||'#58a6ff'}20,${editForm.logoColor||'#58a6ff'}46)` }}>
+                  <div style={{ width:48, height:48, borderRadius:10, overflow:'hidden', flexShrink:0, border:`2px solid ${editForm.logoColor||'#4a7fa5'}44`, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${editForm.logoColor||'#4a7fa5'}20,${editForm.logoColor||'#4a7fa5'}46)` }}>
                     {editForm.logoDataPreview
                       ? <img src={editForm.logoDataPreview} alt="logo" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                      : <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:14, color:editForm.logoColor||'#58a6ff' }}>{(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
+                      : <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:14, color:editForm.logoColor||'#4a7fa5' }}>{(editForm.name||'??').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>
                     }
                   </div>
                   <div style={{ flex:1 }}>
@@ -4278,8 +4278,8 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                     </label>
                     {editForm.logoDataPreview && <button onClick={()=>setEditForm(f=>({...f,logoDataPreview:null}))} className="btn ghost" style={{ fontSize:10, padding:'3px 8px', marginBottom:7, display:'block' }}>✕ Remove photo</button>}
                     <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                      {['#58a6ff','#34d399','#f472b6','#c9943a','#a78bfa','#facc15','#3d7fa8','#6ee7b7','#fca5a5','#c9a44a'].map(col => {
-                        const isSel = (editForm.logoColor||'#58a6ff') === col
+                      {['#4a7fa5','#5a8a6e','#8a7070','#c9943a','#6b7fa8','#8a7a4a','#3d7fa8','#4a7a6e','#7a5a5a','#c9a44a'].map(col => {
+                        const isSel = (editForm.logoColor||'#4a7fa5') === col
                         return <button key={col} onClick={()=>setEditForm(f=>({...f,logoColor:col,logoDataPreview:null}))} style={{ width:22, height:22, borderRadius:'50%', background:col, border:`2px solid ${isSel?'#fff':'transparent'}`, cursor:'pointer', boxShadow: isSel?`0 0 0 2px ${col}`:'none' }} />
                       })}
                     </div>
@@ -4592,8 +4592,8 @@ export default function App() {
                 [G.teal,  '✈️', t.f3t, t.f3d, 'concierge'],
               ].map(([col, ic, title, desc, pg]) => (
                 <div key={pg} className="fu" style={{ padding: '18px 16px', cursor: 'pointer', borderRadius: 14, position:'relative', overflow:'hidden',
-                  background: col === G.teal ? 'rgba(61,111,168,0.04)' : col === G.gold ? 'rgba(201,164,74,0.04)' : 'rgba(88,166,255,0.04)',
-                  border: `1px solid ${col === G.teal ? 'rgba(61,111,168,0.2)' : col === G.gold ? 'rgba(201,164,74,0.2)' : 'rgba(88,166,255,0.2)'}`,
+                  background: col === G.teal ? 'rgba(61,111,168,0.04)' : col === G.gold ? 'rgba(201,164,74,0.04)' : 'rgba(74,127,165,0.04)',
+                  border: `1px solid ${col === G.teal ? 'rgba(61,111,168,0.2)' : col === G.gold ? 'rgba(201,164,74,0.2)' : 'rgba(74,127,165,0.2)'}`,
                   transition: 'all 0.2s' }}
                   onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow=`0 8px 24px ${col}18`}}
                   onMouseLeave={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow=''}}
