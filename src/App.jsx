@@ -4696,7 +4696,7 @@ export default function App() {
             if (partners.length === 0) return null
             const items = [...partners, ...partners]
             return (
-              <section style={{ padding: '0 0 52px', overflow: 'hidden', position: 'relative', zIndex: 1 }}>
+              <section style={{ padding: '0 0 52px', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 48px', marginBottom: 18, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
                     <h2 style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 3 }}>
@@ -4708,9 +4708,9 @@ export default function App() {
                   </div>
                   <button className="btn ghost" style={{ fontSize: 12, flexShrink: 0 }} onClick={() => setPage('concierge')}>{lang==='sq'?'Shiko →':'View all →'}</button>
                 </div>
-                <div style={{ position: 'relative' }}>
-                  <div style={{ position:'absolute', left:0, top:0, bottom:0, width:80, background:'linear-gradient(90deg,#050d1b,transparent)', zIndex:2, pointerEvents:'none' }} />
-                  <div style={{ position:'absolute', right:0, top:0, bottom:0, width:80, background:'linear-gradient(270deg,#050d1b,transparent)', zIndex:2, pointerEvents:'none' }} />
+                <div style={{ position: 'relative', maxWidth: 1200, margin: '0 auto', overflow: 'hidden' }}>
+                  <div style={{ position:'absolute', left:0, top:0, bottom:0, width:80, background:`linear-gradient(90deg,#050d1b,transparent)`, zIndex:2, pointerEvents:'none' }} />
+                  <div style={{ position:'absolute', right:0, top:0, bottom:0, width:80, background:`linear-gradient(270deg,#050d1b,transparent)`, zIndex:2, pointerEvents:'none' }} />
                   <div style={{ display:'flex', gap:14, animation:'ticker-scroll 28s linear infinite', width:'max-content', padding:'6px 0' }}
                     onMouseEnter={e=>e.currentTarget.style.animationPlayState='paused'}
                     onMouseLeave={e=>e.currentTarget.style.animationPlayState='running'}>
