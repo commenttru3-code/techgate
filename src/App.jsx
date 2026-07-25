@@ -421,9 +421,9 @@ body{background:#050d1b;margin:0;-webkit-font-smoothing:antialiased;}
 .inp:hover:not(:focus){border-color:rgba(255,255,255,0.18);}
 select.inp{cursor:pointer;}
 textarea.inp{line-height:1.6;}
-.navl{background:transparent;color:rgba(237,231,217,0.60);padding:7px 13px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;border:none;cursor:pointer;border-radius:5px;transition:all 0.16s;}
-.navl:hover{color:#ede7d9;background:rgba(255,255,255,0.05);}
-.navl.on{color:#c9a44a;background:rgba(201,164,74,0.1);}
+.navl{background:transparent;color:rgba(237,231,217,0.88);padding:7px 13px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;border:none;cursor:pointer;border-radius:5px;transition:all 0.16s;}
+.navl:hover{color:#c9a44a;background:rgba(201,164,74,0.10);}
+.navl.on{color:#c9a44a;background:rgba(201,164,74,0.14);border-bottom:2px solid #c9a44a;}
 .tag{display:inline-block;background:rgba(74,127,165,0.08);color:#8eb4d4;border:1px solid rgba(74,127,165,0.15);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
 .modal-bg{position:fixed;inset:0;background:rgba(4,8,20,0.88);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
 .modal{background:#0a1828;border:1px solid rgba(201,164,74,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
@@ -4489,7 +4489,7 @@ export default function App() {
           <div className="nav-links" style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             {[['home', t.navHome], ['directory', t.navDir], ['concierge', t.navConcierge], ['gov', t.navGov]].map(([p, l]) => (
               <button key={p} className={`btn navl${page === p ? ' on' : ''}`} onClick={() => setPage(p)}
-                style={p === 'concierge' ? { color: page === 'concierge' ? G.teal : 'rgba(61,111,168,0.45)' } : {}}>
+                style={p === 'concierge' ? { color: page === 'concierge' ? '#c9a44a' : 'rgba(237,231,217,0.88)' } : {}}>
                 {l}
               </button>
             ))}
@@ -4502,7 +4502,12 @@ export default function App() {
               </button>
             ))}
           </div>
-          <button className="btn gbtn nav-reg-btn" style={{ marginLeft: 8, padding: '8px 16px', fontSize: 12 }} onClick={() => setShowReg(true)}>{t.registerBtn}</button>
+          <button style={{ marginLeft: 12, padding: '8px 18px', fontSize: 11, fontFamily:"'Raleway',sans-serif", fontWeight: 700, letterSpacing: '0.8px', textTransform: 'uppercase', background: 'transparent', border: '1.5px solid #c9a44a', borderRadius: 6, color: '#c9a44a', cursor: 'pointer', transition: 'all 0.18s', whiteSpace: 'nowrap' }}
+            onClick={() => setShowReg(true)}
+            onMouseEnter={e => { e.currentTarget.style.background = '#c9a44a'; e.currentTarget.style.color = '#050d1b' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#c9a44a' }}>
+            {t.registerBtn}
+          </button>
           <button className="hamburger" onClick={() => setMobileNav(v => !v)} style={{ display:'none', flexDirection:'column', gap:5, background:'transparent', border:'none', cursor:'pointer', padding:8, marginLeft:4 }}>
             <span style={{ display:'block', width:22, height:2, background:'rgba(237,231,217,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
             <span style={{ display:'block', width:22, height:2, background:'rgba(237,231,217,0.7)', borderRadius:1, transition:'all 0.2s', opacity: mobileNav ? 0 : 1 }} />
