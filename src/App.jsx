@@ -524,6 +524,81 @@ function hexToRgba(hex, alpha) {
   } catch { return `rgba(61,111,168,${alpha})` }
 }
 
+// ─── ANIMATED CONNECTION LINES — Kosovo to world cities ──────────────────────
+function ConnectionLines() {
+  const K = { x: 764, y: 340 }  // Kosovo center in 1440×900 viewBox
+  const routes = [
+    { x: 526, y: 268, delay: 0,   dur: 10, color: '#c9a44a' },  // London
+    { x: 586, y: 283, delay: 2.0, dur: 11, color: '#4a7fa5' },  // Paris
+    { x: 650, y: 272, delay: 4.0, dur: 9,  color: '#c9a44a' },  // Frankfurt
+    { x: 702, y: 252, delay: 1.0, dur: 12, color: '#4a7fa5' },  // Warsaw
+    { x: 678, y: 202, delay: 5.5, dur: 10, color: '#c9a44a' },  // Stockholm
+    { x: 592, y: 258, delay: 2.8, dur: 11, color: '#4a7fa5' },  // Amsterdam
+    { x: 194, y: 290, delay: 6.5, dur: 14, color: '#c9a44a' },  // New York
+    { x: 974, y: 350, delay: 3.2, dur: 12, color: '#4a7fa5' },  // Dubai
+    { x: 1182, y: 384, delay: 5.0, dur: 13, color: '#c9a44a' }, // Singapore
+  ]
+  return (
+    <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }}
+         viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      {/* Kosovo center — pulsing glow */}
+      <circle cx={K.x} cy={K.y} r="36" fill="rgba(201,164,74,0.07)">
+        <animate attributeName="r" values="28;52;28" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.25;1" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx={K.x} cy={K.y} r="18" fill="rgba(201,164,74,0.14)">
+        <animate attributeName="r" values="14;26;14" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx={K.x} cy={K.y} r="5.5" fill="#c9a44a" opacity="0.88"/>
+      <circle cx={K.x} cy={K.y} r="2.5" fill="#ede7d9"/>
+
+      {routes.map((r, i) => {
+        const cpx = (K.x + r.x) / 2
+        const offset = Math.abs(r.x - K.x) * 0.07 + 55
+        const cpy = Math.min(K.y, r.y) - offset
+        const pathD = `M ${K.x} ${K.y} Q ${cpx} ${cpy} ${r.x} ${r.y}`
+        return (
+          <g key={i}>
+            {/* Arc — draws then fades */}
+            <path d={pathD} fill="none" stroke={r.color}
+              strokeWidth="1.0" strokeLinecap="round"
+              strokeDasharray="1200">
+              <animate attributeName="stroke-dashoffset"
+                values="1200;0;0;1200" keyTimes="0;0.42;0.78;1"
+                dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
+              <animate attributeName="stroke-opacity"
+                values="0;0.38;0.38;0" keyTimes="0;0.05;0.78;1"
+                dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
+            </path>
+            {/* Traveling dot along the arc */}
+            <circle r="2.2" fill={r.color}>
+              <animate attributeName="opacity"
+                values="0;0.9;0.9;0;0" keyTimes="0;0.04;0.40;0.44;1"
+                dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
+              <animateMotion dur={`${r.dur}s`} begin={`${r.delay}s`}
+                repeatCount="indefinite" path={pathD}
+                calcMode="spline" keyTimes="0;1"
+                keySplines="0.35 0 0.65 1"/>
+            </circle>
+            {/* Destination arrival pulse */}
+            <circle cx={r.x} cy={r.y} r="2.8" fill={r.color}>
+              <animate attributeName="opacity"
+                values="0;0;0.75;0.3;0" keyTimes="0;0.40;0.46;0.75;1"
+                dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
+            </circle>
+            <circle cx={r.x} cy={r.y} r="3" fill="none" stroke={r.color} strokeWidth="0.8">
+              <animate attributeName="r" values="3;14;3" keyTimes="0;1;1"
+                dur="1.8s" begin={`${r.delay + r.dur * 0.44}s`} repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.6;0;0.6" keyTimes="0;1;1"
+                dur="1.8s" begin={`${r.delay + r.dur * 0.44}s`} repeatCount="indefinite"/>
+            </circle>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
 function Logo({ text, color, size = 44, url = null }) {
   if (url) {
     return (
@@ -1277,6 +1352,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         {isSectorSelected && <div style={{ position:'absolute', inset:0, background:`radial-gradient(ellipse 55% 45% at 25% 30%, ${bgColor}12 0%, transparent 65%)`, transition:'background 0.6s ease' }} />}
         {isSectorSelected && <div style={{ position:'absolute', top:0, left:0, right:0, height:1, background:`linear-gradient(90deg,transparent,${bgColor}50,${bgColor}75,${bgColor}50,transparent)`, transition:'background 0.5s ease' }} />}
         {/* Strong bottom overlay for content readability */}
+        <ConnectionLines />
         <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg, rgba(4,11,22,0.97) 0%, rgba(4,11,22,0.80) 35%, transparent 100%)' }} />
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'18%', background:'linear-gradient(180deg, rgba(4,11,22,0.50) 0%, transparent 100%)' }} />
       </div>
@@ -4544,6 +4620,7 @@ export default function App() {
         {/* Dark overlay for readability */}
         <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(4,11,22,0.7) 0%, rgba(6,14,28,0.55) 40%, rgba(4,11,22,0.7) 100%)' }} />
         {/* Bottom area — stronger overlay so text is clearly readable */}
+        <ConnectionLines />
         <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'45%', background:'linear-gradient(0deg, rgba(4,11,22,0.96) 0%, rgba(4,11,22,0.70) 40%, transparent 100%)' }} />
         {/* Top fade */}
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'20%', background:'linear-gradient(180deg, rgba(4,11,22,0.45) 0%, transparent 100%)' }} />
@@ -4822,6 +4899,7 @@ export default function App() {
         {/* Dark overlay for readability */}
         <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(4,11,22,0.74) 0%, rgba(6,14,28,0.55) 40%, rgba(4,11,22,0.74) 100%)' }} />
         {/* Bottom area — stronger overlay so text is clearly readable */}
+        <ConnectionLines />
         <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'45%', background:'linear-gradient(0deg, rgba(4,11,22,0.96) 0%, rgba(4,11,22,0.70) 40%, transparent 100%)' }} />
         {/* Top fade */}
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'20%', background:'linear-gradient(180deg, rgba(4,11,22,0.45) 0%, transparent 100%)' }} />
@@ -4841,6 +4919,7 @@ export default function App() {
         {/* Dark overlay for readability */}
         <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(4,11,22,0.74) 0%, rgba(6,14,28,0.55) 40%, rgba(4,11,22,0.74) 100%)' }} />
         {/* Bottom area — stronger overlay so text is clearly readable */}
+        <ConnectionLines />
         <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'45%', background:'linear-gradient(0deg, rgba(4,11,22,0.96) 0%, rgba(4,11,22,0.70) 40%, transparent 100%)' }} />
         {/* Top fade */}
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'20%', background:'linear-gradient(180deg, rgba(4,11,22,0.45) 0%, transparent 100%)' }} />
