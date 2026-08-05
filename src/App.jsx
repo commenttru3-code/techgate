@@ -526,71 +526,83 @@ function hexToRgba(hex, alpha) {
 
 // ─── ANIMATED CONNECTION LINES — Kosovo to world cities ──────────────────────
 function ConnectionLines() {
-  const K = { x: 764, y: 340 }  // Kosovo center in 1440×900 viewBox
+  // Kosovo center = center of the enlarged Kosovo glow on the background image
+  // Detected via pixel analysis of the actual background image (1536x1024, displayed at 1440x900)
+  const K = { x: 730, y: 408 }
+
+  // World capital dots — pixel-detected from the actual background image
   const routes = [
-    { x: 526, y: 268, delay: 0,   dur: 10, color: '#c9a44a' },  // London
-    { x: 586, y: 283, delay: 2.0, dur: 11, color: '#4a7fa5' },  // Paris
-    { x: 650, y: 272, delay: 4.0, dur: 9,  color: '#c9a44a' },  // Frankfurt
-    { x: 702, y: 252, delay: 1.0, dur: 12, color: '#4a7fa5' },  // Warsaw
-    { x: 678, y: 202, delay: 5.5, dur: 10, color: '#c9a44a' },  // Stockholm
-    { x: 592, y: 258, delay: 2.8, dur: 11, color: '#4a7fa5' },  // Amsterdam
-    { x: 194, y: 290, delay: 6.5, dur: 14, color: '#c9a44a' },  // New York
-    { x: 974, y: 350, delay: 3.2, dur: 12, color: '#4a7fa5' },  // Dubai
-    { x: 1182, y: 384, delay: 5.0, dur: 13, color: '#c9a44a' }, // Singapore
+    { x: 548, y: 235, city: 'London',       delay: 0,   dur: 10, color: '#c9a44a' },
+    { x: 648, y: 165, city: 'Stockholm',    delay: 1.5, dur: 11, color: '#4a7fa5' },
+    { x: 879, y: 203, city: 'Moscow',       delay: 3.0, dur: 9,  color: '#c9a44a' },
+    { x: 289, y: 293, city: 'New York',     delay: 0.8, dur: 13, color: '#4a7fa5' },
+    { x: 205, y: 416, city: 'Washington',   delay: 5.5, dur: 12, color: '#c9a44a' },
+    { x: 304, y: 603, city: 'São Paulo',    delay: 2.2, dur: 14, color: '#4a7fa5' },
+    { x: 428, y: 636, city: 'Buenos Aires', delay: 7.0, dur: 13, color: '#c9a44a' },
+    { x: 1125, y: 332, city: 'Beijing',     delay: 4.0, dur: 11, color: '#4a7fa5' },
+    { x: 1149, y: 378, city: 'Tokyo',       delay: 2.8, dur: 12, color: '#c9a44a' },
+    { x: 1091, y: 518, city: 'Singapore',   delay: 6.0, dur: 13, color: '#4a7fa5' },
+    { x: 639,  y: 692, city: 'Nairobi',     delay: 4.8, dur: 11, color: '#c9a44a' },
   ]
+
   return (
     <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1, pointerEvents:'none' }}
          viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-      {/* Kosovo center — pulsing glow */}
-      <circle cx={K.x} cy={K.y} r="36" fill="rgba(201,164,74,0.07)">
-        <animate attributeName="r" values="28;52;28" dur="4s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="1;0.25;1" dur="4s" repeatCount="indefinite"/>
+
+      {/* Kosovo glow rings */}
+      <circle cx={K.x} cy={K.y} r="42" fill="rgba(201,164,74,0.06)">
+        <animate attributeName="r" values="32;58;32" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.2;1" dur="4s" repeatCount="indefinite"/>
       </circle>
-      <circle cx={K.x} cy={K.y} r="18" fill="rgba(201,164,74,0.14)">
-        <animate attributeName="r" values="14;26;14" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+      <circle cx={K.x} cy={K.y} r="20" fill="rgba(201,164,74,0.12)">
+        <animate attributeName="r" values="15;30;15" dur="3s" begin="0.6s" repeatCount="indefinite"/>
       </circle>
-      <circle cx={K.x} cy={K.y} r="5.5" fill="#c9a44a" opacity="0.88"/>
+      <circle cx={K.x} cy={K.y} r="6" fill="#c9a44a" opacity="0.90"/>
       <circle cx={K.x} cy={K.y} r="2.5" fill="#ede7d9"/>
 
       {routes.map((r, i) => {
+        // Control point arcs above the straight line for a natural globe arc
         const cpx = (K.x + r.x) / 2
-        const offset = Math.abs(r.x - K.x) * 0.07 + 55
+        const offset = Math.hypot(r.x - K.x, r.y - K.y) * 0.18 + 40
         const cpy = Math.min(K.y, r.y) - offset
         const pathD = `M ${K.x} ${K.y} Q ${cpx} ${cpy} ${r.x} ${r.y}`
+        const op = r.color === '#c9a44a' ? 0.42 : 0.32
+
         return (
           <g key={i}>
-            {/* Arc — draws then fades */}
+            {/* Arc line draws then fades */}
             <path d={pathD} fill="none" stroke={r.color}
-              strokeWidth="1.0" strokeLinecap="round"
-              strokeDasharray="1200">
+              strokeWidth="0.9" strokeLinecap="round" strokeDasharray="1400">
               <animate attributeName="stroke-dashoffset"
-                values="1200;0;0;1200" keyTimes="0;0.42;0.78;1"
+                values="1400;0;0;1400" keyTimes="0;0.42;0.80;1"
                 dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
               <animate attributeName="stroke-opacity"
-                values="0;0.38;0.38;0" keyTimes="0;0.05;0.78;1"
+                values="0;${op};${op};0" keyTimes="0;0.06;0.80;1"
                 dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
             </path>
-            {/* Traveling dot along the arc */}
-            <circle r="2.2" fill={r.color}>
+
+            {/* Traveling dot */}
+            <circle r="2.0" fill={r.color}>
               <animate attributeName="opacity"
-                values="0;0.9;0.9;0;0" keyTimes="0;0.04;0.40;0.44;1"
+                values="0;0.95;0.95;0;0" keyTimes="0;0.05;0.40;0.44;1"
                 dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
               <animateMotion dur={`${r.dur}s`} begin={`${r.delay}s`}
                 repeatCount="indefinite" path={pathD}
                 calcMode="spline" keyTimes="0;1"
-                keySplines="0.35 0 0.65 1"/>
+                keySplines="0.4 0 0.6 1"/>
             </circle>
-            {/* Destination arrival pulse */}
+
+            {/* Destination dot + arrival ring */}
             <circle cx={r.x} cy={r.y} r="2.8" fill={r.color}>
               <animate attributeName="opacity"
-                values="0;0;0.75;0.3;0" keyTimes="0;0.40;0.46;0.75;1"
+                values="0;0;0.80;0.35;0" keyTimes="0;0.40;0.46;0.80;1"
                 dur={`${r.dur}s`} begin={`${r.delay}s`} repeatCount="indefinite"/>
             </circle>
-            <circle cx={r.x} cy={r.y} r="3" fill="none" stroke={r.color} strokeWidth="0.8">
-              <animate attributeName="r" values="3;14;3" keyTimes="0;1;1"
-                dur="1.8s" begin={`${r.delay + r.dur * 0.44}s`} repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="0.6;0;0.6" keyTimes="0;1;1"
-                dur="1.8s" begin={`${r.delay + r.dur * 0.44}s`} repeatCount="indefinite"/>
+            <circle cx={r.x} cy={r.y} r="3" fill="none" stroke={r.color} strokeWidth="0.7">
+              <animate attributeName="r" values="3;16;3" keyTimes="0;0.9;1"
+                dur="2.0s" begin={`${r.delay + r.dur * 0.44}s`} repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.55;0;0.55" keyTimes="0;0.9;1"
+                dur="2.0s" begin={`${r.delay + r.dur * 0.44}s`} repeatCount="indefinite"/>
             </circle>
           </g>
         )
