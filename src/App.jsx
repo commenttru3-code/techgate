@@ -434,7 +434,13 @@ textarea.inp{line-height:1.6;}
 .sector-pills-desktop{display:flex;}
 .rank-badge{position:absolute;top:10px;right:10px;}
 .filters-sticky-panel{top:0px !important;}
-@media(max-width:640px){.filters-sticky-panel{top:0px !important;}}
+@media(max-width:640px){
+  nav{padding:0 10px !important;}
+  .nav-brand-text{font-size:12px !important;}
+  .nav-links{gap:1px !important;}
+  .navl{padding:6px 7px !important;font-size:10px !important;letter-spacing:0.3px !important;}
+  .nav-reg-btn{display:none !important;}
+.filters-sticky-panel{top:0px !important;}}
 
 @media(max-width:640px){
   .nav-links{display:none !important;}
@@ -867,7 +873,8 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
   const isPartner = p.type === 'partner'
   const isSp = p.tier === 'sponsored'
   const website = p.website ? p.website.replace(/^https?:\/\//,'') : null
-  const accentColor = isPartner ? '#3d7fa8' : isSp ? '#c9943a' : '#c9a44a'
+  const sectorColor = CATS.find(c => c.id === p.cat)?.color
+  const accentColor = isPartner ? '#3d7fa8' : isSp ? '#c9943a' : sectorColor || p.logoColor || '#4a7fa5'
 
   if (isSp && !isPartner) {
     // ── PREMIUM SPONSORED MODAL — LinkedIn-style hero ─────────────────────────
@@ -1162,7 +1169,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
   const isFL = p.type === 'freelancer'
   const isSp = p.tier === 'sponsored'
   const [hov, setHov] = React.useState(false)
-  const accentColor = isSp ? '#c9943a' : (p.logoColor || G.gold)
+  const accentColor = isSp ? '#c9943a' : (CATS.find(c => c.id === p.cat)?.color || p.logoColor || G.gold)
 
   return (
     <div
@@ -1417,7 +1424,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <VideoBackground src="/bg-video-home.mp4" />
+      <VideoBackground src="/bg-video-companies.mp4" />
 
       {/* ── STICKY PANEL: Filters + Skills — sticks right below nav ── */}
       <div style={{
@@ -4676,7 +4683,7 @@ export default function App() {
             {/* ── PAGES ── */}
       {page === 'home' && (
         <>
-      <VideoBackground src="/bg-video-companies.mp4" />
+      <VideoBackground src="/bg-video-home.mp4" />
 
           <section style={{ padding: '88px 48px 64px', textAlign: 'center', position: 'relative', overflow: 'visible', background: 'transparent', zIndex: 1 }}>
             <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(circle,rgba(255,255,255,0.012) 1px,transparent 1px)', backgroundSize: '44px 44px', pointerEvents: 'none' }} />
@@ -4955,7 +4962,7 @@ export default function App() {
 
       {page === 'gov' && (
         <div style={{ position:'relative', minHeight:'100vh' }}>
-      <VideoBackground src="/bg-video-match.mp4" />
+      <VideoBackground src="/bg-video-gov.mp4" />
 
           <div style={{ position:'relative', zIndex:1 }}>
             <GovPage lang={lang} t={t} content={siteContent} />
