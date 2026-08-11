@@ -388,6 +388,8 @@ const G = {
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
+html,body{overflow-x:hidden;max-width:100vw;}
+#root{overflow-x:hidden;}
 body{background:#050d1b;margin:0;-webkit-font-smoothing:antialiased;}
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:#2a3040;border-radius:2px;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
@@ -434,19 +436,15 @@ textarea.inp{line-height:1.6;}
 .sector-pills-desktop{display:flex;}
 .rank-badge{position:absolute;top:10px;right:10px;}
 .filters-sticky-panel{top:0px !important;}
-@media(max-width:640px){
-  nav{padding:0 10px !important;}
-  .nav-brand-text{font-size:12px !important;}
-  .nav-links{gap:1px !important;}
-  .navl{padding:6px 7px !important;font-size:10px !important;letter-spacing:0.3px !important;}
-  .nav-reg-btn{display:none !important;}
-.filters-sticky-panel{top:0px !important;}}
+.filters-sticky-panel{top:0px !important;}
 
 @media(max-width:640px){
+  nav{padding:0 10px !important;height:56px !important;overflow:visible !important;}
   .nav-links{display:none !important;}
   .nav-lang{display:none !important;}
   .nav-reg-btn{display:none !important;}
   .hamburger{display:flex !important;}
+  .nav-brand-text{font-size:11px !important;}
   .hero-pad{padding:32px 16px 24px !important;}
   .section-pad{padding:0 16px !important;}
   .page-pad{padding:16px 16px !important;}
@@ -542,7 +540,7 @@ function BgVideo() {
   return (
     <video ref={ref} autoPlay loop muted playsInline
       preload="auto"
-      style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'center' }}>
+      style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'center', WebkitTransform:'translateZ(0)', transform:'translateZ(0)', willChange:'transform' }}>
       <source src="/bg-video.mp4" type="video/mp4" />
     </video>
   )
@@ -572,9 +570,9 @@ function VideoBackground({ src }) {
     }
   }, [src])
   return (
-    <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden' }}>
+    <div style={{ position:'fixed', inset:0, pointerEvents:'none', zIndex:0, overflow:'hidden', WebkitBackfaceVisibility:'hidden', backfaceVisibility:'hidden' }}>
       <video ref={ref} autoPlay loop muted playsInline preload="auto"
-        style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'center' }}>
+        style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'center', WebkitTransform:'translateZ(0)', transform:'translateZ(0)', willChange:'transform' }}>
         <source src={src} type="video/mp4" />
       </video>
       <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(5,13,27,0.68) 0%, rgba(5,13,27,0.45) 45%, rgba(5,13,27,0.68) 100%)' }} />
@@ -1234,10 +1232,24 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', flexShrink: 0, marginLeft: 8 }}>
             {matchScore !== null && matchScore !== undefined && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'flex-end' }}>
-                <span style={{ fontSize: 10, fontWeight: 800, fontFamily: "'Raleway',sans-serif", color: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted }}>{matchScore}%</span>
-                <div style={{ width: 40, height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${matchScore}%`, background: matchScore>=80?G.green:matchScore>=50?G.gold:G.muted, borderRadius: 2, transition: 'width 0.5s ease' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 90 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 9, fontWeight: 700, fontFamily: "'Raleway',sans-serif", letterSpacing: '0.6px', textTransform: 'uppercase', color: G.muted }}>Match</span>
+                  <span style={{ fontSize: 12, fontWeight: 800, fontFamily: "'Raleway',sans-serif",
+                    color: matchScore>=80 ? G.green : matchScore>=50 ? G.gold : G.muted }}>
+                    {matchScore}%
+                  </span>
+                </div>
+                <div style={{ width: '100%', height: 6, background: 'rgba(255,255,255,0.07)', borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${matchScore}%`,
+                    background: matchScore>=80
+                      ? 'linear-gradient(90deg, #3d8a5a, #4a9e6b)'
+                      : matchScore>=50
+                      ? 'linear-gradient(90deg, #a8833a, #c9a44a)'
+                      : 'linear-gradient(90deg, #5a6a7a, #7a8a9a)',
+                    borderRadius: 4,
+                    boxShadow: matchScore>=80 ? '0 0 8px rgba(74,158,107,0.6)' : matchScore>=50 ? '0 0 8px rgba(201,164,74,0.6)' : 'none',
+                    transition: 'width 0.7s cubic-bezier(0.4,0,0.2,1)' }} />
                 </div>
               </div>
             )}
@@ -4640,7 +4652,7 @@ export default function App() {
             ))}
           </div>
           <div style={{ width: 1, height: 18, background: G.border, margin: '0 6px' }} />
-          <div style={{ display: 'flex', gap: 2, background: `rgba(255,255,255,0.04)`, border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
+          <div className="nav-lang" style={{ display: 'flex', gap: 2, background: `rgba(255,255,255,0.04)`, border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
             {['en', 'sq'].map(l => (
               <button key={l} onClick={() => setLang(l)} className="btn" style={{ padding: '4px 9px', fontSize: 11, fontWeight: 700, background: lang === l ? 'rgba(201,164,74,0.18)' : 'transparent', color: lang === l ? G.gold : G.muted, border: `1px solid ${lang === l ? G.goldBorder : 'transparent'}`, borderRadius: 6 }}>
                 {FLAGS[l]} {l.toUpperCase()}
