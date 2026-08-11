@@ -378,11 +378,11 @@ const SALES_PEOPLE = [
 
 // ─── THEME ────────────────────────────────────────────────────────────────────
 const G = {
-  bg: '#050d1b', surface: '#0a1828', card: 'rgba(255,255,255,0.03)',
-  border: 'rgba(180,160,100,0.14)', gold: '#c9a44a', goldDim: 'rgba(201,164,74,0.12)',
-  goldBorder: 'rgba(201,164,74,0.28)', text: '#ede7d9', muted: 'rgba(237,231,217,0.48)',
-  green: '#4a9e6b', red: '#c94040', blue: '#3d6fc4', purple: '#7b68b0',
-  teal: '#3d7fa8', orange: '#c9943a',
+  bg: '#eae6da', surface: '#f5f2eb', card: '#ffffff',
+  border: 'rgba(13,34,64,0.12)', gold: '#8a6410', goldDim: 'rgba(138,100,16,0.10)',
+  goldBorder: 'rgba(138,100,16,0.28)', text: '#0d2240', muted: 'rgba(13,34,64,0.50)',
+  green: '#1d7a3a', red: '#b0321f', blue: '#1e4080', purple: '#4f3e8a',
+  teal: '#14607a', orange: '#7a4a10',
 }
 
 const CSS = `
@@ -408,26 +408,26 @@ body{background:#050d1b;margin:0;-webkit-font-smoothing:antialiased;}
 .pg{animation:pulse 2s ease infinite;}
 .btn{border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.18s cubic-bezier(0.4,0,0.2,1);border-radius:6px;-webkit-tap-highlight-color:transparent;}
 .btn:active{transform:scale(0.97) !important;}
-.gbtn{background:linear-gradient(135deg,#c9a44a 0%,#a8833a 100%);color:#050d1b;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;}
+.gbtn{background:linear-gradient(135deg,#8a6410 0%,#6b4e0e 100%);color:#ffffff;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;}
 .gbtn:hover{background:#e5ba55;transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,164,74,0.32);}
 .gbtn:disabled{opacity:0.38;cursor:not-allowed;transform:none !important;box-shadow:none;}
 .ghost{background:transparent;color:rgba(237,231,217,0.5);padding:9px 16px;font-size:13px;border:1px solid rgba(255,255,255,0.09);font-weight:500;}
 .ghost:hover{color:#ede7d9;border-color:rgba(201,164,74,0.35);background:rgba(201,164,74,0.04);}
-.teal-btn{background:linear-gradient(135deg,#3d6fc4 0%,#2a4f9e 100%);color:white;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.5px;}
+.teal-btn{background:linear-gradient(135deg,#1e4080 0%,#0f2a5e 100%);color:white;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.5px;}
 .teal-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(61,111,168,0.28);}
 .card{background:rgba(255,255,255,0.02);border:1px solid rgba(180,160,100,0.12);border-radius:12px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
-.card:hover{background:rgba(255,255,255,0.04);border-color:rgba(201,164,74,0.38);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,164,74,0.10);}
-.inp{background:rgba(255,255,255,0.04);border:1px solid rgba(180,160,100,0.18);border-radius:6px;padding:10px 13px;color:#ede7d9;font-size:14px;outline:none;width:100%;font-family:'Inter',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
+.card:hover{background:rgba(13,34,64,0.04);border-color:rgba(201,164,74,0.38);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,164,74,0.10);}
+.inp{background:#ffffff;border:1px solid rgba(13,34,64,0.18);border-radius:6px;padding:10px 13px;color:#0d2240;font-size:14px;outline:none;width:100%;font-family:'Inter',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
 .inp:focus{border-color:#c9a44a;box-shadow:0 0 0 3px rgba(201,164,74,0.09);background:rgba(255,255,255,0.07);}
 .inp::placeholder{color:rgba(237,231,217,0.26);}
 .inp:hover:not(:focus){border-color:rgba(255,255,255,0.18);}
 select.inp{cursor:pointer;}
 textarea.inp{line-height:1.6;}
-.navl{background:transparent;color:rgba(237,231,217,0.88);padding:7px 13px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;border:none;cursor:pointer;border-radius:5px;transition:all 0.16s;}
+.navl{background:transparent;color:rgba(237,231,217,0.92);padding:7px 13px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;border:none;cursor:pointer;border-radius:5px;transition:all 0.16s;}
 .navl:hover{color:#c9a44a;background:rgba(201,164,74,0.10);}
 .navl.on{color:#c9a44a;background:rgba(201,164,74,0.14);border-bottom:2px solid #c9a44a;}
-.tag{display:inline-block;background:rgba(74,127,165,0.08);color:#8eb4d4;border:1px solid rgba(74,127,165,0.15);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
-.modal-bg{position:fixed;inset:0;background:rgba(4,8,20,0.88);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
+.tag{display:inline-block;background:rgba(30,64,128,0.08);color:#1e4080;border:1px solid rgba(30,64,128,0.18);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
+.modal-bg{position:fixed;inset:0;background:rgba(13,34,64,0.70);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
 .modal{background:#0a1828;border:1px solid rgba(201,164,74,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
 .flabel{display:block;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;color:rgba(237,231,217,0.50);margin-bottom:5px;letter-spacing:1.2px;text-transform:uppercase;}
 .sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#c9a44a,#e8cc8a,rgba(201,164,74,0.3));}
@@ -878,7 +878,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
     // ── PREMIUM SPONSORED MODAL — LinkedIn-style hero ─────────────────────────
     return (
       <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
-        <div style={{ background:'#0a1828', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
+        <div style={{ background:'#f5f2eb', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
 
           {/* ── COVER BANNER ── */}
           <div style={{ position:'relative', height: p.coverImage ? 140 : 72, borderRadius:'20px 20px 0 0', overflow:'hidden', flexShrink:0 }}>
@@ -927,9 +927,9 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
             {p.availability && (
               <div style={{ marginBottom:12 }}>
                 <span style={{ fontSize:10, fontWeight:700, padding:'3px 12px', borderRadius:20, fontFamily:"'Inter',sans-serif",
-                  background: p.availability==='available'?'rgba(52,199,89,0.12)':p.availability==='limited'?'rgba(251,146,60,0.12)':'rgba(255,255,255,0.06)',
+                  background: p.availability==='available'?'rgba(52,199,89,0.12)':p.availability==='limited'?'rgba(251,146,60,0.12)':'rgba(13,34,64,0.05)',
                   color: p.availability==='available'?G.green:p.availability==='limited'?G.orange:G.muted,
-                  border: `1px solid ${p.availability==='available'?'rgba(52,199,89,0.3)':p.availability==='limited'?'rgba(251,146,60,0.3)':'rgba(255,255,255,0.1)'}` }}>
+                  border: `1px solid ${p.availability==='available'?'rgba(52,199,89,0.3)':p.availability==='limited'?'rgba(251,146,60,0.3)':'rgba(13,34,64,0.08)'}` }}>
                   {p.availability==='available'?'🟢 Available now':p.availability==='limited'?'🟡 Limited capacity':'🔴 Currently booked'}
                 </span>
               </div>
@@ -989,7 +989,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
           {!p.coverImage && <div style={{ position:'absolute', inset:0, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)` }} />}
           {p.coverImage && <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg, rgba(14,20,32,1) 0%, rgba(14,20,32,0.55) 45%, rgba(14,20,32,0) 100%)' }} />}
           {p.coverImage && <div style={{ position:'absolute', top:0, left:0, right:0, height:3, background:`linear-gradient(90deg,${accentColor},${accentColor}88,transparent)` }} />}
-          {p.coverImage && <button onClick={onClose} style={{ position:'absolute', top:10, right:10, zIndex:2, background:'rgba(255,255,255,0.12)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:8, width:28, height:28, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:13, backdropFilter:'blur(8px)' }}>✕</button>}
+          {p.coverImage && <button onClick={onClose} style={{ position:'absolute', top:10, right:10, zIndex:2, background:'rgba(13,34,64,0.10)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:8, width:28, height:28, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:'#fff', fontSize:13, backdropFilter:'blur(8px)' }}>✕</button>}
         </div>
         <div style={{ padding:'24px 26px 22px', marginTop: p.coverImage ? -14 : 0, position:'relative', zIndex:1 }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:18 }}>
@@ -1007,17 +1007,17 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
                 </div>
               </div>
             </div>
-            {!p.coverImage && <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:`1px solid ${G.border}`, borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, flexShrink:0 }}>✕</button>}
+            {!p.coverImage && <button onClick={onClose} style={{ background:'rgba(13,34,64,0.05)', border:`1px solid ${G.border}`, borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, flexShrink:0 }}>✕</button>}
           </div>
           {(p.desc?.[lang]||p.desc?.en) && <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(237,231,217,0.78)', lineHeight:1.75, marginBottom:16 }}>{p.desc[lang]||p.desc.en}</p>}
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:9, marginBottom:16 }}>
-            {p.cat && !isPartner && <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div><div style={{ fontSize:12, fontWeight:600 }}>{catLabel(p.cat,lang)}</div></div>}
-            {isFL && p.languages && <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div><div style={{ fontSize:12, fontWeight:600 }}>🗣 {p.languages}</div></div>}
-            {!isFL && p.employees && <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Team</div><div style={{ fontSize:12, fontWeight:600 }}>👥 {p.employees}</div></div>}
-            {p.markets && <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div><div style={{ fontSize:12, fontWeight:600 }}>🌍 {p.markets}</div></div>}
+            {p.cat && !isPartner && <div style={{ background:'#ffffff', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div><div style={{ fontSize:12, fontWeight:600 }}>{catLabel(p.cat,lang)}</div></div>}
+            {isFL && p.languages && <div style={{ background:'#ffffff', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div><div style={{ fontSize:12, fontWeight:600 }}>🗣 {p.languages}</div></div>}
+            {!isFL && p.employees && <div style={{ background:'#ffffff', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Team</div><div style={{ fontSize:12, fontWeight:600 }}>👥 {p.employees}</div></div>}
+            {p.markets && <div style={{ background:'#ffffff', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Markets</div><div style={{ fontSize:12, fontWeight:600 }}>🌍 {p.markets}</div></div>}
           </div>
           {(p.tags||[]).length>0 && <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:16 }}>{p.tags.map(tg=><span key={tg} style={{ fontSize:11, background:`${accentColor}10`, color:accentColor, border:`1px solid ${accentColor}28`, borderRadius:20, padding:'3px 11px' }}>{tg}</span>)}</div>}
-          {!isPartner && <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px', marginBottom:16 }}><div style={{ fontSize:12, color:accentColor }}>💼 {t.rateNote}</div></div>}
+          {!isPartner && <div style={{ background:'#ffffff', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px', marginBottom:16 }}><div style={{ fontSize:12, color:accentColor }}>💼 {t.rateNote}</div></div>}
           <div style={{ display:'flex', gap:9, flexWrap:'wrap' }}>
             {p.contact && !isPartner && <button className="btn gbtn" style={{ flex:1, padding:'11px', fontSize:13, fontWeight:700 }} onClick={()=>{ onContact(p); onClose() }}>✉️ {lang==='sq'?'Kontakt':'Contact'}</button>}
             {isPartner && <button className="btn teal-btn" style={{ flex:1, padding:'11px', fontSize:13, fontWeight:700 }} onClick={onClose}>✉️ {lang==='sq'?'Dërgoni kërkesë':'Send Enquiry'}</button>}
@@ -1064,7 +1064,7 @@ function UpgradeModal({ catId, t, lang, onClose }) {
                   {Array.from({ length: SLOTS.sponsored }).map((_, i) => {
                     const taken = i < used.sp
                     return (
-                      <div key={i} style={{ flex: 1, height: 32, borderRadius: 8, background: taken ? 'rgba(251,146,60,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${taken ? 'rgba(251,146,60,0.4)' : 'rgba(255,255,255,0.08)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: taken ? G.orange : G.green, fontFamily: "'Inter',sans-serif", fontWeight: 600 }}>
+                      <div key={i} style={{ flex: 1, height: 32, borderRadius: 8, background: taken ? 'rgba(251,146,60,0.15)' : 'rgba(13,34,64,0.04)', border: `1px solid ${taken ? 'rgba(251,146,60,0.4)' : 'rgba(13,34,64,0.08)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: taken ? G.orange : G.green, fontFamily: "'Inter',sans-serif", fontWeight: 600 }}>
                         {taken ? (lang==='sq'?'🔒 Zënë':'🔒 Taken') : (lang==='sq'?'✓ Lirë':'✓ Available')}
                       </div>
                     )
@@ -1117,7 +1117,7 @@ function ContactModal({ profile, t, onClose }) {
               </div>
               <ModalClose onClose={onClose} />
             </div>
-            <div style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${G.border}`, borderRadius: 9, padding: '11px 14px', marginBottom: 16 }}>
+            <div style={{ background: 'rgba(13,34,64,0.03)', border: `1px solid ${G.border}`, borderRadius: 9, padding: '11px 14px', marginBottom: 16 }}>
               <div style={{ fontSize: 11, color: G.muted, marginBottom: 4, letterSpacing: '0.5px', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif" }}>Kontakt</div>
               <div style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.blue }}>📧 {profile.contact}</div>
               {profile.phone && <div style={{ fontFamily: "'Inter',sans-serif", fontSize: 13, color: G.blue, marginTop: 3 }}>📞 {profile.phone}</div>}
@@ -1175,15 +1175,15 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
         borderRadius: 20, overflow: 'hidden', position: 'relative',
         background: isSp
           ? 'rgba(251,146,60,0.05)'
-          : 'rgba(255,255,255,0.03)',
+          : 'rgba(13,34,64,0.03)',
         border: isSp
           ? `1px solid ${hov ? 'rgba(251,146,60,0.50)' : 'rgba(251,146,60,0.28)'}`
           : `1px solid ${hov ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.09)'}`,
         boxShadow: hov
           ? isSp
-            ? '0 24px 64px rgba(0,0,0,0.5), 0 0 40px rgba(251,146,60,0.14), inset 0 1px 0 rgba(255,255,255,0.06)'
-            : '0 20px 52px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.05)'
-          : '0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03)',
+            ? '0 24px 64px rgba(0,0,0,0.5), 0 0 40px rgba(251,146,60,0.14), inset 0 1px 0 rgba(13,34,64,0.05)'
+            : '0 20px 52px rgba(0,0,0,0.42), inset 0 1px 0 rgba(13,34,64,0.04)'
+          : '0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(13,34,64,0.03)',
         transform: hov && onCardClick ? 'translateY(-5px) scale(1.01)' : 'none',
         transition: 'all 0.28s cubic-bezier(0.4,0,0.2,1)',
         cursor: onCardClick ? 'pointer' : 'default',
@@ -1277,15 +1277,15 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
             ))}
           </div>
         )}
-        <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${isSp?'rgba(251,146,60,0.15)':G.border}`, borderRadius:7, padding:'6px 11px', marginBottom:11 }}>
+        <div style={{ background:'#ffffff', border:`1px solid ${isSp?'rgba(251,146,60,0.15)':G.border}`, borderRadius:7, padding:'6px 11px', marginBottom:11 }}>
           <div style={{ fontFamily:"'Inter',sans-serif", fontSize:11, color:isSp?'#c9943a':G.teal, fontWeight:500 }}>💼 {t.rateNote}</div>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
           <button className="btn" style={{ flex:1, padding:'8px', fontSize:11, fontWeight:700, borderRadius:9, transition:'all 0.18s',
-            background: isSp?'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))':'rgba(255,255,255,0.05)',
+            background: isSp?'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))':'rgba(13,34,64,0.04)',
             color: isSp?'#c9943a':G.text, border: isSp?'1px solid rgba(251,146,60,0.35)':`1px solid ${G.border}` }}
             onMouseEnter={e=>{e.currentTarget.style.background=isSp?'rgba(251,146,60,0.26)':'rgba(201,164,74,0.1)';e.currentTarget.style.borderColor=isSp?'rgba(251,146,60,0.55)':G.goldBorder}}
-            onMouseLeave={e=>{e.currentTarget.style.background=isSp?'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))':'rgba(255,255,255,0.05)';e.currentTarget.style.borderColor=isSp?'rgba(251,146,60,0.35)':G.border}}
+            onMouseLeave={e=>{e.currentTarget.style.background=isSp?'linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.1))':'rgba(13,34,64,0.04)';e.currentTarget.style.borderColor=isSp?'rgba(251,146,60,0.35)':G.border}}
             onClick={e=>{e.stopPropagation();onContact(p)}}>{t.sendReq}</button>
           <button className="btn ghost" style={{padding:'8px 10px',fontSize:12,borderRadius:9}} title={t.upgradeTitle} onClick={e=>{e.stopPropagation();onUpgrade(p.cat)}}>⭐</button>
           <button className="btn ghost" style={{padding:'8px 10px',fontSize:11,borderRadius:9}} title={lang==='sq'?'Ndrysho profilin tim':'Edit my profile'} onClick={e=>{e.stopPropagation();onSelfEdit&&onSelfEdit(p)}}>✏️</button>
@@ -1339,7 +1339,7 @@ function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills
         {skillList.map(s => (
           <button key={s} onClick={() => toggleSkill(s)} className="btn"
             style={{ padding:'5px 12px', fontSize:11, fontWeight:matchSkills.includes(s)?700:500, borderRadius:14,
-              background:matchSkills.includes(s)?'rgba(61,111,168,0.18)':'rgba(255,255,255,0.08)',
+              background:matchSkills.includes(s)?'rgba(61,111,168,0.18)':'rgba(13,34,64,0.08)',
               color:matchSkills.includes(s)?G.teal:'rgba(237,231,217,0.78)',
               border:'1px solid '+(matchSkills.includes(s)?'rgba(61,111,168,0.45)':'rgba(255,255,255,0.14)') }}>
             {matchSkills.includes(s)?'✓ ':''}{s}
@@ -1436,7 +1436,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <VideoBackground src="/bg-video-home.mp4" />
+      <VideoBackground src="/bg-video-companies.mp4" />
 
       {/* ── STICKY PANEL: Filters + Skills — sticks right below nav ── */}
       <div style={{
@@ -1445,7 +1445,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
         backdropFilter: 'blur(36px) saturate(160%)',
         WebkitBackdropFilter: 'blur(36px) saturate(160%)',
         border: '1px solid rgba(255,255,255,0.14)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        borderBottom: '1px solid rgba(13,34,64,0.05)',
         borderRadius: 16,
         marginBottom: 18,
         boxShadow: '0 16px 56px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.10)',
@@ -1467,13 +1467,13 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           </div>
           {/* MOBILE */}
           <div className="sector-pills-mobile" style={{ borderRadius:10, overflow:'hidden', border:`1px solid ${typeF !== 'all' ? 'rgba(201,164,74,0.5)' : 'rgba(255,255,255,0.10)'}` }}>
-            <div onClick={() => setTypeOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: typeF!=='all' ? 'rgba(201,164,74,0.12)' : 'rgba(255,255,255,0.04)' }}>
+            <div onClick={() => setTypeOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: typeF!=='all' ? 'rgba(201,164,74,0.12)' : 'rgba(13,34,64,0.04)' }}>
               <span style={{ fontSize:13 }}>👥</span>
               <div style={{ flex:1 }}>
                 <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color: typeF!=='all' ? G.gold : 'rgba(237,231,217,0.85)' }}>{lang==='sq'?'Lloji i profilit':'Profile type'}</div>
                 <div style={{ fontSize:10, color:'rgba(237,231,217,0.45)' }}>{typeF==='all' ? (lang==='sq'?'Të gjithë':'All') : typeF==='company' ? t.onlyComp : t.onlyFL}</div>
               </div>
-              {typeF!=='all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'none', borderRadius:4, color:'rgba(237,231,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
+              {typeF!=='all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(13,34,64,0.08)', border:'none', borderRadius:4, color:'rgba(237,231,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
               <span style={{ color:'rgba(237,231,217,0.4)', fontSize:12 }}>{typeOpen?'▲':'▼'}</span>
             </div>
             {typeOpen && (
@@ -1488,7 +1488,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           </div>
 
           {/* Desktop-only divider between Type and Sector */}
-          <div className="sector-pills-desktop" style={{ display:'block', height: 1, background: 'linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent)', margin: '4px 0' }} />
+          <div className="sector-pills-desktop" style={{ display:'block', height: 1, background: 'linear-gradient(90deg,transparent,rgba(13,34,64,0.10),transparent)', margin: '4px 0' }} />
 
           {/* ── SECTOR — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
@@ -1513,13 +1513,13 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             const ac = CATS.find(c => c.id === cat)
             return (
               <div className="sector-pills-mobile" style={{ borderRadius:10, overflow:'hidden', border:`1px solid ${cat!=='all'?`${ac?.color}55`:'rgba(255,255,255,0.10)'}` }}>
-                <div onClick={() => setSectorOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: cat!=='all'?`${ac?.color}12`:'rgba(255,255,255,0.04)' }}>
+                <div onClick={() => setSectorOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: cat!=='all'?`${ac?.color}12`:'rgba(13,34,64,0.04)' }}>
                   <span style={{ fontSize:13 }}>{cat!=='all'?ac?.icon:'🏭'}</span>
                   <div style={{ flex:1 }}>
                     <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color:cat!=='all'?ac?.color:'rgba(237,231,217,0.85)' }}>{lang==='sq'?'Sektori':'Sector'}</div>
                     <div style={{ fontSize:10, color:'rgba(237,231,217,0.45)' }}>{cat==='all'?(lang==='sq'?'Të gjithë':'All sectors'):ac?.labels[lang]}</div>
                   </div>
-                  {cat!=='all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(255,255,255,0.08)', border:'none', borderRadius:4, color:'rgba(237,231,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
+                  {cat!=='all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(13,34,64,0.08)', border:'none', borderRadius:4, color:'rgba(237,231,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
                   <span style={{ color:'rgba(237,231,217,0.4)', fontSize:12 }}>{sectorOpen?'▲':'▼'}</span>
                 </div>
                 {sectorOpen && (
@@ -1806,11 +1806,11 @@ function MatchPage({ lang, t }) {
         <div style={{ marginBottom: 22 }}>
           <label className="flabel">{Lm.catLabel}</label>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
-            <button onClick={() => setcat('all')} className="btn" style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600, borderRadius: 20, background: category === 'all' ? G.goldDim : 'rgba(255,255,255,0.04)', color: category === 'all' ? G.gold : G.muted, border: `1px solid ${category === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>
+            <button onClick={() => setcat('all')} className="btn" style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600, borderRadius: 20, background: category === 'all' ? G.goldDim : 'rgba(13,34,64,0.04)', color: category === 'all' ? G.gold : G.muted, border: `1px solid ${category === 'all' ? G.goldBorder : 'rgba(255,255,255,0.07)'}` }}>
               🌐 {t.allCats}
             </button>
             {CATS.map(c => (
-              <button key={c.id} onClick={() => setcat(c.id)} className="btn" style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600, borderRadius: 20, background: category === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)', color: category === c.id ? c.color : G.muted, border: `1px solid ${category === c.id ? `${c.color}45` : 'rgba(255,255,255,0.07)'}` }}>
+              <button key={c.id} onClick={() => setcat(c.id)} className="btn" style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600, borderRadius: 20, background: category === c.id ? `${c.color}18` : 'rgba(13,34,64,0.04)', color: category === c.id ? c.color : G.muted, border: `1px solid ${category === c.id ? `${c.color}45` : 'rgba(255,255,255,0.07)'}` }}>
                 {c.icon} {c.labels[lang]}
               </button>
             ))}
@@ -1830,7 +1830,7 @@ function MatchPage({ lang, t }) {
                 {currentSkills.map(s => {
                   const on = skills.includes(s)
                   return (
-                    <button key={s} onClick={() => toggleSkill(s)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: on ? 700 : 500, borderRadius: 18, background: on ? 'rgba(61,111,168,0.15)' : 'rgba(255,255,255,0.04)', color: on ? G.teal : G.muted, border: `1px solid ${on ? 'rgba(61,111,168,0.45)' : 'rgba(255,255,255,0.07)'}` }}>
+                    <button key={s} onClick={() => toggleSkill(s)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: on ? 700 : 500, borderRadius: 18, background: on ? 'rgba(61,111,168,0.15)' : 'rgba(13,34,64,0.04)', color: on ? G.teal : G.muted, border: `1px solid ${on ? 'rgba(61,111,168,0.45)' : 'rgba(255,255,255,0.07)'}` }}>
                       {on && '✓ '}{s}
                     </button>
                   )
@@ -1893,8 +1893,8 @@ function MatchPage({ lang, t }) {
                 <div key={p.id} className={`card fu${isSp ? ' glow' : ''}`}
                   style={{ padding: 0, overflow: 'hidden', position: 'relative', animationDelay: `${i * 0.04}s`,
                     borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border,
-                    background: isSp ? 'rgba(251,146,60,0.05)' : 'rgba(255,255,255,0.02)',
-                    borderColor: isSp ? 'rgba(251,146,60,0.3)' : 'rgba(255,255,255,0.07)' }}>
+                    background: isSp ? 'rgba(251,146,60,0.06)' : '#ffffff',
+                    borderColor: isSp ? 'rgba(251,146,60,0.4)' : 'rgba(13,34,64,0.12)' }}>
                   {/* Cover top bar with soft fade */}
                   {(p.coverImage || isSp) && (
                     <div style={{ position:'relative', height: p.coverImage ? 72 : 36, overflow:'hidden', flexShrink:0 }}>
@@ -1932,7 +1932,7 @@ function MatchPage({ lang, t }) {
 
                     {/* Match score bar */}
                     {sc !== null && (
-                      <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, marginBottom: 10 }}>
+                      <div style={{ height: 3, background: 'rgba(13,34,64,0.05)', borderRadius: 2, marginBottom: 10 }}>
                         <div style={{ height: '100%', width: `${sc}%`, background: `linear-gradient(90deg,${scoreColor(sc)},${scoreColor(sc)}80)`, borderRadius: 2, transition: 'width 0.6s ease' }} />
                       </div>
                     )}
@@ -2726,7 +2726,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
               }
             </div>
             <div style={{ flex:1 }}>
-              <label style={{ display:'flex', alignItems:'center', gap:7, padding:'7px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:7, width:'fit-content' }}>
+              <label style={{ display:'flex', alignItems:'center', gap:7, padding:'7px 13px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:7, width:'fit-content' }}>
                 📷 {lang==='sq'?'Ngarko logo':'Upload logo'}
                 <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => {
                   const file = e.target.files?.[0]; if (!file) return
@@ -2827,7 +2827,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
 
           <div style={{ flex:1 }}>
             {/* Upload button */}
-            <label style={{ display:'flex', alignItems:'center', gap:7, padding:'7px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, fontFamily:"'Inter',sans-serif", marginBottom:8, width:'fit-content' }}>
+            <label style={{ display:'flex', alignItems:'center', gap:7, padding:'7px 13px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, fontFamily:"'Inter',sans-serif", marginBottom:8, width:'fit-content' }}>
               📷 {lang==='sq' ? 'Ngarko logo (opsionale)' : 'Upload logo (optional)'}
               <input type="file" accept="image/*" style={{ display:'none' }} onChange={handleLogoUpload} />
             </label>
@@ -2862,7 +2862,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
           {CATS.map(c => (
             <button key={c.id} onClick={() => { setCatChoice(c.id); setSelectedTags([]) }} className="btn"
               style={{ padding: '5px 12px', fontSize: 11, fontWeight: 600, borderRadius: 16,
-                background: catChoice === c.id ? `${c.color}18` : 'rgba(255,255,255,0.04)',
+                background: catChoice === c.id ? `${c.color}18` : 'rgba(13,34,64,0.04)',
                 color: catChoice === c.id ? c.color : G.muted,
                 border: `1px solid ${catChoice === c.id ? `${c.color}40` : 'rgba(255,255,255,0.07)'}` }}>
               {c.icon} {c.labels[lang]}
@@ -2910,7 +2910,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             const on = selectedTags.includes(tag)
             return (
               <button key={tag} onClick={() => toggleTag(tag)} className="btn" style={{ padding: '4px 11px', fontSize: 11, fontWeight: on ? 700 : 500, borderRadius: 14,
-                background: on ? 'rgba(61,111,168,0.15)' : 'rgba(255,255,255,0.04)',
+                background: on ? 'rgba(61,111,168,0.15)' : 'rgba(13,34,64,0.04)',
                 color: on ? G.teal : G.muted,
                 border: `1px solid ${on ? 'rgba(61,111,168,0.4)' : 'rgba(255,255,255,0.07)'}` }}>
                 {on ? '✓ ' : ''}{tag}
@@ -2958,7 +2958,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
         </div>
         <div style={{ display: 'flex', gap: 9 }}>
           {[
-            { val: 'free', icon: '🆓', label: lang==='sq'?'Pa pagesë':'Free', sub: lang==='sq'?'Listim bazë, i dukshëm në drejtori':'Basic listing, visible in directory', col: G.muted, border: G.border, bg: 'rgba(255,255,255,0.03)' },
+            { val: 'free', icon: '🆓', label: lang==='sq'?'Pa pagesë':'Free', sub: lang==='sq'?'Listim bazë, i dukshëm në drejtori':'Basic listing, visible in directory', col: G.muted, border: G.border, bg: 'rgba(13,34,64,0.03)' },
             { val: 'sponsored', icon: '🚀', label: lang==='sq'?'Sponsorizuar':'Sponsored', sub: lang==='sq'?'Top 3 · Kryefaqe · Dukshmëri premium':'Top 3 positions · Homepage · Premium visibility', col: G.orange, border: 'rgba(251,146,60,0.4)', bg: 'rgba(251,146,60,0.06)' },
           ].map(opt => {
             const sel = (form.tier || 'free') === opt.val
@@ -3257,7 +3257,7 @@ function SelfEditModal({ profile, lang, t, onClose }) {
         {step !== 'done' && (
           <div style={{ display:'flex', gap:6, marginBottom:20 }}>
             {['1','2','3'].map((n,i) => (
-              <div key={n} style={{ flex:1, height:3, borderRadius:2, background: i < stepIdx ? G.teal : i === stepIdx ? G.gold : 'rgba(255,255,255,0.1)' }} />
+              <div key={n} style={{ flex:1, height:3, borderRadius:2, background: i < stepIdx ? G.teal : i === stepIdx ? G.gold : 'rgba(13,34,64,0.08)' }} />
             ))}
           </div>
         )}
@@ -3468,8 +3468,8 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
           <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>Manage all partner types shown on the platform</div>
         </div>
         <div style={{ display:'flex', gap:6 }}>
-          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='fixed'?G.goldDim:'rgba(255,255,255,0.04)', color:section==='fixed'?G.gold:G.muted, border:`1px solid ${section==='fixed'?G.goldBorder:'rgba(255,255,255,0.1)'}` }} onClick={()=>{setGpEdit(null);setSection('fixed')}}>General Partner</button>
-          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='db'?'rgba(61,111,168,0.1)':'rgba(255,255,255,0.04)', color:section==='db'?G.teal:G.muted, border:`1px solid ${section==='db'?'rgba(61,111,168,0.3)':'rgba(255,255,255,0.1)'}` }} onClick={()=>{setGpEdit(null);setSection('db')}}>Partner ({gpList.length})</button>
+          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='fixed'?G.goldDim:'rgba(13,34,64,0.04)', color:section==='fixed'?G.gold:G.muted, border:`1px solid ${section==='fixed'?G.goldBorder:'rgba(13,34,64,0.08)'}` }} onClick={()=>{setGpEdit(null);setSection('fixed')}}>General Partner</button>
+          <button className="btn" style={{ fontSize:11, padding:'5px 12px', background:section==='db'?'rgba(61,111,168,0.1)':'rgba(13,34,64,0.04)', color:section==='db'?G.teal:G.muted, border:`1px solid ${section==='db'?'rgba(61,111,168,0.3)':'rgba(13,34,64,0.08)'}` }} onClick={()=>{setGpEdit(null);setSection('db')}}>Partner ({gpList.length})</button>
         </div>
       </div>
       {gpMsg && <div style={{ fontSize:13, color:G.green, background:'rgba(52,199,89,0.08)', border:'1px solid rgba(52,199,89,0.2)', borderRadius:8, padding:'8px 14px' }}>{gpMsg}</div>}
@@ -3491,7 +3491,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
               </div>
               <div>
                 <div style={{ fontSize:12, color:G.muted, marginBottom:6 }}>General Partner logo (displayed larger on Concierge page)</div>
-                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
+                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
                   📷 Upload logo
                   <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                     const file=e.target.files?.[0]; if(!file) return
@@ -3517,7 +3517,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
               <label className="flabel">Cover / Banner image</label>
               <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
                 {partners.rootsgtm_cover && <div style={{ width:100, height:44, borderRadius:7, overflow:'hidden', border:'1px solid rgba(61,111,168,0.3)' }}><img src={partners.rootsgtm_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover', objectPosition: partners.rootsgtm_cover_focus||'50% 50%'}} /></div>}
-                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
+                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
                   🖼 Upload cover
                   <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                     const file=e.target.files?.[0]; if(!file) return
@@ -3549,7 +3549,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
               </div>
               <div>
                 <div style={{ fontSize:12, color:G.muted, marginBottom:6 }}>General Partner logo (displayed larger on Concierge page)</div>
-                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
+                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
                   📷 Upload logo
                   <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                     const file=e.target.files?.[0]; if(!file) return
@@ -3571,7 +3571,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
               <label className="flabel">Cover / Banner image</label>
               <div style={{ display:'flex', gap:10, alignItems:'center', marginTop:6 }}>
                 {partners.gov_cover && <div style={{ width:100, height:44, borderRadius:7, overflow:'hidden', border:`1px solid ${G.goldBorder}` }}><img src={partners.gov_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover', objectPosition: partners.gov_cover_focus||'50% 50%'}} /></div>}
-                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
+                <label style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'6px 12px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text }}>
                   🖼 Upload cover
                   <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                     const file=e.target.files?.[0]; if(!file) return
@@ -3639,15 +3639,15 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                       <div style={{ fontWeight:700, fontSize:14, display:'flex', alignItems:'center', gap:7, flexWrap:'wrap' }}>
                         {p.name}
                         {p.tier==='sponsored' && <span style={{ fontSize:10, background:'rgba(201,164,74,0.12)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:5, padding:'1px 7px', fontWeight:700 }}>⭐ Featured</span>}
-                        {p.verified===false && <span style={{ fontSize:10, background:'rgba(255,255,255,0.04)', color:G.muted, border:'1px solid rgba(255,255,255,0.1)', borderRadius:5, padding:'1px 7px' }}>Hidden</span>}
+                        {p.verified===false && <span style={{ fontSize:10, background:'#ffffff', color:G.muted, border:'1px solid rgba(13,34,64,0.08)', borderRadius:5, padding:'1px 7px' }}>Hidden</span>}
                       </div>
                       <div style={{ fontSize:11, color:G.muted, marginTop:2 }}>{[p.city, p.website].filter(Boolean).join(' · ')}</div>
                       {(p.tags||[]).length>0 && <div style={{ display:'flex', gap:4, flexWrap:'wrap', marginTop:5 }}>{p.tags.slice(0,4).map(tg=><span key={tg} className="tag" style={{fontSize:10}}>{tg}</span>)}</div>}
                     </div>
                     <div style={{ display:'flex', gap:5, flexWrap:'wrap', justifyContent:'flex-end' }}>
                       <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:'rgba(61,111,168,0.08)', color:G.teal, border:'1px solid rgba(61,111,168,0.2)', borderRadius:6 }} onClick={()=>openEditGP(p)}>✏️ Edit</button>
-                      <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.verified!==false?'rgba(52,199,89,0.08)':'rgba(255,255,255,0.04)', color:p.verified!==false?G.green:G.muted, border:`1px solid ${p.verified!==false?'rgba(52,199,89,0.2)':'rgba(255,255,255,0.1)'}`, borderRadius:6 }} onClick={()=>toggleVisible(p)}>{p.verified!==false?'👁 Visible':'🚫 Hidden'}</button>
-                      <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.tier==='sponsored'?G.goldDim:'rgba(255,255,255,0.04)', color:p.tier==='sponsored'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?G.goldBorder:'rgba(255,255,255,0.1)'}`, borderRadius:6 }} onClick={()=>toggleFeatured(p)}>⭐ {p.tier==='sponsored'?'Unfeature':'Feature'}</button>
+                      <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.verified!==false?'rgba(52,199,89,0.08)':'rgba(13,34,64,0.04)', color:p.verified!==false?G.green:G.muted, border:`1px solid ${p.verified!==false?'rgba(52,199,89,0.2)':'rgba(13,34,64,0.08)'}`, borderRadius:6 }} onClick={()=>toggleVisible(p)}>{p.verified!==false?'👁 Visible':'🚫 Hidden'}</button>
+                      <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:p.tier==='sponsored'?G.goldDim:'rgba(13,34,64,0.04)', color:p.tier==='sponsored'?G.gold:G.muted, border:`1px solid ${p.tier==='sponsored'?G.goldBorder:'rgba(13,34,64,0.08)'}`, borderRadius:6 }} onClick={()=>toggleFeatured(p)}>⭐ {p.tier==='sponsored'?'Unfeature':'Feature'}</button>
                       <button className="btn" style={{ fontSize:10, padding:'4px 10px', background:'rgba(255,59,48,0.08)', color:G.red, border:'1px solid rgba(255,59,48,0.2)', borderRadius:6 }} onClick={()=>deleteGP(p.id)}>🗑 Delete</button>
                     </div>
                   </div>
@@ -3674,7 +3674,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                         : <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:18, color:gpForm.logoColor||'#3d7fa8' }}>{(gpForm.name||'?').split(' ').map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?'}</span>}
                     </div>
                     <div style={{ flex:1 }}>
-                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
+                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
                         📷 Upload logo
                         <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                           const file=e.target.files?.[0]; if(!file) return
@@ -3705,7 +3705,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                       </div>
                     )}
                     <div style={{ flex:1 }}>
-                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
+                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 13px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:8, cursor:'pointer', fontSize:12, color:G.text, marginBottom:8 }}>
                         🖼 Upload cover
                         <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                           const file=e.target.files?.[0]; if(!file) return
@@ -4054,7 +4054,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'flex-end', flexShrink: 0 }}>
         {/* Tier badge */}
-        <span style={{ fontSize: 10, background: p.tier==='sponsored'?'rgba(251,146,60,0.1)':'rgba(255,255,255,0.04)', color: p.tier==='sponsored'?G.orange:G.muted, border: `1px solid ${p.tier==='sponsored'?'rgba(251,146,60,0.3)':'rgba(255,255,255,0.1)'}`, borderRadius: 5, padding: '2px 8px' }}>
+        <span style={{ fontSize: 10, background: p.tier==='sponsored'?'rgba(251,146,60,0.1)':'rgba(13,34,64,0.04)', color: p.tier==='sponsored'?G.orange:G.muted, border: `1px solid ${p.tier==='sponsored'?'rgba(251,146,60,0.3)':'rgba(13,34,64,0.08)'}`, borderRadius: 5, padding: '2px 8px' }}>
           {p.tier}
         </span>
         <div style={{ display: 'flex', gap: 5 }}>
@@ -4110,7 +4110,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
         {TABS.map(t2 => {
           const count = tabCount[t2.id]
           return (
-            <button key={t2.id} onClick={() => setTab(t2.id)} className="btn" style={{ padding: '8px 16px', fontSize: 12, fontWeight: 600, background: tab === t2.id ? G.goldDim : 'rgba(255,255,255,0.04)', color: tab === t2.id ? G.gold : G.muted, border: `1px solid ${tab === t2.id ? G.goldBorder : 'rgba(255,255,255,0.07)'}`, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <button key={t2.id} onClick={() => setTab(t2.id)} className="btn" style={{ padding: '8px 16px', fontSize: 12, fontWeight: 600, background: tab === t2.id ? G.goldDim : 'rgba(13,34,64,0.04)', color: tab === t2.id ? G.gold : G.muted, border: `1px solid ${tab === t2.id ? G.goldBorder : 'rgba(255,255,255,0.07)'}`, display: 'flex', alignItems: 'center', gap: 6 }}>
               {t2.icon} {renderLabel(t2)}
               {count > 0 && <span style={{ background: tab === t2.id ? G.gold : G.orange, color: tab === t2.id ? G.bg : '#fff', borderRadius: 10, padding: '1px 7px', fontSize: 10, fontWeight: 800 }}>{count}</span>}
             </button>
@@ -4382,10 +4382,10 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       {/* ── EDIT MODAL — modern card layout ───────────────────────────── */}
       {editProfile && (
         <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.9)', zIndex:300, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={e => e.target===e.currentTarget && setEditProfile(null)}>
-          <div style={{ background:'#0a1828', border:`1px solid ${G.goldBorder}`, borderRadius:20, width:'100%', maxWidth:680, maxHeight:'92vh', overflowY:'auto', display:'flex', flexDirection:'column' }}>
+          <div style={{ background:'#f5f2eb', border:`1px solid ${G.goldBorder}`, borderRadius:20, width:'100%', maxWidth:680, maxHeight:'92vh', overflowY:'auto', display:'flex', flexDirection:'column' }}>
 
             {/* Modal header */}
-            <div style={{ padding:'22px 28px 18px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, background:'#0a1828', zIndex:1 }}>
+            <div style={{ padding:'22px 28px 18px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, background:'#f5f2eb', zIndex:1 }}>
               <div>
                 <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:20 }}>✏️ Edit Profile</div>
                 <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>{editProfile.name} · Changes go live immediately</div>
@@ -4424,7 +4424,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                     }
                   </div>
                   <div style={{ flex:1 }}>
-                    <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:'rgba(237,231,217,0.8)', marginBottom:7 }}>
+                    <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:7, cursor:'pointer', fontSize:11, color:'rgba(237,231,217,0.8)', marginBottom:7 }}>
                       📷 Upload new logo
                       <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => {
                         const file = e.target.files?.[0]; if(!file) return
@@ -4486,7 +4486,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                       </div>
                     )}
                     <div style={{ flex:1 }}>
-                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text, marginBottom:6 }}>
+                      <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:7, cursor:'pointer', fontSize:11, color:G.text, marginBottom:6 }}>
                         🖼 Upload cover image
                         <input type="file" accept="image/*" style={{display:'none'}} onChange={e=>{
                           const file=e.target.files?.[0]; if(!file) return
@@ -4553,7 +4553,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
               </div>
 
             {/* Sticky footer */}
-            <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0a1828' }}>
+            <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#f5f2eb' }}>
               <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveEdit} disabled={saving}>
                 {saving ? <><div style={{width:13,height:13,border:'2px solid rgba(0,0,0,0.25)',borderTopColor:G.bg,borderRadius:'50%'}} className="sp" />Saving…</> : '💾 Save changes'}
               </button>
@@ -4633,7 +4633,7 @@ export default function App() {
       {/* ── NAV ── */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(5,13,27,0.94)', backdropFilter: 'blur(18px)', borderBottom: `1px solid ${G.border}`, padding: '0 28px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => setPage('home')} className="btn" style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'transparent', border: 'none', padding: 0 }}>
-          <div style={{ width: 40, height: 27, borderRadius: 4, overflow: 'hidden', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ width: 40, height: 27, borderRadius: 4, overflow: 'hidden', flexShrink: 0, boxShadow: '0 2px 8px rgba(0,0,0,0.5)', border: '1px solid rgba(13,34,64,0.08)' }}>
             <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAOTBQADASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAcIBQYDBAkBAv/EAE0QAQABAwIBBwcIBwYFBAEFAAABAgMEBREGBxIWITFB0RNRVGFxgaMIFBUiMmKRoUJSVoKUorEXI0NywdIYM1VjkiRT4fCyJTVzwvH/xAAcAQEAAgMBAQEAAAAAAAAAAAAABQYDBAcCAQj/xAA5EQEAAQIDBQYEBQUAAgMBAAAAAQIDBAUREhMhMVIGFEFRYZFxgaHRIjKxwfAHFRZC4SNTM3Lxkv/aAAwDAQACEQMRAD8AicB1NVQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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" alt="Kosovo flag" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </div>
           <div>
@@ -4652,7 +4652,7 @@ export default function App() {
             ))}
           </div>
           <div style={{ width: 1, height: 18, background: G.border, margin: '0 6px' }} />
-          <div className="nav-lang" style={{ display: 'flex', gap: 2, background: `rgba(255,255,255,0.04)`, border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
+          <div className="nav-lang" style={{ display: 'flex', gap: 2, background: `rgba(13,34,64,0.04)`, border: `1px solid ${G.border}`, borderRadius: 8, padding: 3 }}>
             {['en', 'sq'].map(l => (
               <button key={l} onClick={() => setLang(l)} className="btn" style={{ padding: '4px 9px', fontSize: 11, fontWeight: 700, background: lang === l ? 'rgba(201,164,74,0.18)' : 'transparent', color: lang === l ? G.gold : G.muted, border: `1px solid ${lang === l ? G.goldBorder : 'transparent'}`, borderRadius: 6 }}>
                 {FLAGS[l]} {l.toUpperCase()}
@@ -4673,7 +4673,7 @@ export default function App() {
         </div>
       </nav>
       {mobileNav && (
-        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#0a1828', borderBottom:'1px solid rgba(255,255,255,0.07)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4 }}>
+        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#f5f2eb', borderBottom:'1px solid rgba(255,255,255,0.07)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4 }}>
           {[['home',t.navHome,'🏠'],['directory',t.navDir,'🏢'],['concierge',t.navConcierge,'🤝'],['gov',t.navGov,'🏛️']].map(([pg,l,ic]) => (
             <button key={pg} onClick={() => { setPage(pg); setMobileNav(false) }}
               style={{ background: page===pg?'rgba(201,164,74,0.1)':'transparent', color: page===pg?'#c9a44a':'rgba(237,231,217,0.75)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'Inter',sans-serif", fontSize:15, fontWeight:500, display:'flex', alignItems:'center', gap:10, width:'100%' }}>
@@ -4683,7 +4683,7 @@ export default function App() {
           <div style={{ borderTop:'1px solid rgba(255,255,255,0.07)', marginTop:8, paddingTop:12, display:'flex', gap:6 }}>
             {['en','sq'].map(l => (
               <button key={l} onClick={() => { setLang(l) }}
-                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(201,164,74,0.15)':'rgba(255,255,255,0.04)', color: lang===l?'#c9a44a':'rgba(237,231,217,0.45)', border:'1px solid '+(lang===l?'rgba(201,164,74,0.22)':'rgba(255,255,255,0.07)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
+                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(201,164,74,0.15)':'rgba(13,34,64,0.04)', color: lang===l?'#c9a44a':'rgba(237,231,217,0.45)', border:'1px solid '+(lang===l?'rgba(201,164,74,0.22)':'rgba(255,255,255,0.07)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
                 {FLAGS[l]} {l.toUpperCase()}
               </button>
             ))}
@@ -4730,7 +4730,7 @@ export default function App() {
               </div>
               <div style={{ display:'flex', justifyContent:'center', gap:8, flexWrap:'wrap' }}>
                 {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'✓ Regjistrimet e verifikuara':'✓ Verified Listings', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network'].map(tag => (
-                  <span key={tag} style={{ fontSize:11, color:'rgba(237,231,217,0.4)', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:20, padding:'4px 14px', fontFamily:"'Inter',sans-serif" }}>{tag}</span>
+                  <span key={tag} style={{ fontSize:11, color:'rgba(237,231,217,0.4)', background:'#ffffff', border:'1px solid rgba(255,255,255,0.07)', borderRadius:20, padding:'4px 14px', fontFamily:"'Inter',sans-serif" }}>{tag}</span>
                 ))}
               </div>
             </div>
@@ -4782,7 +4782,7 @@ export default function App() {
                     return (
                     <div key={p.id} style={{
                       borderRadius:20, overflow:'hidden', position:'relative', cursor:'pointer',
-                      background: hexToRgba(sColor, 0.05),
+                      background: hexToRgba(sColor, 0.06),
                       border: `1px solid ${hexToRgba(sColor, 0.28)}`,
                       boxShadow:'0 6px 32px rgba(0,0,0,0.28)',
                       transition:'all 0.25s cubic-bezier(0.4,0,0.2,1)',
@@ -4964,7 +4964,7 @@ export default function App() {
 
       {page === 'concierge'  && (
         <div style={{ position:'relative', minHeight:'100vh' }}>
-      <VideoBackground src="/bg-video-home.mp4" />
+      <VideoBackground src="/bg-video-concierge.mp4" />
 
           <div style={{ position:'relative', zIndex:1 }}>
             <ConciergePage lang={lang} t={t} content={siteContent} />
@@ -4974,7 +4974,7 @@ export default function App() {
 
       {page === 'gov' && (
         <div style={{ position:'relative', minHeight:'100vh' }}>
-      <VideoBackground src="/bg-video-home.mp4" />
+      <VideoBackground src="/bg-video-gov.mp4" />
 
           <div style={{ position:'relative', zIndex:1 }}>
             <GovPage lang={lang} t={t} content={siteContent} />
@@ -5060,7 +5060,7 @@ export default function App() {
       {/* ── FOOTER ── */}
       <footer style={{ 
         background: 'rgba(6,11,22,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        borderTop: '1px solid rgba(255,255,255,0.12)', padding: '22px 44px',
+        borderTop: '1px solid rgba(13,34,64,0.10)', padding: '22px 44px',
         fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(237,231,217,0.75)'
       }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, marginBottom:14 }}>
