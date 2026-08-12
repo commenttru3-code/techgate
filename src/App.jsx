@@ -378,11 +378,11 @@ const SALES_PEOPLE = [
 
 // ─── THEME ────────────────────────────────────────────────────────────────────
 const G = {
-  bg: '#eae6da', surface: '#f5f2eb', card: '#ffffff',
-  border: 'rgba(13,34,64,0.12)', gold: '#8a6410', goldDim: 'rgba(138,100,16,0.10)',
-  goldBorder: 'rgba(138,100,16,0.28)', text: '#0d2240', muted: 'rgba(13,34,64,0.50)',
-  green: '#1d7a3a', red: '#b0321f', blue: '#1e4080', purple: '#4f3e8a',
-  teal: '#14607a', orange: '#7a4a10',
+  bg: '#050d1b', surface: '#0a1828', card: 'rgba(255,255,255,0.025)',
+  border: 'rgba(180,160,100,0.14)', gold: '#c9a44a', goldDim: 'rgba(201,164,74,0.10)',
+  goldBorder: 'rgba(201,164,74,0.20)', text: '#e4ddd0', muted: 'rgba(228,221,208,0.48)',
+  green: '#4a9e6b', red: '#c94040', blue: '#3d6fc4', purple: '#7b68b0',
+  teal: '#3d7fa8', orange: '#c9943a',
 }
 
 const CSS = `
@@ -408,16 +408,16 @@ body{background:#050d1b;margin:0;-webkit-font-smoothing:antialiased;}
 .pg{animation:pulse 2s ease infinite;}
 .btn{border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.18s cubic-bezier(0.4,0,0.2,1);border-radius:6px;-webkit-tap-highlight-color:transparent;}
 .btn:active{transform:scale(0.97) !important;}
-.gbtn{background:linear-gradient(135deg,#8a6410 0%,#6b4e0e 100%);color:#ffffff;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;}
+.gbtn{background:linear-gradient(135deg,#c9a44a 0%,#a8833a 100%);color:#050d1b;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;}
 .gbtn:hover{background:#e5ba55;transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,164,74,0.32);}
 .gbtn:disabled{opacity:0.38;cursor:not-allowed;transform:none !important;box-shadow:none;}
 .ghost{background:transparent;color:rgba(13,34,64,0.5);padding:9px 16px;font-size:13px;border:1px solid rgba(255,255,255,0.09);font-weight:500;}
 .ghost:hover{color:#0d2240;border-color:rgba(201,164,74,0.35);background:rgba(201,164,74,0.04);}
-.teal-btn{background:linear-gradient(135deg,#1e4080 0%,#0f2a5e 100%);color:white;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.5px;}
+.teal-btn{background:linear-gradient(135deg,#3d6fc4 0%,#2a4f9e 100%);color:white;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.5px;}
 .teal-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(61,111,168,0.28);}
 .card{background:rgba(255,255,255,0.02);border:1px solid rgba(180,160,100,0.12);border-radius:12px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
 .card:hover{background:rgba(13,34,64,0.04);border-color:rgba(201,164,74,0.38);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,164,74,0.10);}
-.inp{background:#ffffff;border:1px solid rgba(13,34,64,0.18);border-radius:6px;padding:10px 13px;color:#0d2240;font-size:14px;outline:none;width:100%;font-family:'Inter',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
+.inp{background:rgba(255,255,255,0.04);border:1px solid rgba(180,160,100,0.18);border-radius:6px;padding:10px 13px;color:#e4ddd0;font-size:14px;outline:none;width:100%;font-family:'Inter',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
 .inp:focus{border-color:#c9a44a;box-shadow:0 0 0 3px rgba(201,164,74,0.09);background:rgba(255,255,255,0.07);}
 .inp::placeholder{color:rgba(13,34,64,0.26);}
 .inp:hover:not(:focus){border-color:rgba(255,255,255,0.18);}
@@ -426,10 +426,10 @@ textarea.inp{line-height:1.6;}
 .navl{background:transparent;color:rgba(13,34,64,0.92);padding:7px 13px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;border:none;cursor:pointer;border-radius:5px;transition:all 0.16s;}
 .navl:hover{color:#c9a44a;background:rgba(201,164,74,0.10);}
 .navl.on{color:#c9a44a;background:rgba(201,164,74,0.14);border-bottom:2px solid #c9a44a;}
-.tag{display:inline-block;background:rgba(30,64,128,0.08);color:#1e4080;border:1px solid rgba(30,64,128,0.18);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
-.modal-bg{position:fixed;inset:0;background:rgba(13,34,64,0.70);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
+.tag{display:inline-block;background:rgba(74,127,165,0.08);color:#8eb4d4;border:1px solid rgba(74,127,165,0.15);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
+.modal-bg{position:fixed;inset:0;background:rgba(4,8,20,0.88);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
 .modal{background:#0a1828;border:1px solid rgba(201,164,74,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
-.flabel{display:block;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;color:rgba(13,34,64,0.50);margin-bottom:5px;letter-spacing:1.2px;text-transform:uppercase;}
+.flabel{display:block;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;color:rgba(228,221,208,0.50);margin-bottom:5px;letter-spacing:1.2px;text-transform:uppercase;}
 .sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#c9a44a,#e8cc8a,rgba(201,164,74,0.3));}
 .pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#c9a44a,#fde68a);}
 .sector-pills-mobile{display:none;}
@@ -789,7 +789,7 @@ function CoverCropPicker({ image, onApply, accentColor = '#c9a44a' }) {
 
   return (
     <div style={{ marginTop: 10 }}>
-      <div style={{ fontSize: 10, color: 'rgba(13,34,64,0.55)', marginBottom: 8, fontFamily: "'Inter',sans-serif" }}>
+      <div style={{ fontSize: 10, color: 'rgba(228,221,208,0.55)', marginBottom: 8, fontFamily: "'Inter',sans-serif" }}>
         🖱 Drag to reposition · Slider to zoom · Click Apply to confirm
       </div>
       {/* Drag area — 3:1 preview */}
@@ -816,7 +816,7 @@ function CoverCropPicker({ image, onApply, accentColor = '#c9a44a' }) {
       </div>
       {/* Zoom slider */}
       <div style={{ display:'flex', alignItems:'center', gap:8, marginTop:8 }}>
-        <span style={{ fontSize:10, color:'rgba(13,34,64,0.45)', flexShrink:0 }}>Zoom</span>
+        <span style={{ fontSize:10, color:'rgba(228,221,208,0.45)', flexShrink:0 }}>Zoom</span>
         <input type="range" min="1" max="3" step="0.05" value={zoom}
           onChange={e => setZoom(parseFloat(e.target.value))}
           style={{ flex:1, accentColor }} />
@@ -878,7 +878,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
     // ── PREMIUM SPONSORED MODAL — LinkedIn-style hero ─────────────────────────
     return (
       <div className="modal-bg fi" onClick={e => e.target===e.currentTarget && onClose()}>
-        <div style={{ background:'#f5f2eb', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
+        <div style={{ background:'#0a1828', border:'1px solid rgba(251,146,60,0.45)', borderRadius:20, width:'100%', maxWidth:620, maxHeight:'94vh', overflowY:'auto', position:'relative', boxShadow:'0 24px 80px rgba(0,0,0,0.6),0 0 60px rgba(251,146,60,0.08)', margin:'0 auto' }}>
 
           {/* ── COVER BANNER ── */}
           <div style={{ position:'relative', height: p.coverImage ? 140 : 72, borderRadius:'20px 20px 0 0', overflow:'hidden', flexShrink:0 }}>
@@ -914,7 +914,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
             {/* ── NAME + META — below logo ── */}
             <div style={{ marginTop:10 }}>
               <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:'clamp(17px,4vw,23px)', letterSpacing:'-0.1px', lineHeight:1.1, marginBottom:4 }}>{p.name}</div>
-              <div style={{ fontSize:11, color:'rgba(13,34,64,0.55)', display:'flex', gap:7, flexWrap:'wrap', marginBottom:10 }}>
+              <div style={{ fontSize:11, color:'rgba(228,221,208,0.55)', display:'flex', gap:7, flexWrap:'wrap', marginBottom:10 }}>
                 {p.city && <span>📍 {p.city}</span>}
                 {p.cat && <span>· {catLabel(p.cat, lang)}</span>}
                 {isFL && p.languages && <span>· 🗣 {p.languages}</span>}
@@ -1457,7 +1457,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {/* ── PROFILE TYPE — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
           <div className="sector-pills-desktop" style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
-            <span style={{ fontSize:10, color:'rgba(13,34,64,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Raleway',sans-serif", marginRight:2 }}>{lang==='sq'?'Lloji':'Type'}</span>
+            <span style={{ fontSize:10, color:'rgba(228,221,208,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Raleway',sans-serif", marginRight:2 }}>{lang==='sq'?'Lloji':'Type'}</span>
             {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
               <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding:'5px 13px', fontSize:12, fontWeight:600, borderRadius:9,
                 background: typeF===v ? G.goldDim : 'rgba(255,255,255,0.07)',
@@ -1471,16 +1471,16 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
               <span style={{ fontSize:13 }}>👥</span>
               <div style={{ flex:1 }}>
                 <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color: typeF!=='all' ? G.gold : 'rgba(13,34,64,0.85)' }}>{lang==='sq'?'Lloji i profilit':'Profile type'}</div>
-                <div style={{ fontSize:10, color:'rgba(13,34,64,0.45)' }}>{typeF==='all' ? (lang==='sq'?'Të gjithë':'All') : typeF==='company' ? t.onlyComp : t.onlyFL}</div>
+                <div style={{ fontSize:10, color:'rgba(228,221,208,0.45)' }}>{typeF==='all' ? (lang==='sq'?'Të gjithë':'All') : typeF==='company' ? t.onlyComp : t.onlyFL}</div>
               </div>
               {typeF!=='all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(13,34,64,0.08)', border:'none', borderRadius:4, color:'rgba(13,34,64,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
               <span style={{ color:'rgba(13,34,64,0.4)', fontSize:12 }}>{typeOpen?'▲':'▼'}</span>
             </div>
             {typeOpen && (
-              <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(13,34,64,0.10)', background:'rgba(0,0,0,0.2)', display:'flex', gap:6 }}>
+              <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)', display:'flex', gap:6 }}>
                 {[['all',t.allTypes],['company',t.onlyComp],['freelancer',t.onlyFL]].map(([v,l]) => (
                   <button key={v} onClick={()=>{setTypeF(v);setTypeOpen(false)}} className="btn" style={{ padding:'6px 12px', fontSize:11, fontWeight:600, borderRadius:8,
-                    background:typeF===v?G.goldDim:'rgba(255,255,255,0.07)', color:typeF===v?G.gold:'rgba(13,34,64,0.75)',
+                    background:typeF===v?G.goldDim:'rgba(255,255,255,0.07)', color:typeF===v?G.gold:'rgba(228,221,208,0.75)',
                     border:`1px solid ${typeF===v?G.goldBorder:'rgba(255,255,255,0.11)'}`}}>{l}</button>
                 ))}
               </div>
@@ -1493,7 +1493,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {/* ── SECTOR — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
           <div className="sector-pills-desktop" style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
-            <span style={{ fontSize:10, color:'rgba(13,34,64,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Raleway',sans-serif", marginRight:2 }}>{lang==='sq'?'Sektori':'Sector'}</span>
+            <span style={{ fontSize:10, color:'rgba(228,221,208,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Raleway',sans-serif", marginRight:2 }}>{lang==='sq'?'Sektori':'Sector'}</span>
             <button onClick={() => setCat('all')} className="btn" style={{ padding:'5px 12px', fontSize:11, fontWeight:700, borderRadius:20,
               background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#050d1b':'rgba(13,34,64,0.72)',
               border:`1px solid ${cat==='all'?'#c9a44a':'rgba(255,255,255,0.11)'}`,
@@ -1517,17 +1517,17 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
                   <span style={{ fontSize:13 }}>{cat!=='all'?ac?.icon:'🏭'}</span>
                   <div style={{ flex:1 }}>
                     <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color:cat!=='all'?ac?.color:'rgba(13,34,64,0.85)' }}>{lang==='sq'?'Sektori':'Sector'}</div>
-                    <div style={{ fontSize:10, color:'rgba(13,34,64,0.45)' }}>{cat==='all'?(lang==='sq'?'Të gjithë':'All sectors'):ac?.labels[lang]}</div>
+                    <div style={{ fontSize:10, color:'rgba(228,221,208,0.45)' }}>{cat==='all'?(lang==='sq'?'Të gjithë':'All sectors'):ac?.labels[lang]}</div>
                   </div>
                   {cat!=='all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(13,34,64,0.08)', border:'none', borderRadius:4, color:'rgba(13,34,64,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
                   <span style={{ color:'rgba(13,34,64,0.4)', fontSize:12 }}>{sectorOpen?'▲':'▼'}</span>
                 </div>
                 {sectorOpen && (
-                  <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(13,34,64,0.10)', background:'rgba(0,0,0,0.2)', display:'flex', gap:5, flexWrap:'wrap' }}>
-                    <button onClick={()=>{setCat('all');setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20, background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#050d1b':'rgba(13,34,64,0.75)', border:`1px solid ${cat==='all'?'#c9a44a':'rgba(255,255,255,0.11)'}`}}>{t.allCats}</button>
+                  <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)', display:'flex', gap:5, flexWrap:'wrap' }}>
+                    <button onClick={()=>{setCat('all');setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20, background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#050d1b':'rgba(228,221,208,0.75)', border:`1px solid ${cat==='all'?'#c9a44a':'rgba(255,255,255,0.11)'}`}}>{t.allCats}</button>
                     {CATS.map(c => (
                       <button key={c.id} onClick={()=>{setCat(c.id);setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20,
-                        background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#050d1b':'rgba(13,34,64,0.75)', border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`}}>
+                        background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#050d1b':'rgba(228,221,208,0.75)', border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`}}>
                         {c.icon} {c.labels[lang]}
                       </button>
                     ))}
@@ -1551,14 +1551,14 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
               <div className="match-filter-label" style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:13, color: matchMode ? G.teal : 'rgba(13,34,64,0.85)' }}>
                 Match Filter
               </div>
-              <div className="match-filter-sub" style={{ fontSize:10, color:'rgba(13,34,64,0.48)', marginTop:1 }}>
+              <div className="match-filter-sub" style={{ fontSize:10, color:'rgba(228,221,208,0.48)', marginTop:1 }}>
                 {matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length>1?'s':''} active` : (lang==='sq'?'Kërko sipas aftësive':'Filter by skills')}
               </div>
             </div>
             {matchSkills.length > 0 && (
               <button onClick={e=>{e.stopPropagation();setMatchSkills([])}} style={{ background:'rgba(61,111,168,0.12)', border:'1px solid rgba(61,111,168,0.35)', borderRadius:5, color:G.teal, fontSize:11, padding:'2px 7px', cursor:'pointer', fontWeight:600 }}>✕ Clear</button>
             )}
-            <div style={{ color: matchMode ? G.teal : 'rgba(13,34,64,0.45)', fontSize:15 }}>{matchMode ? '▲' : '▼'}</div>
+            <div style={{ color: matchMode ? G.teal : 'rgba(228,221,208,0.45)', fontSize:15 }}>{matchMode ? '▲' : '▼'}</div>
           </div>
 
         </div>
@@ -1608,7 +1608,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
                 borderRadius: 8, padding: '4px 12px',
               }}>
                 <span style={{ fontSize: 12 }}>{catObj.icon}</span>
-                <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight: 700, fontSize: 12, color: '#0d2240', letterSpacing: '0.1px', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{catObj.labels[lang]}</span>
+                <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight: 700, fontSize: 12, color: '#e4ddd0', letterSpacing: '0.1px', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{catObj.labels[lang]}</span>
                 <span style={{ background: catObj.color, color: '#08111e', borderRadius: 5, padding: '1px 6px', fontSize: 10, fontWeight: 800, marginLeft: 2 }}>{catProfiles.length}</span>
               </div>
               <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}60, transparent)` }} />
@@ -1893,7 +1893,7 @@ function MatchPage({ lang, t }) {
                 <div key={p.id} className={`card fu${isSp ? ' glow' : ''}`}
                   style={{ padding: 0, overflow: 'hidden', position: 'relative', animationDelay: `${i * 0.04}s`,
                     borderColor: isSp ? 'rgba(251,146,60,0.4)' : G.border,
-                    background: isSp ? 'rgba(251,146,60,0.06)' : '#ffffff',
+                    background: isSp ? 'rgba(251,146,60,0.05)' : 'rgba(255,255,255,0.02)',
                     borderColor: isSp ? 'rgba(251,146,60,0.4)' : 'rgba(13,34,64,0.12)' }}>
                   {/* Cover top bar with soft fade */}
                   {(p.coverImage || isSp) && (
@@ -2051,12 +2051,12 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
                 </div>
 
                 {/* Name + city centered */}
-                <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:17, marginBottom:3, letterSpacing:'-0.1px', color:'#0d2240' }}>{sp.name}</div>
-                {sp.city && <div style={{ fontSize:11, color:'rgba(13,34,64,0.45)', marginBottom:12 }}>📍 {sp.city}</div>}
+                <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:17, marginBottom:3, letterSpacing:'-0.1px', color:'#e4ddd0' }}>{sp.name}</div>
+                {sp.city && <div style={{ fontSize:11, color:'rgba(228,221,208,0.45)', marginBottom:12 }}>📍 {sp.city}</div>}
 
                 {/* Description */}
                 {(sp.desc?.en || sp.desc?.sq) && (
-                  <div style={{ fontSize:12, color:'rgba(13,34,64,0.52)', lineHeight:1.6, marginBottom:14, textAlign:'center',
+                  <div style={{ fontSize:12, color:'rgba(228,221,208,0.52)', lineHeight:1.6, marginBottom:14, textAlign:'center',
                     display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical', overflow:'hidden' }}>
                     {sp.desc[lang]||sp.desc.en}
                   </div>
@@ -2234,7 +2234,7 @@ function ConciergePage({ lang, t, content = {} }) {
                 </div>
                 <div className="gp-name" style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:20, color:G.teal, marginBottom:2 }}>{P.rootsgtm_name||'rootsGTM'}</div>
                 <div className="gp-sub" style={{ fontSize:12, color:G.muted, marginBottom:14 }}>{lang==='sq'?'Partner i Përgjithshëm · Aktiv':'General Partner · Active'}</div>
-                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(13,34,64,0.75)', lineHeight:1.75, marginBottom:16 }}>
+                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(228,221,208,0.75)', lineHeight:1.75, marginBottom:16 }}>
                   {P.rootsgtm_desc||'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
                 </p>
                 <div className="partner-feat-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
@@ -2278,7 +2278,7 @@ function ConciergePage({ lang, t, content = {} }) {
                   {P.gov_name||(lang==='sq'?'Qeveria e Kosovës':'Kosova Government')}
                 </div>
                 <div className="gp-sub" style={{ fontSize:12, color:G.muted, marginBottom:14 }}>InvestKosova · {lang==='sq'?'Partner Zyrtar':'Official Partner'}</div>
-                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(13,34,64,0.75)', lineHeight:1.75, marginBottom:16 }}>
+                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(228,221,208,0.75)', lineHeight:1.75, marginBottom:16 }}>
                   {P.gov_desc||(lang==='sq'?'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë.':'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy.')}
                 </p>
                 <div className="partner-feat-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
@@ -2314,7 +2314,7 @@ function ConciergePage({ lang, t, content = {} }) {
                 <div style={{ fontSize: 11, color: G.muted, marginBottom: 13, fontStyle: 'italic' }}>{pkg.ideal}</div>
                 <div style={{ borderTop: `1px solid ${G.border}`, paddingTop: 10, marginBottom: 14 }}>
                   {pkg.inc.map(item => (
-                    <div key={item} style={{ display: 'flex', gap: 7, marginBottom: 6, fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(13,34,64,0.75)' }}>
+                    <div key={item} style={{ display: 'flex', gap: 7, marginBottom: 6, fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(228,221,208,0.75)' }}>
                       <span style={{ color: pkg.col, flexShrink: 0 }}>✓</span>{item}
                     </div>
                   ))}
@@ -2970,7 +2970,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
                 {sel && <div style={{ position: 'absolute', top: -1, left: -1, right: -1, height: 2, background: `linear-gradient(90deg,${opt.col},transparent)`, borderRadius: '12px 12px 0 0' }} />}
                 <div style={{ fontSize: 20, marginBottom: 5 }}>{opt.icon}</div>
                 <div style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: 12, color: sel ? opt.col : G.muted, marginBottom: 3 }}>{opt.label}</div>
-                <div style={{ fontSize: 10, color: 'rgba(13,34,64,0.45)', lineHeight: 1.4 }}>{opt.sub}</div>
+                <div style={{ fontSize: 10, color: 'rgba(228,221,208,0.45)', lineHeight: 1.4 }}>{opt.sub}</div>
                 {opt.val === 'sponsored' && <div style={{ fontSize: 9, color: G.orange, marginTop: 5, fontWeight: 700 }}>→ {lang==='sq'?'Admin do ju kontaktojë':'Admin will contact you'}</div>}
               </div>
             )
@@ -4382,10 +4382,10 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
       {/* ── EDIT MODAL — modern card layout ───────────────────────────── */}
       {editProfile && (
         <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.9)', zIndex:300, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={e => e.target===e.currentTarget && setEditProfile(null)}>
-          <div style={{ background:'#f5f2eb', border:`1px solid ${G.goldBorder}`, borderRadius:20, width:'100%', maxWidth:680, maxHeight:'92vh', overflowY:'auto', display:'flex', flexDirection:'column' }}>
+          <div style={{ background:'#0a1828', border:`1px solid ${G.goldBorder}`, borderRadius:20, width:'100%', maxWidth:680, maxHeight:'92vh', overflowY:'auto', display:'flex', flexDirection:'column' }}>
 
             {/* Modal header */}
-            <div style={{ padding:'22px 28px 18px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, background:'#f5f2eb', zIndex:1 }}>
+            <div style={{ padding:'22px 28px 18px', borderBottom:`1px solid ${G.border}`, display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, background:'#0a1828', zIndex:1 }}>
               <div>
                 <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:20 }}>✏️ Edit Profile</div>
                 <div style={{ fontSize:12, color:G.muted, marginTop:2 }}>{editProfile.name} · Changes go live immediately</div>
@@ -4553,7 +4553,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
               </div>
 
             {/* Sticky footer */}
-            <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#f5f2eb' }}>
+            <div style={{ padding:'16px 28px', borderTop:`1px solid ${G.border}`, display:'flex', gap:12, position:'sticky', bottom:0, background:'#0a1828' }}>
               <button className="btn gbtn" style={{ flex:1, padding:'12px', fontSize:14, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }} onClick={saveEdit} disabled={saving}>
                 {saving ? <><div style={{width:13,height:13,border:'2px solid rgba(0,0,0,0.25)',borderTopColor:G.bg,borderRadius:'50%'}} className="sp" />Saving…</> : '💾 Save changes'}
               </button>
@@ -4673,17 +4673,17 @@ export default function App() {
         </div>
       </nav>
       {mobileNav && (
-        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#f5f2eb', borderBottom:'2px solid rgba(13,34,64,0.12)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4, boxShadow:'0 8px 24px rgba(13,34,64,0.10)' }}>
+        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#0a1828', borderBottom:'2px solid rgba(13,34,64,0.12)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4, boxShadow:'0 8px 24px rgba(13,34,64,0.10)' }}>
           {[['home',t.navHome,'🏠'],['directory',t.navDir,'🏢'],['concierge',t.navConcierge,'🤝'],['gov',t.navGov,'🏛️']].map(([pg,l,ic]) => (
             <button key={pg} onClick={() => { setPage(pg); setMobileNav(false) }}
-              style={{ background: page===pg?'rgba(138,100,16,0.10)':'transparent', color: page===pg?'#8a6410':'rgba(13,34,64,0.80)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'Raleway',sans-serif", fontSize:14, fontWeight:600, letterSpacing:'0.4px', textTransform:'uppercase', display:'flex', alignItems:'center', gap:10, width:'100%' }}>
+              style={{ background: page===pg?'rgba(138,100,16,0.10)':'transparent', color: page===pg?'#8a6410':'rgba(228,221,208,0.80)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'Raleway',sans-serif", fontSize:14, fontWeight:600, letterSpacing:'0.4px', textTransform:'uppercase', display:'flex', alignItems:'center', gap:10, width:'100%' }}>
               <span>{ic}</span>{l}
             </button>
           ))}
           <div style={{ borderTop:'1px solid rgba(13,34,64,0.12)', marginTop:8, paddingTop:12, display:'flex', gap:6 }}>
             {['en','sq'].map(l => (
               <button key={l} onClick={() => { setLang(l) }}
-                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(138,100,16,0.12)':'rgba(13,34,64,0.04)', color: lang===l?'#8a6410':'rgba(13,34,64,0.55)', border:'1px solid '+(lang===l?'rgba(138,100,16,0.25)':'rgba(13,34,64,0.14)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
+                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(138,100,16,0.12)':'rgba(13,34,64,0.04)', color: lang===l?'#8a6410':'rgba(228,221,208,0.55)', border:'1px solid '+(lang===l?'rgba(201,164,74,0.28)':'rgba(255,255,255,0.10)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
                 {FLAGS[l]} {l.toUpperCase()}
               </button>
             ))}
@@ -4730,7 +4730,7 @@ export default function App() {
               </div>
               <div style={{ display:'flex', justifyContent:'center', gap:8, flexWrap:'wrap' }}>
                 {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'✓ Regjistrimet e verifikuara':'✓ Verified Listings', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network'].map(tag => (
-                  <span key={tag} style={{ fontSize:11, color:'rgba(13,34,64,0.4)', background:'#ffffff', border:'1px solid rgba(13,34,64,0.12)', borderRadius:20, padding:'4px 14px', fontFamily:"'Inter',sans-serif" }}>{tag}</span>
+                  <span key={tag} style={{ fontSize:11, color:'rgba(13,34,64,0.4)', background:'#ffffff', border:'1px solid rgba(180,160,100,0.14)', borderRadius:20, padding:'4px 14px', fontFamily:"'Inter',sans-serif" }}>{tag}</span>
                 ))}
               </div>
             </div>
@@ -4782,7 +4782,7 @@ export default function App() {
                     return (
                     <div key={p.id} style={{
                       borderRadius:20, overflow:'hidden', position:'relative', cursor:'pointer',
-                      background: hexToRgba(sColor, 0.06),
+                      background: hexToRgba(sColor, 0.05),
                       border: `1px solid ${hexToRgba(sColor, 0.28)}`,
                       boxShadow:'0 6px 32px rgba(0,0,0,0.28)',
                       transition:'all 0.25s cubic-bezier(0.4,0,0.2,1)',
@@ -4818,7 +4818,7 @@ export default function App() {
                             </div>
                           </div>
                         </div>
-                        <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(13,34,64,0.65)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
+                        <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(228,221,208,0.65)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
                         {(p.tags||[]).length>0 && (
                           <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:16 }}>
                             {p.tags.slice(0,4).map(tg=><span key={tg} style={{ fontSize:10, background:hexToRgba(sColor,0.10), color:sColor, border:`1px solid ${hexToRgba(sColor,0.22)}`, borderRadius:20, padding:'3px 9px', fontWeight:600 }}>{tg}</span>)}
@@ -4894,7 +4894,7 @@ export default function App() {
                           </div>
                         </div>
                         <div style={{ padding:'0 10px 12px' }}>
-                          <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color:'#0d2240', lineHeight:1.2, marginBottom:2 }}>{p.name}</div>
+                          <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color:'#e4ddd0', lineHeight:1.2, marginBottom:2 }}>{p.name}</div>
                           {p.city && <div style={{ fontSize:10, color:'rgba(13,34,64,0.38)' }}>📍 {p.city}</div>}
                         </div>
                       </div>
@@ -5061,11 +5061,11 @@ export default function App() {
       <footer style={{ 
         background: 'rgba(6,11,22,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
         borderTop: '1px solid rgba(13,34,64,0.10)', padding: '22px 44px',
-        fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(13,34,64,0.75)'
+        fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(228,221,208,0.75)'
       }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, marginBottom:14 }}>
           <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-            <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:13, color:'#0d2240' }}>Kosova Hub</span>
+            <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:13, color:'#e4ddd0' }}>Kosova Hub</span>
             <span style={{ fontSize:10, background:'rgba(201,164,74,0.18)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:20, padding:'1px 8px', fontWeight:600 }}>B2B</span>
           </div>
           <div style={{ display: 'flex', gap: 16, alignItems:'center', color:'rgba(13,34,64,0.72)' }}>
@@ -5077,10 +5077,10 @@ export default function App() {
           </div>
         </div>
         <div style={{ borderTop:'1px solid rgba(255,255,255,0.10)', paddingTop:12, display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
-          <div style={{ color:'rgba(13,34,64,0.65)' }}>{t.footer}</div>
+          <div style={{ color:'rgba(228,221,208,0.65)' }}>{t.footer}</div>
           <div style={{ display:'flex', gap:18 }}>
             {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network', lang==='sq'?'🔐 Verifikim admin':'🔐 Admin Verified'].map(tag => (
-              <span key={tag} style={{ fontSize:11, color:'rgba(13,34,64,0.55)' }}>{tag}</span>
+              <span key={tag} style={{ fontSize:11, color:'rgba(228,221,208,0.55)' }}>{tag}</span>
             ))}
           </div>
         </div>
