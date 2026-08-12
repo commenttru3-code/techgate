@@ -411,25 +411,25 @@ body{background:#050d1b;margin:0;-webkit-font-smoothing:antialiased;}
 .gbtn{background:linear-gradient(135deg,#8a6410 0%,#6b4e0e 100%);color:#ffffff;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;}
 .gbtn:hover{background:#e5ba55;transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,164,74,0.32);}
 .gbtn:disabled{opacity:0.38;cursor:not-allowed;transform:none !important;box-shadow:none;}
-.ghost{background:transparent;color:rgba(237,231,217,0.5);padding:9px 16px;font-size:13px;border:1px solid rgba(255,255,255,0.09);font-weight:500;}
-.ghost:hover{color:#ede7d9;border-color:rgba(201,164,74,0.35);background:rgba(201,164,74,0.04);}
+.ghost{background:transparent;color:rgba(13,34,64,0.5);padding:9px 16px;font-size:13px;border:1px solid rgba(255,255,255,0.09);font-weight:500;}
+.ghost:hover{color:#0d2240;border-color:rgba(201,164,74,0.35);background:rgba(201,164,74,0.04);}
 .teal-btn{background:linear-gradient(135deg,#1e4080 0%,#0f2a5e 100%);color:white;padding:10px 22px;font-family:'Raleway',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.5px;}
 .teal-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(61,111,168,0.28);}
 .card{background:rgba(255,255,255,0.02);border:1px solid rgba(180,160,100,0.12);border-radius:12px;transition:all 0.24s cubic-bezier(0.4,0,0.2,1);}
 .card:hover{background:rgba(13,34,64,0.04);border-color:rgba(201,164,74,0.38);transform:translateY(-3px);box-shadow:0 18px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,164,74,0.10);}
 .inp{background:#ffffff;border:1px solid rgba(13,34,64,0.18);border-radius:6px;padding:10px 13px;color:#0d2240;font-size:14px;outline:none;width:100%;font-family:'Inter',sans-serif;transition:border-color 0.18s,box-shadow 0.18s,background 0.18s;}
 .inp:focus{border-color:#c9a44a;box-shadow:0 0 0 3px rgba(201,164,74,0.09);background:rgba(255,255,255,0.07);}
-.inp::placeholder{color:rgba(237,231,217,0.26);}
+.inp::placeholder{color:rgba(13,34,64,0.26);}
 .inp:hover:not(:focus){border-color:rgba(255,255,255,0.18);}
 select.inp{cursor:pointer;}
 textarea.inp{line-height:1.6;}
-.navl{background:transparent;color:rgba(237,231,217,0.92);padding:7px 13px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;border:none;cursor:pointer;border-radius:5px;transition:all 0.16s;}
+.navl{background:transparent;color:rgba(13,34,64,0.92);padding:7px 13px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;border:none;cursor:pointer;border-radius:5px;transition:all 0.16s;}
 .navl:hover{color:#c9a44a;background:rgba(201,164,74,0.10);}
 .navl.on{color:#c9a44a;background:rgba(201,164,74,0.14);border-bottom:2px solid #c9a44a;}
 .tag{display:inline-block;background:rgba(30,64,128,0.08);color:#1e4080;border:1px solid rgba(30,64,128,0.18);border-radius:5px;padding:2px 7px;font-size:11px;transition:all 0.16s;}
 .modal-bg{position:fixed;inset:0;background:rgba(13,34,64,0.70);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(12px);}
 .modal{background:#0a1828;border:1px solid rgba(201,164,74,0.22);border-radius:18px;padding:28px 24px;max-width:500px;width:100%;max-height:92vh;overflow-y:auto;}
-.flabel{display:block;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;color:rgba(237,231,217,0.50);margin-bottom:5px;letter-spacing:1.2px;text-transform:uppercase;}
+.flabel{display:block;font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;color:rgba(13,34,64,0.50);margin-bottom:5px;letter-spacing:1.2px;text-transform:uppercase;}
 .sp-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#c9a44a,#e8cc8a,rgba(201,164,74,0.3));}
 .pr-bar{height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#c9a44a,#fde68a);}
 .sector-pills-mobile{display:none;}
@@ -515,7 +515,7 @@ function Stars({ r }) {
   return (
     <span style={{ color: G.gold, fontSize: 12 }}>
       {'★'.repeat(Math.round(r))}
-      <span style={{ color: 'rgba(237,231,217,0.14)' }}>{'★'.repeat(5 - Math.round(r))}</span>
+      <span style={{ color: 'rgba(13,34,64,0.14)' }}>{'★'.repeat(5 - Math.round(r))}</span>
     </span>
   )
 }
@@ -624,7 +624,7 @@ function ConnectionLines() {
         <animate attributeName="r" values="15;30;15" dur="3s" begin="0.6s" repeatCount="indefinite"/>
       </circle>
       <circle cx={K.x} cy={K.y} r="6" fill="#c9a44a" opacity="0.90"/>
-      <circle cx={K.x} cy={K.y} r="2.5" fill="#ede7d9"/>
+      <circle cx={K.x} cy={K.y} r="2.5" fill="#0d2240"/>
 
       {routes.map((r, i) => {
         // Control point arcs above the straight line for a natural globe arc
@@ -789,7 +789,7 @@ function CoverCropPicker({ image, onApply, accentColor = '#c9a44a' }) {
 
   return (
     <div style={{ marginTop: 10 }}>
-      <div style={{ fontSize: 10, color: 'rgba(237,231,217,0.55)', marginBottom: 8, fontFamily: "'Inter',sans-serif" }}>
+      <div style={{ fontSize: 10, color: 'rgba(13,34,64,0.55)', marginBottom: 8, fontFamily: "'Inter',sans-serif" }}>
         🖱 Drag to reposition · Slider to zoom · Click Apply to confirm
       </div>
       {/* Drag area — 3:1 preview */}
@@ -816,7 +816,7 @@ function CoverCropPicker({ image, onApply, accentColor = '#c9a44a' }) {
       </div>
       {/* Zoom slider */}
       <div style={{ display:'flex', alignItems:'center', gap:8, marginTop:8 }}>
-        <span style={{ fontSize:10, color:'rgba(237,231,217,0.45)', flexShrink:0 }}>Zoom</span>
+        <span style={{ fontSize:10, color:'rgba(13,34,64,0.45)', flexShrink:0 }}>Zoom</span>
         <input type="range" min="1" max="3" step="0.05" value={zoom}
           onChange={e => setZoom(parseFloat(e.target.value))}
           style={{ flex:1, accentColor }} />
@@ -837,7 +837,7 @@ function CoverFocusPicker({ image, focus, onChange, accentColor = '#c9a44a' }) {
   if (!image) return null
   return (
     <div style={{ marginTop: 8 }}>
-      <div style={{ fontSize: 10, color: 'rgba(237,231,217,0.5)', marginBottom: 6, fontFamily: "'Inter',sans-serif" }}>
+      <div style={{ fontSize: 10, color: 'rgba(13,34,64,0.5)', marginBottom: 6, fontFamily: "'Inter',sans-serif" }}>
         Click to choose which part of the image to show:
       </div>
       <div style={{ position: 'relative', width: '100%', maxWidth: 240, borderRadius: 9, overflow: 'hidden', border: `1px solid ${accentColor}40` }}>
@@ -914,7 +914,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
             {/* ── NAME + META — below logo ── */}
             <div style={{ marginTop:10 }}>
               <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:'clamp(17px,4vw,23px)', letterSpacing:'-0.1px', lineHeight:1.1, marginBottom:4 }}>{p.name}</div>
-              <div style={{ fontSize:11, color:'rgba(237,231,217,0.55)', display:'flex', gap:7, flexWrap:'wrap', marginBottom:10 }}>
+              <div style={{ fontSize:11, color:'rgba(13,34,64,0.55)', display:'flex', gap:7, flexWrap:'wrap', marginBottom:10 }}>
                 {p.city && <span>📍 {p.city}</span>}
                 {p.cat && <span>· {catLabel(p.cat, lang)}</span>}
                 {isFL && p.languages && <span>· 🗣 {p.languages}</span>}
@@ -935,7 +935,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
               </div>
             )}
             {(p.desc?.[lang]||p.desc?.en) && (
-              <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(237,231,217,0.82)', lineHeight:1.7, marginBottom:14 }}>{p.desc[lang]||p.desc.en}</p>
+              <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(13,34,64,0.82)', lineHeight:1.7, marginBottom:14 }}>{p.desc[lang]||p.desc.en}</p>
             )}
             {(p.tags||[]).length>0 && (
               <div style={{ marginBottom:13 }}>
@@ -955,9 +955,9 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
                 <div style={{ fontSize:11, fontWeight:600 }}>💼 {t.rateNote}</div>
               </div>
             </div>
-            {p.prevCompanies && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Previous clients</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(237,231,217,0.8)' }}>🏢 {p.prevCompanies}</div></div>}
-            {p.featuredProject && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Featured project</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(237,231,217,0.8)' }}>🎯 {p.featuredProject}</div></div>}
-            {p.certifications && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Certifications & Awards</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(237,231,217,0.8)' }}>🏅 {p.certifications}</div></div>}
+            {p.prevCompanies && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Previous clients</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(13,34,64,0.8)' }}>🏢 {p.prevCompanies}</div></div>}
+            {p.featuredProject && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Featured project</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(13,34,64,0.8)' }}>🎯 {p.featuredProject}</div></div>}
+            {p.certifications && <div style={{ marginBottom:11 }}><div style={{ fontSize:9, color:'rgba(251,146,60,0.65)', marginBottom:5, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px' }}>Certifications & Awards</div><div style={{ background:'rgba(251,146,60,0.04)', border:'1px solid rgba(251,146,60,0.14)', borderRadius:8, padding:'9px 11px', fontSize:12, color:'rgba(13,34,64,0.8)' }}>🏅 {p.certifications}</div></div>}
             {(p.linkedin||p.github) && (
               <div style={{ display:'flex', gap:7, marginBottom:11, flexWrap:'wrap' }}>
                 {p.linkedin && <a href={`https://${p.linkedin.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ display:'flex', alignItems:'center', gap:5, padding:'6px 12px', background:'rgba(251,146,60,0.06)', border:'1px solid rgba(251,146,60,0.2)', borderRadius:8, color:'#c9943a', textDecoration:'none', fontSize:11, fontWeight:600 }}>in LinkedIn ↗</a>}
@@ -1009,7 +1009,7 @@ function ProfileDetailModal({ p, lang, t, onClose, onContact }) {
             </div>
             {!p.coverImage && <button onClick={onClose} style={{ background:'rgba(13,34,64,0.05)', border:`1px solid ${G.border}`, borderRadius:8, width:32, height:32, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', color:G.text, fontSize:16, flexShrink:0 }}>✕</button>}
           </div>
-          {(p.desc?.[lang]||p.desc?.en) && <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(237,231,217,0.78)', lineHeight:1.75, marginBottom:16 }}>{p.desc[lang]||p.desc.en}</p>}
+          {(p.desc?.[lang]||p.desc?.en) && <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(13,34,64,0.78)', lineHeight:1.75, marginBottom:16 }}>{p.desc[lang]||p.desc.en}</p>}
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:9, marginBottom:16 }}>
             {p.cat && !isPartner && <div style={{ background:'#ffffff', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Sector</div><div style={{ fontSize:12, fontWeight:600 }}>{catLabel(p.cat,lang)}</div></div>}
             {isFL && p.languages && <div style={{ background:'#ffffff', border:`1px solid ${G.border}`, borderRadius:9, padding:'9px 13px' }}><div style={{ fontSize:10, color:G.muted, marginBottom:2, textTransform:'uppercase', letterSpacing:'0.5px' }}>Languages</div><div style={{ fontSize:12, fontWeight:600 }}>🗣 {p.languages}</div></div>}
@@ -1227,7 +1227,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
               <div style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 800, fontSize: isSp ? 15 : 13, marginBottom: 2,
                 color: hov ? (isSp ? '#c9943a' : G.gold) : G.text, transition: 'color 0.18s',
                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-              <div style={{ fontSize: 10, color: 'rgba(237,231,217,0.6)' }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
+              <div style={{ fontSize: 10, color: 'rgba(13,34,64,0.6)' }}>📍 {p.city} · {catLabel(p.cat, lang)}</div>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'flex-end', flexShrink: 0, marginLeft: 8 }}>
@@ -1260,7 +1260,7 @@ function ProfileCard({ p, lang, t, rank, onContact, onUpgrade, onTagClick, onSel
         <div style={{ fontSize: 11, color: G.muted, marginBottom: 7, fontFamily: "'Inter',sans-serif" }}>
           {isFL ? `🗣 ${p.languages}` : `👥 ${p.employees}`}
         </div>
-        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(237,231,217,0.6)', lineHeight: 1.6, marginBottom: 10 }}>
+        <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(13,34,64,0.6)', lineHeight: 1.6, marginBottom: 10 }}>
           {(p.desc?.[lang]||p.desc?.en||'').slice(0, isSp?115:90)}{((p.desc?.[lang]||p.desc?.en||'').length>(isSp?115:90))?'…':''}
         </p>
         {(p.tags||[]).length > 0 && (
@@ -1333,14 +1333,14 @@ function SkillMatchPanel({ lang, cat, G, dbProfiles, matchSkills, setMatchSkills
     <div>
       <div style={{ fontSize:11, color:G.teal, fontWeight:700, letterSpacing:'0.6px', textTransform:'uppercase', marginBottom:10 }}>
         {lang==='sq'?'Zgjidh aftësitë':'Select skills'}
-        {cat !== 'all' && <span style={{ color:'rgba(237,231,217,0.6)', fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
+        {cat !== 'all' && <span style={{ color:'rgba(13,34,64,0.6)', fontWeight:400, marginLeft:6, textTransform:'none' }}>· {(CATS.find(c2=>c2.id===cat)||{}).labels[lang]}</span>}
       </div>
       <div style={{ display:'flex', flexWrap:'wrap', gap:5, maxHeight:120, overflowY:'auto' }}>
         {skillList.map(s => (
           <button key={s} onClick={() => toggleSkill(s)} className="btn"
             style={{ padding:'5px 12px', fontSize:11, fontWeight:matchSkills.includes(s)?700:500, borderRadius:14,
               background:matchSkills.includes(s)?'rgba(61,111,168,0.18)':'rgba(13,34,64,0.08)',
-              color:matchSkills.includes(s)?G.teal:'rgba(237,231,217,0.78)',
+              color:matchSkills.includes(s)?G.teal:'rgba(13,34,64,0.78)',
               border:'1px solid '+(matchSkills.includes(s)?'rgba(61,111,168,0.45)':'rgba(255,255,255,0.14)') }}>
             {matchSkills.includes(s)?'✓ ':''}{s}
           </button>
@@ -1457,11 +1457,11 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {/* ── PROFILE TYPE — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
           <div className="sector-pills-desktop" style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
-            <span style={{ fontSize:10, color:'rgba(237,231,217,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Raleway',sans-serif", marginRight:2 }}>{lang==='sq'?'Lloji':'Type'}</span>
+            <span style={{ fontSize:10, color:'rgba(13,34,64,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Raleway',sans-serif", marginRight:2 }}>{lang==='sq'?'Lloji':'Type'}</span>
             {[['all', t.allTypes], ['company', t.onlyComp], ['freelancer', t.onlyFL]].map(([v, l]) => (
               <button key={v} onClick={() => setTypeF(v)} className="btn" style={{ padding:'5px 13px', fontSize:12, fontWeight:600, borderRadius:9,
                 background: typeF===v ? G.goldDim : 'rgba(255,255,255,0.07)',
-                color: typeF===v ? G.gold : 'rgba(237,231,217,0.72)',
+                color: typeF===v ? G.gold : 'rgba(13,34,64,0.72)',
                 border:`1px solid ${typeF===v ? G.goldBorder : 'rgba(255,255,255,0.11)'}` }}>{l}</button>
             ))}
           </div>
@@ -1470,17 +1470,17 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
             <div onClick={() => setTypeOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: typeF!=='all' ? 'rgba(201,164,74,0.12)' : 'rgba(13,34,64,0.04)' }}>
               <span style={{ fontSize:13 }}>👥</span>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color: typeF!=='all' ? G.gold : 'rgba(237,231,217,0.85)' }}>{lang==='sq'?'Lloji i profilit':'Profile type'}</div>
-                <div style={{ fontSize:10, color:'rgba(237,231,217,0.45)' }}>{typeF==='all' ? (lang==='sq'?'Të gjithë':'All') : typeF==='company' ? t.onlyComp : t.onlyFL}</div>
+                <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color: typeF!=='all' ? G.gold : 'rgba(13,34,64,0.85)' }}>{lang==='sq'?'Lloji i profilit':'Profile type'}</div>
+                <div style={{ fontSize:10, color:'rgba(13,34,64,0.45)' }}>{typeF==='all' ? (lang==='sq'?'Të gjithë':'All') : typeF==='company' ? t.onlyComp : t.onlyFL}</div>
               </div>
-              {typeF!=='all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(13,34,64,0.08)', border:'none', borderRadius:4, color:'rgba(237,231,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
-              <span style={{ color:'rgba(237,231,217,0.4)', fontSize:12 }}>{typeOpen?'▲':'▼'}</span>
+              {typeF!=='all' && <button onClick={e=>{e.stopPropagation();setTypeF('all')}} style={{ background:'rgba(13,34,64,0.08)', border:'none', borderRadius:4, color:'rgba(13,34,64,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
+              <span style={{ color:'rgba(13,34,64,0.4)', fontSize:12 }}>{typeOpen?'▲':'▼'}</span>
             </div>
             {typeOpen && (
-              <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)', display:'flex', gap:6 }}>
+              <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(13,34,64,0.10)', background:'rgba(0,0,0,0.2)', display:'flex', gap:6 }}>
                 {[['all',t.allTypes],['company',t.onlyComp],['freelancer',t.onlyFL]].map(([v,l]) => (
                   <button key={v} onClick={()=>{setTypeF(v);setTypeOpen(false)}} className="btn" style={{ padding:'6px 12px', fontSize:11, fontWeight:600, borderRadius:8,
-                    background:typeF===v?G.goldDim:'rgba(255,255,255,0.07)', color:typeF===v?G.gold:'rgba(237,231,217,0.75)',
+                    background:typeF===v?G.goldDim:'rgba(255,255,255,0.07)', color:typeF===v?G.gold:'rgba(13,34,64,0.75)',
                     border:`1px solid ${typeF===v?G.goldBorder:'rgba(255,255,255,0.11)'}`}}>{l}</button>
                 ))}
               </div>
@@ -1493,14 +1493,14 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
           {/* ── SECTOR — desktop: pills row, mobile: expandable bar ── */}
           {/* DESKTOP */}
           <div className="sector-pills-desktop" style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
-            <span style={{ fontSize:10, color:'rgba(237,231,217,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Raleway',sans-serif", marginRight:2 }}>{lang==='sq'?'Sektori':'Sector'}</span>
+            <span style={{ fontSize:10, color:'rgba(13,34,64,0.45)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.7px', fontFamily:"'Raleway',sans-serif", marginRight:2 }}>{lang==='sq'?'Sektori':'Sector'}</span>
             <button onClick={() => setCat('all')} className="btn" style={{ padding:'5px 12px', fontSize:11, fontWeight:700, borderRadius:20,
-              background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#050d1b':'rgba(237,231,217,0.72)',
+              background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#050d1b':'rgba(13,34,64,0.72)',
               border:`1px solid ${cat==='all'?'#c9a44a':'rgba(255,255,255,0.11)'}`,
               boxShadow:cat==='all'?'0 3px 12px rgba(201,164,74,0.38)':'none' }}>{t.allCats}</button>
             {CATS.map(c => (
               <button key={c.id} onClick={() => setCat(c.id)} className="btn" style={{ padding:'5px 12px', fontSize:11, fontWeight:700, borderRadius:20,
-                background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#050d1b':'rgba(237,231,217,0.72)',
+                background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#050d1b':'rgba(13,34,64,0.72)',
                 border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`,
                 boxShadow:cat===c.id?`0 3px 12px ${c.color}44`:'none',
                 transition:'all 0.18s' }}>
@@ -1516,18 +1516,18 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
                 <div onClick={() => setSectorOpen(v => !v)} style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 12px', cursor:'pointer', background: cat!=='all'?`${ac?.color}12`:'rgba(13,34,64,0.04)' }}>
                   <span style={{ fontSize:13 }}>{cat!=='all'?ac?.icon:'🏭'}</span>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color:cat!=='all'?ac?.color:'rgba(237,231,217,0.85)' }}>{lang==='sq'?'Sektori':'Sector'}</div>
-                    <div style={{ fontSize:10, color:'rgba(237,231,217,0.45)' }}>{cat==='all'?(lang==='sq'?'Të gjithë':'All sectors'):ac?.labels[lang]}</div>
+                    <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color:cat!=='all'?ac?.color:'rgba(13,34,64,0.85)' }}>{lang==='sq'?'Sektori':'Sector'}</div>
+                    <div style={{ fontSize:10, color:'rgba(13,34,64,0.45)' }}>{cat==='all'?(lang==='sq'?'Të gjithë':'All sectors'):ac?.labels[lang]}</div>
                   </div>
-                  {cat!=='all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(13,34,64,0.08)', border:'none', borderRadius:4, color:'rgba(237,231,217,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
-                  <span style={{ color:'rgba(237,231,217,0.4)', fontSize:12 }}>{sectorOpen?'▲':'▼'}</span>
+                  {cat!=='all' && <button onClick={e=>{e.stopPropagation();setCat('all')}} style={{ background:'rgba(13,34,64,0.08)', border:'none', borderRadius:4, color:'rgba(13,34,64,0.7)', fontSize:10, padding:'2px 6px', cursor:'pointer' }}>✕</button>}
+                  <span style={{ color:'rgba(13,34,64,0.4)', fontSize:12 }}>{sectorOpen?'▲':'▼'}</span>
                 </div>
                 {sectorOpen && (
-                  <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)', display:'flex', gap:5, flexWrap:'wrap' }}>
-                    <button onClick={()=>{setCat('all');setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20, background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#050d1b':'rgba(237,231,217,0.75)', border:`1px solid ${cat==='all'?'#c9a44a':'rgba(255,255,255,0.11)'}`}}>{t.allCats}</button>
+                  <div style={{ padding:'8px 12px', borderTop:'1px solid rgba(13,34,64,0.10)', background:'rgba(0,0,0,0.2)', display:'flex', gap:5, flexWrap:'wrap' }}>
+                    <button onClick={()=>{setCat('all');setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20, background:cat==='all'?'#c9a44a':'rgba(255,255,255,0.07)', color:cat==='all'?'#050d1b':'rgba(13,34,64,0.75)', border:`1px solid ${cat==='all'?'#c9a44a':'rgba(255,255,255,0.11)'}`}}>{t.allCats}</button>
                     {CATS.map(c => (
                       <button key={c.id} onClick={()=>{setCat(c.id);setSectorOpen(false)}} className="btn" style={{ padding:'5px 11px', fontSize:11, fontWeight:700, borderRadius:20,
-                        background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#050d1b':'rgba(237,231,217,0.75)', border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`}}>
+                        background:cat===c.id?c.color:'rgba(255,255,255,0.07)', color:cat===c.id?'#050d1b':'rgba(13,34,64,0.75)', border:`1px solid ${cat===c.id?c.color:'rgba(255,255,255,0.11)'}`}}>
                         {c.icon} {c.labels[lang]}
                       </button>
                     ))}
@@ -1548,17 +1548,17 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
               {matchMode ? '✓' : '🔎'}
             </div>
             <div style={{ flex:1 }}>
-              <div className="match-filter-label" style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:13, color: matchMode ? G.teal : 'rgba(237,231,217,0.85)' }}>
+              <div className="match-filter-label" style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:13, color: matchMode ? G.teal : 'rgba(13,34,64,0.85)' }}>
                 Match Filter
               </div>
-              <div className="match-filter-sub" style={{ fontSize:10, color:'rgba(237,231,217,0.48)', marginTop:1 }}>
+              <div className="match-filter-sub" style={{ fontSize:10, color:'rgba(13,34,64,0.48)', marginTop:1 }}>
                 {matchSkills.length > 0 ? `${matchSkills.length} skill${matchSkills.length>1?'s':''} active` : (lang==='sq'?'Kërko sipas aftësive':'Filter by skills')}
               </div>
             </div>
             {matchSkills.length > 0 && (
               <button onClick={e=>{e.stopPropagation();setMatchSkills([])}} style={{ background:'rgba(61,111,168,0.12)', border:'1px solid rgba(61,111,168,0.35)', borderRadius:5, color:G.teal, fontSize:11, padding:'2px 7px', cursor:'pointer', fontWeight:600 }}>✕ Clear</button>
             )}
-            <div style={{ color: matchMode ? G.teal : 'rgba(237,231,217,0.45)', fontSize:15 }}>{matchMode ? '▲' : '▼'}</div>
+            <div style={{ color: matchMode ? G.teal : 'rgba(13,34,64,0.45)', fontSize:15 }}>{matchMode ? '▲' : '▼'}</div>
           </div>
 
         </div>
@@ -1608,7 +1608,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
                 borderRadius: 8, padding: '4px 12px',
               }}>
                 <span style={{ fontSize: 12 }}>{catObj.icon}</span>
-                <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight: 700, fontSize: 12, color: '#ffffff', letterSpacing: '0.1px', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{catObj.labels[lang]}</span>
+                <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight: 700, fontSize: 12, color: '#0d2240', letterSpacing: '0.1px', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>{catObj.labels[lang]}</span>
                 <span style={{ background: catObj.color, color: '#08111e', borderRadius: 5, padding: '1px 6px', fontSize: 10, fontWeight: 800, marginLeft: 2 }}>{catProfiles.length}</span>
               </div>
               <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${catObj.color}60, transparent)` }} />
@@ -1830,7 +1830,7 @@ function MatchPage({ lang, t }) {
                 {currentSkills.map(s => {
                   const on = skills.includes(s)
                   return (
-                    <button key={s} onClick={() => toggleSkill(s)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: on ? 700 : 500, borderRadius: 18, background: on ? 'rgba(61,111,168,0.15)' : 'rgba(13,34,64,0.04)', color: on ? G.teal : G.muted, border: `1px solid ${on ? 'rgba(61,111,168,0.45)' : 'rgba(255,255,255,0.07)'}` }}>
+                    <button key={s} onClick={() => toggleSkill(s)} className="btn" style={{ padding: '6px 13px', fontSize: 12, fontWeight: on ? 700 : 500, borderRadius: 18, background: on ? 'rgba(30,64,128,0.12)' : 'rgba(13,34,64,0.04)', color: on ? G.teal : G.muted, border: `1px solid ${on ? 'rgba(61,111,168,0.45)' : 'rgba(255,255,255,0.07)'}` }}>
                       {on && '✓ '}{s}
                     </button>
                   )
@@ -2051,12 +2051,12 @@ function PartnerCards({ lang, profiles, G, t, onBook }) {
                 </div>
 
                 {/* Name + city centered */}
-                <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:17, marginBottom:3, letterSpacing:'-0.1px', color:'#f0ece3' }}>{sp.name}</div>
-                {sp.city && <div style={{ fontSize:11, color:'rgba(237,231,217,0.45)', marginBottom:12 }}>📍 {sp.city}</div>}
+                <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:17, marginBottom:3, letterSpacing:'-0.1px', color:'#0d2240' }}>{sp.name}</div>
+                {sp.city && <div style={{ fontSize:11, color:'rgba(13,34,64,0.45)', marginBottom:12 }}>📍 {sp.city}</div>}
 
                 {/* Description */}
                 {(sp.desc?.en || sp.desc?.sq) && (
-                  <div style={{ fontSize:12, color:'rgba(237,231,217,0.52)', lineHeight:1.6, marginBottom:14, textAlign:'center',
+                  <div style={{ fontSize:12, color:'rgba(13,34,64,0.52)', lineHeight:1.6, marginBottom:14, textAlign:'center',
                     display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical', overflow:'hidden' }}>
                     {sp.desc[lang]||sp.desc.en}
                   </div>
@@ -2234,12 +2234,12 @@ function ConciergePage({ lang, t, content = {} }) {
                 </div>
                 <div className="gp-name" style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:20, color:G.teal, marginBottom:2 }}>{P.rootsgtm_name||'rootsGTM'}</div>
                 <div className="gp-sub" style={{ fontSize:12, color:G.muted, marginBottom:14 }}>{lang==='sq'?'Partner i Përgjithshëm · Aktiv':'General Partner · Active'}</div>
-                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(237,231,217,0.75)', lineHeight:1.75, marginBottom:16 }}>
+                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(13,34,64,0.75)', lineHeight:1.75, marginBottom:16 }}>
                   {P.rootsgtm_desc||'rootsGTM is our exclusive sales network for EU–Kosova connections.'}
                 </p>
                 <div className="partner-feat-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
                   {(lang==='sq'?['🤝 Kontakt direkt','📅 Organizim takimesh','🎤 Evente & Rrjet','📄 Vijim & Kontrata']:['🤝 Direct client contact','📅 Meeting organisation','🎤 Events & networking','📄 Follow-up & contracts']).map(f=>(
-                    <div key={f} className="partner-feat-item" style={{ background:'rgba(61,111,168,0.06)', border:'1px solid rgba(61,111,168,0.15)', borderRadius:8, padding:'10px 12px', fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(237,231,217,0.8)' }}>{f}</div>
+                    <div key={f} className="partner-feat-item" style={{ background:'rgba(61,111,168,0.06)', border:'1px solid rgba(61,111,168,0.15)', borderRadius:8, padding:'10px 12px', fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(13,34,64,0.8)' }}>{f}</div>
                   ))}
                 </div>
                 <button className="btn teal-btn" style={{ width:'100%', padding:'11px', marginBottom:20 }} onClick={()=>setBookModal(true)}>
@@ -2278,12 +2278,12 @@ function ConciergePage({ lang, t, content = {} }) {
                   {P.gov_name||(lang==='sq'?'Qeveria e Kosovës':'Kosova Government')}
                 </div>
                 <div className="gp-sub" style={{ fontSize:12, color:G.muted, marginBottom:14 }}>InvestKosova · {lang==='sq'?'Partner Zyrtar':'Official Partner'}</div>
-                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(237,231,217,0.75)', lineHeight:1.75, marginBottom:16 }}>
+                <p className="gp-desc" style={{ fontFamily:"'Inter',sans-serif", fontSize:14, color:'rgba(13,34,64,0.75)', lineHeight:1.75, marginBottom:16 }}>
                   {P.gov_desc||(lang==='sq'?'Business Bridge Platform po ndërton partneritet zyrtar me InvestKosova dhe Ministrinë e Ekonomisë.':'Business Bridge Platform is building an official partnership with InvestKosova and the Ministry of Economy.')}
                 </p>
                 <div className="partner-feat-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
                   {(lang==='sq'?['🏛️ Takime InvestKosova','📋 Këshillim themelimi','🤝 Takime ministrie','📊 Mbështetje investimesh']:['🏛️ InvestKosova meetings','📋 Company formation advice','🤝 Ministry appointments','📊 Investment support']).map(f=>(
-                    <div key={f} className="partner-feat-item" style={{ background:'rgba(201,164,74,0.07)', border:`1px solid ${G.goldBorder}`, borderRadius:8, padding:'10px 12px', fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(237,231,217,0.8)' }}>{f}</div>
+                    <div key={f} className="partner-feat-item" style={{ background:'rgba(201,164,74,0.07)', border:`1px solid ${G.goldBorder}`, borderRadius:8, padding:'10px 12px', fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(13,34,64,0.8)' }}>{f}</div>
                   ))}
                 </div>
                 <button className="btn gbtn" style={{ width:'100%', padding:'11px', marginBottom:20 }} onClick={()=>setBookModal(true)}>
@@ -2314,7 +2314,7 @@ function ConciergePage({ lang, t, content = {} }) {
                 <div style={{ fontSize: 11, color: G.muted, marginBottom: 13, fontStyle: 'italic' }}>{pkg.ideal}</div>
                 <div style={{ borderTop: `1px solid ${G.border}`, paddingTop: 10, marginBottom: 14 }}>
                   {pkg.inc.map(item => (
-                    <div key={item} style={{ display: 'flex', gap: 7, marginBottom: 6, fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(237,231,217,0.75)' }}>
+                    <div key={item} style={{ display: 'flex', gap: 7, marginBottom: 6, fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(13,34,64,0.75)' }}>
                       <span style={{ color: pkg.col, flexShrink: 0 }}>✓</span>{item}
                     </div>
                   ))}
@@ -2910,7 +2910,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
             const on = selectedTags.includes(tag)
             return (
               <button key={tag} onClick={() => toggleTag(tag)} className="btn" style={{ padding: '4px 11px', fontSize: 11, fontWeight: on ? 700 : 500, borderRadius: 14,
-                background: on ? 'rgba(61,111,168,0.15)' : 'rgba(13,34,64,0.04)',
+                background: on ? 'rgba(30,64,128,0.12)' : 'rgba(13,34,64,0.04)',
                 color: on ? G.teal : G.muted,
                 border: `1px solid ${on ? 'rgba(61,111,168,0.4)' : 'rgba(255,255,255,0.07)'}` }}>
                 {on ? '✓ ' : ''}{tag}
@@ -2970,7 +2970,7 @@ function SmartRegForm({ lang, t, regType, onDone }) {
                 {sel && <div style={{ position: 'absolute', top: -1, left: -1, right: -1, height: 2, background: `linear-gradient(90deg,${opt.col},transparent)`, borderRadius: '12px 12px 0 0' }} />}
                 <div style={{ fontSize: 20, marginBottom: 5 }}>{opt.icon}</div>
                 <div style={{ fontFamily: "'Raleway',sans-serif", fontWeight: 700, fontSize: 12, color: sel ? opt.col : G.muted, marginBottom: 3 }}>{opt.label}</div>
-                <div style={{ fontSize: 10, color: 'rgba(237,231,217,0.45)', lineHeight: 1.4 }}>{opt.sub}</div>
+                <div style={{ fontSize: 10, color: 'rgba(13,34,64,0.45)', lineHeight: 1.4 }}>{opt.sub}</div>
                 {opt.val === 'sponsored' && <div style={{ fontSize: 9, color: G.orange, marginTop: 5, fontWeight: 700 }}>→ {lang==='sq'?'Admin do ju kontaktojë':'Admin will contact you'}</div>}
               </div>
             )
@@ -3527,7 +3527,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   }} />
                 </label>
                 {partners.rootsgtm_cover && <button onClick={()=>setPartners(p=>({...p,rootsgtm_cover:null,rootsgtm_cover_focus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
-                  <div style={{ fontSize:10, color:'rgba(237,231,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                  <div style={{ fontSize:10, color:'rgba(13,34,64,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
                     💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
                   </div>
               </div>
@@ -3581,7 +3581,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                   }} />
                 </label>
                 {partners.gov_cover && <button onClick={()=>setPartners(p=>({...p,gov_cover:null,gov_cover_focus:null}))} className="btn ghost" style={{fontSize:10,padding:'3px 8px'}}>✕ Remove</button>}
-                  <div style={{ fontSize:10, color:'rgba(237,231,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                  <div style={{ fontSize:10, color:'rgba(13,34,64,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
                     💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
                   </div>
               </div>
@@ -3715,7 +3715,7 @@ function AdminPartnersTab({ profiles, setProfiles, G, partners, setPartners, sav
                         }} />
                       </label>
                       {gpCover && <button onClick={()=>{setGpCover(null);setGpForm(f=>({...f,coverFocus:null}))}} className="btn ghost" style={{fontSize:10,padding:'3px 9px',display:'block'}}>✕ Remove</button>}
-                  <div style={{ fontSize:10, color:'rgba(237,231,217,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
+                  <div style={{ fontSize:10, color:'rgba(13,34,64,0.40)', lineHeight:1.5, marginTop:4, fontStyle:'italic' }}>
                     💡 Best: landscape image, 3:1 ratio (e.g. 900×300px). Avoid text near edges — only the center shows.
                   </div>
                     </div>
@@ -4279,7 +4279,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                       <div style={{ fontSize: 12, color: G.muted, marginBottom: 6 }}><b style={{color:G.text}}>City:</b> {chg.changes.city}</div>
                     )}
                     {chg.changes?.website && <div style={{ fontSize: 12, color: G.muted, marginBottom: 6 }}><b style={{color:G.text}}>Website:</b> {chg.changes.website}</div>}
-                    {chg.changes?.desc && <p style={{ fontSize: 12, color: 'rgba(237,231,217,0.8)', lineHeight: 1.6 }}>{chg.changes.desc.en || chg.changes.desc.de}</p>}
+                    {chg.changes?.desc && <p style={{ fontSize: 12, color: 'rgba(13,34,64,0.8)', lineHeight: 1.6 }}>{chg.changes.desc.en || chg.changes.desc.de}</p>}
                   </div>
                 </div>
                 <div style={{ padding: '14px 20px', borderTop: `1px solid ${G.border}`, display: 'flex', gap: 10 }}>
@@ -4424,7 +4424,7 @@ function AdminPage({ onExit, lang, siteContent: initContent = {}, onContentSave 
                     }
                   </div>
                   <div style={{ flex:1 }}>
-                    <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:7, cursor:'pointer', fontSize:11, color:'rgba(237,231,217,0.8)', marginBottom:7 }}>
+                    <label style={{ display:'inline-flex', alignItems:'center', gap:7, padding:'6px 12px', background:'rgba(13,34,64,0.04)', border:'1px solid rgba(13,34,64,0.10)', borderRadius:7, cursor:'pointer', fontSize:11, color:'rgba(13,34,64,0.8)', marginBottom:7 }}>
                       📷 Upload new logo
                       <input type="file" accept="image/*" style={{ display:'none' }} onChange={e => {
                         const file = e.target.files?.[0]; if(!file) return
@@ -4646,7 +4646,7 @@ export default function App() {
           <div className="nav-links" style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
             {[['home', t.navHome], ['directory', t.navDir], ['concierge', t.navConcierge], ['gov', t.navGov]].map(([p, l]) => (
               <button key={p} className={`btn navl${page === p ? ' on' : ''}`} onClick={() => setPage(p)}
-                style={p === 'concierge' ? { color: page === 'concierge' ? '#c9a44a' : 'rgba(237,231,217,0.88)' } : {}}>
+                style={p === 'concierge' ? { color: page === 'concierge' ? '#c9a44a' : 'rgba(13,34,64,0.88)' } : {}}>
                 {l}
               </button>
             ))}
@@ -4666,24 +4666,24 @@ export default function App() {
             {t.registerBtn}
           </button>
           <button className="hamburger" onClick={() => setMobileNav(v => !v)} style={{ display:'none', flexDirection:'column', gap:5, background:'transparent', border:'none', cursor:'pointer', padding:8, marginLeft:4 }}>
-            <span style={{ display:'block', width:22, height:2, background:'rgba(237,231,217,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
-            <span style={{ display:'block', width:22, height:2, background:'rgba(237,231,217,0.7)', borderRadius:1, transition:'all 0.2s', opacity: mobileNav ? 0 : 1 }} />
-            <span style={{ display:'block', width:22, height:2, background:'rgba(237,231,217,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
+            <span style={{ display:'block', width:22, height:2, background:'rgba(13,34,64,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
+            <span style={{ display:'block', width:22, height:2, background:'rgba(13,34,64,0.7)', borderRadius:1, transition:'all 0.2s', opacity: mobileNav ? 0 : 1 }} />
+            <span style={{ display:'block', width:22, height:2, background:'rgba(13,34,64,0.7)', borderRadius:1, transition:'all 0.2s', transform: mobileNav ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
           </button>
         </div>
       </nav>
       {mobileNav && (
-        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#f5f2eb', borderBottom:'1px solid rgba(255,255,255,0.07)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4 }}>
+        <div style={{ position:'fixed', top:64, left:0, right:0, background:'#f5f2eb', borderBottom:'2px solid rgba(13,34,64,0.12)', zIndex:99, padding:'12px 16px 20px', display:'flex', flexDirection:'column', gap:4, boxShadow:'0 8px 24px rgba(13,34,64,0.10)' }}>
           {[['home',t.navHome,'🏠'],['directory',t.navDir,'🏢'],['concierge',t.navConcierge,'🤝'],['gov',t.navGov,'🏛️']].map(([pg,l,ic]) => (
             <button key={pg} onClick={() => { setPage(pg); setMobileNav(false) }}
-              style={{ background: page===pg?'rgba(201,164,74,0.1)':'transparent', color: page===pg?'#c9a44a':'rgba(237,231,217,0.75)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'Inter',sans-serif", fontSize:15, fontWeight:500, display:'flex', alignItems:'center', gap:10, width:'100%' }}>
+              style={{ background: page===pg?'rgba(138,100,16,0.10)':'transparent', color: page===pg?'#8a6410':'rgba(13,34,64,0.80)', border:'none', padding:'12px 14px', borderRadius:10, cursor:'pointer', textAlign:'left', fontFamily:"'Raleway',sans-serif", fontSize:14, fontWeight:600, letterSpacing:'0.4px', textTransform:'uppercase', display:'flex', alignItems:'center', gap:10, width:'100%' }}>
               <span>{ic}</span>{l}
             </button>
           ))}
-          <div style={{ borderTop:'1px solid rgba(255,255,255,0.07)', marginTop:8, paddingTop:12, display:'flex', gap:6 }}>
+          <div style={{ borderTop:'1px solid rgba(13,34,64,0.12)', marginTop:8, paddingTop:12, display:'flex', gap:6 }}>
             {['en','sq'].map(l => (
               <button key={l} onClick={() => { setLang(l) }}
-                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(201,164,74,0.15)':'rgba(13,34,64,0.04)', color: lang===l?'#c9a44a':'rgba(237,231,217,0.45)', border:'1px solid '+(lang===l?'rgba(201,164,74,0.22)':'rgba(255,255,255,0.07)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
+                style={{ flex:1, padding:'8px 4px', borderRadius:8, background: lang===l?'rgba(138,100,16,0.12)':'rgba(13,34,64,0.04)', color: lang===l?'#8a6410':'rgba(13,34,64,0.55)', border:'1px solid '+(lang===l?'rgba(138,100,16,0.25)':'rgba(13,34,64,0.14)'), cursor:'pointer', fontWeight:700, fontSize:12 }}>
                 {FLAGS[l]} {l.toUpperCase()}
               </button>
             ))}
@@ -4730,7 +4730,7 @@ export default function App() {
               </div>
               <div style={{ display:'flex', justifyContent:'center', gap:8, flexWrap:'wrap' }}>
                 {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'✓ Regjistrimet e verifikuara':'✓ Verified Listings', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network'].map(tag => (
-                  <span key={tag} style={{ fontSize:11, color:'rgba(237,231,217,0.4)', background:'#ffffff', border:'1px solid rgba(255,255,255,0.07)', borderRadius:20, padding:'4px 14px', fontFamily:"'Inter',sans-serif" }}>{tag}</span>
+                  <span key={tag} style={{ fontSize:11, color:'rgba(13,34,64,0.4)', background:'#ffffff', border:'1px solid rgba(13,34,64,0.12)', borderRadius:20, padding:'4px 14px', fontFamily:"'Inter',sans-serif" }}>{tag}</span>
                 ))}
               </div>
             </div>
@@ -4812,13 +4812,13 @@ export default function App() {
                           </div>
                           <div style={{ paddingBottom:4 }}>
                             <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:16, marginBottom:3, letterSpacing:'-0.1px' }}>{p.name}</div>
-                            <div style={{ fontSize:11, color:'rgba(237,231,217,0.5)', display:'flex', gap:8 }}>
+                            <div style={{ fontSize:11, color:'rgba(13,34,64,0.5)', display:'flex', gap:8 }}>
                               {p.city && <span>📍 {p.city}</span>}
                               <span>· {catLabel(p.cat, lang)}</span>
                             </div>
                           </div>
                         </div>
-                        <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(237,231,217,0.65)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
+                        <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, color:'rgba(13,34,64,0.65)', lineHeight:1.7, marginBottom:14 }}>{(p.desc?.[lang]||p.desc?.en||'').slice(0,110)}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>
                         {(p.tags||[]).length>0 && (
                           <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:16 }}>
                             {p.tags.slice(0,4).map(tg=><span key={tg} style={{ fontSize:10, background:hexToRgba(sColor,0.10), color:sColor, border:`1px solid ${hexToRgba(sColor,0.22)}`, borderRadius:20, padding:'3px 9px', fontWeight:600 }}>{tg}</span>)}
@@ -4894,8 +4894,8 @@ export default function App() {
                           </div>
                         </div>
                         <div style={{ padding:'0 10px 12px' }}>
-                          <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color:'#f0ece3', lineHeight:1.2, marginBottom:2 }}>{p.name}</div>
-                          {p.city && <div style={{ fontSize:10, color:'rgba(237,231,217,0.38)' }}>📍 {p.city}</div>}
+                          <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight:700, fontSize:12, color:'#0d2240', lineHeight:1.2, marginBottom:2 }}>{p.name}</div>
+                          {p.city && <div style={{ fontSize:10, color:'rgba(13,34,64,0.38)' }}>📍 {p.city}</div>}
                         </div>
                       </div>
                     ))}
@@ -4925,7 +4925,7 @@ export default function App() {
                     onMouseLeave={e=>{e.currentTarget.style.background=`linear-gradient(135deg,${c.color}09,${c.color}04)`;e.currentTarget.style.borderColor=`${c.color}30`;e.currentTarget.style.transform=''}}>
                     <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,${c.color}80,transparent)`, borderRadius:'12px 12px 0 0' }} />
                     <div style={{ fontSize: 18, marginBottom: 5 }}>{c.icon}</div>
-                    <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight: 700, fontSize: 11, marginBottom: 3, letterSpacing:'-0.1px', color:'rgba(237,231,217,0.9)' }}>{c.labels[lang]}</div>
+                    <div style={{ fontFamily:"'Raleway',sans-serif", fontWeight: 700, fontSize: 11, marginBottom: 3, letterSpacing:'-0.1px', color:'rgba(13,34,64,0.9)' }}>{c.labels[lang]}</div>
                     {count > 0 && <div style={{ fontSize: 10, color: c.color, fontFamily:"'Inter',sans-serif", fontWeight:600 }}>{count} {lang==='sq'?'regj.':'listed'}</div>}
                   </div>
                 )
@@ -5061,26 +5061,26 @@ export default function App() {
       <footer style={{ 
         background: 'rgba(6,11,22,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
         borderTop: '1px solid rgba(13,34,64,0.10)', padding: '22px 44px',
-        fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(237,231,217,0.75)'
+        fontFamily: "'Inter',sans-serif", fontSize: 12, color: 'rgba(13,34,64,0.75)'
       }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, marginBottom:14 }}>
           <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-            <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:13, color:'#ffffff' }}>Kosova Hub</span>
+            <span style={{ fontFamily:"'Raleway',sans-serif", fontWeight:800, fontSize:13, color:'#0d2240' }}>Kosova Hub</span>
             <span style={{ fontSize:10, background:'rgba(201,164,74,0.18)', color:G.gold, border:`1px solid ${G.goldBorder}`, borderRadius:20, padding:'1px 8px', fontWeight:600 }}>B2B</span>
           </div>
-          <div style={{ display: 'flex', gap: 16, alignItems:'center', color:'rgba(237,231,217,0.72)' }}>
+          <div style={{ display: 'flex', gap: 16, alignItems:'center', color:'rgba(13,34,64,0.72)' }}>
             {t.footLinks.map(l => <span key={l} style={{ cursor: 'pointer', transition:'color 0.15s' }}
-              onMouseEnter={e=>e.currentTarget.style.color='#fff'} onMouseLeave={e=>e.currentTarget.style.color='rgba(237,231,217,0.72)'}>{l}</span>)}
+              onMouseEnter={e=>e.currentTarget.style.color='#fff'} onMouseLeave={e=>e.currentTarget.style.color='rgba(13,34,64,0.72)'}>{l}</span>)}
             <span onClick={() => setShowAdmin(true)} style={{ cursor: 'pointer', opacity: 0, transition: 'opacity 0.3s' }}
               onMouseEnter={e => e.currentTarget.style.opacity = '1'}
               onMouseLeave={e => e.currentTarget.style.opacity = '0'}>⚙</span>
           </div>
         </div>
         <div style={{ borderTop:'1px solid rgba(255,255,255,0.10)', paddingTop:12, display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
-          <div style={{ color:'rgba(237,231,217,0.65)' }}>{t.footer}</div>
+          <div style={{ color:'rgba(13,34,64,0.65)' }}>{t.footer}</div>
           <div style={{ display:'flex', gap:18 }}>
             {[lang==='sq'?'🌐 E dukshme gjithandej':'🌐 Visible Worldwide', lang==='sq'?'🤝 Rrjet Global B2B':'🤝 Global B2B Network', lang==='sq'?'🔐 Verifikim admin':'🔐 Admin Verified'].map(tag => (
-              <span key={tag} style={{ fontSize:11, color:'rgba(237,231,217,0.55)' }}>{tag}</span>
+              <span key={tag} style={{ fontSize:11, color:'rgba(13,34,64,0.55)' }}>{tag}</span>
             ))}
           </div>
         </div>
