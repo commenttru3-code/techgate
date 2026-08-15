@@ -4778,7 +4778,7 @@ export default function App() {
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))', gap:18 }}>
                   {sponsored.slice(0,6).map(p => {
-                    const sColor = p.logoColor || '#c9943a'
+                    const sColor = CATS.find(c => c.id === p.cat)?.color || p.logoColor || '#c9a44a'
                     return (
                     <div key={p.id} style={{
                       borderRadius:20, overflow:'hidden', position:'relative', cursor:'pointer',
