@@ -1436,7 +1436,7 @@ function DirectoryPage({ lang, t, externalTag, onClearTag, initialQ, onQClear, i
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <VideoBackground src="/bg-video-companies.mp4" />
+      <VideoBackground src="/bg-video-home.mp4" />
 
       {/* ── STICKY PANEL: Filters + Skills — sticks right below nav ── */}
       <div style={{
@@ -4964,7 +4964,7 @@ export default function App() {
 
       {page === 'concierge'  && (
         <div style={{ position:'relative', minHeight:'100vh' }}>
-      <VideoBackground src="/bg-video-concierge.mp4" />
+      <VideoBackground src="/bg-video-home.mp4" />
 
           <div style={{ position:'relative', zIndex:1 }}>
             <ConciergePage lang={lang} t={t} content={siteContent} />
@@ -4974,7 +4974,7 @@ export default function App() {
 
       {page === 'gov' && (
         <div style={{ position:'relative', minHeight:'100vh' }}>
-      <VideoBackground src="/bg-video-gov.mp4" />
+      <VideoBackground src="/bg-video-home.mp4" />
 
           <div style={{ position:'relative', zIndex:1 }}>
             <GovPage lang={lang} t={t} content={siteContent} />
