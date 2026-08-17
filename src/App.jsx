@@ -1,377 +1,314 @@
-// Kosova Hub — Design v2 — B2B Editorial Theme
-import React, { useState, useMemo, useEffect, useCallback } from 'react'
+// Kosova Hub — v2 Design: Modern B2B · Light Theme · Plus Jakarta Sans
+// Vivid cobalt/teal/violet · White card panels · Clean professional
+import React, { useState, useMemo, useEffect } from 'react'
 import {
-  fetchProfiles, insertProfile, updateProfile, deleteProfile, verifyProfile,
-  insertContactLead, insertBooking,
-  formToDb, fetchSiteContent, saveSiteContent,
-  fetchSettings, upsertSetting,
+  fetchProfiles, insertProfile, insertContactLead, insertBooking,
+  fetchSiteContent, formToDb,
 } from './supabase.js'
 import { notifyAdminNewProfile, sendEnquiry, sendBookingConfirmation } from './emailService.js'
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 const G = {
-  bg:        '#0f1117',
-  surface:   '#171a22',
-  card:      '#1c2030',
-  border:    'rgba(200,160,80,0.12)',
-  amber:     '#C8954A',
-  amberDim:  'rgba(200,149,74,0.10)',
-  amberBd:   'rgba(200,149,74,0.28)',
-  slate:     '#4A7FA5',
-  slateDim:  'rgba(74,127,165,0.10)',
-  slateBd:   'rgba(74,127,165,0.28)',
-  text:      '#E2DDD6',
-  muted:     'rgba(226,221,214,0.46)',
-  dim:       'rgba(226,221,214,0.26)',
-  green:     '#4B9E6B',
-  red:       '#C44040',
-  rule:      'rgba(200,160,80,0.16)',
-  amber2:    '#E8C882',
+  bg:        '#F0F2F7',
+  white:     '#FFFFFF',
+  surface:   '#F8F9FC',
+  card:      '#FFFFFF',
+  text:      '#0E1628',
+  muted:     'rgba(14,22,40,0.52)',
+  dim:       'rgba(14,22,40,0.32)',
+  border:    'rgba(14,22,40,0.09)',
+  blue:      '#2458D4',
+  blueDim:   'rgba(36,88,212,0.08)',
+  blueBd:    'rgba(36,88,212,0.22)',
+  teal:      '#0B8A7E',
+  tealDim:   'rgba(11,138,126,0.08)',
+  violet:    '#6B35C2',
+  violetDim: 'rgba(107,53,194,0.08)',
+  green:     '#0F7B4F',
+  red:       '#C23535',
+  shadow:    '0 2px 16px rgba(14,22,40,0.07)',
+  shadowHov: '0 10px 40px rgba(14,22,40,0.13)',
+  navBg:     '#0E1628',
 }
 
-// ─── SECTORS ─────────────────────────────────────────────────────────────────
+// ─── SECTOR PALETTE — vivid, works on white cards ────────────────────────────
 const CATS = [
-  { id:'software',   icon:'💻', color:'#4a7fa5', labels:{en:'Software & IT',    sq:'Softuer & IT'}},
-  { id:'support',    icon:'🛠️', color:'#6b7fa8', labels:{en:'Tech Support',     sq:'Mbështetje Tech'}},
-  { id:'consulting', icon:'📊', color:'#5a8a6e', labels:{en:'Consulting',        sq:'Konsulencë'}},
-  { id:'media',      icon:'🎬', color:'#7a6aaa', labels:{en:'Media & Content',   sq:'Media & Content'}},
-  { id:'production', icon:'🏭', color:'#8a7055', labels:{en:'Production',        sq:'Prodhim'}},
-  { id:'textile',    icon:'🧵', color:'#9a7878', labels:{en:'Textile & Fashion', sq:'Tekstil & Modë'}},
-  { id:'bpo',        icon:'📞', color:'#5c7a8a', labels:{en:'BPO / Call Centre', sq:'BPO / Call Center'}},
-  { id:'design',     icon:'🎨', color:'#8a7a4a', labels:{en:'Design & Creative', sq:'Dizajn & Kreativ'}},
-  { id:'logistics',  icon:'🚚', color:'#4a7a6e', labels:{en:'Logistics',         sq:'Logjistikë'}},
-  { id:'legal',      icon:'⚖️', color:'#7a5a5a', labels:{en:'Legal & Finance',   sq:'Ligjor & Financa'}},
+  { id:'software',   icon:'💻', color:'#2458D4', labels:{en:'Software & IT',     sq:'Softuer & IT'}},
+  { id:'support',    icon:'🛠️', color:'#6B35C2', labels:{en:'Tech Support',      sq:'Mbështetje Tech'}},
+  { id:'consulting', icon:'📊', color:'#0B8A7E', labels:{en:'Consulting',         sq:'Konsulencë'}},
+  { id:'media',      icon:'🎬', color:'#C45C0A', labels:{en:'Media & Content',    sq:'Media & Content'}},
+  { id:'production', icon:'🏭', color:'#8B5E10', labels:{en:'Production',         sq:'Prodhim'}},
+  { id:'textile',    icon:'🧵', color:'#B03080', labels:{en:'Textile & Fashion',  sq:'Tekstil & Modë'}},
+  { id:'bpo',        icon:'📞', color:'#0878A0', labels:{en:'BPO / Call Centre',  sq:'BPO / Call Center'}},
+  { id:'design',     icon:'🎨', color:'#8B28A8', labels:{en:'Design & Creative',  sq:'Dizajn & Kreativ'}},
+  { id:'logistics',  icon:'🚚', color:'#0A7A3C', labels:{en:'Logistics',          sq:'Logjistikë'}},
+  { id:'legal',      icon:'⚖️', color:'#4A5568', labels:{en:'Legal & Finance',    sq:'Ligjor & Financa'}},
 ]
 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────────
 const T = {
-  en: {
-    tagline:'Business Gateway to Kosova',
+  en:{
+    tagline:'The B2B Gateway to Kosova',
     navHome:'Home', navDir:'Companies', navConcierge:'Concierge', navGov:'Invest',
-    registerBtn:'List Your Company',
-    h1:'Your Business Gateway', h2:'to Kosova',
-    heroSub:'Connect with verified companies, freelancers and consultants from Kosova for your next outsourcing or partnership.',
-    statComp:'Companies', statFL:'Freelancers', statPart:'Partners', statTax:'Corp. Tax',
-    sectionFeatured:'Featured Listings', sectionSectors:'Sectors', sectionPartners:'Partners',
-    viewAll:'View all', listFree:'List for free →',
+    registerBtn:'List Your Business',
+    h1a:'Connect your business', h1b:'with Kosova.',
+    heroSub:'Discover verified companies, freelancers and consultants — ready to partner with EU businesses today.',
     searchPH:'Search companies, skills, cities…',
-    allSectors:'All Sectors', allTypes:'All', onlyComp:'Companies', onlyFL:'Freelancers',
-    verified:'Verified', sponsored:'Featured', contact:'Contact', viewProfile:'View profile',
-    noResults:'No results found', noResultsSub:'Try different search terms or filters',
-    concHeroTitle:'Kosova Concierge',
-    concHeroSub:'Our partners organise your complete business visit — meetings, site tours, government appointments.',
-    concReq:'Request a Visit', concPartners:'Our Partners',
-    bookTitle:'Request a Kosova Visit', bookName:'Your name *', bookComp:'Company',
-    bookEmail:'Email *', bookGoal:'Your goal', bookGoalPH:'e.g. Meet software teams, find suppliers…',
-    bookWhen:'Preferred dates', bookPax:'Participants', bookSend:'Submit Request',
-    bookDoneTitle:'Request Submitted!', bookDoneSub:'Our team will reply within 24 hours.',
-    govH1:'Invest & Incorporate', govH2:'in Kosova',
-    govSub:'Low corporate tax, Euro currency, EU accession perspective and a young educated workforce.',
-    govFactsTitle:'Kosova at a Glance',
+    browseBtn:'Browse Directory', learnBtn:'How it works',
+    statComp:'Companies', statFL:'Freelancers', statPart:'Partners', statTax:'Corp. Tax',
+    featuredTitle:'Featured Listings', allSectors:'All', viewAll:'View all →',
+    onlyComp:'Companies', onlyFL:'Freelancers', allTypes:'All',
+    noResults:'No results', noResultsSub:'Try different keywords or filters.',
+    verified:'Verified', featured:'Featured', contact:'Contact',
+    viewProfile:'View profile', employees:'Employees',
+    concTitle:'Kosova Concierge',
+    concSub:'Our partners handle your entire Kosova business visit — meetings, site tours, government appointments.',
+    concCta:'Request a Visit',
+    bookTitle:'Request a Kosova Visit',
+    bookName:'Your name *', bookComp:'Company', bookEmail:'Email *',
+    bookGoal:'Your objective', bookGoalPH:'e.g. Meet software teams, find manufacturing partners…',
+    bookWhen:'Preferred period', bookPax:'Participants',
+    bookSend:'Submit Request', bookDone:'Request submitted!', bookDoneSub:'We\'ll reply within 24 hours.',
+    govTitle:'Invest in Kosova', govSub:'10% flat corporate tax · Euro currency · Young educated workforce · EU accession path',
+    govFactsTitle:'Key Facts',
     govFacts:[['10%','Corporate Tax'],['18%','VAT'],['€1','Min. Capital'],['5–10 days','Formation'],['EUR','Currency'],['1.8M','Population'],['63%','Under 35'],['2008','Independence']],
     govSteps:[
-      {ic:'🖥️',t:'Online Registration',d:'Full registration via ARBK portal.',time:'1–3 days'},
-      {ic:'💶',t:'Share Capital',d:'Minimum capital of just €1.',time:'1 day'},
-      {ic:'📋',t:'Tax Number',d:'Automatically assigned upon registration.',time:'1–2 days'},
+      {ic:'🖥️',t:'Register Online',d:'Full registration via ARBK portal.',time:'1–3 days'},
+      {ic:'💶',t:'Share Capital',d:'Minimum €1 — no barrier to entry.',time:'1 day'},
+      {ic:'📋',t:'Tax ID',d:'Automatically assigned at registration.',time:'1–2 days'},
       {ic:'🏦',t:'Bank Account',d:'10 licensed banks available.',time:'2–5 days'},
     ],
-    govLinks:'Official Resources',
-    regTitle:'List Your Business', regComp:'🏢 Company', regCompS:'Company, Team, Agency',
-    regFL:'👤 Freelancer', regFLS:'Self-employed, Solo',
-    regSP:'🤝 Partner', regSPS:'Network, Institution',
-    regFree:'Free · Published within 24–48h',
-    regName:'Company / Name *', regCity:'City *', regEmail:'Email *',
-    regDesc:'Description', regDescPH:'Describe your services and expertise…',
+    whyKosova:[
+      ['📉','Lowest Tax in Region','10% flat corporate income tax.'],
+      ['💶','Euro Currency','No FX risk for EU companies.'],
+      ['🎓','Young Talent','63% under 35, strong STEM base.'],
+      ['🌍','EU Path','Clear accession trajectory.'],
+    ],
+    regTitle:'List Your Business',
+    regFree:'Free listing · Published within 48h',
+    regName:'Name *', regCity:'City *', regEmail:'Email *',
+    regDesc:'Description', regDescPH:'Describe your services…',
     regTags:'Skills / Tags', regTagsPH:'React, Node.js, Manufacturing…',
-    regSend:'Submit →', regDoneTitle:'Submitted!', regDoneSub:'We\'ll review and publish within 24–48 hours.',
-    reqTitle:'Enquiry to', reqName:'Your name *', reqEmail:'Your email *',
-    reqMsg:'Message', reqPH:'Hello, we are looking for…',
-    reqSend:'Send Enquiry', reqCancel:'Cancel',
-    reqDoneTitle:'Sent!', reqDoneSub:'will be in touch shortly.',
-    footer:'© 2025 Kosova Hub · Business Bridge Platform',
+    regSend:'Submit listing →', regDone:'Submitted!', regDoneSub:'We\'ll review and publish within 24–48h.',
+    enquiryTo:'Enquiry to', enquiryName:'Your name *', enquiryEmail:'Your email *',
+    enquiryMsg:'Message', enquiryPH:'Hello, I\'m looking for…',
+    enquirySend:'Send Enquiry', enquiryDone:'Sent!', enquiryDoneSub:'will be in touch.',
+    links:'Official Links', footer:'© 2025 Kosova Hub · Business Bridge Platform',
   },
-  sq: {
-    tagline:'Porta Juaj e Biznesit në Kosovë',
-    navHome:'Kryefaqja', navDir:'Kompanitë', navConcierge:'Concierge', navGov:'Invest',
-    registerBtn:'Regjistro Kompaninë',
-    h1:'Porta Juaj e Biznesit', h2:'në Kosovë',
-    heroSub:'Lidhuni me kompani, freelancerë dhe konsulentë të verifikuar nga Kosova për projektin tuaj.',
-    statComp:'Kompani', statFL:'Freelancerë', statPart:'Partnerë', statTax:'Tatim Korp.',
-    sectionFeatured:'Listimemet e Theksuara', sectionSectors:'Sektorët', sectionPartners:'Partnerët',
-    viewAll:'Shiko të gjitha', listFree:'Regjistrohu falas →',
+  sq:{
+    tagline:'Porta B2B për Kosovën',
+    navHome:'Kryefaqja', navDir:'Kompanitë', navConcierge:'Concierge', navGov:'Investoni',
+    registerBtn:'Listo Biznesin Tënd',
+    h1a:'Lidhuni me biznesin', h1b:'Kosovar.',
+    heroSub:'Zbuloni kompani, freelancerë dhe konsulentë të verifikuar — gati për partneritet me biznese europiane.',
     searchPH:'Kërko kompani, aftësi, qytete…',
-    allSectors:'Të gjitha', allTypes:'Të gjitha', onlyComp:'Kompani', onlyFL:'Freelancerë',
-    verified:'Verifikuar', sponsored:'E Theksuar', contact:'Kontakto', viewProfile:'Shiko profilin',
-    noResults:'Asnjë rezultat', noResultsSub:'Provo terma të tjerë',
-    concHeroTitle:'Concierge Kosovës',
-    concHeroSub:'Partnerët tanë organizojnë vizitën tuaj të plotë — takime, turne, takime qeveritare.',
-    concReq:'Kërko Vizitë', concPartners:'Partnerët Tanë',
-    bookTitle:'Kërko Vizitë', bookName:'Emri juaj *', bookComp:'Kompania',
-    bookEmail:'Email *', bookGoal:'Qëllimi', bookGoalPH:'p.sh. Takim me ekipe software…',
-    bookWhen:'Data preferenciale', bookPax:'Pjesëmarrës', bookSend:'Dërgo Kërkesën',
-    bookDoneTitle:'Kërkesa u dërgua!', bookDoneSub:'Ekipi ynë do t\'ju kontaktojë brenda 24 orësh.',
-    govH1:'Investoni &', govH2:'Themeloni në Kosovë',
-    govSub:'Taksa të ulëta, Euro, perspektivë BE dhe talent i ri i arsimuar.',
-    govFactsTitle:'Kosova — Të Dhënat',
-    govFacts:[['10%','Tatim'],['18%','TVSH'],['1€','Kapitali'],['5–10 ditë','Themelimi'],['EUR','Valuta'],['1.8M','Banorë'],['63%','Nën 35'],['2008','Pavarësia']],
+    browseBtn:'Shfleto Drejtorinë', learnBtn:'Si funksionon',
+    statComp:'Kompani', statFL:'Freelancerë', statPart:'Partnerë', statTax:'Tatim Korp.',
+    featuredTitle:'Listime të Theksuara', allSectors:'Të gjitha', viewAll:'Shiko të gjitha →',
+    onlyComp:'Kompani', onlyFL:'Freelancerë', allTypes:'Të gjitha',
+    noResults:'Asnjë rezultat', noResultsSub:'Provo terma të tjerë.',
+    verified:'Verifikuar', featured:'I Theksuar', contact:'Kontakto',
+    viewProfile:'Shiko profilin', employees:'Punonjës',
+    concTitle:'Concierge Kosovës',
+    concSub:'Partnerët tanë organizojnë vizitën tuaj të plotë të biznesit — takime, turne, takime qeveritare.',
+    concCta:'Kërko Vizitë',
+    bookTitle:'Kërko Vizitë', bookName:'Emri *', bookComp:'Kompania', bookEmail:'Email *',
+    bookGoal:'Qëllimi', bookGoalPH:'p.sh. Takim me ekipe software…',
+    bookWhen:'Periudha preferenciale', bookPax:'Pjesëmarrës',
+    bookSend:'Dërgo Kërkesën', bookDone:'Kërkesa u dërgua!', bookDoneSub:'Do ju kontaktojmë brenda 24 orësh.',
+    govTitle:'Investoni në Kosovë', govSub:'Tatim 10% · Euro · Talent i ri · Rrugë BE',
+    govFactsTitle:'Të Dhënat Kryesore',
+    govFacts:[['10%','Tatim'],['18%','TVSH'],['1€','Kapitali Min.'],['5–10 ditë','Themelimi'],['EUR','Valuta'],['1.8M','Banorë'],['63%','Nën 35'],['2008','Pavarësia']],
     govSteps:[
       {ic:'🖥️',t:'Regjistrim Online',d:'Regjistrim i plotë në ARBK.',time:'1–3 ditë'},
-      {ic:'💶',t:'Kapitali',d:'Kapital minimal prej 1€.',time:'1 ditë'},
+      {ic:'💶',t:'Kapitali',d:'Minimum 1€ — pa pengesa.',time:'1 ditë'},
       {ic:'📋',t:'Numri Fiskal',d:'Caktohet automatikisht.',time:'1–2 ditë'},
       {ic:'🏦',t:'Llogari Bankare',d:'10 banka të licencuara.',time:'2–5 ditë'},
     ],
-    govLinks:'Burime Zyrtare',
-    regTitle:'Listo Biznesin Tënd', regComp:'🏢 Kompani', regCompS:'Firmë, Ekip, Agjenci',
-    regFL:'👤 Freelancer', regFLS:'I vetëpunësuar',
-    regSP:'🤝 Partner', regSPS:'Rrjet, Institucion',
-    regFree:'Falas · Publikohet brenda 24–48h',
-    regName:'Kompania / Emri *', regCity:'Qyteti *', regEmail:'Email *',
+    whyKosova:[
+      ['📉','Tatimi Më i Ulët','Tatim 10% i sheshtë korporativ.'],
+      ['💶','Valuta Euro','Pa rrezik kursi valutor.'],
+      ['🎓','Talent i Ri','63% nën 35, bazë e fortë STEM.'],
+      ['🌍','Rruga BE','Trajektore e qartë anëtarësimi.'],
+    ],
+    regTitle:'Listo Biznesin Tënd', regFree:'Falas · Publikohet brenda 48h',
+    regName:'Emri *', regCity:'Qyteti *', regEmail:'Email *',
     regDesc:'Përshkrim', regDescPH:'Përshkruani shërbimet tuaja…',
     regTags:'Aftësi / Tags', regTagsPH:'React, Node.js…',
-    regSend:'Dërgo →', regDoneTitle:'U dërgua!', regDoneSub:'Do ta rishikojmë dhe publikojmë brenda 24–48 orësh.',
-    reqTitle:'Kërkesë për', reqName:'Emri juaj *', reqEmail:'Email juaj *',
-    reqMsg:'Mesazhi', reqPH:'Mirëdita, ne kërkojmë…',
-    reqSend:'Dërgo Kërkesën', reqCancel:'Anulo',
-    reqDoneTitle:'U dërgua!', reqDoneSub:'do t\'ju kontaktojë.',
-    footer:'© 2025 Kosova Hub · Business Bridge Platform',
-  },
+    regSend:'Dërgo listimin →', regDone:'U dërgua!', regDoneSub:'Do ta rishikojmë brenda 24–48 orësh.',
+    enquiryTo:'Kërkesë për', enquiryName:'Emri juaj *', enquiryEmail:'Email juaj *',
+    enquiryMsg:'Mesazhi', enquiryPH:'Mirëdita, po kërkoj…',
+    enquirySend:'Dërgo', enquiryDone:'U dërgua!', enquiryDoneSub:'do t\'ju kontaktojë.',
+    links:'Lidhje Zyrtare', footer:'© 2025 Kosova Hub · Business Bridge Platform',
+  }
 }
 
 // ─── UTILITIES ────────────────────────────────────────────────────────────────
 function hexToRgba(hex, a) {
-  try { const h=hex.replace('#',''); const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16); return `rgba(${r},${g},${b},${a})` } catch { return `rgba(74,127,165,${a})` }
+  try { const h=hex.replace('#',''); const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16); return `rgba(${r},${g},${b},${a})` } catch { return `rgba(36,88,212,${a})` }
 }
-function catLabel(id, lang) { return CATS.find(c=>c.id===id)?.labels[lang]||id }
-function catColor(id) { return CATS.find(c=>c.id===id)?.color||G.amber }
+function catColor(id) { return CATS.find(c=>c.id===id)?.color||G.blue }
+function catLabel(id,lang) { return CATS.find(c=>c.id===id)?.labels[lang]||id }
 function catIcon(id) { return CATS.find(c=>c.id===id)?.icon||'🏢' }
-function normaliseProfile(p) {
+function normalise(p) {
   if (!p) return p
   return { ...p,
-    prevCompanies: p.prevCompanies||p.prev_companies||null,
-    featuredProject: p.featuredProject||p.featured_project||null,
-    linkedin: p.linkedin||null, github: p.github||null,
-    certifications: p.certifications||null, availability: p.availability||null,
-    videoUrl: p.videoUrl||p.video_url||null,
     coverImage: p.coverImage||p.cover_image||null,
     coverFocus: p.coverFocus||p.cover_focus||'50% 50%',
-    logoColor: p.logoColor||p.logo_color||catColor(p.cat)||G.amber,
     logoUrl: p.logoUrl||p.logo_url||null,
+    logoColor: p.logoColor||p.logo_color||catColor(p.cat)||G.blue,
+    tags: p.tags||[],
+    desc: typeof p.description==='string' ? { en: p.description, sq: p.description } : (p.desc||{}),
   }
 }
 
 // ─── CSS ──────────────────────────────────────────────────────────────────────
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body,#root{background:${G.bg};color:${G.text};font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100vw;}
-button{cursor:pointer;font-family:'Inter',sans-serif;}
-a{color:inherit;text-decoration:none;}
-input,textarea,select{font-family:'Inter',sans-serif;}
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
-/* ── LAYOUT ── */
-.wrap{max-width:1240px;margin:0 auto;padding:0 24px;}
-.section{padding:64px 0;}
-.section-sm{padding:40px 0;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { font-family: 'Plus Jakarta Sans', sans-serif; background: ${G.bg}; color: ${G.text}; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+button { cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+a { color: inherit; text-decoration: none; }
+input, textarea, select { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-/* ── RULE HEADER ── */
-.rule-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
-.rule-header h2{font-family:'EB Garamond',serif;font-size:28px;font-weight:600;color:${G.text};white-space:nowrap;letter-spacing:-0.3px;}
-.rule-header::after{content:'';flex:1;height:1px;background:${G.rule};}
+/* LAYOUT */
+.wrap2 { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+.section2 { padding: 72px 0; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 18px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-/* ── CARD ── */
-.card2{background:${G.card};border:1px solid ${G.border};border-radius:10px;transition:all 0.22s;position:relative;overflow:hidden;}
-.card2:hover{border-color:${G.amberBd};box-shadow:0 8px 32px rgba(0,0,0,0.28);}
-.card2.sp{border-color:${G.amberBd};}
+/* CARD */
+.c2 { background: ${G.white}; border: 1px solid ${G.border}; border-radius: 14px; transition: all 0.22s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
+.c2:hover { box-shadow: ${G.shadowHov}; transform: translateY(-4px); border-color: rgba(14,22,40,0.15); }
 
-/* ── BUTTONS ── */
-.btn-amber{background:${G.amber};color:#0f1117;border:none;padding:10px 22px;border-radius:6px;font-weight:600;font-size:13px;letter-spacing:0.3px;transition:all 0.18s;}
-.btn-amber:hover{background:${G.amber2};transform:translateY(-1px);}
-.btn-outline{background:transparent;color:${G.amber};border:1.5px solid ${G.amberBd};padding:9px 20px;border-radius:6px;font-weight:600;font-size:13px;transition:all 0.18s;}
-.btn-outline:hover{background:${G.amberDim};border-color:${G.amber};}
-.btn-ghost{background:transparent;color:${G.muted};border:1px solid rgba(226,221,214,0.12);padding:8px 16px;border-radius:6px;font-size:12px;transition:all 0.18s;}
-.btn-ghost:hover{color:${G.text};border-color:rgba(226,221,214,0.28);}
-.btn-slate{background:${G.slate};color:white;border:none;padding:10px 22px;border-radius:6px;font-weight:600;font-size:13px;transition:all 0.18s;}
-.btn-slate:hover{background:#5a8fba;transform:translateY(-1px);}
+/* BUTTONS */
+.btn-primary2 { background: ${G.blue}; color: #fff; border: none; padding: 11px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; letter-spacing: -0.1px; transition: all 0.18s; }
+.btn-primary2:hover { background: #1A45B8; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(36,88,212,0.28); }
+.btn-outline2 { background: transparent; color: ${G.blue}; border: 2px solid ${G.blueBd}; padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: 14px; transition: all 0.18s; }
+.btn-outline2:hover { background: ${G.blueDim}; border-color: ${G.blue}; }
+.btn-white2 { background: #fff; color: ${G.text}; border: none; padding: 11px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; transition: all 0.18s; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.btn-white2:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.14); transform: translateY(-1px); }
+.btn-ghost2 { background: transparent; color: ${G.muted}; border: 1px solid ${G.border}; padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 500; transition: all 0.16s; }
+.btn-ghost2:hover { color: ${G.text}; border-color: rgba(14,22,40,0.22); }
 
-/* ── FORM ── */
-.inp2{background:rgba(255,255,255,0.04);border:1px solid rgba(226,221,214,0.12);border-radius:6px;padding:10px 14px;color:${G.text};width:100%;font-size:14px;outline:none;transition:border 0.18s;}
-.inp2:focus{border-color:${G.amberBd};}
-.inp2::placeholder{color:${G.dim};}
-.label2{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${G.dim};margin-bottom:6px;}
+/* FORM */
+.inp2 { background: ${G.white}; border: 1.5px solid ${G.border}; border-radius: 8px; padding: 10px 14px; color: ${G.text}; width: 100%; font-size: 14px; outline: none; transition: border 0.18s; }
+.inp2:focus { border-color: ${G.blue}; box-shadow: 0 0 0 3px ${G.blueDim}; }
+.inp2::placeholder { color: ${G.dim}; }
+.label2 { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: ${G.dim}; margin-bottom: 6px; }
 
-/* ── NAV ── */
-.nav2{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;background:rgba(15,17,23,0.92);border-bottom:1px solid ${G.border};backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
-.navlink2{background:transparent;border:none;color:${G.muted};font-size:12px;font-weight:500;letter-spacing:0.5px;padding:6px 12px;border-radius:5px;transition:all 0.16s;}
-.navlink2:hover{color:${G.text};}
-.navlink2.on{color:${G.amber};}
+/* PILL / BADGE / TAG */
+.pill2 { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.chip2 { display: inline-block; padding: 3px 8px; border-radius: 5px; font-size: 11px; font-weight: 500; background: ${G.bg}; border: 1px solid ${G.border}; color: ${G.muted}; }
 
-/* ── BADGE ── */
-.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:0.4px;}
-.badge-amber{background:${G.amberDim};color:${G.amber};border:1px solid ${G.amberBd};}
-.badge-slate{background:${G.slateDim};color:${G.slate};border:1px solid ${G.slateBd};}
-.badge-green{background:rgba(75,158,107,0.10);color:${G.green};border:1px solid rgba(75,158,107,0.25);}
-.badge-dim{background:rgba(226,221,214,0.06);color:${G.muted};border:1px solid rgba(226,221,214,0.12);}
+/* NAV */
+.nav2 { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 62px; background: ${G.navBg}; }
 
-/* ── TAG CHIP ── */
-.chip{display:inline-block;padding:3px 8px;background:rgba(226,221,214,0.06);border:1px solid rgba(226,221,214,0.10);border-radius:4px;font-size:11px;color:${G.muted};transition:all 0.14s;}
-.chip:hover{color:${G.text};border-color:rgba(226,221,214,0.22);}
+/* SECTION LABEL */
+.sec-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: ${G.blue}; margin-bottom: 14px; }
+.sec-label::before { content: ''; display: block; width: 20px; height: 2px; background: ${G.blue}; border-radius: 1px; }
 
-/* ── MODAL ── */
-.modal-bg2{position:fixed;inset:0;background:rgba(5,8,15,0.80);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
-.modal2{background:${G.surface};border:1px solid ${G.border};border-radius:12px;padding:28px 26px;max-width:520px;width:100%;max-height:92vh;overflow-y:auto;}
+/* STAT */
+.stat2 { padding: 20px 24px; background: ${G.white}; border-radius: 12px; border: 1px solid ${G.border}; }
 
-/* ── SECTOR DOT ── */
-.sector-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* SECTOR CHIP */
+.sector-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
-/* ── SCORE BAR ── */
-.score-track{width:100%;height:5px;background:rgba(226,221,214,0.08);border-radius:3px;overflow:hidden;}
-.score-fill{height:100%;border-radius:3px;transition:width 0.7s cubic-bezier(0.4,0,0.2,1);}
+/* MODAL */
+.modal-bg2 { position: fixed; inset: 0; background: rgba(14,22,40,0.55); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(6px); }
+.modal2 { background: ${G.white}; border-radius: 16px; padding: 28px; max-width: 520px; width: 100%; max-height: 92vh; overflow-y: auto; box-shadow: 0 24px 64px rgba(14,22,40,0.18); }
 
-/* ── VIDEO HERO ── */
-.hero-video{position:fixed;inset:0;z-index:0;overflow:hidden;}
-.hero-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;-webkit-transform:translateZ(0);transform:translateZ(0);}
+/* SCORE BAR */
+.score-track2 { width: 100%; height: 5px; background: ${G.bg}; border-radius: 3px; overflow: hidden; }
+.score-fill2 { height: 100%; border-radius: 3px; transition: width 0.7s cubic-bezier(0.4,0,0.2,1); }
 
-/* ── SCROLL BAR ── */
-::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:rgba(200,149,74,0.25);border-radius:3px;}
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: ${G.border}; border-radius: 3px; }
 
-/* ── MOBILE ── */
-@media(max-width:768px){
-  .wrap{padding:0 16px;}
-  .section{padding:40px 0;}
-  .rule-header h2{font-size:22px;}
-  .hide-mobile{display:none !important;}
-  .navlinks-desktop{display:none !important;}
-  .hamburger2{display:flex !important;}
-  nav2-reg{display:none !important;}
+/* MOBILE */
+@media(max-width: 768px) {
+  .wrap2 { padding: 0 16px; }
+  .section2 { padding: 48px 0; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .hide-mob { display: none !important; }
+  .nav-links2 { display: none !important; }
+  .hamburger2 { display: flex !important; }
 }
-@media(max-width:480px){
-  .wrap{padding:0 12px;}
-  .grid-3{grid-template-columns:1fr !important;}
-  .grid-2{grid-template-columns:1fr !important;}
+@media(max-width: 480px) {
+  .wrap2 { padding: 0 12px; }
 }
 `
 
-// ─── VIDEO BACKGROUND ─────────────────────────────────────────────────────────
-function VideoBg({ src }) {
-  const ref = React.useRef(null)
-  useEffect(() => {
-    const v = ref.current; if (!v) return
-    v.muted = true
-    const play = () => { v.muted = true; v.play().catch(()=>{}) }
-    play()
-    document.addEventListener('touchstart', play, { once:true })
-    document.addEventListener('click', play, { once:true })
-    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) play() })
-  }, [src])
+// ─── LOGO ────────────────────────────────────────────────────────────────────
+function Lg({ name, color=G.blue, url=null, size=46 }) {
+  const br = Math.round(size*0.22)
+  if (url) return <div style={{ width:size, height:size, borderRadius:br, overflow:'hidden', flexShrink:0, border:`1.5px solid ${G.border}` }}><img src={url} alt={name} style={{ width:'100%', height:'100%', objectFit:'cover' }} /></div>
   return (
-    <div className="hero-video">
-      <video ref={ref} autoPlay loop muted playsInline preload="auto">
-        <source src={src} type="video/mp4" />
-      </video>
-      <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg,rgba(10,13,20,0.78) 0%,rgba(10,13,20,0.55) 50%,rgba(10,13,20,0.78) 100%)' }} />
-      <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'50%', background:'linear-gradient(0deg,rgba(10,13,20,0.98) 0%,transparent 100%)' }} />
+    <div style={{ width:size, height:size, borderRadius:br, background:hexToRgba(color,0.10), border:`1.5px solid ${hexToRgba(color,0.22)}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+      <span style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:Math.round(size*0.36), color, lineHeight:1 }}>{(name||'?').slice(0,2).toUpperCase()}</span>
     </div>
   )
 }
 
-// ─── LOGO COMPONENT ───────────────────────────────────────────────────────────
-function Logo2({ text, color='#4a7fa5', url=null, size=44 }) {
-  const bg = hexToRgba(color, 0.15)
-  const br = Math.round(size * 0.25)
-  if (url) return <div style={{ width:size, height:size, borderRadius:br, overflow:'hidden', flexShrink:0, background:bg }}><img src={url} alt={text} style={{ width:'100%', height:'100%', objectFit:'cover' }} /></div>
-  return (
-    <div style={{ width:size, height:size, borderRadius:br, background:bg, border:`1.5px solid ${hexToRgba(color,0.30)}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-      <span style={{ fontFamily:"'EB Garamond',serif", fontWeight:700, fontSize:size*0.38, color, lineHeight:1 }}>{(text||'?').slice(0,2)}</span>
-    </div>
-  )
-}
-
-// ─── SECTION RULE HEADER ─────────────────────────────────────────────────────
-function RuleHeader({ title, right }) {
-  return (
-    <div className="rule-header">
-      <h2>{title}</h2>
-      <div style={{ flex:1, height:1, background:G.rule }} />
-      {right && <div style={{ flexShrink:0 }}>{right}</div>}
-    </div>
-  )
-}
-
-// ─── PROFILE CARD — B2B Editorial Style ──────────────────────────────────────
-function ProfileCard2({ p, lang, t, onContact, onView, matchScore }) {
-  const [hov, setHov] = useState(false)
-  const isSp = p.tier === 'sponsored'
-  const isFL = p.type === 'freelancer'
+// ─── PROFILE CARD ─────────────────────────────────────────────────────────────
+function Card2({ p, lang, t, onContact, onView, score }) {
+  const isSp = p.tier==='sponsored'
   const sc = catColor(p.cat)
-  const desc = (p.desc?.[lang] || p.desc?.en || '').slice(0, 120)
-
+  const desc = (p.desc?.[lang]||p.desc?.en||'').slice(0,110)
   return (
-    <div className={`card2${isSp ? ' sp' : ''}`}
-      style={{ borderLeft: `3px solid ${sc}`, cursor:'pointer',
-        boxShadow: hov ? `0 8px 32px rgba(0,0,0,0.30), 0 0 0 1px ${hexToRgba(sc,0.20)}` : 'none',
-        transition:'all 0.22s' }}
-      onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      onClick={()=>onView?.(p)}>
-
-      {/* Cover image — slim top band */}
+    <div className="c2" style={{ cursor:'pointer' }} onClick={()=>onView?.(p)}>
+      {/* Top color band */}
+      <div style={{ height:5, background: isSp ? `linear-gradient(90deg,${sc},${G.blue})` : sc, borderRadius:'14px 14px 0 0' }} />
+      {/* Cover image */}
       {p.coverImage && (
-        <div style={{ position:'relative', height:56, overflow:'hidden', margin:'0 -1px', marginTop:'-1px' }}>
-          <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition: p.coverFocus||'50% 50%' }} />
-          <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(28,32,48,1) 0%,rgba(28,32,48,0.3) 60%,rgba(28,32,48,0) 100%)' }} />
+        <div style={{ height:72, overflow:'hidden', margin:'0 -1px', position:'relative' }}>
+          <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:p.coverFocus||'50% 50%' }} />
+          <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(255,255,255,0.95) 0%,rgba(255,255,255,0) 60%)' }} />
         </div>
       )}
-
       <div style={{ padding:'16px 18px 18px' }}>
-        {/* Header row */}
-        <div style={{ display:'flex', gap:12, alignItems:'flex-start', marginBottom:10 }}>
-          <Logo2 text={p.logo||p.name} color={sc} url={p.logoUrl} size={42} />
+        {/* Header */}
+        <div style={{ display:'flex', gap:11, alignItems:'flex-start', marginBottom:10 }}>
+          <Lg name={p.logo||p.name} color={sc} url={p.logoUrl} size={44} />
           <div style={{ flex:1, minWidth:0 }}>
-            <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3, flexWrap:'wrap' }}>
-              <span style={{ fontFamily:"'EB Garamond',serif", fontWeight:600, fontSize:17, color:G.text, letterSpacing:'-0.2px', lineHeight:1.2 }}>{p.name}</span>
-              {isSp && <span className="badge badge-amber">Featured</span>}
-              {p.verified && <span className="badge badge-green">✓</span>}
+            <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap', marginBottom:3 }}>
+              <span style={{ fontWeight:700, fontSize:15, color:G.text, lineHeight:1.2 }}>{p.name}</span>
+              {isSp && <span className="pill2" style={{ background:hexToRgba(G.blue,0.10), color:G.blue, border:`1px solid ${hexToRgba(G.blue,0.20)}` }}>★ {t.featured}</span>}
+              {p.verified && <span className="pill2" style={{ background:hexToRgba(G.green,0.10), color:G.green, border:`1px solid ${hexToRgba(G.green,0.22)}` }}>✓ {t.verified}</span>}
             </div>
             <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:5 }}>
-                <div className="sector-dot" style={{ background:sc }} />
-                <span style={{ fontSize:11, color:G.muted }}>{catLabel(p.cat, lang)}</span>
-              </div>
-              {p.city && <span style={{ fontSize:11, color:G.dim }}>· {p.city}</span>}
-              {isFL && p.languages && <span style={{ fontSize:11, color:G.dim }}>· {p.languages}</span>}
+              <span className="sector-chip" style={{ background:hexToRgba(sc,0.09), color:sc, border:`1px solid ${hexToRgba(sc,0.18)}` }}>
+                {catIcon(p.cat)} {catLabel(p.cat,lang)}
+              </span>
+              {p.city && <span style={{ fontSize:12, color:G.dim }}>📍 {p.city}</span>}
             </div>
           </div>
         </div>
-
         {/* Description */}
-        {desc && (
-          <p style={{ fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:12 }}>{desc}{(p.desc?.[lang]||p.desc?.en||'').length>120?'…':''}</p>
-        )}
-
+        {desc && <p style={{ fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:12 }}>{desc}{(p.desc?.[lang]||p.desc?.en||'').length>110?'…':''}</p>}
         {/* Tags */}
         {p.tags?.length > 0 && (
           <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginBottom:14 }}>
-            {p.tags.slice(0,5).map(tag=>(
-              <span key={tag} className="chip" style={{ borderColor:hexToRgba(sc,0.18), color:hexToRgba(sc,0.8) }}>{tag}</span>
-            ))}
+            {p.tags.slice(0,5).map(tag=><span key={tag} className="chip2" style={{ color:hexToRgba(sc,0.85), borderColor:hexToRgba(sc,0.15), background:hexToRgba(sc,0.05) }}>{tag}</span>)}
           </div>
         )}
-
         {/* Footer */}
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:8, borderTop:`1px solid ${G.border}`, paddingTop:12 }}>
           <div style={{ display:'flex', gap:6 }}>
-            {p.employees && <span className="badge badge-dim">👥 {p.employees}</span>}
-            {isFL && p.availability && <span className="badge badge-green">Available</span>}
+            {p.employees && <span className="pill2" style={{ background:G.bg, color:G.dim, border:`1px solid ${G.border}`, fontSize:10 }}>👥 {p.employees}</span>}
           </div>
           <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-            {matchScore !== undefined && matchScore !== null && (
+            {score!=null && (
               <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-                <div className="score-track" style={{ width:52 }}>
-                  <div className="score-fill" style={{ width:`${matchScore}%`, background: matchScore>=80?G.green:matchScore>=50?G.amber:G.muted }} />
+                <div className="score-track2" style={{ width:48 }}>
+                  <div className="score-fill2" style={{ width:`${score}%`, background:score>=80?G.green:score>=50?G.blue:G.dim }} />
                 </div>
-                <span style={{ fontSize:11, color:matchScore>=80?G.green:matchScore>=50?G.amber:G.muted, fontWeight:600 }}>{matchScore}%</span>
+                <span style={{ fontSize:11, fontWeight:700, color:score>=80?G.green:score>=50?G.blue:G.dim }}>{score}%</span>
               </div>
             )}
-            <button className="btn-ghost" style={{ fontSize:11, padding:'5px 12px' }}
+            <button className="btn-ghost2" style={{ fontSize:11, padding:'5px 12px' }}
               onClick={e=>{e.stopPropagation();onContact?.(p)}}>{t.contact}</button>
           </div>
         </div>
@@ -381,89 +318,130 @@ function ProfileCard2({ p, lang, t, onContact, onView, matchScore }) {
 }
 
 // ─── ENQUIRY MODAL ────────────────────────────────────────────────────────────
-function EnquiryModal({ target, t, onClose }) {
+function EnquiryModal2({ target, t, onClose }) {
   const [form, setForm] = useState({ name:'', email:'', msg:'' })
   const [sent, setSent] = useState(false)
-  const [sending, setSending] = useState(false)
-  const f = (k,v) => setForm(p=>({...p,[k]:v}))
+  const [busy, setBusy] = useState(false)
 
   const send = async () => {
     if (!form.name||!form.email) return
-    setSending(true)
+    setBusy(true)
     try {
       await insertContactLead({ profile_id:target.id, name:form.name, email:form.email, message:form.msg })
       await sendEnquiry({ toName:target.name, toEmail:target.contact||target.email, fromName:form.name, fromEmail:form.email, message:form.msg })
       setSent(true)
-    } catch {}
-    setSending(false)
+    } catch{}
+    setBusy(false)
   }
 
   return (
     <div className="modal-bg2" onClick={e=>e.target===e.currentTarget&&onClose()}>
       <div className="modal2">
-        <div style={{ display:'flex', justifyContent:'space-between', marginBottom:20 }}>
-          <div>
-            <div style={{ fontFamily:"'EB Garamond',serif", fontSize:22, fontWeight:600, marginBottom:4 }}>{t.reqTitle} {target.name}</div>
-            <div style={{ fontSize:12, color:G.muted }}>{catLabel(target.cat,'en')} · {target.city}</div>
-          </div>
-          <button onClick={onClose} className="btn-ghost" style={{ padding:'6px 10px', alignSelf:'flex-start' }}>✕</button>
-        </div>
         {sent ? (
           <div style={{ textAlign:'center', padding:'32px 0' }}>
-            <div style={{ fontSize:36, marginBottom:12 }}>✓</div>
-            <div style={{ fontFamily:"'EB Garamond',serif", fontSize:22, fontWeight:600, marginBottom:8 }}>{t.reqDoneTitle}</div>
-            <div style={{ color:G.muted, fontSize:14 }}>{target.name} {t.reqDoneSub}</div>
+            <div style={{ width:56, height:56, borderRadius:'50%', background:hexToRgba(G.green,0.10), border:`2px solid ${hexToRgba(G.green,0.25)}`, display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px', fontSize:24 }}>✓</div>
+            <div style={{ fontWeight:700, fontSize:20, marginBottom:6 }}>{t.enquiryDone}</div>
+            <div style={{ color:G.muted, fontSize:14 }}>{target.name} {t.enquiryDoneSub}</div>
           </div>
-        ) : (
+        ) : <>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:20 }}>
+            <div>
+              <div style={{ fontWeight:700, fontSize:19, marginBottom:4 }}>{t.enquiryTo} {target.name}</div>
+              <div style={{ fontSize:12, color:G.muted }}>{catLabel(target.cat,'en')} · {target.city}</div>
+            </div>
+            <button onClick={onClose} className="btn-ghost2">✕</button>
+          </div>
           <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
-            <div><label className="label2">{t.reqName}</label><input className="inp2" value={form.name} onChange={e=>f('name',e.target.value)} /></div>
-            <div><label className="label2">{t.reqEmail}</label><input className="inp2" type="email" value={form.email} onChange={e=>f('email',e.target.value)} /></div>
-            <div><label className="label2">{t.reqMsg}</label><textarea className="inp2" rows={4} placeholder={t.reqPH} value={form.msg} onChange={e=>f('msg',e.target.value)} style={{ resize:'vertical' }} /></div>
+            <div><label className="label2">{t.enquiryName}</label><input className="inp2" value={form.name} onChange={e=>setForm(p=>({...p,name:e.target.value}))} /></div>
+            <div><label className="label2">{t.enquiryEmail}</label><input className="inp2" type="email" value={form.email} onChange={e=>setForm(p=>({...p,email:e.target.value}))} /></div>
+            <div><label className="label2">{t.enquiryMsg}</label><textarea className="inp2" rows={4} placeholder={t.enquiryPH} value={form.msg} onChange={e=>setForm(p=>({...p,msg:e.target.value}))} style={{ resize:'vertical' }} /></div>
             <div style={{ display:'flex', gap:8, justifyContent:'flex-end' }}>
-              <button className="btn-ghost" onClick={onClose}>{t.reqCancel}</button>
-              <button className="btn-amber" onClick={send} disabled={sending}>{sending?'Sending…':t.reqSend}</button>
+              <button className="btn-ghost2" onClick={onClose}>Cancel</button>
+              <button className="btn-primary2" onClick={send} disabled={busy}>{busy?'Sending…':t.enquirySend}</button>
             </div>
           </div>
+        </>}
+      </div>
+    </div>
+  )
+}
+
+// ─── PROFILE DETAIL MODAL ─────────────────────────────────────────────────────
+function DetailModal2({ p, lang, t, onClose, onContact }) {
+  if (!p) return null
+  const sc = catColor(p.cat)
+  return (
+    <div className="modal-bg2" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="modal2" style={{ maxWidth:580, padding:0, borderRadius:16, overflow:'hidden' }}>
+        {/* Top band */}
+        <div style={{ height:6, background:`linear-gradient(90deg,${sc} 0%,${G.blue} 100%)` }} />
+        {p.coverImage && (
+          <div style={{ height:90, overflow:'hidden', position:'relative' }}>
+            <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:p.coverFocus||'50% 50%' }} />
+            <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(255,255,255,0.98) 0%,rgba(255,255,255,0) 55%)' }} />
+          </div>
         )}
+        <div style={{ padding:'20px 24px 0' }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
+            <div style={{ display:'flex', gap:12, alignItems:'center' }}>
+              <Lg name={p.logo||p.name} color={sc} url={p.logoUrl} size={50} />
+              <div>
+                <div style={{ display:'flex', gap:6, alignItems:'center', flexWrap:'wrap', marginBottom:4 }}>
+                  <span style={{ fontWeight:700, fontSize:19 }}>{p.name}</span>
+                  {p.verified && <span className="pill2" style={{ background:hexToRgba(G.green,0.10), color:G.green, border:`1px solid ${hexToRgba(G.green,0.22)}` }}>✓ {t.verified}</span>}
+                </div>
+                <div style={{ display:'flex', gap:8, flexWrap:'wrap', fontSize:12, color:G.muted }}>
+                  <span className="sector-chip" style={{ background:hexToRgba(sc,0.09), color:sc, border:`1px solid ${hexToRgba(sc,0.18)}` }}>{catIcon(p.cat)} {catLabel(p.cat,lang)}</span>
+                  {p.city && <span>📍 {p.city}</span>}
+                  {p.employees && <span>👥 {p.employees}</span>}
+                </div>
+              </div>
+            </div>
+            <button onClick={onClose} className="btn-ghost2">✕</button>
+          </div>
+        </div>
+        <div style={{ padding:'20px 24px', maxHeight:'55vh', overflowY:'auto' }}>
+          {(p.desc?.[lang]||p.desc?.en) && <p style={{ color:G.muted, lineHeight:1.72, fontSize:14, marginBottom:16 }}>{p.desc?.[lang]||p.desc?.en}</p>}
+          {p.tags?.length>0 && <div style={{ display:'flex', gap:6, flexWrap:'wrap', marginBottom:16 }}>{p.tags.map(tag=><span key={tag} className="chip2">{tag}</span>)}</div>}
+          {p.website && <div style={{ marginBottom:10 }}><label className="label2">Website</label><a href={`https://${p.website.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ color:G.blue, fontSize:14, fontWeight:500 }}>{p.website} →</a></div>}
+          {p.linkedin && <div style={{ marginBottom:10 }}><label className="label2">LinkedIn</label><a href={p.linkedin} target="_blank" rel="noopener noreferrer" style={{ color:G.blue, fontSize:14, fontWeight:500 }}>View Profile →</a></div>}
+        </div>
+        <div style={{ padding:'14px 24px', borderTop:`1px solid ${G.border}`, display:'flex', justifyContent:'flex-end', gap:8 }}>
+          {p.website && <a href={`https://${p.website.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" className="btn-ghost2" style={{ padding:'8px 16px', fontSize:12 }}>Website →</a>}
+          <button className="btn-primary2" onClick={()=>{onClose();onContact?.(p)}}>{t.contact}</button>
+        </div>
       </div>
     </div>
   )
 }
 
 // ─── REGISTRATION MODAL ───────────────────────────────────────────────────────
-function RegModal({ t, lang, onClose }) {
-  const [step, setStep] = useState(0) // 0=type, 1=form
+function RegModal2({ t, lang, onClose }) {
+  const [step, setStep] = useState(0)
   const [type, setType] = useState(null)
-  const [form, setForm] = useState({ name:'', city:'', email:'', website:'', phone:'', desc:'', tags:'', cat:'software', logoColor:'#4a7fa5', eu_langs:'' })
+  const [form, setForm] = useState({ name:'', city:'', email:'', website:'', desc:'', tags:'', cat:'software' })
   const [done, setDone] = useState(false)
-  const [saving, setSaving] = useState(false)
+  const [busy, setBusy] = useState(false)
   const f = (k,v) => setForm(p=>({...p,[k]:v}))
 
   const submit = async () => {
     if (!form.name||!form.city||!form.email) return
-    setSaving(true)
+    setBusy(true)
     try {
-      const data = {
-        name: form.name, city: form.city, email: form.email,
-        website: form.website||null, phone: form.phone||null,
-        description: form.desc, tags: form.tags.split(',').map(s=>s.trim()).filter(Boolean),
-        category: form.cat, type: type, tier: 'free', status: 'pending',
-        logo_color: form.logoColor, eu_langs: form.eu_langs||null,
-      }
-      await insertProfile(data)
+      await insertProfile({ name:form.name, city:form.city, email:form.email, website:form.website||null, description:form.desc, tags:form.tags.split(',').map(s=>s.trim()).filter(Boolean), category:form.cat, type:type, tier:'free', status:'pending', logo_color: catColor(form.cat) })
       await notifyAdminNewProfile({ name:form.name, email:form.email, type, cat:form.cat, city:form.city })
       setDone(true)
-    } catch(e) { console.error(e) }
-    setSaving(false)
+    } catch(e){ console.error(e) }
+    setBusy(false)
   }
 
   if (done) return (
     <div className="modal-bg2" onClick={e=>e.target===e.currentTarget&&onClose()}>
       <div className="modal2" style={{ textAlign:'center', padding:'48px 32px' }}>
-        <div style={{ fontSize:48, marginBottom:16 }}>✓</div>
-        <div style={{ fontFamily:"'EB Garamond',serif", fontSize:28, fontWeight:600, marginBottom:8 }}>{t.regDoneTitle}</div>
+        <div style={{ width:64, height:64, borderRadius:'50%', background:hexToRgba(G.green,0.12), border:`2px solid ${hexToRgba(G.green,0.28)}`, display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px', fontSize:28 }}>✓</div>
+        <div style={{ fontWeight:700, fontSize:22, marginBottom:8 }}>{t.regDone}</div>
         <div style={{ color:G.muted, marginBottom:24 }}>{t.regDoneSub}</div>
-        <button className="btn-amber" onClick={onClose}>Close</button>
+        <button className="btn-primary2" onClick={onClose}>Close</button>
       </div>
     </div>
   )
@@ -471,28 +449,25 @@ function RegModal({ t, lang, onClose }) {
   return (
     <div className="modal-bg2" onClick={e=>e.target===e.currentTarget&&onClose()}>
       <div className="modal2">
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:24 }}>
-          <div style={{ fontFamily:"'EB Garamond',serif", fontSize:24, fontWeight:600 }}>
-            {step===0 ? t.regTitle : `${t.regName.split(' *')[0]} details`}
-          </div>
-          <button onClick={onClose} className="btn-ghost" style={{ padding:'6px 10px' }}>✕</button>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:22 }}>
+          <div style={{ fontWeight:700, fontSize:20 }}>{t.regTitle}</div>
+          <button onClick={onClose} className="btn-ghost2">✕</button>
         </div>
-
         {step===0 ? (
           <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-            {[['company',t.regComp,t.regCompS],['freelancer',t.regFL,t.regFLS],['partner',t.regSP,t.regSPS]].map(([id,label,sub])=>(
+            {[['company','🏢','Company / Agency'],['freelancer','👤','Freelancer / Consultant'],['partner','🤝','Partner / Institution']].map(([id,ic,label])=>(
               <button key={id} onClick={()=>{setType(id);setStep(1)}}
-                style={{ display:'flex', justifyContent:'space-between', alignItems:'center', background: G.card, border:`1px solid ${G.border}`, borderRadius:8, padding:'16px 18px', textAlign:'left', color:G.text, transition:'all 0.18s' }}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor=G.amberBd}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor=G.border}}>
+                style={{ display:'flex', alignItems:'center', gap:14, padding:'16px 18px', background:G.surface, border:`1.5px solid ${G.border}`, borderRadius:10, textAlign:'left', color:G.text, transition:'all 0.18s' }}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=G.blue;e.currentTarget.style.background=G.blueDim}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor=G.border;e.currentTarget.style.background=G.surface}}>
+                <span style={{ fontSize:22 }}>{ic}</span>
                 <div>
-                  <div style={{ fontWeight:600, marginBottom:2 }}>{label}</div>
-                  <div style={{ fontSize:12, color:G.muted }}>{sub}</div>
+                  <div style={{ fontWeight:600, fontSize:14 }}>{label}</div>
+                  <div style={{ fontSize:12, color:G.dim, marginTop:1 }}>{t.regFree}</div>
                 </div>
-                <span style={{ color:G.amber, fontSize:18 }}>→</span>
+                <span style={{ marginLeft:'auto', color:G.blue }}>→</span>
               </button>
             ))}
-            <div style={{ fontSize:12, color:G.dim, textAlign:'center', marginTop:8 }}>{t.regFree}</div>
           </div>
         ) : (
           <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
@@ -504,222 +479,123 @@ function RegModal({ t, lang, onClose }) {
             <div>
               <label className="label2">Sector</label>
               <select className="inp2" value={form.cat} onChange={e=>f('cat',e.target.value)}>
-                {CATS.map(c=><option key={c.id} value={c.id}>{c.labels[lang]}</option>)}
+                {CATS.map(c=><option key={c.id} value={c.id}>{c.labels[lang]||c.labels.en}</option>)}
               </select>
             </div>
             <div><label className="label2">{t.regDesc}</label><textarea className="inp2" rows={3} placeholder={t.regDescPH} value={form.desc} onChange={e=>f('desc',e.target.value)} style={{ resize:'vertical' }} /></div>
             <div><label className="label2">{t.regTags}</label><input className="inp2" placeholder={t.regTagsPH} value={form.tags} onChange={e=>f('tags',e.target.value)} /></div>
-            <div style={{ display:'flex', gap:8, justifyContent:'space-between', alignItems:'center', marginTop:4 }}>
-              <button className="btn-ghost" onClick={()=>setStep(0)}>← Back</button>
-              <button className="btn-amber" onClick={submit} disabled={saving}>{saving?'Submitting…':t.regSend}</button>
+            <div style={{ display:'flex', justifyContent:'space-between', gap:8, marginTop:4 }}>
+              <button className="btn-ghost2" onClick={()=>setStep(0)}>← Back</button>
+              <button className="btn-primary2" onClick={submit} disabled={busy}>{busy?'Submitting…':t.regSend}</button>
             </div>
           </div>
         )}
-      </div>
-    </div>
-  )
-}
-
-// ─── PROFILE DETAIL MODAL ─────────────────────────────────────────────────────
-function ProfileModal({ p, lang, t, onClose, onContact }) {
-  if (!p) return null
-  const sc = catColor(p.cat)
-  const isSp = p.tier === 'sponsored'
-  const isFL = p.type === 'freelancer'
-  return (
-    <div className="modal-bg2" onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="modal2" style={{ maxWidth:600, padding:0 }}>
-        {/* Header */}
-        <div style={{ padding:'24px 24px 0', borderBottom:`1px solid ${G.border}`, paddingBottom:20, borderLeft:`4px solid ${sc}`, borderRadius:'11px 11px 0 0' }}>
-          {p.coverImage && (
-            <div style={{ position:'relative', height:80, overflow:'hidden', margin:'-24px -24px 16px', borderRadius:'11px 11px 0 0' }}>
-              <img src={p.coverImage} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:p.coverFocus||'50% 50%' }} />
-              <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(23,26,34,1) 0%,rgba(23,26,34,0) 60%)' }} />
-            </div>
-          )}
-          <div style={{ display:'flex', gap:14, alignItems:'flex-start' }}>
-            <Logo2 text={p.logo||p.name} color={sc} url={p.logoUrl} size={52} />
-            <div style={{ flex:1 }}>
-              <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap', marginBottom:4 }}>
-                <span style={{ fontFamily:"'EB Garamond',serif", fontSize:22, fontWeight:600 }}>{p.name}</span>
-                {isSp && <span className="badge badge-amber">Featured</span>}
-                {p.verified && <span className="badge badge-green">✓ Verified</span>}
-              </div>
-              <div style={{ fontSize:12, color:G.muted, display:'flex', gap:10, flexWrap:'wrap' }}>
-                <span><span className="sector-dot" style={{ background:sc, display:'inline-block', marginRight:4 }} />{catLabel(p.cat,lang)}</span>
-                {p.city && <span>📍 {p.city}</span>}
-                {p.employees && <span>👥 {p.employees}</span>}
-                {isFL && p.languages && <span>🗣 {p.languages}</span>}
-              </div>
-            </div>
-            <button onClick={onClose} className="btn-ghost" style={{ padding:'6px 10px', flexShrink:0 }}>✕</button>
-          </div>
-        </div>
-        {/* Body */}
-        <div style={{ padding:'20px 24px', maxHeight:'60vh', overflowY:'auto' }}>
-          {(p.desc?.[lang]||p.desc?.en) && (
-            <div style={{ marginBottom:18 }}>
-              <div className="label2" style={{ marginBottom:8 }}>About</div>
-              <p style={{ color:G.muted, lineHeight:1.7, fontSize:14 }}>{p.desc?.[lang]||p.desc?.en}</p>
-            </div>
-          )}
-          {p.tags?.length > 0 && (
-            <div style={{ marginBottom:18 }}>
-              <div className="label2" style={{ marginBottom:8 }}>Skills & Services</div>
-              <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                {p.tags.map(tag=><span key={tag} className="chip">{tag}</span>)}
-              </div>
-            </div>
-          )}
-          {p.prevCompanies && (
-            <div style={{ marginBottom:18 }}>
-              <div className="label2" style={{ marginBottom:8 }}>Previous Clients</div>
-              <div style={{ color:G.muted, fontSize:13 }}>{p.prevCompanies}</div>
-            </div>
-          )}
-          {p.website && (
-            <div style={{ marginBottom:18 }}>
-              <div className="label2" style={{ marginBottom:8 }}>Website</div>
-              <a href={`https://${p.website.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" style={{ color:G.amber, fontSize:14 }}>{p.website}</a>
-            </div>
-          )}
-          {p.linkedin && (
-            <div style={{ marginBottom:18 }}>
-              <div className="label2" style={{ marginBottom:8 }}>LinkedIn</div>
-              <a href={p.linkedin} target="_blank" rel="noopener noreferrer" style={{ color:G.amber, fontSize:14 }}>View Profile →</a>
-            </div>
-          )}
-        </div>
-        {/* Footer */}
-        <div style={{ padding:'16px 24px', borderTop:`1px solid ${G.border}`, display:'flex', justifyContent:'flex-end', gap:8 }}>
-          {p.website && <a href={`https://${p.website.replace(/^https?:\/\//,'')}`} target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ padding:'8px 16px', fontSize:12 }}>Website →</a>}
-          <button className="btn-amber" onClick={()=>{onClose();onContact?.(p)}}>{t.contact}</button>
-        </div>
       </div>
     </div>
   )
 }
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
-function HomePage2({ lang, t, profiles, siteContent, onRegister, setPage }) {
+function Home2({ lang, t, profiles, setPage, onReg }) {
   const [detail, setDetail] = useState(null)
   const [contact, setContact] = useState(null)
-
   const sponsored = useMemo(()=>profiles.filter(p=>p.tier==='sponsored').slice(0,6),[profiles])
-  const partners  = useMemo(()=>profiles.filter(p=>p.type==='partner').slice(0,8),[profiles])
-  const stats = useMemo(()=>{
-    const comp = profiles.filter(p=>p.type==='company').length
-    const fl   = profiles.filter(p=>p.type==='freelancer').length
-    const part = profiles.filter(p=>p.type==='partner').length
-    return [comp||124, fl||48, part||12]
-  },[profiles])
+  const stats = useMemo(()=>[profiles.filter(p=>p.type==='company').length||120, profiles.filter(p=>p.type==='freelancer').length||48, profiles.filter(p=>p.type==='partner').length||12],[profiles])
 
   return (
-    <div style={{ position:'relative', minHeight:'100vh' }}>
-      <VideoBg src="/bg-video-home.mp4" />
+    <div>
+      {/* ── HERO — dark panel ── */}
+      <div style={{ background:G.navBg, paddingTop:62, paddingBottom:0, position:'relative', overflow:'hidden' }}>
+        {/* Decorative blobs */}
+        <div style={{ position:'absolute', top:'-30%', right:'-10%', width:500, height:500, borderRadius:'50%', background:'radial-gradient(circle, rgba(36,88,212,0.18) 0%, transparent 70%)', pointerEvents:'none' }} />
+        <div style={{ position:'absolute', bottom:'-20%', left:'-5%', width:400, height:400, borderRadius:'50%', background:'radial-gradient(circle, rgba(107,53,194,0.12) 0%, transparent 70%)', pointerEvents:'none' }} />
 
-      {/* ── HERO ── */}
-      <div style={{ position:'relative', zIndex:1, minHeight:'92vh', display:'flex', flexDirection:'column', justifyContent:'center', paddingTop:80 }}>
-        <div className="wrap">
-          <div style={{ maxWidth:680 }}>
+        <div className="wrap2" style={{ position:'relative', zIndex:1, paddingTop:72, paddingBottom:72 }}>
+          <div style={{ maxWidth:700 }}>
             {/* Eyebrow */}
-            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:20 }}>
-              <div style={{ width:28, height:2, background:G.amber }} />
-              <span style={{ fontSize:11, fontWeight:600, letterSpacing:'2px', textTransform:'uppercase', color:G.amber }}>{t.tagline}</span>
+            <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'5px 12px', background:'rgba(36,88,212,0.18)', border:'1px solid rgba(36,88,212,0.35)', borderRadius:20, marginBottom:24 }}>
+              <div style={{ width:6, height:6, borderRadius:'50%', background:G.blue }} />
+              <span style={{ fontSize:11, fontWeight:700, letterSpacing:'1.5px', textTransform:'uppercase', color:'#93B4F8' }}>{t.tagline}</span>
             </div>
-            {/* Headline */}
-            <h1 style={{ fontFamily:"'EB Garamond',serif", fontSize:'clamp(42px,7vw,80px)', fontWeight:700, lineHeight:1.05, letterSpacing:'-1px', marginBottom:20, color:'#F0EBE0' }}>
-              {t.h1}<br /><em style={{ color:G.amber, fontStyle:'italic' }}>{t.h2}</em>
+            {/* Big headline */}
+            <h1 style={{ fontWeight:800, fontSize:'clamp(38px,6vw,72px)', lineHeight:1.06, letterSpacing:'-1.5px', marginBottom:20 }}>
+              <span style={{ color:'#F0EFEE' }}>{t.h1a}</span><br />
+              <span style={{ background:`linear-gradient(135deg, ${G.blue} 0%, ${G.violet} 100%)`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>{t.h1b}</span>
             </h1>
-            <p style={{ fontSize:'clamp(15px,2vw,18px)', color:'rgba(226,221,214,0.70)', lineHeight:1.7, marginBottom:32, maxWidth:540 }}>{t.heroSub}</p>
+            <p style={{ fontSize:'clamp(15px,2vw,18px)', color:'rgba(240,239,238,0.62)', lineHeight:1.72, marginBottom:36, maxWidth:520 }}>{t.heroSub}</p>
             {/* CTAs */}
-            <div style={{ display:'flex', gap:12, flexWrap:'wrap', marginBottom:48 }}>
-              <button className="btn-amber" style={{ padding:'13px 28px', fontSize:14 }} onClick={()=>setPage('directory')}>Browse Companies →</button>
-              <button className="btn-outline" style={{ padding:'12px 24px', fontSize:14 }} onClick={onRegister}>{t.registerBtn}</button>
+            <div style={{ display:'flex', gap:12, flexWrap:'wrap', marginBottom:56 }}>
+              <button className="btn-white2" onClick={()=>setPage('directory')}>{t.browseBtn}</button>
+              <button className="btn-outline2" style={{ color:'rgba(240,239,238,0.85)', borderColor:'rgba(240,239,238,0.22)' }} onClick={onReg}>{t.registerBtn}</button>
             </div>
-            {/* Stats */}
-            <div style={{ display:'flex', gap:40, flexWrap:'wrap' }}>
-              {[[stats[0],t.statComp],[stats[1],t.statFL],[stats[2],t.statPart],['10%',t.statTax]].map(([n,l])=>(
-                <div key={l}>
-                  <div style={{ fontFamily:"'EB Garamond',serif", fontSize:32, fontWeight:700, color:'#F0EBE0', lineHeight:1 }}>{n}</div>
-                  <div style={{ fontSize:11, color:G.muted, letterSpacing:'0.5px', marginTop:3 }}>{l}</div>
-                </div>
-              ))}
-            </div>
+          </div>
+
+          {/* Stats bar */}
+          <div style={{ display:'flex', gap:1, background:'rgba(255,255,255,0.07)', borderRadius:12, overflow:'hidden', maxWidth:580, border:'1px solid rgba(255,255,255,0.08)' }}>
+            {[[stats[0],t.statComp,'#93B4F8'],[stats[1],t.statFL,'#B39FE8'],[stats[2],t.statPart,'#6EE7B7'],['10%',t.statTax,'#FCD34D']].map(([n,l,c],i)=>(
+              <div key={l} style={{ flex:1, padding:'16px 18px', borderRight: i<3 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
+                <div style={{ fontWeight:800, fontSize:22, color:c, letterSpacing:'-0.5px', lineHeight:1 }}>{n}</div>
+                <div style={{ fontSize:10, color:'rgba(240,239,238,0.45)', marginTop:4, fontWeight:500, letterSpacing:'0.5px', textTransform:'uppercase' }}>{l}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* ── CONTENT SECTIONS (solid dark bg) ── */}
-      <div style={{ position:'relative', zIndex:1, background:G.bg }}>
+      {/* ── CONTENT — light background ── */}
+      <div style={{ background:G.bg }}>
 
-        {/* ── FEATURED LISTINGS ── */}
+        {/* ── FEATURED ── */}
         {sponsored.length > 0 && (
-          <div className="section wrap">
-            <RuleHeader title={t.sectionFeatured}
-              right={<button className="btn-ghost" onClick={()=>setPage('directory')}>{t.viewAll} →</button>} />
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))', gap:16 }}>
-              {sponsored.map(p=>(
-                <ProfileCard2 key={p.id} p={p} lang={lang} t={t}
-                  onContact={setContact} onView={setDetail} />
-              ))}
+          <div className="section2 wrap2">
+            <div className="sec-label">Featured Listings</div>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:20 }}>
+              <h2 style={{ fontWeight:700, fontSize:26, letterSpacing:'-0.5px' }}>{t.featuredTitle}</h2>
+              <button className="btn-ghost2" onClick={()=>setPage('directory')}>{t.viewAll}</button>
+            </div>
+            <div className="grid-3">
+              {sponsored.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail} />)}
             </div>
           </div>
         )}
 
         {/* ── SECTORS ── */}
-        <div className="section wrap" style={{ borderTop:`1px solid ${G.border}` }}>
-          <RuleHeader title={t.sectionSectors} />
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(180px,1fr))', gap:12 }}>
+        <div className="section2 wrap2" style={{ paddingTop:0 }}>
+          <div className="sec-label">Sectors</div>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:20 }}>
+            <h2 style={{ fontWeight:700, fontSize:26, letterSpacing:'-0.5px' }}>Browse by Sector</h2>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(170px,1fr))', gap:10 }}>
             {CATS.map(cat=>(
               <button key={cat.id} onClick={()=>setPage('directory')}
-                style={{ display:'flex', alignItems:'center', gap:10, padding:'14px 16px', background:G.card, border:`1px solid ${G.border}`, borderRadius:8, textAlign:'left', color:G.text, transition:'all 0.18s', cursor:'pointer' }}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor=hexToRgba(cat.color,0.35);e.currentTarget.style.background=hexToRgba(cat.color,0.06)}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor=G.border;e.currentTarget.style.background=G.card}}>
-                <div style={{ width:32, height:32, borderRadius:8, background:hexToRgba(cat.color,0.15), display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, flexShrink:0 }}>{cat.icon}</div>
-                <div>
-                  <div style={{ fontWeight:500, fontSize:13, color:G.text }}>{cat.labels[lang]}</div>
-                </div>
+                style={{ display:'flex', alignItems:'center', gap:10, padding:'14px 16px', background:G.white, border:`1px solid ${G.border}`, borderRadius:10, textAlign:'left', transition:'all 0.18s', cursor:'pointer' }}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor=hexToRgba(cat.color,0.40);e.currentTarget.style.background=hexToRgba(cat.color,0.05);e.currentTarget.style.transform='translateY(-2px)';e.currentTarget.style.boxShadow=G.shadow}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor=G.border;e.currentTarget.style.background=G.white;e.currentTarget.style.transform='';e.currentTarget.style.boxShadow=''}}>
+                <div style={{ width:36, height:36, borderRadius:9, background:hexToRgba(cat.color,0.10), border:`1px solid ${hexToRgba(cat.color,0.18)}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:17, flexShrink:0 }}>{cat.icon}</div>
+                <span style={{ fontWeight:600, fontSize:13, color:G.text, lineHeight:1.25 }}>{cat.labels[lang]||cat.labels.en}</span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* ── PARTNERS ── */}
-        {partners.length > 0 && (
-          <div className="section-sm wrap" style={{ borderTop:`1px solid ${G.border}` }}>
-            <RuleHeader title={t.sectionPartners}
-              right={<span style={{ fontSize:12, color:G.muted }}>{partners.length} active</span>} />
-            <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
-              {partners.map(p=>(
-                <div key={p.id} style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 14px', background:G.card, border:`1px solid ${G.border}`, borderRadius:8, cursor:'pointer', transition:'all 0.18s' }}
-                  onMouseEnter={e=>e.currentTarget.style.borderColor=G.amberBd}
-                  onMouseLeave={e=>e.currentTarget.style.borderColor=G.border}>
-                  <Logo2 text={p.logo||p.name} color={catColor(p.cat)} url={p.logoUrl} size={32} />
-                  <div>
-                    <div style={{ fontSize:13, fontWeight:500, color:G.text }}>{p.name}</div>
-                    {p.city && <div style={{ fontSize:11, color:G.dim }}>{p.city}</div>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── CTA BANNER ── */}
-        <div className="section-sm" style={{ borderTop:`1px solid ${G.border}`, background:`linear-gradient(135deg,${hexToRgba(G.amber,0.05)} 0%,transparent 100%)` }}>
-          <div className="wrap" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:24, flexWrap:'wrap' }}>
+        {/* ── CTA STRIP ── */}
+        <div style={{ background:G.navBg, padding:'56px 0' }}>
+          <div className="wrap2" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:24, flexWrap:'wrap' }}>
             <div>
-              <h3 style={{ fontFamily:"'EB Garamond',serif", fontSize:28, fontWeight:600, marginBottom:6, color:'#F0EBE0' }}>List your business for free</h3>
-              <p style={{ color:G.muted, fontSize:14 }}>Get discovered by EU companies looking to partner with Kosova businesses.</p>
+              <div className="sec-label" style={{ color:'#93B4F8' }}>For Businesses</div>
+              <h3 style={{ fontWeight:700, fontSize:26, color:'#F0EFEE', marginBottom:8, letterSpacing:'-0.3px' }}>Is your business on Kosova Hub?</h3>
+              <p style={{ color:'rgba(240,239,238,0.55)', fontSize:14, maxWidth:420 }}>Get discovered by EU companies actively looking for Kosova partners. Free listing, published within 48h.</p>
             </div>
-            <button className="btn-amber" style={{ padding:'13px 28px', fontSize:14, flexShrink:0 }} onClick={onRegister}>{t.listFree}</button>
+            <div style={{ display:'flex', gap:10, flexWrap:'wrap', flexShrink:0 }}>
+              <button className="btn-white2" style={{ padding:'12px 26px' }} onClick={onReg}>{t.registerBtn}</button>
+              <button className="btn-outline2" style={{ color:'rgba(240,239,238,0.8)', borderColor:'rgba(240,239,238,0.20)', padding:'11px 22px' }} onClick={()=>setPage('concierge')}>Learn more →</button>
+            </div>
           </div>
         </div>
 
-        {/* ── FOOTER ── */}
-        <footer style={{ borderTop:`1px solid ${G.border}`, padding:'24px 0' }}>
-          <div className="wrap" style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12 }}>
+        {/* Footer */}
+        <footer style={{ background:G.bg, borderTop:`1px solid ${G.border}`, padding:'24px 0' }}>
+          <div className="wrap2" style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12 }}>
             <span style={{ fontSize:12, color:G.dim }}>{t.footer}</span>
             <div style={{ display:'flex', gap:16 }}>
               {['Privacy','Terms','Contact'].map(l=><a key={l} href="#" style={{ fontSize:12, color:G.dim }}>{l}</a>)}
@@ -728,252 +604,211 @@ function HomePage2({ lang, t, profiles, siteContent, onRegister, setPage }) {
         </footer>
       </div>
 
-      {detail && <ProfileModal p={detail} lang={lang} t={t} onClose={()=>setDetail(null)} onContact={p=>{setDetail(null);setContact(p)}} />}
-      {contact && <EnquiryModal target={contact} t={t} onClose={()=>setContact(null)} />}
+      {detail && <DetailModal2 p={detail} lang={lang} t={t} onClose={()=>setDetail(null)} onContact={p=>{setDetail(null);setContact(p)}} />}
+      {contact && <EnquiryModal2 target={contact} t={t} onClose={()=>setContact(null)} />}
     </div>
   )
 }
 
 // ─── DIRECTORY PAGE ───────────────────────────────────────────────────────────
-function DirectoryPage2({ lang, t, profiles }) {
-  const [q, setQ]           = useState('')
-  const [cat, setCat]       = useState('')
-  const [typeF, setTypeF]   = useState('all')
+function Directory2({ lang, t, profiles }) {
+  const [q, setQ] = useState('')
+  const [cat, setCat] = useState('')
+  const [typeF, setTypeF] = useState('all')
   const [detail, setDetail] = useState(null)
   const [contact, setContact] = useState(null)
 
   const results = useMemo(()=>{
     let r = profiles
-    if (typeF==='company')    r = r.filter(p=>p.type==='company')
-    if (typeF==='freelancer') r = r.filter(p=>p.type==='freelancer')
-    if (cat)  r = r.filter(p=>p.cat===cat)
-    if (q.trim()) {
-      const lq = q.toLowerCase()
-      r = r.filter(p=>(p.name+' '+(p.tags||[]).join(' ')+' '+p.city+' '+(p.desc?.en||'')).toLowerCase().includes(lq))
-    }
+    if (typeF==='company')    r=r.filter(p=>p.type==='company')
+    if (typeF==='freelancer') r=r.filter(p=>p.type==='freelancer')
+    if (cat) r=r.filter(p=>p.cat===cat)
+    if (q.trim()) { const lq=q.toLowerCase(); r=r.filter(p=>(p.name+' '+(p.tags||[]).join(' ')+' '+p.city+' '+(p.desc?.en||'')).toLowerCase().includes(lq)) }
     return r
   },[profiles,q,cat,typeF])
 
   return (
-    <div style={{ background:G.bg, minHeight:'100vh', paddingTop:76 }}>
-      <VideoBg src="/bg-video-companies.mp4" />
-      <div style={{ position:'relative', zIndex:1 }}>
-        {/* Page header */}
-        <div style={{ background:'linear-gradient(0deg,rgba(15,17,23,1) 0%,transparent 100%)', padding:'48px 0 32px' }}>
-          <div className="wrap">
-            <h1 style={{ fontFamily:"'EB Garamond',serif", fontSize:'clamp(36px,5vw,56px)', fontWeight:700, letterSpacing:'-0.5px', color:'#F0EBE0', marginBottom:8 }}>Companies &amp; Freelancers</h1>
-            <p style={{ color:G.muted, fontSize:15 }}>Verified businesses from Kosova ready to partner with EU companies</p>
-          </div>
-        </div>
-
-        <div style={{ background:G.bg, minHeight:'70vh' }}>
-          <div className="wrap" style={{ paddingTop:24, paddingBottom:48 }}>
-            {/* Controls */}
-            <div style={{ display:'flex', gap:10, marginBottom:24, flexWrap:'wrap', alignItems:'center' }}>
-              <input className="inp2" placeholder={t.searchPH} value={q} onChange={e=>setQ(e.target.value)}
-                style={{ flex:1, minWidth:220, maxWidth:400 }} />
-              <div style={{ display:'flex', gap:6 }}>
-                {[['all',t.allTypes],['company',t.onlyComp],['freelancer',t.onlyFL]].map(([v,l])=>(
-                  <button key={v} onClick={()=>setTypeF(v)}
-                    className={typeF===v?'btn-amber':'btn-ghost'}
-                    style={{ padding:'8px 14px', fontSize:12 }}>{l}</button>
-                ))}
-              </div>
-            </div>
-
-            {/* Sector filters */}
-            <div style={{ display:'flex', gap:6, flexWrap:'wrap', marginBottom:24 }}>
-              <button onClick={()=>setCat('')} className={!cat?'btn-amber':'btn-ghost'} style={{ padding:'5px 12px', fontSize:11 }}>{t.allSectors}</button>
-              {CATS.map(c=>(
-                <button key={c.id} onClick={()=>setCat(cat===c.id?'':c.id)}
-                  style={{ padding:'5px 12px', fontSize:11, cursor:'pointer', border:`1px solid ${cat===c.id?hexToRgba(c.color,0.50):hexToRgba(c.color,0.18)}`, borderRadius:5, background: cat===c.id?hexToRgba(c.color,0.18):'transparent', color: cat===c.id?c.color:G.muted, transition:'all 0.15s' }}>
-                  {c.icon} {c.labels[lang]}
-                </button>
-              ))}
-            </div>
-
-            {/* Results count */}
-            <div style={{ marginBottom:16, fontSize:12, color:G.muted }}>
-              {results.length} {results.length===1?'listing':'listings'} found
-            </div>
-
-            {/* Grid */}
-            {results.length > 0 ? (
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:14 }}>
-                {results.map(p=>(
-                  <ProfileCard2 key={p.id} p={p} lang={lang} t={t}
-                    onContact={setContact} onView={setDetail} />
-                ))}
-              </div>
-            ) : (
-              <div style={{ textAlign:'center', padding:'64px 0', color:G.muted }}>
-                <div style={{ fontSize:36, marginBottom:12 }}>🔍</div>
-                <div style={{ fontFamily:"'EB Garamond',serif", fontSize:22, marginBottom:6 }}>{t.noResults}</div>
-                <div style={{ fontSize:14 }}>{t.noResultsSub}</div>
-              </div>
-            )}
-          </div>
+    <div style={{ background:G.bg, minHeight:'100vh', paddingTop:62 }}>
+      {/* Page header */}
+      <div style={{ background:G.navBg, padding:'52px 0 40px' }}>
+        <div className="wrap2">
+          <div className="sec-label" style={{ color:'#93B4F8' }}>Business Directory</div>
+          <h1 style={{ fontWeight:800, fontSize:'clamp(32px,5vw,52px)', letterSpacing:'-1px', color:'#F0EFEE', marginBottom:10 }}>Companies &amp; Freelancers</h1>
+          <p style={{ color:'rgba(240,239,238,0.55)', fontSize:15 }}>Verified businesses from Kosova open to EU partnerships</p>
         </div>
       </div>
-      {detail && <ProfileModal p={detail} lang={lang} t={t} onClose={()=>setDetail(null)} onContact={p=>{setDetail(null);setContact(p)}} />}
-      {contact && <EnquiryModal target={contact} t={t} onClose={()=>setContact(null)} />}
+
+      <div className="wrap2" style={{ paddingTop:28, paddingBottom:56 }}>
+        {/* Search + type filters */}
+        <div style={{ display:'flex', gap:10, marginBottom:20, flexWrap:'wrap', alignItems:'center' }}>
+          <input className="inp2" placeholder={t.searchPH} value={q} onChange={e=>setQ(e.target.value)}
+            style={{ flex:1, minWidth:200, maxWidth:420 }} />
+          <div style={{ display:'flex', gap:6, background:G.white, padding:4, borderRadius:9, border:`1px solid ${G.border}` }}>
+            {[['all',t.allTypes],['company',t.onlyComp],['freelancer',t.onlyFL]].map(([v,l])=>(
+              <button key={v} onClick={()=>setTypeF(v)}
+                style={{ padding:'6px 14px', borderRadius:6, border:'none', fontSize:12, fontWeight:600, background:typeF===v?G.blue:'transparent', color:typeF===v?'#fff':G.muted, transition:'all 0.16s' }}>{l}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* Sector filters */}
+        <div style={{ display:'flex', gap:6, flexWrap:'wrap', marginBottom:24 }}>
+          <button onClick={()=>setCat('')}
+            style={{ padding:'5px 14px', borderRadius:20, border:`1.5px solid ${!cat?G.blue:G.border}`, background:!cat?G.blueDim:'transparent', color:!cat?G.blue:G.muted, fontSize:11, fontWeight:600, cursor:'pointer', transition:'all 0.15s' }}>
+            {t.allSectors}
+          </button>
+          {CATS.map(c=>(
+            <button key={c.id} onClick={()=>setCat(cat===c.id?'':c.id)}
+              style={{ padding:'5px 12px', borderRadius:20, border:`1.5px solid ${cat===c.id?hexToRgba(c.color,0.50):hexToRgba(c.color,0.20)}`, background:cat===c.id?hexToRgba(c.color,0.10):'transparent', color:cat===c.id?c.color:G.muted, fontSize:11, fontWeight:600, cursor:'pointer', transition:'all 0.15s' }}>
+              {c.icon} {c.labels[lang]||c.labels.en}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ fontSize:12, color:G.dim, marginBottom:16 }}>{results.length} {results.length===1?'listing':'listings'} found</div>
+
+        {results.length > 0 ? (
+          <div className="grid-3">
+            {results.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail} />)}
+          </div>
+        ) : (
+          <div style={{ textAlign:'center', padding:'64px 0', color:G.muted }}>
+            <div style={{ fontSize:40, marginBottom:12 }}>🔍</div>
+            <div style={{ fontWeight:700, fontSize:20, marginBottom:6, color:G.text }}>{t.noResults}</div>
+            <div style={{ fontSize:14 }}>{t.noResultsSub}</div>
+          </div>
+        )}
+      </div>
+      {detail && <DetailModal2 p={detail} lang={lang} t={t} onClose={()=>setDetail(null)} onContact={p=>{setDetail(null);setContact(p)}} />}
+      {contact && <EnquiryModal2 target={contact} t={t} onClose={()=>setContact(null)} />}
     </div>
   )
 }
 
 // ─── CONCIERGE PAGE ───────────────────────────────────────────────────────────
-function ConciergePage2({ lang, t, siteContent }) {
+function Concierge2({ lang, t, siteContent }) {
   const [bookModal, setBookModal] = useState(false)
-  const [bookForm, setBookForm] = useState({ name:'', company:'', email:'', goal:'', timeframe:'', pax:'1' })
-  const [bookDone, setBookDone] = useState(false)
-  const [bookSaving, setBookSaving] = useState(false)
-  const P = siteContent?.partners || {}
+  const [form, setForm] = useState({ name:'', company:'', email:'', goal:'', timeframe:'', pax:'1' })
+  const [done, setDone] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const P = siteContent?.partners||{}
 
-  const submitBook = async () => {
-    if (!bookForm.name||!bookForm.email) return
-    setBookSaving(true)
-    try {
-      await insertBooking({ name:bookForm.name, company:bookForm.company||null, email:bookForm.email, goal:bookForm.goal||null, timeframe:bookForm.timeframe||null, pax:parseInt(bookForm.pax)||1 })
-      await sendBookingConfirmation({ name:bookForm.name, email:bookForm.email })
-      setBookDone(true)
-    } catch {}
-    setBookSaving(false)
+  const submit = async () => {
+    if (!form.name||!form.email) return
+    setBusy(true)
+    try { await insertBooking({ name:form.name, company:form.company||null, email:form.email, goal:form.goal||null, timeframe:form.timeframe||null, pax:parseInt(form.pax)||1 }); await sendBookingConfirmation({ name:form.name, email:form.email }); setDone(true) } catch{}
+    setBusy(false)
   }
 
-  const howSteps = [
-    { n:'01', ic:'📋', t:'Describe your needs', d:'Fill in the short form or schedule an initial call.' },
-    { n:'02', ic:'🎯', t:'We match you', d:'rootsGTM identifies the best companies for your goals.' },
-    { n:'03', ic:'🤝', t:'Partner plans your visit', d:'Meetings, site tours and government appointments are arranged.' },
-    { n:'04', ic:'✈️', t:'You arrive', d:'Everything prepared — contacts, schedule, logistics.' },
-    { n:'05', ic:'📄', t:'Follow-up', d:'Contracts, next steps and long-term partnership support.' },
-  ]
-
   return (
-    <div style={{ background:G.bg, minHeight:'100vh', paddingTop:60 }}>
-      <VideoBg src="/bg-video-concierge.mp4" />
+    <div style={{ background:G.bg, minHeight:'100vh', paddingTop:62 }}>
+      {/* Hero */}
+      <div style={{ background:G.navBg, padding:'56px 0 48px', position:'relative', overflow:'hidden' }}>
+        <div style={{ position:'absolute', top:0, right:0, width:400, height:400, background:'radial-gradient(circle at 80% 30%, rgba(36,88,212,0.20) 0%, transparent 70%)', pointerEvents:'none' }} />
+        <div className="wrap2" style={{ position:'relative', zIndex:1 }}>
+          <div className="sec-label" style={{ color:'#93B4F8' }}>Exclusive Service</div>
+          <h1 style={{ fontWeight:800, fontSize:'clamp(36px,5.5vw,60px)', letterSpacing:'-1px', color:'#F0EFEE', marginBottom:14 }}>{t.concTitle}</h1>
+          <p style={{ fontSize:'clamp(15px,2vw,18px)', color:'rgba(240,239,238,0.58)', maxWidth:540, lineHeight:1.72, marginBottom:28 }}>{t.concSub}</p>
+          <button className="btn-white2" style={{ padding:'12px 26px' }} onClick={()=>setBookModal(true)}>{t.concCta}</button>
+        </div>
+      </div>
 
-      <div style={{ position:'relative', zIndex:1 }}>
-        {/* ── HERO ── */}
-        <div style={{ padding:'80px 0 60px', background:'linear-gradient(0deg,rgba(15,17,23,1) 0%,transparent 80%)' }}>
-          <div className="wrap">
-            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16 }}>
-              <div style={{ width:24, height:2, background:G.amber }} />
-              <span style={{ fontSize:11, fontWeight:600, letterSpacing:'2px', textTransform:'uppercase', color:G.amber }}>Exclusive Service</span>
+      <div className="wrap2" style={{ paddingTop:48, paddingBottom:56 }}>
+        {/* How it works */}
+        <div className="sec-label">Process</div>
+        <h2 style={{ fontWeight:700, fontSize:26, marginBottom:24, letterSpacing:'-0.3px' }}>How It Works</h2>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:14, marginBottom:56 }}>
+          {[
+            { n:'01', ic:'📋', t:'Share your needs', d:'Fill in the short form — takes 2 minutes.' },
+            { n:'02', ic:'🎯', t:'We match you', d:'Our partner identifies the best Kosova contacts.' },
+            { n:'03', ic:'📅', t:'Visit is planned', d:'Meetings, site tours and government appointments arranged.' },
+            { n:'04', ic:'✈️', t:'You arrive', d:'Full schedule prepared and confirmed in advance.' },
+            { n:'05', ic:'📄', t:'Follow-up support', d:'Contracts, introductions and next steps.' },
+          ].map(step=>(
+            <div key={step.n} className="c2" style={{ padding:'20px' }}>
+              <div style={{ fontSize:11, fontWeight:700, color:G.blue, letterSpacing:'1px', marginBottom:10 }}>{step.n}</div>
+              <div style={{ fontSize:20, marginBottom:8 }}>{step.ic}</div>
+              <div style={{ fontWeight:600, fontSize:14, marginBottom:5 }}>{step.t}</div>
+              <div style={{ fontSize:12, color:G.muted, lineHeight:1.6 }}>{step.d}</div>
             </div>
-            <h1 style={{ fontFamily:"'EB Garamond',serif", fontSize:'clamp(38px,6vw,68px)', fontWeight:700, letterSpacing:'-0.5px', color:'#F0EBE0', marginBottom:16 }}>{t.concHeroTitle}</h1>
-            <p style={{ fontSize:'clamp(15px,2vw,18px)', color:'rgba(226,221,214,0.68)', maxWidth:560, lineHeight:1.7, marginBottom:32 }}>{t.concHeroSub}</p>
-            <button className="btn-amber" style={{ padding:'13px 28px', fontSize:14 }} onClick={()=>setBookModal(true)}>{t.concReq}</button>
-          </div>
+          ))}
         </div>
 
-        <div style={{ background:G.bg }}>
-          {/* ── HOW IT WORKS ── */}
-          <div className="section wrap" style={{ borderTop:`1px solid ${G.border}` }}>
-            <RuleHeader title="How It Works" />
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:16 }}>
-              {howSteps.map(step=>(
-                <div key={step.n} style={{ padding:'20px', background:G.card, border:`1px solid ${G.border}`, borderRadius:10, position:'relative', overflow:'hidden' }}>
-                  <div style={{ position:'absolute', top:12, right:14, fontFamily:"'EB Garamond',serif", fontSize:36, fontWeight:700, color:hexToRgba(G.amber,0.08), lineHeight:1 }}>{step.n}</div>
-                  <div style={{ fontSize:24, marginBottom:10 }}>{step.ic}</div>
-                  <div style={{ fontFamily:"'EB Garamond',serif", fontWeight:600, fontSize:16, marginBottom:6, color:G.text }}>{step.t}</div>
-                  <div style={{ fontSize:13, color:G.muted, lineHeight:1.6 }}>{step.d}</div>
+        {/* Partners */}
+        <div className="sec-label">Partners</div>
+        <h2 style={{ fontWeight:700, fontSize:26, marginBottom:24, letterSpacing:'-0.3px' }}>Our General Partners</h2>
+        <div className="grid-2">
+          {/* rootsGTM */}
+          <div className="c2">
+            <div style={{ height:5, background:`linear-gradient(90deg,${G.blue},${G.violet})`, borderRadius:'14px 14px 0 0' }} />
+            {P.rootsgtm_cover && <div style={{ height:80, overflow:'hidden' }}><img src={P.rootsgtm_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:P.rootsgtm_cover_focus||'50% 50%' }} /></div>}
+            <div style={{ padding:'20px' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:14 }}>
+                {P.rootsgtm_logo ? <img src={P.rootsgtm_logo} alt="" style={{ width:44, height:44, borderRadius:10, objectFit:'cover', border:`1.5px solid ${G.border}` }} /> : <div style={{ width:44, height:44, borderRadius:10, background:G.blueDim, border:`1.5px solid ${G.blueBd}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22 }}>🚀</div>}
+                <div>
+                  <div style={{ fontWeight:700, fontSize:17 }}>{P.rootsgtm_name||'rootsGTM'}</div>
+                  <div style={{ fontSize:11, color:G.dim }}>General Partner</div>
                 </div>
-              ))}
+                <span className="pill2" style={{ marginLeft:'auto', background:hexToRgba(G.green,0.10), color:G.green, border:`1px solid ${hexToRgba(G.green,0.22)}` }}>✓ Active</span>
+              </div>
+              <p style={{ fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:16 }}>{P.rootsgtm_desc||'rootsGTM is our exclusive sales and business development network for EU–Kosova connections.'}</p>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
+                {['🤝 Direct contact','📅 Meeting setup','🎤 Events','📄 Follow-up'].map(f=><div key={f} style={{ fontSize:12, color:G.muted, background:G.surface, border:`1px solid ${G.border}`, borderRadius:6, padding:'7px 10px' }}>{f}</div>)}
+              </div>
+              <button className="btn-primary2" style={{ width:'100%' }} onClick={()=>setBookModal(true)}>Enquire via rootsGTM →</button>
             </div>
           </div>
 
-          {/* ── PARTNERS ── */}
-          <div className="section wrap" style={{ borderTop:`1px solid ${G.border}` }}>
-            <RuleHeader title="General Partners" />
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
-              {/* rootsGTM */}
-              <div style={{ background:G.card, border:`1px solid ${G.slateBd}`, borderRadius:12, overflow:'hidden' }}>
-                {P.rootsgtm_cover && <div style={{ height:90, overflow:'hidden', position:'relative' }}><img src={P.rootsgtm_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:P.rootsgtm_cover_focus||'50% 50%' }} /><div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(28,32,48,0.9) 0%,transparent 60%)' }} /></div>}
-                <div style={{ padding:'20px' }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:14 }}>
-                    {P.rootsgtm_logo ? <img src={P.rootsgtm_logo} alt="" style={{ width:42, height:42, borderRadius:8, objectFit:'cover', border:`1.5px solid ${G.slateBd}` }} /> : <div style={{ width:42, height:42, borderRadius:8, background:G.slateDim, border:`1.5px solid ${G.slateBd}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>🚀</div>}
-                    <div>
-                      <div style={{ fontFamily:"'EB Garamond',serif", fontWeight:600, fontSize:18, color:G.slate }}>{P.rootsgtm_name||'rootsGTM'}</div>
-                      <div style={{ fontSize:11, color:G.dim }}>General Partner · Active</div>
-                    </div>
-                    <span className="badge badge-green" style={{ marginLeft:'auto' }}>✓ Live</span>
-                  </div>
-                  <p style={{ fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:16 }}>{P.rootsgtm_desc||'rootsGTM is our exclusive sales network for EU–Kosova connections.'}</p>
-                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:6, marginBottom:16 }}>
-                    {['🤝 Direct client contact','📅 Meeting organisation','🎤 Events & networking','📄 Follow-up & contracts'].map(f=>(
-                      <div key={f} style={{ fontSize:12, color:G.muted, background:G.slateDim, border:`1px solid ${G.slateBd}`, borderRadius:5, padding:'6px 8px' }}>{f}</div>
-                    ))}
-                  </div>
-                  <button className="btn-slate" style={{ width:'100%' }} onClick={()=>setBookModal(true)}>Enquire via rootsGTM →</button>
+          {/* Government */}
+          <div className="c2">
+            <div style={{ height:5, background:`linear-gradient(90deg,#D97706,#F59E0B)`, borderRadius:'14px 14px 0 0' }} />
+            {P.gov_cover && <div style={{ height:80, overflow:'hidden' }}><img src={P.gov_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:P.gov_cover_focus||'50% 50%' }} /></div>}
+            <div style={{ padding:'20px' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:14 }}>
+                {P.gov_logo ? <img src={P.gov_logo} alt="" style={{ width:44, height:44, borderRadius:10, objectFit:'cover', border:`1.5px solid ${G.border}` }} /> : <div style={{ width:44, height:44, borderRadius:10, background:'rgba(217,119,6,0.10)', border:'1.5px solid rgba(217,119,6,0.22)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22 }}>🏛️</div>}
+                <div>
+                  <div style={{ fontWeight:700, fontSize:17 }}>{P.gov_name||'Kosova Government'}</div>
+                  <div style={{ fontSize:11, color:G.dim }}>InvestKosova · Official Partner</div>
                 </div>
+                <span className="pill2" style={{ marginLeft:'auto', background:'rgba(217,119,6,0.10)', color:'#B45309', border:'1px solid rgba(217,119,6,0.22)' }}>⏳ Negotiating</span>
               </div>
-
-              {/* Government */}
-              <div style={{ background:G.card, border:`1px solid ${G.amberBd}`, borderRadius:12, overflow:'hidden' }}>
-                {P.gov_cover && <div style={{ height:90, overflow:'hidden', position:'relative' }}><img src={P.gov_cover} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:P.gov_cover_focus||'50% 50%' }} /><div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(28,32,48,0.9) 0%,transparent 60%)' }} /></div>}
-                <div style={{ padding:'20px' }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:14 }}>
-                    {P.gov_logo ? <img src={P.gov_logo} alt="" style={{ width:42, height:42, borderRadius:8, objectFit:'cover', border:`1.5px solid ${G.amberBd}` }} /> : <div style={{ width:42, height:42, borderRadius:8, background:G.amberDim, border:`1.5px solid ${G.amberBd}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>🏛️</div>}
-                    <div>
-                      <div style={{ fontFamily:"'EB Garamond',serif", fontWeight:600, fontSize:18, color:G.amber }}>{P.gov_name||'Kosova Government'}</div>
-                      <div style={{ fontSize:11, color:G.dim }}>InvestKosova · Official Partner</div>
-                    </div>
-                    <span className="badge badge-amber" style={{ marginLeft:'auto' }}>⏳ Negotiating</span>
-                  </div>
-                  <p style={{ fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:16 }}>{P.gov_desc||'Building an official partnership with InvestKosova and the Ministry of Economy.'}</p>
-                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:6, marginBottom:16 }}>
-                    {['🏛️ InvestKosova meetings','📋 Company formation advice','🤝 Ministry appointments','📊 Investment support'].map(f=>(
-                      <div key={f} style={{ fontSize:12, color:G.muted, background:G.amberDim, border:`1px solid ${G.amberBd}`, borderRadius:5, padding:'6px 8px' }}>{f}</div>
-                    ))}
-                  </div>
-                  <button className="btn-amber" style={{ width:'100%' }} onClick={()=>setBookModal(true)}>Request Government Meeting →</button>
-                </div>
+              <p style={{ fontSize:13, color:G.muted, lineHeight:1.65, marginBottom:16 }}>{P.gov_desc||'Building an official partnership with InvestKosova and the Ministry of Economy for business support services.'}</p>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
+                {['🏛️ InvestKosova','📋 Formation advice','🤝 Ministry meetings','📊 Investment support'].map(f=><div key={f} style={{ fontSize:12, color:G.muted, background:G.surface, border:`1px solid ${G.border}`, borderRadius:6, padding:'7px 10px' }}>{f}</div>)}
               </div>
-            </div>
-          </div>
-
-          {/* ── CTA ── */}
-          <div style={{ borderTop:`1px solid ${G.border}`, padding:'48px 0', background:`linear-gradient(135deg,${hexToRgba(G.amber,0.04)} 0%,transparent 100%)` }}>
-            <div className="wrap" style={{ textAlign:'center' }}>
-              <h3 style={{ fontFamily:"'EB Garamond',serif", fontSize:36, fontWeight:700, color:'#F0EBE0', marginBottom:12 }}>Ready for your Kosova visit?</h3>
-              <p style={{ color:G.muted, marginBottom:24, fontSize:15 }}>Free initial call · Reply within 24h · No deposit required</p>
-              <button className="btn-amber" style={{ padding:'14px 32px', fontSize:15 }} onClick={()=>setBookModal(true)}>Request a Visit →</button>
+              <button onClick={()=>setBookModal(true)} style={{ width:'100%', padding:'10px', borderRadius:8, background:'rgba(217,119,6,0.10)', border:'2px solid rgba(217,119,6,0.28)', color:'#B45309', fontWeight:700, fontSize:13, cursor:'pointer', transition:'all 0.18s' }}>Request Government Meeting →</button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── BOOKING MODAL ── */}
+      {/* Booking modal */}
       {bookModal && (
         <div className="modal-bg2" onClick={e=>e.target===e.currentTarget&&setBookModal(false)}>
-          <div className="modal2" style={{ maxWidth:500 }}>
-            <div style={{ display:'flex', justifyContent:'space-between', marginBottom:24 }}>
-              <div style={{ fontFamily:"'EB Garamond',serif", fontSize:24, fontWeight:600 }}>{t.bookTitle}</div>
-              <button onClick={()=>setBookModal(false)} className="btn-ghost" style={{ padding:'6px 10px' }}>✕</button>
+          <div className="modal2" style={{ maxWidth:480 }}>
+            <div style={{ display:'flex', justifyContent:'space-between', marginBottom:22 }}>
+              <div style={{ fontWeight:700, fontSize:20 }}>{t.bookTitle}</div>
+              <button onClick={()=>setBookModal(false)} className="btn-ghost2">✕</button>
             </div>
-            {bookDone ? (
-              <div style={{ textAlign:'center', padding:'32px 0' }}>
-                <div style={{ fontSize:42, marginBottom:12 }}>✓</div>
-                <div style={{ fontFamily:"'EB Garamond',serif", fontSize:24, fontWeight:600, marginBottom:8 }}>{t.bookDoneTitle}</div>
+            {done ? (
+              <div style={{ textAlign:'center', padding:'28px 0' }}>
+                <div style={{ width:56, height:56, borderRadius:'50%', background:hexToRgba(G.green,0.12), display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 14px', fontSize:26 }}>✓</div>
+                <div style={{ fontWeight:700, fontSize:20, marginBottom:6 }}>{t.bookDone}</div>
                 <div style={{ color:G.muted }}>{t.bookDoneSub}</div>
               </div>
             ) : (
-              <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:13 }}>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
-                  <div><label className="label2">{t.bookName}</label><input className="inp2" value={bookForm.name} onChange={e=>setBookForm(f=>({...f,name:e.target.value}))} /></div>
-                  <div><label className="label2">{t.bookComp}</label><input className="inp2" value={bookForm.company} onChange={e=>setBookForm(f=>({...f,company:e.target.value}))} /></div>
+                  <div><label className="label2">{t.bookName}</label><input className="inp2" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} /></div>
+                  <div><label className="label2">{t.bookComp}</label><input className="inp2" value={form.company} onChange={e=>setForm(f=>({...f,company:e.target.value}))} /></div>
                 </div>
-                <div><label className="label2">{t.bookEmail}</label><input className="inp2" type="email" value={bookForm.email} onChange={e=>setBookForm(f=>({...f,email:e.target.value}))} /></div>
-                <div><label className="label2">{t.bookGoal}</label><textarea className="inp2" rows={3} placeholder={t.bookGoalPH} value={bookForm.goal} onChange={e=>setBookForm(f=>({...f,goal:e.target.value}))} style={{ resize:'vertical' }} /></div>
+                <div><label className="label2">{t.bookEmail}</label><input className="inp2" type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} /></div>
+                <div><label className="label2">{t.bookGoal}</label><textarea className="inp2" rows={3} placeholder={t.bookGoalPH} value={form.goal} onChange={e=>setForm(f=>({...f,goal:e.target.value}))} style={{ resize:'vertical' }} /></div>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
-                  <div><label className="label2">{t.bookWhen}</label><input className="inp2" placeholder="e.g. June 2025" value={bookForm.timeframe} onChange={e=>setBookForm(f=>({...f,timeframe:e.target.value}))} /></div>
-                  <div><label className="label2">{t.bookPax}</label>
-                    <select className="inp2" value={bookForm.pax} onChange={e=>setBookForm(f=>({...f,pax:e.target.value}))}>
-                      {['1','2','3','4','5','6','7','8+'].map(n=><option key={n}>{n}</option>)}
-                    </select>
-                  </div>
+                  <div><label className="label2">{t.bookWhen}</label><input className="inp2" placeholder="e.g. June 2025" value={form.timeframe} onChange={e=>setForm(f=>({...f,timeframe:e.target.value}))} /></div>
+                  <div><label className="label2">{t.bookPax}</label><select className="inp2" value={form.pax} onChange={e=>setForm(f=>({...f,pax:e.target.value}))}>{['1','2','3','4','5','6','7','8+'].map(n=><option key={n}>{n}</option>)}</select></div>
                 </div>
-                <button className="btn-amber" onClick={submitBook} disabled={bookSaving} style={{ marginTop:4 }}>{bookSaving?'Submitting…':t.bookSend}</button>
+                <button className="btn-primary2" onClick={submit} disabled={busy} style={{ marginTop:4 }}>{busy?'Submitting…':t.bookSend}</button>
               </div>
             )}
           </div>
@@ -984,98 +819,87 @@ function ConciergePage2({ lang, t, siteContent }) {
 }
 
 // ─── GOVERNMENT / INVEST PAGE ─────────────────────────────────────────────────
-function GovPage2({ lang, t }) {
-  const facts = t.govFacts
-  const steps = t.govSteps
+function Gov2({ lang, t }) {
   const links = [
-    { label:'ARBK — Business Registration', url:'https://arbk.rks-gov.net' },
-    { label:'InvestKosova', url:'https://investkosova.com' },
-    { label:'Tax Administration of Kosova', url:'https://www.atk-ks.org' },
-    { label:'Chamber of Commerce', url:'https://www.kkk-rks.com' },
+    { l:'ARBK — Business Registration', u:'https://arbk.rks-gov.net' },
+    { l:'InvestKosova', u:'https://investkosova.com' },
+    { l:'Tax Administration (ATK)', u:'https://www.atk-ks.org' },
+    { l:'Chamber of Commerce (OEK)', u:'https://www.kkk-rks.com' },
   ]
-
   return (
-    <div style={{ background:G.bg, minHeight:'100vh', paddingTop:60 }}>
-      <VideoBg src="/bg-video-gov.mp4" />
-
-      <div style={{ position:'relative', zIndex:1 }}>
-        {/* ── HERO ── */}
-        <div style={{ padding:'80px 0 56px', background:'linear-gradient(0deg,rgba(15,17,23,1) 0%,transparent 80%)' }}>
-          <div className="wrap">
-            <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'4px 12px', background:G.amberDim, border:`1px solid ${G.amberBd}`, borderRadius:4, marginBottom:20 }}>
-              <span style={{ fontSize:11, fontWeight:600, letterSpacing:'1.5px', textTransform:'uppercase', color:G.amber }}>Official Information</span>
-            </div>
-            <h1 style={{ fontFamily:"'EB Garamond',serif", fontSize:'clamp(38px,6vw,64px)', fontWeight:700, letterSpacing:'-0.5px', color:'#F0EBE0', lineHeight:1.05, marginBottom:16 }}>
-              {t.govH1}<br /><em style={{ color:G.amber, fontStyle:'italic' }}>{t.govH2}</em>
-            </h1>
-            <p style={{ fontSize:'clamp(15px,2vw,18px)', color:'rgba(226,221,214,0.68)', maxWidth:520, lineHeight:1.7 }}>{t.govSub}</p>
+    <div style={{ background:G.bg, minHeight:'100vh', paddingTop:62 }}>
+      {/* Hero */}
+      <div style={{ background:G.navBg, padding:'56px 0 48px', position:'relative', overflow:'hidden' }}>
+        <div style={{ position:'absolute', top:0, right:0, width:450, height:450, background:'radial-gradient(circle at 80% 20%, rgba(107,53,194,0.20) 0%, transparent 70%)', pointerEvents:'none' }} />
+        <div className="wrap2" style={{ position:'relative', zIndex:1 }}>
+          <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'4px 12px', background:'rgba(36,88,212,0.18)', border:'1px solid rgba(36,88,212,0.30)', borderRadius:20, marginBottom:18 }}>
+            <span style={{ fontSize:10, fontWeight:700, letterSpacing:'1.5px', textTransform:'uppercase', color:'#93B4F8' }}>Official Information</span>
           </div>
+          <h1 style={{ fontWeight:800, fontSize:'clamp(32px,5vw,56px)', letterSpacing:'-1px', color:'#F0EFEE', marginBottom:12 }}>{t.govTitle}</h1>
+          <p style={{ fontSize:'clamp(14px,1.8vw,17px)', color:'rgba(240,239,238,0.55)', maxWidth:560, lineHeight:1.7 }}>{t.govSub}</p>
+        </div>
+      </div>
+
+      <div className="wrap2" style={{ paddingTop:48, paddingBottom:56 }}>
+        {/* Key facts */}
+        <div className="sec-label">At a Glance</div>
+        <h2 style={{ fontWeight:700, fontSize:26, marginBottom:24, letterSpacing:'-0.3px' }}>{t.govFactsTitle}</h2>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))', gap:10, marginBottom:52 }}>
+          {t.govFacts.map(([val,label],i)=>(
+            <div key={label} className="stat2" style={{ textAlign:'center', borderTop:`3px solid ${CATS[i%CATS.length].color}` }}>
+              <div style={{ fontWeight:800, fontSize:28, color:G.text, letterSpacing:'-0.5px', lineHeight:1, marginBottom:5 }}>{val}</div>
+              <div style={{ fontSize:11, color:G.muted, fontWeight:500 }}>{label}</div>
+            </div>
+          ))}
         </div>
 
-        <div style={{ background:G.bg }}>
-          {/* ── KEY FACTS ── */}
-          <div className="section wrap" style={{ borderTop:`1px solid ${G.border}` }}>
-            <RuleHeader title={t.govFactsTitle} />
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(140px,1fr))', gap:12 }}>
-              {facts.map(([val,label])=>(
-                <div key={label} style={{ padding:'20px 16px', background:G.card, border:`1px solid ${G.border}`, borderRadius:10, textAlign:'center' }}>
-                  <div style={{ fontFamily:"'EB Garamond',serif", fontSize:30, fontWeight:700, color:G.amber, lineHeight:1, marginBottom:6 }}>{val}</div>
-                  <div style={{ fontSize:11, color:G.muted, letterSpacing:'0.5px' }}>{label}</div>
+        {/* Formation steps */}
+        <div className="sec-label">Step by Step</div>
+        <h2 style={{ fontWeight:700, fontSize:26, marginBottom:24, letterSpacing:'-0.3px' }}>Company Formation</h2>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(230px,1fr))', gap:14, marginBottom:52 }}>
+          {t.govSteps.map((step,i)=>(
+            <div key={i} className="c2" style={{ padding:'20px', borderLeft:`3px solid ${G.blue}` }}>
+              <div style={{ display:'flex', gap:12, alignItems:'flex-start' }}>
+                <div style={{ width:42, height:42, borderRadius:10, background:G.blueDim, border:`1.5px solid ${G.blueBd}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0 }}>{step.ic}</div>
+                <div>
+                  <div style={{ fontWeight:700, fontSize:14, marginBottom:4 }}>{step.t}</div>
+                  <div style={{ fontSize:12, color:G.muted, lineHeight:1.55, marginBottom:8 }}>{step.d}</div>
+                  <span className="pill2" style={{ background:G.blueDim, color:G.blue, border:`1px solid ${G.blueBd}`, fontSize:10 }}>⏱ {step.time}</span>
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
+          ))}
+        </div>
 
-          {/* ── FORMATION STEPS ── */}
-          <div className="section wrap" style={{ borderTop:`1px solid ${G.border}` }}>
-            <RuleHeader title="Company Formation Process" />
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:14 }}>
-              {steps.map((step,i)=>(
-                <div key={i} style={{ display:'flex', gap:14, padding:'18px', background:G.card, border:`1px solid ${G.border}`, borderRadius:10, alignItems:'flex-start' }}>
-                  <div style={{ width:40, height:40, borderRadius:8, background:G.amberDim, border:`1.5px solid ${G.amberBd}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0 }}>{step.ic}</div>
+        {/* Why Kosova + Links */}
+        <div className="grid-2">
+          <div>
+            <div className="sec-label">Benefits</div>
+            <h2 style={{ fontWeight:700, fontSize:26, marginBottom:24, letterSpacing:'-0.3px' }}>Why Kosova?</h2>
+            <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
+              {t.whyKosova.map(([ic,title,desc])=>(
+                <div key={title} className="c2" style={{ padding:'16px 18px', display:'flex', gap:12, alignItems:'flex-start' }}>
+                  <div style={{ width:38, height:38, borderRadius:9, background:G.surface, border:`1px solid ${G.border}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0 }}>{ic}</div>
                   <div>
-                    <div style={{ fontWeight:600, fontSize:14, marginBottom:4, color:G.text }}>{step.t}</div>
-                    <div style={{ fontSize:12, color:G.muted, lineHeight:1.5, marginBottom:6 }}>{step.d}</div>
-                    <span className="badge badge-amber">{step.time}</span>
+                    <div style={{ fontWeight:600, fontSize:14, marginBottom:3 }}>{title}</div>
+                    <div style={{ fontSize:12, color:G.muted, lineHeight:1.5 }}>{desc}</div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* ── WHY KOSOVA ── */}
-          <div className="section wrap" style={{ borderTop:`1px solid ${G.border}` }}>
-            <RuleHeader title="Why Kosova?" />
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:24 }}>
-              <div>
-                {[
-                  ['📉','Lowest Tax in Region','10% flat corporate income tax — among the lowest in Europe.'],
-                  ['💶','Euro Currency','No exchange rate risk for EU companies.'],
-                  ['🎓','Young Educated Workforce','63% of the population under 35 with strong STEM education.'],
-                  ['🌍','EU Accession Path','Ongoing accession process with strong EU alignment.'],
-                ].map(([ic,title,desc])=>(
-                  <div key={title} style={{ display:'flex', gap:14, paddingBottom:20, marginBottom:20, borderBottom:`1px solid ${G.border}` }}>
-                    <div style={{ fontSize:24, flexShrink:0, marginTop:2 }}>{ic}</div>
-                    <div>
-                      <div style={{ fontFamily:"'EB Garamond',serif", fontWeight:600, fontSize:17, marginBottom:4 }}>{title}</div>
-                      <div style={{ fontSize:13, color:G.muted, lineHeight:1.6 }}>{desc}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ padding:'24px', background:G.card, border:`1px solid ${G.amberBd}`, borderRadius:12 }}>
-                <div style={{ fontFamily:"'EB Garamond',serif", fontSize:22, fontWeight:600, marginBottom:16 }}>Official Resources</div>
-                <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-                  {links.map(l=>(
-                    <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer"
-                      style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 14px', background:G.bg, border:`1px solid ${G.border}`, borderRadius:7, fontSize:13, color:G.text, transition:'all 0.16s' }}
-                      onMouseEnter={e=>{e.currentTarget.style.borderColor=G.amberBd;e.currentTarget.style.color=G.amber}}
-                      onMouseLeave={e=>{e.currentTarget.style.borderColor=G.border;e.currentTarget.style.color=G.text}}>
-                      {l.label} <span style={{ color:G.amber, fontSize:12 }}>→</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
+          <div>
+            <div className="sec-label">Resources</div>
+            <h2 style={{ fontWeight:700, fontSize:26, marginBottom:24, letterSpacing:'-0.3px' }}>{t.links}</h2>
+            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+              {links.map(lk=>(
+                <a key={lk.u} href={lk.u} target="_blank" rel="noopener noreferrer" className="c2"
+                  style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 18px', fontSize:14, color:G.text, fontWeight:500, transition:'all 0.18s' }}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor=G.blue;e.currentTarget.style.color=G.blue}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor=G.border;e.currentTarget.style.color=G.text}}>
+                  {lk.l} <span style={{ color:G.blue, fontSize:12 }}>→</span>
+                </a>
+              ))}
             </div>
           </div>
         </div>
@@ -1085,63 +909,62 @@ function GovPage2({ lang, t }) {
 }
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
-function Nav2({ page, setPage, lang, setLang, t, onRegister }) {
-  const [mobileOpen, setMobileOpen] = useState(false)
+function Nav2({ page, setPage, lang, setLang, t, onReg }) {
+  const [mob, setMob] = useState(false)
   const PAGES = [['home',t.navHome],['directory',t.navDir],['concierge',t.navConcierge],['gov',t.navGov]]
-
   return (
     <>
-      <nav className="nav2">
-        <div className="wrap" style={{ height:'100%', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+      <nav className="nav2" style={{ borderBottom:'1px solid rgba(255,255,255,0.07)' }}>
+        <div className="wrap2" style={{ height:62, display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           {/* Brand */}
           <button onClick={()=>setPage('home')} style={{ background:'transparent', border:'none', display:'flex', alignItems:'center', gap:10, cursor:'pointer', padding:0 }}>
-            <div style={{ width:30, height:30, borderRadius:6, background:`linear-gradient(135deg,${G.amber},${G.amber2})`, display:'flex', alignItems:'center', justifyContent:'center' }}>
-              <span style={{ fontFamily:"'EB Garamond',serif", fontWeight:800, fontSize:16, color:'#0f1117' }}>K</span>
+            <div style={{ width:32, height:32, borderRadius:8, background:`linear-gradient(135deg,${G.blue} 0%,${G.violet} 100%)`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <span style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:16, color:'#fff' }}>K</span>
             </div>
-            <div style={{ textAlign:'left' }}>
-              <div style={{ fontFamily:"'EB Garamond',serif", fontWeight:700, fontSize:17, color:'#F0EBE0', letterSpacing:'-0.2px', lineHeight:1.1 }}>Kosova Hub</div>
-              <div style={{ fontSize:9, color:G.dim, letterSpacing:'1px', textTransform:'uppercase', lineHeight:1 }}>B2B Gateway</div>
+            <div>
+              <div style={{ fontWeight:800, fontSize:16, color:'#F0EFEE', letterSpacing:'-0.3px', lineHeight:1.1 }}>Kosova Hub</div>
+              <div style={{ fontSize:9, color:'rgba(240,239,238,0.38)', letterSpacing:'1px', textTransform:'uppercase' }}>B2B Gateway</div>
             </div>
           </button>
 
-          {/* Desktop nav */}
-          <div className="navlinks-desktop" style={{ display:'flex', gap:2, alignItems:'center' }}>
+          {/* Desktop links */}
+          <div className="nav-links2" style={{ display:'flex', gap:2 }}>
             {PAGES.map(([p,l])=>(
-              <button key={p} className={`navlink2${page===p?' on':''}`} onClick={()=>setPage(p)}>{l}</button>
+              <button key={p} onClick={()=>setPage(p)}
+                style={{ background:page===p?'rgba(36,88,212,0.18)':'transparent', color:page===p?'#93B4F8':'rgba(240,239,238,0.62)', border:page===p?`1px solid rgba(36,88,212,0.30)`:'1px solid transparent', borderRadius:7, padding:'6px 12px', fontSize:13, fontWeight:500, cursor:'pointer', transition:'all 0.16s' }}>
+                {l}
+              </button>
             ))}
           </div>
 
-          {/* Right side */}
+          {/* Right */}
           <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-            {/* Lang */}
-            <div style={{ display:'flex', gap:2 }}>
-              {['en','sq'].map(l=>(
-                <button key={l} onClick={()=>setLang(l)}
-                  style={{ background:lang===l?G.amberDim:'transparent', border:`1px solid ${lang===l?G.amberBd:'transparent'}`, borderRadius:4, padding:'4px 8px', color:lang===l?G.amber:G.dim, fontSize:11, fontWeight:600, cursor:'pointer', transition:'all 0.15s' }}>
-                  {l.toUpperCase()}
-                </button>
-              ))}
-            </div>
-            <button className="btn-amber hide-mobile" style={{ padding:'7px 16px', fontSize:12 }} onClick={onRegister}>{t.registerBtn}</button>
+            {['en','sq'].map(l=>(
+              <button key={l} onClick={()=>setLang(l)}
+                style={{ background:lang===l?'rgba(36,88,212,0.22)':'transparent', border:`1px solid ${lang===l?'rgba(36,88,212,0.40)':'transparent'}`, borderRadius:5, padding:'4px 8px', color:lang===l?'#93B4F8':'rgba(240,239,238,0.40)', fontSize:11, fontWeight:700, cursor:'pointer', transition:'all 0.15s' }}>
+                {l.toUpperCase()}
+              </button>
+            ))}
+            <button className="btn-primary2 hide-mob" style={{ padding:'7px 16px', fontSize:12 }} onClick={onReg}>{t.registerBtn}</button>
             {/* Hamburger */}
-            <button className="hamburger2" onClick={()=>setMobileOpen(v=>!v)}
+            <button className="hamburger2" onClick={()=>setMob(v=>!v)}
               style={{ display:'none', flexDirection:'column', gap:4, background:'transparent', border:'none', padding:6, cursor:'pointer' }}>
-              {[0,1,2].map(i=><span key={i} style={{ display:'block', width:20, height:1.5, background:G.muted, borderRadius:1 }} />)}
+              {[0,1,2].map(i=><span key={i} style={{ display:'block', width:20, height:1.5, background:'rgba(240,239,238,0.7)', borderRadius:1 }} />)}
             </button>
           </div>
         </div>
       </nav>
 
       {/* Mobile menu */}
-      {mobileOpen && (
-        <div style={{ position:'fixed', top:60, left:0, right:0, background:G.surface, borderBottom:`1px solid ${G.border}`, zIndex:99, padding:'12px 16px 16px' }}>
+      {mob && (
+        <div style={{ position:'fixed', top:62, left:0, right:0, background:G.navBg, borderBottom:'1px solid rgba(255,255,255,0.08)', zIndex:99, padding:'12px 16px 16px' }}>
           {PAGES.map(([p,l])=>(
-            <button key={p} onClick={()=>{setPage(p);setMobileOpen(false)}}
-              style={{ display:'block', width:'100%', textAlign:'left', background: page===p?G.amberDim:'transparent', border:'none', borderRadius:6, padding:'12px 14px', color:page===p?G.amber:G.text, fontFamily:"'Inter',sans-serif", fontSize:14, fontWeight:500, marginBottom:4, cursor:'pointer' }}>
+            <button key={p} onClick={()=>{setPage(p);setMob(false)}}
+              style={{ display:'block', width:'100%', textAlign:'left', background:page===p?'rgba(36,88,212,0.18)':'transparent', border:'none', borderRadius:7, padding:'12px 14px', color:page===p?'#93B4F8':'rgba(240,239,238,0.70)', fontSize:14, fontWeight:500, marginBottom:4, cursor:'pointer' }}>
               {l}
             </button>
           ))}
-          <button className="btn-amber" style={{ width:'100%', marginTop:8 }} onClick={()=>{onRegister();setMobileOpen(false)}}>{t.registerBtn}</button>
+          <button className="btn-primary2" style={{ width:'100%', marginTop:8 }} onClick={()=>{onReg();setMob(false)}}>{t.registerBtn}</button>
         </div>
       )}
     </>
@@ -1150,33 +973,27 @@ function Nav2({ page, setPage, lang, setLang, t, onRegister }) {
 
 // ─── MAIN APP ────────────────────────────────────────────────────────────────
 export default function App2() {
-  const [lang, setLang] = useState('en')
-  const [page, setPage] = useState('home')
-  const [profiles, setProfiles] = useState([])
-  const [siteContent, setSiteContent] = useState({})
-  const [showReg, setShowReg] = useState(false)
+  const [lang, setLang]           = useState('en')
+  const [page, setPage]           = useState('home')
+  const [profiles, setProfiles]   = useState([])
+  const [siteContent, setSC]      = useState({})
+  const [showReg, setShowReg]     = useState(false)
+  const t = T[lang]||T.en
 
-  const t = T[lang] || T.en
-
-  // Load profiles
   useEffect(()=>{
-    fetchProfiles().then(rows=>{
-      if (rows) setProfiles(rows.map(normaliseProfile).filter(p=>p.status==='active'||p.verified))
-    }).catch(()=>{})
-    fetchSiteContent().then(d=>{ if(d) setSiteContent(d) }).catch(()=>{})
+    fetchProfiles().then(rows=>{ if(rows) setProfiles(rows.map(normalise).filter(p=>p.status==='active'||p.verified)) }).catch(()=>{})
+    fetchSiteContent().then(d=>{ if(d) setSC(d) }).catch(()=>{})
   },[])
 
   return (
     <div style={{ background:G.bg, minHeight:'100vh' }}>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
-      <Nav2 page={page} setPage={setPage} lang={lang} setLang={setLang} t={t} onRegister={()=>setShowReg(true)} />
-      <div style={{ paddingTop: page==='home' ? 0 : 0 }}>
-        {page==='home'      && <HomePage2 lang={lang} t={t} profiles={profiles} siteContent={siteContent} onRegister={()=>setShowReg(true)} setPage={setPage} />}
-        {page==='directory' && <DirectoryPage2 lang={lang} t={t} profiles={profiles} />}
-        {page==='concierge' && <ConciergePage2 lang={lang} t={t} siteContent={siteContent} />}
-        {page==='gov'       && <GovPage2 lang={lang} t={t} />}
-      </div>
-      {showReg && <RegModal t={t} lang={lang} onClose={()=>setShowReg(false)} />}
+      <Nav2 page={page} setPage={setPage} lang={lang} setLang={setLang} t={t} onReg={()=>setShowReg(true)} />
+      {page==='home'      && <Home2 lang={lang} t={t} profiles={profiles} setPage={setPage} onReg={()=>setShowReg(true)} />}
+      {page==='directory' && <Directory2 lang={lang} t={t} profiles={profiles} />}
+      {page==='concierge' && <Concierge2 lang={lang} t={t} siteContent={siteContent} />}
+      {page==='gov'       && <Gov2 lang={lang} t={t} />}
+      {showReg && <RegModal2 t={t} lang={lang} onClose={()=>setShowReg(false)} />}
     </div>
   )
 }
