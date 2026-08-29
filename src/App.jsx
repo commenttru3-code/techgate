@@ -1195,7 +1195,7 @@ class EB extends React.Component {
 }
 
 // ─── MAIN APP ────────────────────────────────────────────────────────────────
-export default function App2() {
+export default function App() {
   const [lang, setLang]           = useState('en')
   const [page, setPage]           = useState('home')
   const [profiles, setProfiles]   = useState([])
