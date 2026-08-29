@@ -1175,6 +1175,25 @@ function AdminPage2({ onClose }) {
   )
 }
 
+
+// ─── ERROR BOUNDARY — shows error instead of white page ──────────────────────
+class EB extends React.Component {
+  constructor(p) { super(p); this.state = { err: null } }
+  static getDerivedStateFromError(e) { return { err: e } }
+  render() {
+    if (this.state.err) return (
+      <div style={{ padding:40, background:'#fff', color:'#c00', fontFamily:'monospace', minHeight:'100vh' }}>
+        <h2 style={{ marginBottom:16 }}>⚠ App crashed — paste this to Claude:</h2>
+        <pre style={{ whiteSpace:'pre-wrap', fontSize:13, background:'#f8f0f0', padding:16, borderRadius:8 }}>
+          {this.state.err?.toString()}
+          {this.state.err?.stack}
+        </pre>
+      </div>
+    )
+    return this.props.children
+  }
+}
+
 // ─── MAIN APP ────────────────────────────────────────────────────────────────
 export default function App2() {
   const [lang, setLang]           = useState('en')
@@ -1196,6 +1215,7 @@ export default function App2() {
   const partnerProfiles = useMemo(()=>profiles.filter(p=>p.type==='partner'),[profiles])
 
   return (
+    <EB>
     <div style={{ background:G.bg, minHeight:'100vh' }}>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <Nav2 page={page} setPage={setPage} lang={lang} setLang={setLang} t={t} onReg={()=>setShowReg(true)} />
@@ -1206,5 +1226,6 @@ export default function App2() {
       {showReg   && <RegModal2 t={t} lang={lang} onClose={()=>setShowReg(false)} />}
       {showAdmin && <AdminPage2 onClose={()=>setShowAdmin(false)} />}
     </div>
+    </EB>
   )
 }
