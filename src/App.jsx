@@ -2,7 +2,8 @@
 // Vivid cobalt/teal/violet · White card panels · Clean professional
 import React, { useState, useMemo, useEffect } from 'react'
 import {
-  fetchProfiles, fetchAllProfilesAdmin, insertProfile, verifyProfile, deleteProfile,
+  fetchProfiles, fetchAllProfilesAdmin,
+  insertProfile, verifyProfile, deleteProfile,
   insertContactLead, insertBooking, fetchSiteContent,
 } from './supabase.js'
 import { notifyAdminNewProfile, sendEnquiry, sendBookingConfirmation } from './emailService.js'
@@ -55,7 +56,7 @@ const T = {
     heroSub:'Discover verified companies, freelancers and consultants — ready for international business partnerships.',
     searchPH:'Search companies, skills, cities…',
     browseBtn:'Browse Directory', learnBtn:'How it works',
-    statComp:'Companies', statFL:'Freelancers', statPart:'Partners', statTax:'Corp. Tax',
+    statComp:'Companies', statFL:'Freelancers', statPart:'Partners',
     featuredTitle:'Featured Listings', allSectors:'All', viewAll:'View all →',
     onlyComp:'Companies', onlyFL:'Freelancers', allTypes:'All',
     noResults:'No results', noResultsSub:'Try different keywords or filters.',
@@ -103,7 +104,7 @@ const T = {
     heroSub:'Zbuloni kompani, freelancerë dhe konsulentë të verifikuar — gati për partneritet me biznese ndërkombëtare.',
     searchPH:'Kërko kompani, aftësi, qytete…',
     browseBtn:'Shfleto Drejtorinë', learnBtn:'Si funksionon',
-    statComp:'Kompani', statFL:'Freelancerë', statPart:'Partnerë', statTax:'Tatim Korp.',
+    statComp:'Kompani', statFL:'Freelancerë', statPart:'Partnerë',
     featuredTitle:'Listime të Theksuara', allSectors:'Të gjitha', viewAll:'Shiko të gjitha →',
     onlyComp:'Kompani', onlyFL:'Freelancerë', allTypes:'Të gjitha',
     noResults:'Asnjë rezultat', noResultsSub:'Provo terma të tjerë.',
