@@ -1,5 +1,5 @@
 // Kosova Hub — v2 Design: Modern B2B · Light Theme · Plus Jakarta Sans
-// Vivid cobalt/teal/violet · White card panels · Clean professional
+// Vivid cobalt/teal/violet · White card panels · Clean Professional
 import React, { useState, useMemo, useEffect } from 'react'
 import {
   fetchProfiles, fetchAllProfilesAdmin,
