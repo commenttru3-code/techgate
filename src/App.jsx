@@ -526,6 +526,7 @@ function Home2({ lang, t, profiles, setPage, onReg }) {
   const [detail, setDetail] = useState(null)
   const [contact, setContact] = useState(null)
   const sponsored = useMemo(()=>profiles.filter(p=>p.tier==='sponsored').slice(0,6),[profiles])
+  const partners  = useMemo(()=>profiles.filter(p=>p.type==='partner').slice(0,12),[profiles])
   const stats = useMemo(()=>[profiles.filter(p=>p.type==='company').length||120, profiles.filter(p=>p.type==='freelancer').length||48, profiles.filter(p=>p.type==='partner').length||12],[profiles])
 
   return (
@@ -1177,7 +1178,7 @@ function AdminPage2({ onClose }) {
 
 
 // ─── ERROR BOUNDARY — shows error instead of white page ──────────────────────
-class EB extends React.Component {
+class EB2 extends React.Component {
   constructor(p) { super(p); this.state = { err: null } }
   static getDerivedStateFromError(e) { return { err: e } }
   render() {
@@ -1215,7 +1216,7 @@ export default function App() {
   const partnerProfiles = useMemo(()=>profiles.filter(p=>p.type==='partner'),[profiles])
 
   return (
-    <EB>
+    <EB2>
     <div style={{ background:G.bg, minHeight:'100vh' }}>
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <Nav2 page={page} setPage={setPage} lang={lang} setLang={setLang} t={t} onReg={()=>setShowReg(true)} />
@@ -1226,6 +1227,6 @@ export default function App() {
       {showReg   && <RegModal2 t={t} lang={lang} onClose={()=>setShowReg(false)} />}
       {showAdmin && <AdminPage2 onClose={()=>setShowAdmin(false)} />}
     </div>
-    </EB>
+    </EB2>
   )
-} 
+}
