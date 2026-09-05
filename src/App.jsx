@@ -224,7 +224,7 @@ function Home2({lang,t,profiles,setPage,onReg}){
       <div className="wrap2" style={{position:'relative',zIndex:1,paddingTop:56,paddingBottom:60}}>
         <div style={{maxWidth:670}}>
           <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'4px 11px',background:'rgba(36,88,212,0.18)',border:'1px solid rgba(36,88,212,0.35)',borderRadius:20,marginBottom:20}}><div style={{width:6,height:6,borderRadius:'50%',background:G.blue}}/><span style={{fontSize:11,fontWeight:700,letterSpacing:'1.5px',textTransform:'uppercase',color:'#93B4F8'}}>{t.tagline}</span></div>
-          <h1 style={{fontWeight:800,fontSize:'clamp(34px,6vw,66px)',lineHeight:1.06,letterSpacing:'-1.5px',marginBottom:16}}><span style={{color:G.text}}>{t.h1a}</span><br/><span style={{background:`linear-gradient(135deg,${G.blue} 0%,${G.violet} 100%)`,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>{t.h1b}</span></h1>
+          <h1 style={{fontWeight:800,fontSize:'clamp(34px,6vw,66px)',lineHeight:1.06,letterSpacing:'-1.5px',marginBottom:16}}><span style={{color:'#F0EFEE'}}>{t.h1a}</span><br/><span style={{background:`linear-gradient(135deg,${G.blue} 0%,${G.violet} 100%)`,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>{t.h1b}</span></h1>
           <p style={{fontSize:'clamp(14px,2vw,17px)',color:'rgba(240,239,238,0.60)',lineHeight:1.72,marginBottom:30,maxWidth:510}}>{t.heroSub}</p>
           <div style={{display:'flex',gap:11,flexWrap:'wrap',marginBottom:44}}><button className="btn-white2" style={{padding:'11px 24px',fontSize:14}} onClick={()=>setPage('directory')}>{t.browseBtn}</button><button className="btn-outline2" style={{color:'rgba(240,239,238,0.80)',borderColor:'rgba(240,239,238,0.20)',padding:'10px 20px',fontSize:14}} onClick={onReg}>{t.registerBtn}</button></div>
           <div style={{display:'flex',gap:34,flexWrap:'wrap'}}>{[[stats[0],t.statComp],[stats[1],t.statFL],[stats[2],t.statPart]].map(([n,l])=><div key={l}><div style={{fontWeight:800,fontSize:36,color:G.text,letterSpacing:'-2px',lineHeight:1}}>{n}+</div><div style={{fontSize:11,color:'rgba(240,239,238,0.38)',fontWeight:600,letterSpacing:'1.5px',textTransform:'uppercase',marginTop:4}}>{l}</div></div>)}</div>
@@ -233,9 +233,9 @@ function Home2({lang,t,profiles,setPage,onReg}){
     </div>
     <div style={{background:G.bg}}>
       {sponsored.length>0&&<div className="section2 wrap2"><div className="sec-label">{t.featuredTitle}</div><div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:18}}><h2 style={{fontWeight:700,fontSize:22,letterSpacing:'-0.4px',color:G.text}}>{t.featuredTitle}</h2><button className="btn-ghost2" onClick={()=>setPage('directory')}>{t.viewAll}</button></div><div className="grid-3">{sponsored.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail}/>)}</div></div>}
-      {partners.length>0&&<div style={{paddingBottom:48,borderBottom:`1px solid ${G.border}`}}><div className="wrap2" style={{marginBottom:14}}><div className="sec-label">Official Partners</div></div><div className="ticker2"><div className="ticker2-track">{[...partners,...partners].map((p,i)=><div key={i} style={{display:'flex',alignItems:'center',gap:9,padding:'9px 14px',background:G.surface,border:`1px solid ${G.border}`,borderRadius:9,flexShrink:0,minWidth:162}}><Lg name={p.logo||p.name} color={catColor(p.cat)} url={p.logoUrl} size={30}/><div><div style={{fontWeight:600,fontSize:12,color:G.text}}>{p.name}</div><div style={{fontSize:10,color:G.dim}}>{p.city||catLabel(p.cat,'en')}</div></div></div>)}</div></div></div>}
+      {partners.length>0&&<div style={{paddingBottom:48,borderBottom:`1px solid ${G.border}`}}><div className="wrap2" style={{marginBottom:14}}><div className="sec-label">Official Partners</div></div><div className="ticker2"><div className="ticker2-track">{[...partners,...partners].map((p,i)=><div key={i} style={{display:'flex',alignItems:'center',gap:9,padding:'9px 14px',background:G.surface,border:`1px solid ${G.border}`,borderRadius:9,flexShrink:0,minWidth:162}}><Lg name={p.logo||p.name} color={catColor(p.cat)} url={p.logoUrl} size={30}/><div><div style={{fontWeight:600,fontSize:12,color:'#F0EFEE'}}>{p.name}</div><div style={{fontSize:10,color:G.dim}}>{p.city||catLabel(p.cat,'en')}</div></div></div>)}</div></div></div>}
       <div className="section2 wrap2"><div className="sec-label">Sectors</div><h2 style={{fontWeight:700,fontSize:22,marginBottom:18,letterSpacing:'-0.4px',color:G.text}}>Browse by Sector</h2><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:9}}>{CATS.map(cat=><button key={cat.id} onClick={()=>setPage('directory')} style={{display:'flex',alignItems:'center',gap:9,padding:'12px 14px',background:G.surface,border:`1px solid ${G.border}`,borderRadius:9,textAlign:'left',transition:'all 0.18s',cursor:'pointer'}} onMouseEnter={e=>{e.currentTarget.style.borderColor=hexToRgba(cat.color,0.42);e.currentTarget.style.background=hexToRgba(cat.color,0.08);e.currentTarget.style.transform='translateY(-2px)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(255,255,255,0.07)';e.currentTarget.style.background=G.surface;e.currentTarget.style.transform=''}}><div style={{width:32,height:32,borderRadius:8,background:hexToRgba(cat.color,0.14),border:`1px solid ${hexToRgba(cat.color,0.22)}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,flexShrink:0}}>{cat.icon}</div><span style={{fontWeight:600,fontSize:12,color:G.text,lineHeight:1.25}}>{cat.labels[lang]||cat.labels.en}</span></button>)}</div></div>
-      <div style={{background:G.navBg,padding:'48px 0',borderTop:`1px solid ${G.border}`}}><div className="wrap2" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:22,flexWrap:'wrap'}}><div><div className="sec-label" style={{color:'#93B4F8'}}>For Businesses</div><h3 style={{fontWeight:700,fontSize:22,color:G.text,marginBottom:7,letterSpacing:'-0.3px'}}>Is your business on Kosova Hub?</h3><p style={{color:'rgba(240,239,238,0.48)',fontSize:13,maxWidth:400}}>Get discovered by international companies. Free for 6 months — no credit card needed.</p></div><div style={{display:'flex',gap:9,flexWrap:'wrap',flexShrink:0}}><button className="btn-white2" style={{padding:'11px 24px'}} onClick={onReg}>{t.registerBtn}</button><button className="btn-outline2" style={{color:'rgba(240,239,238,0.76)',borderColor:'rgba(240,239,238,0.18)',padding:'10px 18px'}} onClick={()=>setPage('concierge')}>Learn more →</button></div></div></div>
+      <div style={{background:G.navBg,padding:'48px 0',borderTop:`1px solid ${G.border}`}}><div className="wrap2" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:22,flexWrap:'wrap'}}><div><div className="sec-label" style={{color:'#93B4F8'}}>For Businesses</div><h3 style={{fontWeight:700,fontSize:22,color:'#F0EFEE',marginBottom:7,letterSpacing:'-0.3px'}}>Is your business on Kosova Hub?</h3><p style={{color:'rgba(240,239,238,0.48)',fontSize:13,maxWidth:400}}>Get discovered by international companies. Free for 6 months — no credit card needed.</p></div><div style={{display:'flex',gap:9,flexWrap:'wrap',flexShrink:0}}><button className="btn-white2" style={{padding:'11px 24px'}} onClick={onReg}>{t.registerBtn}</button><button className="btn-outline2" style={{color:'rgba(240,239,238,0.76)',borderColor:'rgba(240,239,238,0.18)',padding:'10px 18px'}} onClick={()=>setPage('concierge')}>Learn more →</button></div></div></div>
       <footer style={{borderTop:`1px solid ${G.border}`,padding:'20px 0'}}><div className="wrap2" style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:9}}><span style={{fontSize:12,color:G.dim}}>{t.footer}</span><div style={{display:'flex',gap:14}}>{['Privacy','Terms','Contact'].map(l=><a key={l} href="#" style={{fontSize:12,color:G.dim}}>{l}</a>)}</div></div></footer>
     </div>
     {detail&&<DetailModal2 p={detail} lang={lang} t={t} onClose={()=>setDetail(null)} onContact={p=>{setDetail(null);setContact(p)}}/>}
@@ -252,10 +252,15 @@ function Directory2({lang,t,profiles}){
   const [selSkills,setSelSkills]=useState([])
   const [matchMode,setMatchMode]=useState(false)
   const [skillInput,setSkillInput]=useState('')
+  const [sectorOpen,setSectorOpen]=useState(false)
+  const [matchOpen,setMatchOpen]=useState(false)
+
   const base=useMemo(()=>profiles.filter(p=>p.type!=='partner'),[profiles])
   const toggleSkill=s=>setSelSkills(prev=>prev.includes(s)?prev.filter(x=>x!==s):[...prev,s])
-  const allTags=useMemo(()=>{const counts={};base.forEach(p=>(p.tags||[]).forEach(t=>{counts[t]=(counts[t]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,22).map(([t])=>t)},[base])
-  const skills=useMemo(()=>[...new Set([...selSkills,...skillInput.split(',').map(s=>s.trim()).filter(Boolean)])],[selSkills,skillInput])
+  const allTags=useMemo(()=>{const counts={};base.forEach(p=>(p.tags||[]).forEach(t=>{counts[t]=(counts[t]||0)+1}));return Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,24).map(([t])=>t)},[base])
+  const skills=useMemo(()=>[...new Set([...selSkills,...skillInput.split(',').map(s=>s.trim()).filter(Boolean)])]  ,[selSkills,skillInput])
+  const activeCat=CATS.find(c=>c.id===cat)
+
   const results=useMemo(()=>{
     let r=base
     if(typeF==='company')r=r.filter(p=>p.type==='company')
@@ -265,24 +270,124 @@ function Directory2({lang,t,profiles}){
     if(matchMode&&skills.length){r=r.map(p=>({...p,_score:calcMatch(p,skills)})).filter(p=>p._score>0).sort((a,b)=>b._score-a._score);return r}
     return r
   },[base,q,cat,typeF,matchMode,skills])
-  const grouped=useMemo(()=>{if(matchMode&&skills.length)return null;const g={};results.forEach(p=>{const key=p.cat||'other';if(!g[key])g[key]=[];g[key].push(p)});return g},[results,matchMode,skills])
-  return(<div style={{background:G.bg,minHeight:'100vh',paddingTop:62}}>
-    <div style={{background:G.navBg,padding:'48px 0 36px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-companies.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Business Directory</div><h1 style={{fontWeight:800,fontSize:'clamp(28px,5vw,48px)',letterSpacing:'-1px',color:G.text,marginBottom:7}}>Companies &amp; Freelancers</h1><p style={{color:'rgba(240,239,238,0.50)',fontSize:14}}>Verified businesses from Kosova — open to worldwide partnerships</p></div></div>
-    <div className="wrap2" style={{paddingTop:24,paddingBottom:48}}>
-      <div style={{display:'flex',gap:9,marginBottom:13,flexWrap:'wrap',alignItems:'center'}}><input className="inp2" placeholder={t.searchPH||'Search…'} value={q} onChange={e=>setQ(e.target.value)} style={{flex:1,minWidth:190,maxWidth:390}}/><div style={{display:'flex',gap:3,background:'rgba(255,255,255,0.04)',padding:3,borderRadius:8,border:`1px solid ${G.border}`}}>{[['all',t.allTypes],['company',t.onlyComp],['freelancer',t.onlyFL]].map(([v,l])=><button key={v} onClick={()=>setTypeF(v)} style={{padding:'5px 12px',borderRadius:6,border:'none',fontSize:12,fontWeight:600,background:typeF===v?G.blue:'transparent',color:typeF===v?'#fff':G.muted,cursor:'pointer',transition:'all 0.15s'}}>{l}</button>)}</div></div>
-      <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:13}}><button onClick={()=>setCat('')} style={{padding:'4px 11px',borderRadius:20,border:`1.5px solid ${!cat?G.blue:'rgba(255,255,255,0.10)'}`,background:!cat?G.blueDim:'transparent',color:!cat?G.blue:G.muted,fontSize:11,fontWeight:600,cursor:'pointer'}}>{t.allSectors}</button>{CATS.map(c=><button key={c.id} onClick={()=>setCat(cat===c.id?'':c.id)} style={{padding:'4px 10px',borderRadius:20,border:`1.5px solid ${cat===c.id?hexToRgba(c.color,0.50):hexToRgba(c.color,0.18)}`,background:cat===c.id?hexToRgba(c.color,0.12):'transparent',color:cat===c.id?c.color:G.muted,fontSize:11,fontWeight:600,cursor:'pointer'}}>{c.icon} {c.labels[lang]||c.labels.en}</button>)}</div>
-      <div style={{marginBottom:16,padding:'12px 14px',background:G.surface,border:`1.5px solid ${matchMode?G.blue:'rgba(255,255,255,0.08)'}`,borderRadius:10,transition:'border 0.18s'}}>
-        <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:allTags.length?9:0}}><span style={{fontWeight:700,fontSize:12,color:matchMode?G.blue:G.muted,flexShrink:0}}>🎯 Skill Match</span><input className="inp2" placeholder="Type extra skills… (comma separated)" value={skillInput} onChange={e=>setSkillInput(e.target.value)} style={{flex:1,fontSize:12,padding:'5px 9px'}}/><button onClick={()=>{setMatchMode(v=>!v);if(matchMode){setSelSkills([]);setSkillInput('')}}} style={{padding:'5px 12px',borderRadius:7,border:`1.5px solid ${matchMode?G.blue:'rgba(255,255,255,0.10)'}`,background:matchMode?G.blue:'transparent',color:matchMode?'#fff':G.muted,fontSize:12,fontWeight:600,cursor:'pointer',flexShrink:0}}>{matchMode?'✓ Active':'Match'}</button></div>
-        {allTags.length>0&&<div style={{display:'flex',gap:4,flexWrap:'wrap'}}>{allTags.map(tag=><button key={tag} onClick={()=>{toggleSkill(tag);setMatchMode(true)}} style={{padding:'3px 8px',borderRadius:20,border:`1.5px solid ${selSkills.includes(tag)?hexToRgba(G.blue,0.50):'rgba(255,255,255,0.10)'}`,background:selSkills.includes(tag)?G.blueDim:'transparent',color:selSkills.includes(tag)?G.blue:G.muted,fontSize:11,fontWeight:600,cursor:'pointer',transition:'all 0.13s'}}>{tag}</button>)}</div>}
+
+  const grouped=useMemo(()=>{
+    if(matchMode&&skills.length)return null
+    const g={};results.forEach(p=>{const key=p.cat||'other';if(!g[key])g[key]=[];g[key].push(p)});return g
+  },[results,matchMode,skills])
+
+  return(
+    <div style={{background:G.bg,minHeight:'100vh',paddingTop:62}}>
+      <div style={{background:G.navBg,padding:'48px 0 36px',position:'relative',overflow:'hidden'}}>
+        <VideoBg2 src="/bg-video-companies.mp4"/>
+        <div className="wrap2" style={{position:'relative',zIndex:1}}>
+          <div className="sec-label" style={{color:'#93B4F8'}}>Business Directory</div>
+          <h1 style={{fontWeight:800,fontSize:'clamp(28px,5vw,48px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:7}}>Companies &amp; Freelancers</h1>
+          <p style={{color:'rgba(240,239,238,0.50)',fontSize:14}}>Verified businesses from Kosova — open to worldwide partnerships</p>
+        </div>
       </div>
-      <div style={{fontSize:12,color:G.dim,marginBottom:14}}>{results.length} listing{results.length!==1?'s':''} found{matchMode&&skills.length>0&&<span style={{color:G.blue,marginLeft:7}}>· Matching: {skills.join(', ')}</span>}</div>
-      {results.length===0?(<div style={{textAlign:'center',padding:'56px 0',color:G.muted}}><div style={{fontSize:36,marginBottom:11}}>🔍</div><div style={{fontWeight:700,fontSize:18,marginBottom:5,color:G.text}}>{t.noResults}</div><div style={{fontSize:13}}>{t.noResultsSub}</div></div>)
-        :matchMode&&skills.length>0?(<div className="grid-3">{results.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail} score={p._score}/>)}</div>)
-        :grouped?(Object.entries(grouped).map(([catId,ps])=>{const cat2=CATS.find(c=>c.id===catId);if(!ps.length)return null;return(<div key={catId} style={{marginBottom:36}}><div style={{display:'flex',alignItems:'center',gap:9,marginBottom:13,paddingBottom:9,borderBottom:`2px solid ${hexToRgba(cat2?.color||G.blue,0.22)}`}}><span style={{fontSize:17}}>{cat2?.icon||'🏢'}</span><span style={{fontWeight:700,fontSize:14,color:G.text}}>{cat2?.labels[lang]||catId}</span><span style={{fontSize:12,color:G.dim}}>({ps.length})</span></div><div className="grid-3">{ps.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail}/>)}</div></div>)})):null}
+
+      <div className="wrap2" style={{paddingTop:22,paddingBottom:48}}>
+        {/* Search + type + dropdowns row */}
+        <div style={{display:'flex',gap:8,marginBottom:14,flexWrap:'wrap',alignItems:'center'}}>
+          <input className="inp2" placeholder={t.searchPH||'Search companies, skills, cities…'} value={q} onChange={e=>setQ(e.target.value)} style={{flex:1,minWidth:180,maxWidth:380}}/>
+
+          {/* Type filter */}
+          <div style={{display:'flex',gap:3,background:'rgba(14,22,40,0.05)',padding:3,borderRadius:8,border:`1px solid ${G.border}`}}>
+            {[['all',t.allTypes],['company',t.onlyComp],['freelancer',t.onlyFL]].map(([v,l])=>(
+              <button key={v} onClick={()=>setTypeF(v)} style={{padding:'5px 12px',borderRadius:6,border:'none',fontSize:12,fontWeight:600,background:typeF===v?G.blue:'transparent',color:typeF===v?'#fff':G.muted,cursor:'pointer',transition:'all 0.15s'}}>{l}</button>
+            ))}
+          </div>
+
+          {/* Sector dropdown toggle */}
+          <div style={{position:'relative'}}>
+            <button onClick={()=>{setSectorOpen(v=>!v);setMatchOpen(false)}}
+              style={{display:'flex',alignItems:'center',gap:7,padding:'8px 14px',background:cat?hexToRgba(activeCat?.color||G.blue,0.08):'#FFFFFF',border:`1.5px solid ${cat?hexToRgba(activeCat?.color||G.blue,0.35):G.border}`,borderRadius:8,fontSize:13,fontWeight:600,color:cat?(activeCat?.color||G.blue):G.text,cursor:'pointer',transition:'all 0.16s',whiteSpace:'nowrap'}}>
+              {cat?<span>{activeCat?.icon} {activeCat?.labels[lang]||cat}</span>:<span>🏭 {t.allSectors}</span>}
+              <span style={{fontSize:10,opacity:0.6}}>{sectorOpen?'▲':'▼'}</span>
+            </button>
+            {sectorOpen&&(
+              <div style={{position:'absolute',top:'calc(100% + 6px)',left:0,zIndex:50,background:'#FFFFFF',border:`1px solid ${G.border}`,borderRadius:10,boxShadow:'0 8px 28px rgba(14,22,40,0.14)',minWidth:220,padding:6}}>
+                <button onClick={()=>{setCat('');setSectorOpen(false)}}
+                  style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'8px 12px',background:!cat?hexToRgba(G.blue,0.07):'transparent',border:'none',borderRadius:7,fontSize:13,fontWeight:600,color:!cat?G.blue:G.text,cursor:'pointer',textAlign:'left',marginBottom:2}}>
+                  {t.allSectors} {!cat&&<span style={{marginLeft:'auto',color:G.blue}}>✓</span>}
+                </button>
+                {CATS.map(c=>(
+                  <button key={c.id} onClick={()=>{setCat(c.id);setSectorOpen(false)}}
+                    style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'8px 12px',background:cat===c.id?hexToRgba(c.color,0.08):'transparent',border:'none',borderRadius:7,fontSize:13,color:cat===c.id?c.color:G.text,cursor:'pointer',textAlign:'left',fontWeight:cat===c.id?600:400}}>
+                    <span>{c.icon}</span><span style={{flex:1}}>{c.labels[lang]||c.labels.en}</span>
+                    {cat===c.id&&<span style={{color:c.color}}>✓</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Skill match dropdown toggle */}
+          <button onClick={()=>{setMatchOpen(v=>!v);setSectorOpen(false)}}
+            style={{display:'flex',alignItems:'center',gap:7,padding:'8px 14px',background:matchMode?hexToRgba(G.blue,0.08):'#FFFFFF',border:`1.5px solid ${matchMode?G.blue:G.border}`,borderRadius:8,fontSize:13,fontWeight:600,color:matchMode?G.blue:G.text,cursor:'pointer',transition:'all 0.16s',whiteSpace:'nowrap'}}>
+            🎯 Skill Match {skills.length>0&&<span style={{background:G.blue,color:'#fff',borderRadius:20,padding:'1px 7px',fontSize:10,fontWeight:700}}>{skills.length}</span>}
+            <span style={{fontSize:10,opacity:0.6}}>{matchOpen?'▲':'▼'}</span>
+          </button>
+        </div>
+
+        {/* Skill match panel — opens below */}
+        {matchOpen&&(
+          <div style={{marginBottom:14,padding:'14px 16px',background:'#FFFFFF',border:`1.5px solid ${G.blueBd}`,borderRadius:10,boxShadow:'0 4px 16px rgba(14,22,40,0.08)'}}>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
+              <input className="inp2" placeholder="Type skills… (comma separated)"
+                value={skillInput} onChange={e=>setSkillInput(e.target.value)}
+                style={{flex:1,fontSize:13,padding:'7px 12px'}} autoFocus/>
+              <button onClick={()=>{setMatchMode(v=>!v);if(matchMode){setSelSkills([]);setSkillInput('')}}}
+                style={{padding:'7px 14px',borderRadius:7,border:`1.5px solid ${matchMode?G.blue:G.border}`,background:matchMode?G.blue:'transparent',color:matchMode?'#fff':G.muted,fontSize:12,fontWeight:600,cursor:'pointer',flexShrink:0}}>
+                {matchMode?'✓ Matching':'Activate'}
+              </button>
+            </div>
+            <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+              {allTags.map(tag=>(
+                <button key={tag} onClick={()=>{toggleSkill(tag);setMatchMode(true)}}
+                  style={{padding:'4px 10px',borderRadius:20,border:`1.5px solid ${selSkills.includes(tag)?hexToRgba(G.blue,0.50):G.border}`,background:selSkills.includes(tag)?hexToRgba(G.blue,0.09):'transparent',color:selSkills.includes(tag)?G.blue:G.muted,fontSize:11,fontWeight:600,cursor:'pointer',transition:'all 0.13s'}}>
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div style={{fontSize:12,color:G.dim,marginBottom:14}}>
+          {results.length} listing{results.length!==1?'s':''} found
+          {matchMode&&skills.length>0&&<span style={{color:G.blue,marginLeft:7}}>· Matching: {skills.join(', ')}</span>}
+          {cat&&<span style={{marginLeft:7,color:activeCat?.color}}>· {activeCat?.labels[lang]}</span>}
+        </div>
+
+        {results.length===0?(
+          <div style={{textAlign:'center',padding:'56px 0',color:G.muted}}>
+            <div style={{fontSize:36,marginBottom:11}}>🔍</div>
+            <div style={{fontWeight:700,fontSize:18,marginBottom:5,color:G.text}}>{t.noResults}</div>
+            <div style={{fontSize:13}}>{t.noResultsSub}</div>
+          </div>
+        ):matchMode&&skills.length>0?(
+          <div className="grid-3">{results.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail} score={p._score}/>)}</div>
+        ):grouped?(
+          Object.entries(grouped).map(([catId,ps])=>{
+            const cat2=CATS.find(c=>c.id===catId);if(!ps.length)return null
+            return(
+              <div key={catId} style={{marginBottom:36}}>
+                <div style={{display:'flex',alignItems:'center',gap:9,marginBottom:13,paddingBottom:9,borderBottom:`2px solid ${hexToRgba(cat2?.color||G.blue,0.18)}`}}>
+                  <span style={{fontSize:17}}>{cat2?.icon||'🏢'}</span>
+                  <span style={{fontWeight:700,fontSize:14,color:G.text}}>{cat2?.labels[lang]||catId}</span>
+                  <span style={{fontSize:12,color:G.dim}}>({ps.length})</span>
+                </div>
+                <div className="grid-3">{ps.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail}/>)}</div>
+              </div>
+            )
+          })
+        ):null}
+      </div>
+      {detail&&<DetailModal2 p={detail} lang={lang} t={t} onClose={()=>setDetail(null)} onContact={p=>{setDetail(null);setContact(p)}}/>}
+      {contact&&<EnquiryModal2 target={contact} t={t} onClose={()=>setContact(null)}/>}
     </div>
-    {detail&&<DetailModal2 p={detail} lang={lang} t={t} onClose={()=>setDetail(null)} onContact={p=>{setDetail(null);setContact(p)}}/>}
-    {contact&&<EnquiryModal2 target={contact} t={t} onClose={()=>setContact(null)}/>}
-  </div>)
+  )
 }
 
 function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
@@ -298,7 +403,7 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
     {ic:'🗓️',name:'Full Week Programme',price:'€1,490',per:'/person',desc:'Immersive business week — meetings, government appointments, site visits and networking event.',features:['8–12 meetings','Government access','Site visits','Networking event','Full debrief report'],highlight:true},
   ]
   return(<div style={{background:G.bg,minHeight:'100vh',paddingTop:62}}>
-    <div style={{background:G.navBg,padding:'52px 0 44px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-concierge.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Exclusive Service</div><h1 style={{fontWeight:800,fontSize:'clamp(32px,5.5vw,56px)',letterSpacing:'-1px',color:G.text,marginBottom:13}}>{t.concTitle}</h1><p style={{fontSize:'clamp(13px,2vw,17px)',color:'rgba(240,239,238,0.56)',maxWidth:520,lineHeight:1.72,marginBottom:24}}>{t.concSub}</p><button className="btn-white2" style={{padding:'11px 24px'}} onClick={()=>setBookModal(true)}>{t.concCta}</button></div></div>
+    <div style={{background:G.navBg,padding:'52px 0 44px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-concierge.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Exclusive Service</div><h1 style={{fontWeight:800,fontSize:'clamp(32px,5.5vw,56px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:13}}>{t.concTitle}</h1><p style={{fontSize:'clamp(13px,2vw,17px)',color:'rgba(240,239,238,0.56)',maxWidth:520,lineHeight:1.72,marginBottom:24}}>{t.concSub}</p><button className="btn-white2" style={{padding:'11px 24px'}} onClick={()=>setBookModal(true)}>{t.concCta}</button></div></div>
     <div className="wrap2" style={{paddingTop:44,paddingBottom:48}}>
       <div className="sec-label">General Partners</div>
       <h2 style={{fontWeight:700,fontSize:22,marginBottom:20,letterSpacing:'-0.3px',color:G.text}}>Our General Partners</h2>
@@ -340,7 +445,7 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
 function Gov2({lang,t}){
   const links=[{l:'ARBK — Business Registration',u:'https://arbk.rks-gov.net'},{l:'InvestKosova',u:'https://investkosova.com'},{l:'Tax Administration (ATK)',u:'https://www.atk-ks.org'},{l:'Chamber of Commerce (OEK)',u:'https://www.kkk-rks.com'}]
   return(<div style={{background:G.bg,minHeight:'100vh',paddingTop:62}}>
-    <div style={{background:G.navBg,padding:'50px 0 42px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-gov.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Official Information</div><h1 style={{fontWeight:800,fontSize:'clamp(28px,5vw,52px)',letterSpacing:'-1px',color:G.text,marginBottom:11}}>{t.govTitle}</h1><p style={{fontSize:'clamp(13px,1.8vw,16px)',color:'rgba(240,239,238,0.50)',maxWidth:500,lineHeight:1.7}}>{t.govSub}</p></div></div>
+    <div style={{background:G.navBg,padding:'50px 0 42px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-gov.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Official Information</div><h1 style={{fontWeight:800,fontSize:'clamp(28px,5vw,52px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:11}}>{t.govTitle}</h1><p style={{fontSize:'clamp(13px,1.8vw,16px)',color:'rgba(240,239,238,0.50)',maxWidth:500,lineHeight:1.7}}>{t.govSub}</p></div></div>
     <div className="wrap2" style={{paddingTop:40,paddingBottom:48}}>
       <div className="sec-label">At a Glance</div><h2 style={{fontWeight:700,fontSize:22,marginBottom:20,letterSpacing:'-0.3px',color:G.text}}>{t.govFactsTitle}</h2>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(124px,1fr))',gap:9,marginBottom:44}}>
