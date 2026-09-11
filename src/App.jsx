@@ -227,7 +227,7 @@ function Home2({lang,t,profiles,setPage,onReg}){
           <h1 style={{fontWeight:800,fontSize:'clamp(34px,6vw,66px)',lineHeight:1.06,letterSpacing:'-1.5px',marginBottom:16}}><span style={{color:'#F0EFEE'}}>{t.h1a}</span><br/><span style={{background:`linear-gradient(135deg,${G.blue} 0%,${G.violet} 100%)`,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>{t.h1b}</span></h1>
           <p style={{fontSize:'clamp(14px,2vw,17px)',color:'rgba(240,239,238,0.60)',lineHeight:1.72,marginBottom:30,maxWidth:510}}>{t.heroSub}</p>
           <div style={{display:'flex',gap:11,flexWrap:'wrap',marginBottom:44}}><button className="btn-white2" style={{padding:'11px 24px',fontSize:14}} onClick={()=>setPage('directory')}>{t.browseBtn}</button><button className="btn-outline2" style={{color:'rgba(240,239,238,0.82)',borderColor:'rgba(240,239,238,0.22)',padding:'10px 20px',fontSize:14}} onClick={onReg}>{t.registerBtn}</button></div>
-          <div style={{display:'flex',gap:34,flexWrap:'wrap'}}>{[[stats[0],t.statComp],[stats[1],t.statFL],[stats[2],t.statPart]].map(([n,l])=><div key={l}><div style={{fontWeight:800,fontSize:36,color:G.text,letterSpacing:'-2px',lineHeight:1}}>{n}+</div><div style={{fontSize:11,color:'rgba(240,239,238,0.38)',fontWeight:600,letterSpacing:'1.5px',textTransform:'uppercase',marginTop:4,color:'rgba(240,239,238,0.42)'}}>{l}</div></div>)}</div>
+          <div style={{display:'flex',gap:34,flexWrap:'wrap'}}>{[[stats[0],t.statComp],[stats[1],t.statFL],[stats[2],t.statPart]].map(([n,l])=><div key={l}><div style={{fontWeight:800,fontSize:36,color:'#F0EFEE',letterSpacing:'-2px',lineHeight:1}}>{n}+</div><div style={{fontSize:11,color:'rgba(240,239,238,0.38)',fontWeight:600,letterSpacing:'1.5px',textTransform:'uppercase',marginTop:4}}>{l}</div></div>)}</div>
         </div>
       </div>
     </div>
@@ -356,28 +356,6 @@ function Directory2({lang,t,profiles}){
         </div>
 
         {/* Skill match panel — opens below */}
-        {matchOpen&&(
-          <div style={{marginBottom:14,padding:'14px 16px',background:'#FFFFFF',border:`1.5px solid ${G.blueBd}`,borderRadius:10,boxShadow:'0 4px 16px rgba(14,22,40,0.08)'}}>
-            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
-              <input className="inp2" placeholder="Type skills… (comma separated)"
-                value={skillInput} onChange={e=>setSkillInput(e.target.value)}
-                style={{flex:1,fontSize:13,padding:'7px 12px'}} autoFocus/>
-              <button onClick={()=>{setMatchMode(v=>!v);if(matchMode){setSelSkills([]);setSkillInput('')}}}
-                style={{padding:'7px 14px',borderRadius:7,border:`1.5px solid ${matchMode?G.blue:G.border}`,background:matchMode?G.blue:'transparent',color:matchMode?'#fff':G.muted,fontSize:12,fontWeight:600,cursor:'pointer',flexShrink:0}}>
-                {matchMode?'✓ Matching':'Activate'}
-              </button>
-            </div>
-            <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
-              {allTags.map(tag=>(
-                <button key={tag} onClick={()=>{toggleSkill(tag);setMatchMode(true)}}
-                  style={{padding:'4px 10px',borderRadius:20,border:`1.5px solid ${selSkills.includes(tag)?hexToRgba(G.blue,0.50):G.border}`,background:selSkills.includes(tag)?hexToRgba(G.blue,0.09):'transparent',color:selSkills.includes(tag)?G.blue:G.muted,fontSize:11,fontWeight:600,cursor:'pointer',transition:'all 0.13s'}}>
-                  {tag}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
         <div style={{fontSize:12,color:G.dim,marginBottom:14}}>
           {results.length} listing{results.length!==1?'s':''} found
           {matchMode&&skills.length>0&&<span style={{color:G.blue,marginLeft:7}}>· Matching: {skills.join(', ')}</span>}
@@ -422,9 +400,9 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
   const P=siteContent?.partners||{}
   const submit=async()=>{if(!form.name||!form.email)return;setBusy(true);try{await insertBooking({name:form.name,company:form.company||null,email:form.email,goal:form.goal||null,timeframe:form.timeframe||null,pax:parseInt(form.pax)||1});await sendBookingConfirmation({name:form.name,email:form.email});setDone(true)}catch{}setBusy(false)}
   const packages=[
-    {ic:'📋',name:'Initial Consultation',price:'Free',per:'',desc:'A 30-minute call with our Concierge team to assess your objectives, timeline and the right Kosova partners for you.',features:['Video call with Concierge team','Needs & goals assessment','Partner match recommendation','No commitment required'],highlight:false},
-    {ic:'✈️',name:'Day Programme',price:'€499',per:'/person',desc:'One fully curated business day in Kosova — up to 5 pre-screened company meetings plus all logistics handled by rootsGTM.',features:['Up to 5 screened meetings','Airport transfer & logistics','Pre-meeting company briefs','Post-visit summary report'],highlight:false},
-    {ic:'🗓️',name:'Full Week Programme',price:'€1,490',per:'/person',desc:'An immersive business week in Kosova with meetings, government appointments, site visits and a private networking dinner.',features:['8–12 pre-screened meetings','Government & ministry access','Factory / office site visits','Private networking dinner','Comprehensive debrief report','30-day follow-up support'],highlight:true},
+    {ic:'✈️',name:'Day Programme',price:'€499',per:'/person',desc:'One fully curated business day in Kosova — up to 5 pre-screened company meetings plus all logistics handled by rootsGTM.',features:['Up to 5 screened company meetings','Airport transfer & logistics','Pre-meeting company briefs','Debrief & follow-up report'],highlight:false},
+    {ic:'🗓️',name:'Extended Stay (3 Days)',price:'€990',per:'/person',desc:'Three intensive business days covering multiple sectors — ideal for investors assessing the full market opportunity.',features:['Up to 10 screened meetings','Multi-sector coverage','Government office visits','Site tours','Follow-up introductions'],highlight:false},
+    {ic:'🏆',name:'Full Week Programme',price:'€1,490',per:'/person',desc:'An immersive business week in Kosova with meetings, government appointments, factory site visits and a private networking dinner.',features:['8–12 pre-screened meetings','Government & ministry access','Factory / office site visits','Private networking dinner','Comprehensive debrief report','30-day follow-up support'],highlight:true},
   ]
   return(<div style={{background:G.bg,minHeight:'100vh',paddingTop:62}}>
     <div style={{background:G.navBg,padding:'52px 0 44px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-concierge.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Exclusive Service</div><h1 style={{fontWeight:800,fontSize:'clamp(32px,5.5vw,56px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:13}}>{t.concTitle}</h1><p style={{fontSize:'clamp(13px,2vw,17px)',color:'rgba(240,239,238,0.56)',maxWidth:520,lineHeight:1.72,marginBottom:24}}>{t.concSub}</p><button className="btn-white2" style={{padding:'11px 24px'}} onClick={()=>setBookModal(true)}>{t.concCta}</button></div></div>
@@ -523,7 +501,7 @@ function Nav2({page,setPage,lang,setLang,t,onReg}){
   return(<><nav className="nav2"><div className="wrap2" style={{height:62,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
     <button onClick={()=>setPage('home')} style={{background:'transparent',border:'none',display:'flex',alignItems:'center',gap:9,cursor:'pointer',padding:0}}>
       <div style={{width:29,height:29,borderRadius:7,background:`linear-gradient(135deg,${G.blue},${G.violet})`,display:'flex',alignItems:'center',justifyContent:'center'}}><span style={{fontWeight:800,fontSize:14,color:'#fff'}}>K</span></div>
-      <div><div style={{fontWeight:800,fontSize:15,color:G.text,letterSpacing:'-0.3px',lineHeight:1.1}}>Kosova Hub</div><div style={{fontSize:9,color:'rgba(240,239,238,0.33)',letterSpacing:'1px',textTransform:'uppercase'}}>B2B Gateway</div></div>
+      <div><div style={{fontWeight:800,fontSize:15,color:'#F0EFEE',letterSpacing:'-0.3px',lineHeight:1.1}}>Kosova Hub</div><div style={{fontSize:9,color:'rgba(240,239,238,0.33)',letterSpacing:'1px',textTransform:'uppercase'}}>B2B Gateway</div></div>
     </button>
     <div className="nav-links2" style={{display:'flex',gap:2}}>{PAGES.map(([p,l])=><button key={p} onClick={()=>setPage(p)} style={{background:page===p?G.blueDim:'transparent',color:page===p?'#93B4F8':'rgba(240,239,238,0.56)',border:page===p?`1px solid ${G.blueBd}`:'1px solid transparent',borderRadius:7,padding:'6px 11px',fontSize:13,fontWeight:500,cursor:'pointer',transition:'all 0.15s'}}>{l}</button>)}</div>
     <div style={{display:'flex',gap:6,alignItems:'center'}}>{['en','sq'].map(l=><button key={l} onClick={()=>setLang(l)} style={{background:lang===l?G.blueDim:'transparent',border:`1px solid ${lang===l?G.blueBd:'transparent'}`,borderRadius:5,padding:'4px 7px',color:lang===l?'#93B4F8':'rgba(240,239,238,0.36)',fontSize:11,fontWeight:700,cursor:'pointer'}}>{l.toUpperCase()}</button>)}<button className="btn-primary2 hide-mob" style={{padding:'7px 14px',fontSize:12}} onClick={onReg}>{t.registerBtn}</button><button className="hamburger2" onClick={()=>setMob(v=>!v)} style={{display:'none',flexDirection:'column',gap:4,background:'transparent',border:'none',padding:6,cursor:'pointer'}}>{[0,1,2].map(i=><span key={i} style={{display:'block',width:18,height:1.5,background:'rgba(240,239,238,0.62)',borderRadius:1}}/>)}</button></div>
