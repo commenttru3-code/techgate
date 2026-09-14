@@ -100,7 +100,7 @@ input,textarea,select{font-family:'Plus Jakarta Sans',sans-serif;}
 .inp2:focus{border-color:#2458D4;box-shadow:0 0 0 3px rgba(36,88,212,0.12);}
 .inp2::placeholder{color:rgba(14,22,40,0.28);}
 .label2{display:block;font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:rgba(14,22,40,0.40);margin-bottom:6px;}
-.nav2{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;background:#0E1628;border-bottom:1px solid rgba(226,221,214,0.08);}
+.nav2{position:fixed;top:0;left:0;right:0;z-index:200;height:62px;background:rgba(14,22,40,0.94);border-bottom:1px solid rgba(226,221,214,0.08);backdrop-filter:blur(12px);}
 .modal-bg2{position:fixed;inset:0;background:rgba(14,22,40,0.55);z-index:200;display:flex;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(8px);}
 .modal2{background:#FFFFFF;border:1px solid rgba(14,22,40,0.10);border-radius:14px;padding:24px;max-width:520px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.55);}
 .sec-label{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#4a8fd4;margin-bottom:11px;}
@@ -117,13 +117,42 @@ function VideoBg2({src:vsrc}){
   const ref=React.useRef(null)
   useEffect(()=>{const v=ref.current;if(!v)return;v.muted=true;const play=()=>{v.muted=true;v.play().catch(()=>{})};play();document.addEventListener('touchstart',play,{once:true});document.addEventListener('visibilitychange',()=>{if(!document.hidden)play()})},[vsrc])
   if(!vsrc)return null
-  return(<div style={{position:'absolute',inset:0,overflow:'hidden',zIndex:0}}><video ref={ref} autoPlay loop muted playsInline preload="auto" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',WebkitTransform:'translateZ(0)',transform:'translateZ(0)'}}><source src={vsrc} type="video/mp4"/></video><div style={{position:'absolute',inset:0,background:'rgba(10,14,30,0.72)'}}/><div style={{position:'absolute',bottom:0,left:0,right:0,height:'55%',background:'linear-gradient(0deg,rgba(10,14,30,0.99) 0%,transparent 100%)'}}/></div>)
+  return(<div style={{position:'fixed',top:0,left:0,right:0,bottom:0,overflow:'hidden',zIndex:0,pointerEvents:'none',WebkitBackfaceVisibility:'hidden',backfaceVisibility:'hidden'}}><video ref={ref} autoPlay loop muted playsInline preload="auto" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',WebkitTransform:'translateZ(0)',transform:'translateZ(0)',willChange:'transform'}}><source src={vsrc} type="video/mp4"/></video><div style={{position:'absolute',inset:0,background:'rgba(8,12,24,0.72)'}}/><div style={{position:'absolute',bottom:0,left:0,right:0,height:'55%',background:'linear-gradient(0deg,rgba(8,12,24,0.98) 0%,transparent 100%)'}}/></div>)
 }
 
 function Lg({name,color=G.blue,url=null,size=44}){
   const br=Math.round(size*0.22)
   if(url)return<div style={{width:size,height:size,borderRadius:br,overflow:'hidden',flexShrink:0,border:'1.5px solid rgba(255,255,255,0.10)'}}><img src={url} alt={name} style={{width:'100%',height:'100%',objectFit:'cover'}}/></div>
   return(<div style={{width:size,height:size,borderRadius:br,background:hexToRgba(color,0.15),border:`1.5px solid ${hexToRgba(color,0.30)}`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}><span style={{fontWeight:800,fontSize:Math.round(size*0.36),color,lineHeight:1}}>{(name||'?').slice(0,2).toUpperCase()}</span></div>)
+}
+
+function PartnerCard2({p,lang,t,onView}){
+  const [hov,setHov]=useState(false)
+  const desc=(p.desc?.[lang]||p.desc?.en||'').slice(0,90)
+  return(
+    <div onClick={()=>onView?.(p)} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{display:'flex',gap:14,alignItems:'center',padding:'14px 16px',background:hov?hexToRgba(G.violet,0.04):'#FFFFFF',
+        border:`1.5px solid ${hov?hexToRgba(G.violet,0.35):hexToRgba(G.violet,0.18)}`,
+        borderLeft:`4px solid ${G.violet}`,borderRadius:10,cursor:'pointer',transition:'all 0.20s',
+        boxShadow:hov?'0 6px 22px rgba(107,53,194,0.12)':'0 2px 10px rgba(14,22,40,0.06)'}}>
+      <div style={{position:'relative',flexShrink:0}}>
+        <Lg name={p.logo||p.name} color={G.violet} url={p.logoUrl} size={46}/>
+        <div style={{position:'absolute',bottom:-3,right:-3,width:14,height:14,borderRadius:'50%',background:G.violet,border:'2px solid #fff',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <span style={{fontSize:7,color:'#fff',fontWeight:800}}>★</span>
+        </div>
+      </div>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{display:'flex',alignItems:'center',gap:7,marginBottom:3,flexWrap:'wrap'}}>
+          <span style={{fontWeight:700,fontSize:14,color:G.text}}>{p.name}</span>
+          <span style={{fontSize:9,fontWeight:800,letterSpacing:'0.8px',textTransform:'uppercase',color:G.violet,background:hexToRgba(G.violet,0.09),border:`1px solid ${hexToRgba(G.violet,0.22)}`,borderRadius:4,padding:'1px 6px'}}>Partner</span>
+          {p.verified&&<span style={{fontSize:9,fontWeight:700,color:G.green,background:hexToRgba(G.green,0.09),border:`1px solid ${hexToRgba(G.green,0.22)}`,borderRadius:4,padding:'1px 6px'}}>✓</span>}
+        </div>
+        {p.city&&<div style={{fontSize:11,color:G.dim,marginBottom:3}}>📍 {p.city}</div>}
+        {desc&&<p style={{fontSize:12,color:G.muted,lineHeight:1.5,margin:0}}>{desc}{(p.desc?.[lang]||p.desc?.en||'').length>90?'…':''}</p>}
+      </div>
+      <span style={{fontSize:16,color:hexToRgba(G.violet,0.40),flexShrink:0}}>→</span>
+    </div>
+  )
 }
 
 function Card2({p,lang,t,onContact,onView,score}){
@@ -219,7 +248,7 @@ function Home2({lang,t,profiles,setPage,onReg}){
   const partners=useMemo(()=>profiles.filter(p=>p.type==='partner').slice(0,12),[profiles])
   const stats=useMemo(()=>[profiles.filter(p=>p.type==='company').length||120,profiles.filter(p=>p.type==='freelancer').length||48,profiles.filter(p=>p.type==='partner').length||12],[profiles])
   return(<div>
-    <div style={{background:G.navBg,paddingTop:62,position:'relative',overflow:'hidden',minHeight:490,display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>
+    <div style={{background:'rgba(8,12,24,0.15)',paddingTop:62,position:'relative',zIndex:1,overflow:'hidden',minHeight:490,display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>
       <VideoBg2 src="/bg-video-home.mp4"/>
       <div className="wrap2" style={{position:'relative',zIndex:1,paddingTop:56,paddingBottom:60}}>
         <div style={{maxWidth:670}}>
@@ -231,11 +260,11 @@ function Home2({lang,t,profiles,setPage,onReg}){
         </div>
       </div>
     </div>
-    <div style={{background:G.bg}}>
+    <div style={{background:G.bg,position:'relative',zIndex:1}}>
       {sponsored.length>0&&<div className="section2 wrap2"><div className="sec-label">{t.featuredTitle}</div><div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:18}}><h2 style={{fontWeight:700,fontSize:22,letterSpacing:'-0.4px',color:G.text}}>{t.featuredTitle}</h2><button className="btn-ghost2" onClick={()=>setPage('directory')}>{t.viewAll}</button></div><div className="grid-3">{sponsored.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail}/>)}</div></div>}
       {partners.length>0&&<div style={{paddingBottom:48,borderBottom:`1px solid ${G.border}`}}><div className="wrap2" style={{marginBottom:14}}><div className="sec-label">Official Partners</div></div><div className="ticker2"><div className="ticker2-track">{[...partners,...partners].map((p,i)=><div key={i} onClick={()=>setDetail(p)} style={{display:'flex',alignItems:'center',gap:9,padding:'9px 14px',background:'#FFFFFF',border:`1px solid ${G.border}`,borderRadius:9,flexShrink:0,minWidth:162,cursor:'pointer',transition:'all 0.18s'}} onMouseEnter={e=>{e.currentTarget.style.borderColor=hexToRgba(catColor(p.cat),0.40);e.currentTarget.style.boxShadow='0 4px 14px rgba(14,22,40,0.10)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor=G.border;e.currentTarget.style.boxShadow='none'}}><Lg name={p.logo||p.name} color={catColor(p.cat)} url={p.logoUrl} size={30}/><div><div style={{fontWeight:600,fontSize:12,color:G.text}}>{p.name}</div><div style={{fontSize:10,color:G.dim}}>{p.city||catLabel(p.cat,'en')}</div></div></div>)}</div></div></div>}
       <div className="section2 wrap2"><div className="sec-label">Sectors</div><h2 style={{fontWeight:700,fontSize:22,marginBottom:18,letterSpacing:'-0.4px',color:G.text}}>Browse by Sector</h2><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:9}}>{CATS.map(cat=><button key={cat.id} onClick={()=>setPage('directory')} style={{display:'flex',alignItems:'center',gap:9,padding:'12px 14px',background:G.surface,border:`1px solid ${G.border}`,borderRadius:9,textAlign:'left',transition:'all 0.18s',cursor:'pointer'}} onMouseEnter={e=>{e.currentTarget.style.borderColor=hexToRgba(cat.color,0.42);e.currentTarget.style.background=hexToRgba(cat.color,0.08);e.currentTarget.style.transform='translateY(-2px)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(255,255,255,0.07)';e.currentTarget.style.background=G.surface;e.currentTarget.style.transform=''}}><div style={{width:32,height:32,borderRadius:8,background:hexToRgba(cat.color,0.14),border:`1px solid ${hexToRgba(cat.color,0.22)}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,flexShrink:0}}>{cat.icon}</div><span style={{fontWeight:600,fontSize:12,color:G.text,lineHeight:1.25}}>{cat.labels[lang]||cat.labels.en}</span></button>)}</div></div>
-      <div style={{background:G.navBg,padding:'48px 0',borderTop:`1px solid ${G.border}`}}><div className="wrap2" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:22,flexWrap:'wrap'}}><div><div className="sec-label" style={{color:'#93B4F8'}}>For Businesses</div><h3 style={{fontWeight:700,fontSize:22,color:'#F0EFEE',marginBottom:7,letterSpacing:'-0.3px'}}>Is your business on Kosova Hub?</h3><p style={{color:'rgba(240,239,238,0.48)',fontSize:13,maxWidth:400}}>Get discovered by international companies. Free for 6 months — no credit card needed.</p></div><div style={{display:'flex',gap:9,flexWrap:'wrap',flexShrink:0}}><button className="btn-white2" style={{padding:'11px 24px'}} onClick={onReg}>{t.registerBtn}</button><button className="btn-outline2" style={{color:'rgba(240,239,238,0.76)',borderColor:'rgba(240,239,238,0.18)',padding:'10px 18px'}} onClick={()=>setPage('concierge')}>Learn more →</button></div></div></div>
+      <div style={{background:G.navBg,padding:'48px 0',borderTop:`1px solid ${G.border}`,position:'relative',zIndex:1}}><div className="wrap2" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:22,flexWrap:'wrap'}}><div><div className="sec-label" style={{color:'#93B4F8'}}>For Businesses</div><h3 style={{fontWeight:700,fontSize:22,color:'#F0EFEE',marginBottom:7,letterSpacing:'-0.3px'}}>Is your business on Kosova Hub?</h3><p style={{color:'rgba(240,239,238,0.48)',fontSize:13,maxWidth:400}}>Get discovered by international companies. Free for 6 months — no credit card needed.</p></div><div style={{display:'flex',gap:9,flexWrap:'wrap',flexShrink:0}}><button className="btn-white2" style={{padding:'11px 24px'}} onClick={onReg}>{t.registerBtn}</button><button className="btn-outline2" style={{color:'rgba(240,239,238,0.76)',borderColor:'rgba(240,239,238,0.18)',padding:'10px 18px'}} onClick={()=>setPage('concierge')}>Learn more →</button></div></div></div>
       <footer style={{borderTop:`1px solid ${G.border}`,padding:'20px 0'}}><div className="wrap2" style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:9}}><span style={{fontSize:12,color:G.dim}}>{t.footer}</span><div style={{display:'flex',gap:14}}>{['Privacy','Terms','Contact'].map(l=><a key={l} href="#" style={{fontSize:12,color:G.dim}}>{l}</a>)}</div></div></footer>
     </div>
     {detail&&<DetailModal2 p={detail} lang={lang} t={t} onClose={()=>setDetail(null)} onContact={p=>{setDetail(null);setContact(p)}}/>}
@@ -278,7 +307,7 @@ function Directory2({lang,t,profiles}){
 
   return(
     <div style={{background:G.bg,minHeight:'100vh',paddingTop:62}}>
-      <div style={{background:G.navBg,padding:'48px 0 36px',position:'relative',overflow:'hidden'}}>
+      <div style={{background:'rgba(8,12,24,0.20)',padding:'48px 0 36px',position:'relative',zIndex:1,overflow:'hidden'}}>
         <VideoBg2 src="/bg-video-companies.mp4"/>
         <div className="wrap2" style={{position:'relative',zIndex:1}}>
           <div className="sec-label" style={{color:'#93B4F8'}}>Business Directory</div>
@@ -287,7 +316,7 @@ function Directory2({lang,t,profiles}){
         </div>
       </div>
 
-      <div className="wrap2" style={{paddingTop:22,paddingBottom:48}}>
+      <div className="wrap2" style={{paddingTop:22,paddingBottom:48,position:'relative',zIndex:1}}>
         {/* Row 1: Search + type filter */}
         <div style={{display:'flex',gap:8,marginBottom:10,flexWrap:'wrap',alignItems:'center'}}>
           <input className="inp2" placeholder={t.searchPH||'Search companies, skills, cities…'} value={q} onChange={e=>setQ(e.target.value)} style={{flex:1,minWidth:200}}/>
@@ -400,13 +429,13 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
   const P=siteContent?.partners||{}
   const submit=async()=>{if(!form.name||!form.email)return;setBusy(true);try{await insertBooking({name:form.name,company:form.company||null,email:form.email,goal:form.goal||null,timeframe:form.timeframe||null,pax:parseInt(form.pax)||1});await sendBookingConfirmation({name:form.name,email:form.email});setDone(true)}catch{}setBusy(false)}
   const packages=[
-    {ic:'✈️',name:'Day Programme',price:'€499',per:'/person',desc:'One fully curated business day in Kosova — up to 5 pre-screened company meetings plus all logistics handled by rootsGTM.',features:['Up to 5 screened company meetings','Airport transfer & logistics','Pre-meeting company briefs','Debrief & follow-up report'],highlight:false},
-    {ic:'🗓️',name:'Extended Stay (3 Days)',price:'€990',per:'/person',desc:'Three intensive business days covering multiple sectors — ideal for investors assessing the full market opportunity.',features:['Up to 10 screened meetings','Multi-sector coverage','Government office visits','Site tours','Follow-up introductions'],highlight:false},
-    {ic:'🏆',name:'Full Week Programme',price:'€1,490',per:'/person',desc:'An immersive business week in Kosova with meetings, government appointments, factory site visits and a private networking dinner.',features:['8–12 pre-screened meetings','Government & ministry access','Factory / office site visits','Private networking dinner','Comprehensive debrief report','30-day follow-up support'],highlight:true},
+    {ic:'✈️',name:'Day Programme',price:'€499',per:'/person',priceColor:G.blue,desc:'One fully curated business day in Kosova — up to 5 pre-screened company meetings plus all logistics handled by rootsGTM.',features:['Up to 5 screened company meetings','Airport transfer & logistics','Pre-meeting company briefs','Debrief & follow-up report'],highlight:false},
+    {ic:'🗓️',name:'Extended Stay (3 Days)',price:'€990',per:'/person',priceColor:G.violet,desc:'Three intensive business days covering multiple sectors — ideal for investors assessing the full market opportunity.',features:['Up to 10 screened meetings','Multi-sector coverage','Government office visits','Site tours','Follow-up introductions'],highlight:false},
+    {ic:'🏆',name:'Full Week Programme',price:'€1,490',per:'/person',priceColor:G.blue,desc:'An immersive business week in Kosova with meetings, government appointments, factory site visits and a private networking dinner.',features:['8–12 pre-screened meetings','Government & ministry access','Factory / office site visits','Private networking dinner','Comprehensive debrief report','30-day follow-up support'],highlight:true},
   ]
   return(<div style={{background:G.bg,minHeight:'100vh',paddingTop:62}}>
-    <div style={{background:G.navBg,padding:'52px 0 44px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-concierge.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Exclusive Service</div><h1 style={{fontWeight:800,fontSize:'clamp(32px,5.5vw,56px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:13}}>{t.concTitle}</h1><p style={{fontSize:'clamp(13px,2vw,17px)',color:'rgba(240,239,238,0.56)',maxWidth:520,lineHeight:1.72,marginBottom:24}}>{t.concSub}</p><button className="btn-white2" style={{padding:'11px 24px'}} onClick={()=>setBookModal(true)}>{t.concCta}</button></div></div>
-    <div className="wrap2" style={{paddingTop:44,paddingBottom:48}}>
+    <div style={{background:'rgba(8,12,24,0.15)',padding:'52px 0 44px',position:'relative',zIndex:1,overflow:'hidden'}}><VideoBg2 src="/bg-video-concierge.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Exclusive Service</div><h1 style={{fontWeight:800,fontSize:'clamp(32px,5.5vw,56px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:13}}>{t.concTitle}</h1><p style={{fontSize:'clamp(13px,2vw,17px)',color:'rgba(240,239,238,0.56)',maxWidth:520,lineHeight:1.72,marginBottom:24}}>{t.concSub}</p><button className="btn-white2" style={{padding:'11px 24px'}} onClick={()=>setBookModal(true)}>{t.concCta}</button></div></div>
+    <div className="wrap2" style={{paddingTop:44,paddingBottom:48,position:'relative',zIndex:1}}>
       <div className="sec-label">General Partners</div>
       <h2 style={{fontWeight:700,fontSize:22,marginBottom:20,letterSpacing:'-0.3px',color:G.text}}>Our General Partners</h2>
       <div className="grid-2" style={{marginBottom:48}}>
@@ -427,7 +456,7 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
           {pkg.highlight&&<div style={{position:'absolute',top:-1,right:13,background:`linear-gradient(135deg,${G.blue},#1a3aaa)`,color:'#fff',fontSize:9,fontWeight:800,letterSpacing:'1px',padding:'3px 9px 4px',borderRadius:'0 0 7px 7px'}}>MOST POPULAR</div>}
           <div style={{fontSize:21,marginBottom:9}}>{pkg.ic}</div>
           <div style={{fontWeight:700,fontSize:15,marginBottom:4,color:G.text}}>{pkg.name}</div>
-          <div style={{display:'flex',alignItems:'baseline',gap:3,marginBottom:9}}><span style={{fontWeight:800,fontSize:24,color:pkg.highlight?G.blue:'#F0EFEE',letterSpacing:'-0.5px'}}>{pkg.price}</span>{pkg.per&&<span style={{fontSize:11,color:G.dim}}>{pkg.per}</span>}</div>
+          <div style={{display:'flex',alignItems:'baseline',gap:3,marginBottom:9}}><span style={{fontWeight:800,fontSize:24,color:pkg.priceColor||G.blue,letterSpacing:'-0.5px'}}>{pkg.price}</span>{pkg.per&&<span style={{fontSize:11,color:G.dim}}>{pkg.per}</span>}</div>
           <p style={{fontSize:12,color:G.muted,lineHeight:1.65,marginBottom:13}}>{pkg.desc}</p>
           <div style={{display:'flex',flexDirection:'column',gap:5,marginBottom:16}}>{pkg.features.map(f=><div key={f} style={{display:'flex',gap:6,alignItems:'center',fontSize:12,color:G.muted}}><span style={{color:pkg.highlight?G.blue:'#4ade80',fontWeight:700}}>✓</span>{f}</div>)}</div>
           <button onClick={()=>setBookModal(true)} className={pkg.highlight?'btn-primary2':'btn-outline2'} style={{width:'100%'}}>{pkg.price==='Free'?'Book free call →':'Request package →'}</button>
@@ -447,7 +476,7 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
 function Gov2({lang,t}){
   const links=[{l:'ARBK — Business Registration',u:'https://arbk.rks-gov.net'},{l:'InvestKosova',u:'https://investkosova.com'},{l:'Tax Administration (ATK)',u:'https://www.atk-ks.org'},{l:'Chamber of Commerce (OEK)',u:'https://www.kkk-rks.com'}]
   return(<div style={{background:G.bg,minHeight:'100vh',paddingTop:62}}>
-    <div style={{background:G.navBg,padding:'50px 0 42px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-gov.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Official Information</div><h1 style={{fontWeight:800,fontSize:'clamp(28px,5vw,52px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:11}}>{t.govTitle}</h1><p style={{fontSize:'clamp(13px,1.8vw,16px)',color:'rgba(240,239,238,0.50)',maxWidth:500,lineHeight:1.7}}>{t.govSub}</p></div></div>
+    <div style={{background:'rgba(8,12,24,0.15)',padding:'50px 0 42px',position:'relative',zIndex:1,overflow:'hidden'}}><VideoBg2 src="/bg-video-gov.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Official Information</div><h1 style={{fontWeight:800,fontSize:'clamp(28px,5vw,52px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:11}}>{t.govTitle}</h1><p style={{fontSize:'clamp(13px,1.8vw,16px)',color:'rgba(240,239,238,0.50)',maxWidth:500,lineHeight:1.7}}>{t.govSub}</p></div></div>
     <div className="wrap2" style={{paddingTop:40,paddingBottom:48}}>
       <div className="sec-label">At a Glance</div><h2 style={{fontWeight:700,fontSize:22,marginBottom:20,letterSpacing:'-0.3px',color:G.text}}>{t.govFactsTitle}</h2>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(124px,1fr))',gap:9,marginBottom:44}}>
@@ -501,7 +530,7 @@ function Nav2({page,setPage,lang,setLang,t,onReg}){
   return(<><nav className="nav2"><div className="wrap2" style={{height:62,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
     <button onClick={()=>setPage('home')} style={{background:'transparent',border:'none',display:'flex',alignItems:'center',gap:9,cursor:'pointer',padding:0}}>
       <div style={{width:29,height:29,borderRadius:7,background:`linear-gradient(135deg,${G.blue},${G.violet})`,display:'flex',alignItems:'center',justifyContent:'center'}}><span style={{fontWeight:800,fontSize:14,color:'#fff'}}>K</span></div>
-      <div><div style={{fontWeight:800,fontSize:15,color:'#F0EFEE',letterSpacing:'-0.3px',lineHeight:1.1}}>Kosova Hub</div><div style={{fontSize:9,color:'rgba(240,239,238,0.33)',letterSpacing:'1px',textTransform:'uppercase'}}>B2B Gateway</div></div>
+      <div><div style={{fontWeight:800,fontSize:15,color:'#F0EFEE',letterSpacing:'-0.3px',lineHeight:1.1}}>Kosova Hub</div><div style={{fontSize:9,color:'rgba(240,239,238,0.58)',letterSpacing:'1px',textTransform:'uppercase'}}>B2B Gateway</div></div>
     </button>
     <div className="nav-links2" style={{display:'flex',gap:2}}>{PAGES.map(([p,l])=><button key={p} onClick={()=>setPage(p)} style={{background:page===p?G.blueDim:'transparent',color:page===p?'#93B4F8':'rgba(240,239,238,0.56)',border:page===p?`1px solid ${G.blueBd}`:'1px solid transparent',borderRadius:7,padding:'6px 11px',fontSize:13,fontWeight:500,cursor:'pointer',transition:'all 0.15s'}}>{l}</button>)}</div>
     <div style={{display:'flex',gap:6,alignItems:'center'}}>{['en','sq'].map(l=><button key={l} onClick={()=>setLang(l)} style={{background:lang===l?G.blueDim:'transparent',border:`1px solid ${lang===l?G.blueBd:'transparent'}`,borderRadius:5,padding:'4px 7px',color:lang===l?'#93B4F8':'rgba(240,239,238,0.36)',fontSize:11,fontWeight:700,cursor:'pointer'}}>{l.toUpperCase()}</button>)}<button className="btn-primary2 hide-mob" style={{padding:'7px 14px',fontSize:12}} onClick={onReg}>{t.registerBtn}</button><button className="hamburger2" onClick={()=>setMob(v=>!v)} style={{display:'none',flexDirection:'column',gap:4,background:'transparent',border:'none',padding:6,cursor:'pointer'}}>{[0,1,2].map(i=><span key={i} style={{display:'block',width:18,height:1.5,background:'rgba(240,239,238,0.62)',borderRadius:1}}/>)}</button></div>
