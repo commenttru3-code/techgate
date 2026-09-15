@@ -117,7 +117,7 @@ function VideoBg2({src:vsrc}){
   const ref=React.useRef(null)
   useEffect(()=>{const v=ref.current;if(!v)return;v.muted=true;const play=()=>{v.muted=true;v.play().catch(()=>{})};play();document.addEventListener('touchstart',play,{once:true});document.addEventListener('visibilitychange',()=>{if(!document.hidden)play()})},[vsrc])
   if(!vsrc)return null
-  return(<div style={{position:'fixed',top:0,left:0,right:0,bottom:0,overflow:'hidden',zIndex:0,pointerEvents:'none',WebkitBackfaceVisibility:'hidden',backfaceVisibility:'hidden'}}><video ref={ref} autoPlay loop muted playsInline preload="auto" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',WebkitTransform:'translateZ(0)',transform:'translateZ(0)',willChange:'transform'}}><source src={vsrc} type="video/mp4"/></video><div style={{position:'absolute',inset:0,background:'rgba(8,12,24,0.72)'}}/><div style={{position:'absolute',bottom:0,left:0,right:0,height:'55%',background:'linear-gradient(0deg,rgba(8,12,24,0.98) 0%,transparent 100%)'}}/></div>)
+  return(<div style={{position:'absolute',inset:0,overflow:'hidden',zIndex:0}}><video ref={ref} autoPlay loop muted playsInline preload="auto" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',WebkitTransform:'translateZ(0)',transform:'translateZ(0)'}}><source src={vsrc} type="video/mp4"/></video><div style={{position:'absolute',inset:0,background:'rgba(8,12,24,0.72)'}}/><div style={{position:'absolute',bottom:0,left:0,right:0,height:'55%',background:'linear-gradient(0deg,rgba(8,12,24,0.98) 0%,transparent 100%)'}}/></div>)
 }
 
 function Lg({name,color=G.blue,url=null,size=44}){
@@ -248,7 +248,7 @@ function Home2({lang,t,profiles,setPage,onReg}){
   const partners=useMemo(()=>profiles.filter(p=>p.type==='partner').slice(0,12),[profiles])
   const stats=useMemo(()=>[profiles.filter(p=>p.type==='company').length||120,profiles.filter(p=>p.type==='freelancer').length||48,profiles.filter(p=>p.type==='partner').length||12],[profiles])
   return(<div>
-    <div style={{background:'rgba(8,12,24,0.15)',paddingTop:62,position:'relative',zIndex:1,overflow:'hidden',minHeight:490,display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>
+    <div style={{background:G.navBg,paddingTop:62,position:'relative',overflow:'hidden',minHeight:490,display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>
       <VideoBg2 src="/bg-video-home.mp4"/>
       <div className="wrap2" style={{position:'relative',zIndex:1,paddingTop:56,paddingBottom:60}}>
         <div style={{maxWidth:670}}>
@@ -260,10 +260,10 @@ function Home2({lang,t,profiles,setPage,onReg}){
         </div>
       </div>
     </div>
-    <div style={{background:G.bg,position:'relative',zIndex:1,isolation:'isolate'}}>
-      {sponsored.length>0&&<div className="section2 wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label">{t.featuredTitle}</div><div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:18}}><h2 style={{fontWeight:700,fontSize:22,letterSpacing:'-0.4px',color:G.text}}>{t.featuredTitle}</h2><button className="btn-ghost2" onClick={()=>setPage('directory')}>{t.viewAll}</button></div><div className="grid-3">{sponsored.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail}/>)}</div></div>}
+    <div style={{background:'#FFFFFF',position:'relative'}}>
+      {sponsored.length>0&&<div className="section2 wrap2"><div className="sec-label">{t.featuredTitle}</div><div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:18}}><h2 style={{fontWeight:700,fontSize:22,letterSpacing:'-0.4px',color:G.text}}>{t.featuredTitle}</h2><button className="btn-ghost2" onClick={()=>setPage('directory')}>{t.viewAll}</button></div><div className="grid-3">{sponsored.map(p=><Card2 key={p.id} p={p} lang={lang} t={t} onContact={setContact} onView={setDetail}/>)}</div></div>}
       {partners.length>0&&<div style={{paddingBottom:48,borderBottom:`1px solid ${G.border}`}}><div className="wrap2" style={{marginBottom:14}}><div className="sec-label">Official Partners</div></div><div className="ticker2"><div className="ticker2-track">{[...partners,...partners].map((p,i)=><div key={i} onClick={()=>setDetail(p)} style={{display:'flex',alignItems:'center',gap:9,padding:'9px 14px',background:'#FFFFFF',border:`1px solid ${G.border}`,borderRadius:9,flexShrink:0,minWidth:162,cursor:'pointer',transition:'all 0.18s'}} onMouseEnter={e=>{e.currentTarget.style.borderColor=hexToRgba(catColor(p.cat),0.40);e.currentTarget.style.boxShadow='0 4px 14px rgba(14,22,40,0.10)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor=G.border;e.currentTarget.style.boxShadow='none'}}><Lg name={p.logo||p.name} color={catColor(p.cat)} url={p.logoUrl} size={30}/><div><div style={{fontWeight:600,fontSize:12,color:G.text}}>{p.name}</div><div style={{fontSize:10,color:G.dim}}>{p.city||catLabel(p.cat,'en')}</div></div></div>)}</div></div></div>}
-      <div className="section2 wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label">Sectors</div><h2 style={{fontWeight:700,fontSize:22,marginBottom:18,letterSpacing:'-0.4px',color:G.text}}>Browse by Sector</h2><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:9}}>{CATS.map(cat=><button key={cat.id} onClick={()=>setPage('directory')} style={{display:'flex',alignItems:'center',gap:9,padding:'12px 14px',background:G.surface,border:`1px solid ${G.border}`,borderRadius:9,textAlign:'left',transition:'all 0.18s',cursor:'pointer'}} onMouseEnter={e=>{e.currentTarget.style.borderColor=hexToRgba(cat.color,0.42);e.currentTarget.style.background=hexToRgba(cat.color,0.08);e.currentTarget.style.transform='translateY(-2px)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(255,255,255,0.07)';e.currentTarget.style.background=G.surface;e.currentTarget.style.transform=''}}><div style={{width:32,height:32,borderRadius:8,background:hexToRgba(cat.color,0.14),border:`1px solid ${hexToRgba(cat.color,0.22)}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,flexShrink:0}}>{cat.icon}</div><span style={{fontWeight:600,fontSize:12,color:G.text,lineHeight:1.25}}>{cat.labels[lang]||cat.labels.en}</span></button>)}</div></div>
+      <div className="section2 wrap2"><div className="sec-label">Sectors</div><h2 style={{fontWeight:700,fontSize:22,marginBottom:18,letterSpacing:'-0.4px',color:G.text}}>Browse by Sector</h2><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:9}}>{CATS.map(cat=><button key={cat.id} onClick={()=>setPage('directory')} style={{display:'flex',alignItems:'center',gap:9,padding:'12px 14px',background:G.surface,border:`1px solid ${G.border}`,borderRadius:9,textAlign:'left',transition:'all 0.18s',cursor:'pointer'}} onMouseEnter={e=>{e.currentTarget.style.borderColor=hexToRgba(cat.color,0.42);e.currentTarget.style.background=hexToRgba(cat.color,0.08);e.currentTarget.style.transform='translateY(-2px)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(255,255,255,0.07)';e.currentTarget.style.background=G.surface;e.currentTarget.style.transform=''}}><div style={{width:32,height:32,borderRadius:8,background:hexToRgba(cat.color,0.14),border:`1px solid ${hexToRgba(cat.color,0.22)}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,flexShrink:0}}>{cat.icon}</div><span style={{fontWeight:600,fontSize:12,color:G.text,lineHeight:1.25}}>{cat.labels[lang]||cat.labels.en}</span></button>)}</div></div>
       <div style={{background:G.navBg,padding:'48px 0',borderTop:`1px solid ${G.border}`,position:'relative',zIndex:1}}><div className="wrap2" style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:22,flexWrap:'wrap'}}><div><div className="sec-label" style={{color:'#93B4F8'}}>For Businesses</div><h3 style={{fontWeight:700,fontSize:22,color:'#F0EFEE',marginBottom:7,letterSpacing:'-0.3px'}}>Is your business on Kosova Hub?</h3><p style={{color:'rgba(240,239,238,0.48)',fontSize:13,maxWidth:400}}>Get discovered by international companies. Free for 6 months — no credit card needed.</p></div><div style={{display:'flex',gap:9,flexWrap:'wrap',flexShrink:0}}><button className="btn-white2" style={{padding:'11px 24px'}} onClick={onReg}>{t.registerBtn}</button><button className="btn-outline2" style={{color:'rgba(240,239,238,0.76)',borderColor:'rgba(240,239,238,0.18)',padding:'10px 18px'}} onClick={()=>setPage('concierge')}>Learn more →</button></div></div></div>
       <footer style={{borderTop:`1px solid ${G.border}`,padding:'20px 0'}}><div className="wrap2" style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:9}}><span style={{fontSize:12,color:G.dim}}>{t.footer}</span><div style={{display:'flex',gap:14}}>{['Privacy','Terms','Contact'].map(l=><a key={l} href="#" style={{fontSize:12,color:G.dim}}>{l}</a>)}</div></div></footer>
     </div>
@@ -306,8 +306,8 @@ function Directory2({lang,t,profiles}){
   },[results,matchMode,skills])
 
   return(
-    <div style={{background:G.bg,minHeight:'100vh',paddingTop:62,position:'relative',zIndex:1}}>
-      <div style={{background:'rgba(8,12,24,0.20)',padding:'48px 0 36px',position:'relative',zIndex:1,overflow:'hidden'}}>
+    <div style={{background:'#FFFFFF',minHeight:'100vh',paddingTop:62}}>
+      <div style={{background:G.navBg,padding:'48px 0 36px',position:'relative',overflow:'hidden'}}>
         <VideoBg2 src="/bg-video-companies.mp4"/>
         <div className="wrap2" style={{position:'relative',zIndex:1}}>
           <div className="sec-label" style={{color:'#93B4F8'}}>Business Directory</div>
@@ -316,7 +316,7 @@ function Directory2({lang,t,profiles}){
         </div>
       </div>
 
-      <div className="wrap2" style={{paddingTop:22,paddingBottom:48,position:'relative',zIndex:1}}>
+      <div className="wrap2" style={{paddingTop:22,paddingBottom:48}}>
         {/* Row 1: Search + type filter */}
         <div style={{display:'flex',gap:8,marginBottom:10,flexWrap:'wrap',alignItems:'center'}}>
           <input className="inp2" placeholder={t.searchPH||'Search companies, skills, cities…'} value={q} onChange={e=>setQ(e.target.value)} style={{flex:1,minWidth:200}}/>
@@ -434,9 +434,9 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
     {ic:'🗓️',name:'Extended Stay (3 Days)',price:'€990',per:'/person',priceColor:G.violet,desc:'Three intensive business days covering multiple sectors — ideal for investors assessing the full market opportunity.',features:['Up to 10 screened meetings','Multi-sector coverage','Government office visits','Site tours','Follow-up introductions'],highlight:false},
     {ic:'🏆',name:'Full Week Programme',price:'€1,490',per:'/person',priceColor:G.blue,desc:'An immersive business week in Kosova with meetings, government appointments, factory site visits and a private networking dinner.',features:['8–12 pre-screened meetings','Government & ministry access','Factory / office site visits','Private networking dinner','Comprehensive debrief report','30-day follow-up support'],highlight:true},
   ]
-  return(<div style={{background:G.bg,minHeight:'100vh',paddingTop:62,position:'relative',zIndex:1}}>
-    <div style={{background:'rgba(8,12,24,0.15)',padding:'52px 0 44px',position:'relative',zIndex:1,overflow:'hidden'}}><VideoBg2 src="/bg-video-concierge.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Exclusive Service</div><h1 style={{fontWeight:800,fontSize:'clamp(32px,5.5vw,56px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:13}}>{t.concTitle}</h1><p style={{fontSize:'clamp(13px,2vw,17px)',color:'rgba(240,239,238,0.56)',maxWidth:520,lineHeight:1.72,marginBottom:24}}>{t.concSub}</p><button className="btn-white2" style={{padding:'11px 24px'}} onClick={()=>setBookModal(true)}>{t.concCta}</button></div></div>
-    <div className="wrap2" style={{paddingTop:44,paddingBottom:48,position:'relative',zIndex:1}}>
+  return(<div style={{background:'#FFFFFF',minHeight:'100vh',paddingTop:62}}>
+    <div style={{background:G.navBg,padding:'52px 0 44px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-concierge.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Exclusive Service</div><h1 style={{fontWeight:800,fontSize:'clamp(32px,5.5vw,56px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:13}}>{t.concTitle}</h1><p style={{fontSize:'clamp(13px,2vw,17px)',color:'rgba(240,239,238,0.56)',maxWidth:520,lineHeight:1.72,marginBottom:24}}>{t.concSub}</p><button className="btn-white2" style={{padding:'11px 24px'}} onClick={()=>setBookModal(true)}>{t.concCta}</button></div></div>
+    <div className="wrap2" style={{paddingTop:44,paddingBottom:48}}>
       <div className="sec-label">General Partners</div>
       <h2 style={{fontWeight:700,fontSize:22,marginBottom:20,letterSpacing:'-0.3px',color:G.text}}>Our General Partners</h2>
       <div className="grid-2" style={{marginBottom:48}}>
@@ -477,8 +477,8 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
 
 function Gov2({lang,t}){
   const links=[{l:'ARBK — Business Registration',u:'https://arbk.rks-gov.net'},{l:'InvestKosova',u:'https://investkosova.com'},{l:'Tax Administration (ATK)',u:'https://www.atk-ks.org'},{l:'Chamber of Commerce (OEK)',u:'https://www.kkk-rks.com'}]
-  return(<div style={{background:G.bg,minHeight:'100vh',paddingTop:62,position:'relative',zIndex:1}}>
-    <div style={{background:'rgba(8,12,24,0.15)',padding:'50px 0 42px',position:'relative',zIndex:1,overflow:'hidden'}}><VideoBg2 src="/bg-video-gov.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Official Information</div><h1 style={{fontWeight:800,fontSize:'clamp(28px,5vw,52px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:11}}>{t.govTitle}</h1><p style={{fontSize:'clamp(13px,1.8vw,16px)',color:'rgba(240,239,238,0.50)',maxWidth:500,lineHeight:1.7}}>{t.govSub}</p></div></div>
+  return(<div style={{background:'#FFFFFF',minHeight:'100vh',paddingTop:62}}>
+    <div style={{background:G.navBg,padding:'50px 0 42px',position:'relative',overflow:'hidden'}}><VideoBg2 src="/bg-video-gov.mp4"/><div className="wrap2" style={{position:'relative',zIndex:1}}><div className="sec-label" style={{color:'#93B4F8'}}>Official Information</div><h1 style={{fontWeight:800,fontSize:'clamp(28px,5vw,52px)',letterSpacing:'-1px',color:'#F0EFEE',marginBottom:11}}>{t.govTitle}</h1><p style={{fontSize:'clamp(13px,1.8vw,16px)',color:'rgba(240,239,238,0.50)',maxWidth:500,lineHeight:1.7}}>{t.govSub}</p></div></div>
     <div className="wrap2" style={{paddingTop:40,paddingBottom:48}}>
       <div className="sec-label">At a Glance</div><h2 style={{fontWeight:700,fontSize:22,marginBottom:20,letterSpacing:'-0.3px',color:G.text}}>{t.govFactsTitle}</h2>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(124px,1fr))',gap:9,marginBottom:44}}>
