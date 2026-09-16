@@ -172,7 +172,7 @@ function Card2({p,lang,t,onContact,onView,score}){
           </div>
           {desc&&<p style={{fontSize:12,color:G.muted,lineHeight:1.65,marginBottom:8}}>{desc}{(p.desc?.[lang]||p.desc?.en||'').length>112?'…':''}</p>}
           {p.tags?.length>0&&<div style={{display:'flex',gap:4,flexWrap:'wrap',marginBottom:8}}>{p.tags.slice(0,5).map(tag=><span key={tag} style={{padding:'2px 7px',borderRadius:4,fontSize:10,fontWeight:600,background:hexToRgba(sc,0.12),color:hexToRgba(sc,0.90),border:`1px solid ${hexToRgba(sc,0.22)}`}}>{tag}</span>)}</div>}
-          <div style={{marginBottom:10}}><span style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 7px',borderRadius:5,fontSize:10,fontWeight:600,background:hexToRgba(sc,0.10),color:sc,border:`1px solid ${hexToRgba(sc,0.20)}`}}>{catIcon(p.cat)} {catLabel(p.cat,lang)}</span></div>
+          <div style={{marginBottom:10}}><span style={{display:'inline-flex',alignItems:'center',gap:3,padding:'2px 7px',borderRadius:5,fontSize:10,fontWeight:600,background:hexToRgba(sc,0.10),color:sc,border:`1px solid ${hexToRgba(sc,0.20)}`}}>{catLabel(p.cat,lang)}</span></div>
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:7,borderTop:`1px solid ${G.border}`,paddingTop:10}}>
             {p.verified?<span style={{display:'inline-flex',alignItems:'center',gap:3,fontSize:10,fontWeight:700,color:'#4ade80',padding:'2px 6px',background:'rgba(74,222,128,0.08)',border:'1px solid rgba(74,222,128,0.22)',borderRadius:20}}>✓ {t.verified}</span>:<div/>}
             <div style={{display:'flex',gap:5,alignItems:'center'}}>
@@ -331,7 +331,7 @@ function Directory2({lang,t,profiles}){
         <div style={{marginBottom:8,position:'relative'}}>
           <button onClick={()=>{setSectorOpen(v=>!v);setMatchOpen(false)}}
             style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'10px 14px',background:'#FFFFFF',border:`1.5px solid ${cat?hexToRgba(activeCat?.color||G.blue,0.40):G.border}`,borderRadius:8,fontSize:13,fontWeight:600,color:cat?(activeCat?.color||G.blue):G.text,cursor:'pointer',transition:'all 0.16s',boxShadow:'0 1px 4px rgba(14,22,40,0.06)'}}>
-            <span style={{flex:1,textAlign:'left'}}>{cat?<span>{activeCat?.icon} {activeCat?.labels[lang]||cat}</span>:<span style={{color:G.muted}}>🏭 Sector — {t.allSectors}</span>}</span>
+            <span style={{flex:1,textAlign:'left'}}>{cat?<span>{activeCat?.labels[lang]||cat}</span>:<span style={{color:G.muted}}>Sector — {t.allSectors}</span>}</span>
             <span style={{fontSize:11,color:G.dim}}>{sectorOpen?'▲':'▼'}</span>
           </button>
           {sectorOpen&&(
@@ -344,7 +344,7 @@ function Directory2({lang,t,profiles}){
                 {CATS.map(c=>(
                   <button key={c.id} onClick={()=>{setCat(c.id);setSectorOpen(false)}}
                     style={{display:'flex',alignItems:'center',gap:7,width:'100%',padding:'8px 11px',background:cat===c.id?hexToRgba(c.color,0.08):'transparent',border:'none',borderRadius:7,fontSize:12,color:cat===c.id?c.color:G.text,cursor:'pointer',textAlign:'left',fontWeight:cat===c.id?600:400,transition:'background 0.13s'}}>
-                    <span>{c.icon}</span><span style={{flex:1}}>{c.labels[lang]||c.labels.en}</span>
+                    <span style={{flex:1}}>{c.labels[lang]||c.labels.en}</span>
                     {cat===c.id&&<span style={{color:c.color,fontSize:11}}>✓</span>}
                   </button>
                 ))}
@@ -357,7 +357,7 @@ function Directory2({lang,t,profiles}){
         <div style={{marginBottom:14}}>
           <button onClick={()=>{setMatchOpen(v=>!v);setSectorOpen(false)}}
             style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'10px 14px',background:matchMode?hexToRgba(G.blue,0.07):'#FFFFFF',border:`1.5px solid ${matchMode?G.blue:G.border}`,borderRadius:8,fontSize:13,fontWeight:600,color:matchMode?G.blue:G.text,cursor:'pointer',transition:'all 0.16s',boxShadow:'0 1px 4px rgba(14,22,40,0.06)'}}>
-            <span style={{flex:1,textAlign:'left'}}>🎯 Skill Match {matchMode&&skills.length>0&&<span style={{fontSize:11,color:G.muted,fontWeight:400}}>— {skills.join(', ')}</span>}</span>
+            <span style={{flex:1,textAlign:'left'}}>Skill Match {matchMode&&skills.length>0&&<span style={{fontSize:11,color:G.muted,fontWeight:400}}>— {skills.join(', ')}</span>}</span>
             {skills.length>0&&<span style={{background:G.blue,color:'#fff',borderRadius:20,padding:'1px 7px',fontSize:10,fontWeight:700}}>{skills.length}</span>}
             <span style={{fontSize:11,color:G.dim}}>{matchOpen?'▲':'▼'}</span>
           </button>
@@ -391,7 +391,13 @@ function Directory2({lang,t,profiles}){
           {cat&&<span style={{marginLeft:7,color:activeCat?.color}}>· {activeCat?.labels[lang]}</span>}
         </div>
 
-        {results.length===0?(
+        {(matchMode && skills.length===0)?(
+          <div style={{textAlign:'center',padding:'56px 0',color:G.muted}}>
+            <div style={{fontSize:32,marginBottom:11}}>🎯</div>
+            <div style={{fontWeight:700,fontSize:18,marginBottom:5,color:G.text}}>Select skills to match</div>
+            <div style={{fontSize:13}}>Click tags or type skills in the Skill Match field above</div>
+          </div>
+        ):results.length===0?(
           <div style={{textAlign:'center',padding:'56px 0',color:G.muted}}>
             <div style={{fontSize:36,marginBottom:11}}>🔍</div>
             <div style={{fontWeight:700,fontSize:18,marginBottom:5,color:G.text}}>{t.noResults}</div>
