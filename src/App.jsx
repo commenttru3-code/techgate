@@ -131,10 +131,11 @@ function PartnerCard2({p,lang,t,onView}){
   const desc=(p.desc?.[lang]||p.desc?.en||'').slice(0,90)
   return(
     <div onClick={()=>onView?.(p)} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      style={{display:'flex',gap:14,alignItems:'center',padding:'14px 16px',background:hov?hexToRgba(G.violet,0.04):'#FFFFFF',
-        border:`1.5px solid ${hov?hexToRgba(G.violet,0.35):hexToRgba(G.violet,0.18)}`,
-        borderLeft:`4px solid ${G.violet}`,borderRadius:10,cursor:'pointer',transition:'all 0.20s',
-        boxShadow:hov?'0 6px 22px rgba(107,53,194,0.12)':'0 2px 10px rgba(14,22,40,0.06)'}}>
+      style={{display:'flex',gap:14,alignItems:'center',padding:'16px 18px',
+        background:hov?'linear-gradient(135deg,#1e1535,#2a1d4a)':'linear-gradient(135deg,#1a1228,#241840)',
+        border:`1.5px solid ${hov?hexToRgba(G.violet,0.60):hexToRgba(G.violet,0.30)}`,
+        borderLeft:`4px solid ${G.violet}`,borderRadius:12,cursor:'pointer',transition:'all 0.20s',
+        boxShadow:hov?`0 8px 28px rgba(107,53,194,0.28),0 0 0 1px ${hexToRgba(G.violet,0.15)}`:'0 4px 16px rgba(107,53,194,0.12)'}}>
       <div style={{position:'relative',flexShrink:0}}>
         <Lg name={p.logo||p.name} color={G.violet} url={p.logoUrl} size={46}/>
         <div style={{position:'absolute',bottom:-3,right:-3,width:14,height:14,borderRadius:'50%',background:G.violet,border:'2px solid #fff',display:'flex',alignItems:'center',justifyContent:'center'}}>
@@ -143,14 +144,14 @@ function PartnerCard2({p,lang,t,onView}){
       </div>
       <div style={{flex:1,minWidth:0}}>
         <div style={{display:'flex',alignItems:'center',gap:7,marginBottom:3,flexWrap:'wrap'}}>
-          <span style={{fontWeight:700,fontSize:14,color:G.text}}>{p.name}</span>
+          <span style={{fontWeight:700,fontSize:14,color:'#F0EFEE'}}>{p.name}</span>
           <span style={{fontSize:9,fontWeight:800,letterSpacing:'0.8px',textTransform:'uppercase',color:G.violet,background:hexToRgba(G.violet,0.09),border:`1px solid ${hexToRgba(G.violet,0.22)}`,borderRadius:4,padding:'1px 6px'}}>Partner</span>
           {p.verified&&<span style={{fontSize:9,fontWeight:700,color:G.green,background:hexToRgba(G.green,0.09),border:`1px solid ${hexToRgba(G.green,0.22)}`,borderRadius:4,padding:'1px 6px'}}>✓</span>}
         </div>
-        {p.city&&<div style={{fontSize:11,color:G.dim,marginBottom:3}}>📍 {p.city}</div>}
-        {desc&&<p style={{fontSize:12,color:G.muted,lineHeight:1.5,margin:0}}>{desc}{(p.desc?.[lang]||p.desc?.en||'').length>90?'…':''}</p>}
+        {p.city&&<div style={{fontSize:11,color:'rgba(240,239,238,0.45)',marginBottom:3}}>📍 {p.city}</div>}
+        {desc&&<p style={{fontSize:12,color:'rgba(240,239,238,0.55)',lineHeight:1.5,margin:0}}>{desc}{(p.desc?.[lang]||p.desc?.en||'').length>90?'…':''}</p>}
       </div>
-      <span style={{fontSize:16,color:hexToRgba(G.violet,0.40),flexShrink:0}}>→</span>
+      <span style={{fontSize:16,color:hexToRgba(G.violet,0.80),flexShrink:0}}>→</span>
     </div>
   )
 }
@@ -330,7 +331,7 @@ function Directory2({lang,t,profiles}){
         {/* Row 2: Sector dropdown — full width */}
         <div style={{marginBottom:8,position:'relative'}}>
           <button onClick={()=>{setSectorOpen(v=>!v);setMatchOpen(false)}}
-            style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'10px 14px',background:'#FFFFFF',border:`1.5px solid ${cat?hexToRgba(activeCat?.color||G.blue,0.40):G.border}`,borderRadius:8,fontSize:13,fontWeight:600,color:cat?(activeCat?.color||G.blue):G.text,cursor:'pointer',transition:'all 0.16s',boxShadow:'0 1px 4px rgba(14,22,40,0.06)'}}>
+            style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'10px 14px',background:cat?hexToRgba(activeCat?.color||G.blue,0.07):'rgba(36,88,212,0.05)',border:`1.5px solid ${cat?hexToRgba(activeCat?.color||G.blue,0.35):hexToRgba(G.blue,0.18)}`,borderRadius:8,fontSize:13,fontWeight:600,color:cat?(activeCat?.color||G.blue):G.blue,cursor:'pointer',transition:'all 0.16s',boxShadow:'0 1px 6px rgba(36,88,212,0.07)'}}>
             <span style={{flex:1,textAlign:'left'}}>{cat?<span>{activeCat?.labels[lang]||cat}</span>:<span style={{color:G.muted}}>Sector — {t.allSectors}</span>}</span>
             <span style={{fontSize:11,color:G.dim}}>{sectorOpen?'▲':'▼'}</span>
           </button>
@@ -356,7 +357,7 @@ function Directory2({lang,t,profiles}){
         {/* Row 3: Skill match — full width */}
         <div style={{marginBottom:14}}>
           <button onClick={()=>{setMatchOpen(v=>!v);setSectorOpen(false)}}
-            style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'10px 14px',background:matchMode?hexToRgba(G.blue,0.07):'#FFFFFF',border:`1.5px solid ${matchMode?G.blue:G.border}`,borderRadius:8,fontSize:13,fontWeight:600,color:matchMode?G.blue:G.text,cursor:'pointer',transition:'all 0.16s',boxShadow:'0 1px 4px rgba(14,22,40,0.06)'}}>
+            style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'10px 14px',background:matchMode?hexToRgba(G.blue,0.10):'rgba(107,53,194,0.05)',border:`1.5px solid ${matchMode?G.blue:hexToRgba(G.violet,0.22)}`,borderRadius:8,fontSize:13,fontWeight:600,color:matchMode?G.blue:G.violet,cursor:'pointer',transition:'all 0.16s',boxShadow:'0 1px 6px rgba(107,53,194,0.07)'}}>
             <span style={{flex:1,textAlign:'left'}}>Skill Match {matchMode&&skills.length>0&&<span style={{fontSize:11,color:G.muted,fontWeight:400}}>— {skills.join(', ')}</span>}</span>
             {skills.length>0&&<span style={{background:G.blue,color:'#fff',borderRadius:20,padding:'1px 7px',fontSize:10,fontWeight:700}}>{skills.length}</span>}
             <span style={{fontSize:11,color:G.dim}}>{matchOpen?'▲':'▼'}</span>
@@ -446,11 +447,11 @@ function Concierge2({lang,t,siteContent,partnerProfiles=[]}){
       <div className="sec-label">General Partners</div>
       <h2 style={{fontWeight:700,fontSize:22,marginBottom:20,letterSpacing:'-0.3px',color:G.text}}>Our General Partners</h2>
       <div className="grid-2" style={{marginBottom:48}}>
-        <div style={{background:G.surface,border:`1px solid ${G.border}`,borderTop:`3px solid ${G.blue}`,borderRadius:12,overflow:'hidden'}}>
+        <div style={{background:`linear-gradient(145deg,${hexToRgba(G.blue,0.07)} 0%,#FFFFFF 55%)`,border:`1.5px solid ${hexToRgba(G.blue,0.28)}`,borderTop:`4px solid ${G.blue}`,borderRadius:14,overflow:'hidden',boxShadow:`0 8px 32px ${hexToRgba(G.blue,0.14)},0 0 0 1px ${hexToRgba(G.blue,0.08)}`}}>
           {P.rootsgtm_cover&&<div style={{height:70,overflow:'hidden'}}><img src={P.rootsgtm_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:P.rootsgtm_cover_focus||'50% 50%'}}/></div>}
           <div style={{padding:'17px'}}><div style={{display:'flex',alignItems:'center',gap:10,marginBottom:11}}>{P.rootsgtm_logo?<img src={P.rootsgtm_logo} alt="" style={{width:40,height:40,borderRadius:8,objectFit:'cover',border:'1.5px solid rgba(255,255,255,0.10)'}}/>:<div style={{width:40,height:40,borderRadius:8,background:G.blueDim,border:`1.5px solid ${G.blueBd}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:19}}>🚀</div>}<div><div style={{fontWeight:700,fontSize:15,color:G.text}}>{P.rootsgtm_name||'rootsGTM'}</div><div style={{fontSize:11,color:G.dim}}>General Partner · Active</div></div><span style={{marginLeft:'auto',fontSize:10,fontWeight:700,color:'#4ade80',padding:'2px 6px',background:'rgba(74,222,128,0.08)',border:'1px solid rgba(74,222,128,0.22)',borderRadius:20}}>✓ Live</span></div><p style={{fontSize:12,color:G.muted,lineHeight:1.65,marginBottom:12}}>{P.rootsgtm_desc||'rootsGTM is our exclusive sales and business development network connecting EU businesses with Kosova.'}</p><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5,marginBottom:12}}>{['🤝 Direct contact','📅 Meeting setup','🎤 Events','📄 Follow-up'].map(f=><div key={f} style={{fontSize:11,color:G.muted,background:'rgba(255,255,255,0.03)',border:`1px solid ${G.border}`,borderRadius:5,padding:'5px 8px'}}>{f}</div>)}</div><button className="btn-primary2" style={{width:'100%'}} onClick={()=>setBookModal(true)}>Enquire via rootsGTM →</button></div>
         </div>
-        <div style={{background:G.surface,border:`1px solid ${G.border}`,borderTop:'3px solid #D97706',borderRadius:12,overflow:'hidden'}}>
+        <div style={{background:'linear-gradient(145deg,rgba(217,119,6,0.07) 0%,#FFFFFF 55%)',border:'1.5px solid rgba(217,119,6,0.28)',borderTop:'4px solid #D97706',borderRadius:14,overflow:'hidden',boxShadow:'0 8px 32px rgba(217,119,6,0.14),0 0 0 1px rgba(217,119,6,0.08)'}}>
           {P.gov_cover&&<div style={{height:70,overflow:'hidden'}}><img src={P.gov_cover} alt="" style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:P.gov_cover_focus||'50% 50%'}}/></div>}
           <div style={{padding:'17px'}}><div style={{display:'flex',alignItems:'center',gap:10,marginBottom:11}}>{P.gov_logo?<img src={P.gov_logo} alt="" style={{width:40,height:40,borderRadius:8,objectFit:'cover',border:'1.5px solid rgba(255,255,255,0.10)'}}/>:<div style={{width:40,height:40,borderRadius:8,background:'rgba(217,119,6,0.12)',border:'1.5px solid rgba(217,119,6,0.25)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:19}}>🏛️</div>}<div><div style={{fontWeight:700,fontSize:15,color:G.text}}>{P.gov_name||'Kosova Government'}</div><div style={{fontSize:11,color:G.dim}}>InvestKosova · Official Partner</div></div><span style={{marginLeft:'auto',fontSize:10,fontWeight:700,color:'#B45309',padding:'2px 6px',background:'rgba(217,119,6,0.10)',border:'1px solid rgba(217,119,6,0.22)',borderRadius:20}}>⏳ Negotiating</span></div><p style={{fontSize:12,color:G.muted,lineHeight:1.65,marginBottom:12}}>{P.gov_desc||'Building an official partnership with InvestKosova and the Ministry of Economy for investment support.'}</p><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5,marginBottom:12}}>{['🏛️ InvestKosova','📋 Formation help','🤝 Gov meetings','📊 Investment support'].map(f=><div key={f} style={{fontSize:11,color:G.muted,background:'rgba(255,255,255,0.03)',border:`1px solid ${G.border}`,borderRadius:5,padding:'5px 8px'}}>{f}</div>)}</div><button onClick={()=>setBookModal(true)} style={{width:'100%',padding:'9px',borderRadius:8,border:'2px solid rgba(217,119,6,0.28)',background:'rgba(217,119,6,0.08)',color:'#B45309',fontWeight:700,fontSize:12,cursor:'pointer'}}>Request Government Meeting →</button></div>
         </div>
