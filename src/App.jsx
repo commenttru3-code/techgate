@@ -128,33 +128,35 @@ function Lg({name,color=G.blue,url=null,size=44}){
 
 function PartnerCard2({p,lang,t,onView}){
   const [hov,setHov]=useState(false)
-  const desc=(p.desc?.[lang]||p.desc?.en||'').slice(0,90)
+  const desc=(p.desc?.[lang]||p.desc?.en||'').slice(0,80)
   return(
     <div onClick={()=>onView?.(p)} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      style={{display:'flex',gap:14,alignItems:'center',padding:'16px 18px',
-        background:hov?'linear-gradient(135deg,#1e1535,#2a1d4a)':'linear-gradient(135deg,#1a1228,#241840)',
-        border:`1.5px solid ${hov?hexToRgba(G.violet,0.60):hexToRgba(G.violet,0.30)}`,
-        borderLeft:`4px solid ${G.violet}`,borderRadius:12,cursor:'pointer',transition:'all 0.20s',
-        boxShadow:hov?`0 8px 28px rgba(107,53,194,0.28),0 0 0 1px ${hexToRgba(G.violet,0.15)}`:'0 4px 16px rgba(107,53,194,0.12)'}}>
-      <div style={{position:'relative',flexShrink:0}}>
-        <Lg name={p.logo||p.name} color={G.violet} url={p.logoUrl} size={46}/>
-        <div style={{position:'absolute',bottom:-3,right:-3,width:14,height:14,borderRadius:'50%',background:G.violet,border:'2px solid #fff',display:'flex',alignItems:'center',justifyContent:'center'}}>
-          <span style={{fontSize:7,color:'#fff',fontWeight:800}}>★</span>
+      style={{background:'#FFFFFF',border:`1.5px solid ${hov?hexToRgba(G.violet,0.40):hexToRgba(G.violet,0.20)}`,
+        borderTop:`3px solid ${G.violet}`,borderRadius:12,cursor:'pointer',transition:'all 0.20s',overflow:'hidden',
+        boxShadow:hov?`0 8px 28px ${hexToRgba(G.violet,0.14)}`:'0 2px 12px rgba(14,22,40,0.07)'}}>
+      <div style={{padding:'16px 16px 14px'}}>
+        {/* Badge + logo row */}
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:12}}>
+          <Lg name={p.logo||p.name} color={G.violet} url={p.logoUrl} size={44}/>
+          <span style={{fontSize:9,fontWeight:800,letterSpacing:'1px',textTransform:'uppercase',color:G.violet,background:hexToRgba(G.violet,0.09),border:`1px solid ${hexToRgba(G.violet,0.22)}`,borderRadius:5,padding:'3px 7px'}}>Partner</span>
+        </div>
+        {/* Name */}
+        <div style={{fontWeight:700,fontSize:15,color:G.text,marginBottom:3,lineHeight:1.2}}>{p.name}</div>
+        {p.city&&<div style={{fontSize:11,color:G.dim,marginBottom:8}}>📍 {p.city}</div>}
+        {desc&&<p style={{fontSize:12,color:G.muted,lineHeight:1.6,margin:'0 0 12px'}}>{desc}{(p.desc?.[lang]||p.desc?.en||'').length>80?'…':''}</p>}
+        {/* Tags */}
+        {p.tags?.length>0&&<div style={{display:'flex',gap:4,flexWrap:'wrap',marginBottom:12}}>{p.tags.slice(0,3).map(tag=><span key={tag} style={{padding:'2px 7px',borderRadius:4,fontSize:10,fontWeight:600,background:hexToRgba(G.violet,0.08),color:G.violet,border:`1px solid ${hexToRgba(G.violet,0.18)}`}}>{tag}</span>)}</div>}
+        {/* Footer */}
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',paddingTop:10,borderTop:`1px solid ${hexToRgba(G.violet,0.12)}`}}>
+          {p.verified&&<span style={{fontSize:10,fontWeight:700,color:G.green,padding:'2px 6px',background:hexToRgba(G.green,0.08),border:`1px solid ${hexToRgba(G.green,0.22)}`,borderRadius:20}}>✓ Verified</span>}
+          {!p.verified&&<div/>}
+          <span style={{fontSize:12,color:G.violet,fontWeight:600}}>View →</span>
         </div>
       </div>
-      <div style={{flex:1,minWidth:0}}>
-        <div style={{display:'flex',alignItems:'center',gap:7,marginBottom:3,flexWrap:'wrap'}}>
-          <span style={{fontWeight:700,fontSize:14,color:'#F0EFEE'}}>{p.name}</span>
-          <span style={{fontSize:9,fontWeight:800,letterSpacing:'0.8px',textTransform:'uppercase',color:G.violet,background:hexToRgba(G.violet,0.09),border:`1px solid ${hexToRgba(G.violet,0.22)}`,borderRadius:4,padding:'1px 6px'}}>Partner</span>
-          {p.verified&&<span style={{fontSize:9,fontWeight:700,color:G.green,background:hexToRgba(G.green,0.09),border:`1px solid ${hexToRgba(G.green,0.22)}`,borderRadius:4,padding:'1px 6px'}}>✓</span>}
-        </div>
-        {p.city&&<div style={{fontSize:11,color:'rgba(240,239,238,0.45)',marginBottom:3}}>📍 {p.city}</div>}
-        {desc&&<p style={{fontSize:12,color:'rgba(240,239,238,0.55)',lineHeight:1.5,margin:0}}>{desc}{(p.desc?.[lang]||p.desc?.en||'').length>90?'…':''}</p>}
-      </div>
-      <span style={{fontSize:16,color:hexToRgba(G.violet,0.80),flexShrink:0}}>→</span>
     </div>
   )
 }
+
 
 function Card2({p,lang,t,onContact,onView,score}){
   const [hov,setHov]=useState(false)
